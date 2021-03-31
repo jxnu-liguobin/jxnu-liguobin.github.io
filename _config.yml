@@ -146,10 +146,10 @@ simple_jekyll_search:
 # ---------------- #
 #      Google      #
 # ---------------- #
-google:
-    analytics_id: UA-147390701-1
-    adsense:
-        footer: true
-        sidebar: true 
-        content_header: true
-        content_footer: false
+#google:
+#    analytics_id: UA-147390701-1
+#    adsense:
+#        footer: true
+#        sidebar: true 
+#        content_header: true
+#        content_footer: false
