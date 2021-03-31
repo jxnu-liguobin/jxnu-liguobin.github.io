@@ -1,0 +1,432 @@
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>多种JVM语言的代理与反射应用 &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E5%A4%9A%E7%A7%8DJVM%E8%AF%AD%E8%A8%80%E7%9A%84%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84%E5%BA%94%E7%94%A8.html"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://dreamylost.cn/feed.xml"><link rel="shortcut icon" href="https://dreamylost.cn/favicon.ico"><meta property="og:title" content="多种JVM语言的代理与反射应用"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content=""><meta name="og:description" content=""><meta property="og:url" content="https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E5%A4%9A%E7%A7%8DJVM%E8%AF%AD%E8%A8%80%E7%9A%84%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84%E5%BA%94%E7%94%A8.html"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2021-03-31"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script> <script data-ad-client="ca-pub-8236444920328818" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://dreamylost.cn/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://dreamylost.cn/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://dreamylost.cn/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://dreamylost.cn/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://dreamylost.cn/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://dreamylost.cn/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="多种JVM语言的代理与反射应用"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">多种JVM语言的代理与反射应用</h1><div class="collection-info"> <span class="meta-info"> <span class="octicon octicon-calendar"></span> 2021/03/31 </span> <span class="meta-info"> <span class="octicon octicon-file-directory"></span> <a href="https://dreamylost.cn/categories/#其他" title="其他">其他</a> </span> <span class="meta-info"> <span class="octicon octicon-clock"></span> 共 14246 字，约 41 分钟 </span></div></div></div><div class="column one-fourth mobile-hidden"><div class="collection-title"> <img style="height:72px;width:72px" src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/images/qrcode.jpg" alt="梦境迷离" /></div></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><ul id="markdown-toc"><li><a href="#一java反射" id="markdown-toc-一java反射">一、Java反射</a><ul><li><a href="#被代理对象" id="markdown-toc-被代理对象">被代理对象</a></li><li><a href="#invocationhandler实现" id="markdown-toc-invocationhandler实现">InvocationHandler实现</a></li><li><a href="#代理实现" id="markdown-toc-代理实现">代理实现</a></li><li><a href="#使用" id="markdown-toc-使用">使用</a></li></ul></li><li><a href="#二scala中使用java反射" id="markdown-toc-二scala中使用java反射">二、Scala中使用Java反射</a><ul><li><a href="#被代理对象-1" id="markdown-toc-被代理对象-1">被代理对象</a></li><li><a href="#invocationhandler实现-1" id="markdown-toc-invocationhandler实现-1">InvocationHandler实现</a></li><li><a href="#代理实现-1" id="markdown-toc-代理实现-1">代理实现</a></li><li><a href="#使用-1" id="markdown-toc-使用-1">使用</a></li></ul></li><li><a href="#三scala反射" id="markdown-toc-三scala反射">三、Scala反射</a><ul><li><a href="#被代理对象-2" id="markdown-toc-被代理对象-2">被代理对象</a></li><li><a href="#invocationhandler实现-2" id="markdown-toc-invocationhandler实现-2">InvocationHandler实现</a></li><li><a href="#代理实现-2" id="markdown-toc-代理实现-2">代理实现</a></li><li><a href="#使用-2" id="markdown-toc-使用-2">使用</a></li></ul></li><li><a href="#四kotlin中使用java反射" id="markdown-toc-四kotlin中使用java反射">四、Kotlin中使用Java反射</a><ul><li><a href="#被代理对象-3" id="markdown-toc-被代理对象-3">被代理对象</a></li></ul></li></ul><h1 id="一java反射">一、Java反射</h1><p>需要注意的是：本文的代理不是为了给方法添加前置或者后缀逻辑，而是直接替换方法本身实现。</p><h2 id="被代理对象">被代理对象</h2><p>这个也是我使用<a href="https://github.com/kobylynskyi/graphql-java-codegen">graphql-java-codegen</a>生成的一个resolver，这里我们需要了解这些，只知道我们有个接口，其中有个方法，需要被动态代理使用即可。</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">QueryResolver</span> <span class="o">{</span>
+    <span class="nc">UserTO</span> <span class="nf">user</span><span class="o">(</span><span class="nc">String</span> <span class="n">login</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div><h2 id="invocationhandler实现">InvocationHandler实现</h2><p>通常我们在Java中只需实现InvocationHandler接口，本文Scala和Kotlin同样使用该接口实现代理。如下：</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">final</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">JavaResolverProxy</span> <span class="kd">implements</span> <span class="nc">InvocationHandler</span><span class="o">,</span> <span class="nc">JavaDeserializerAdapter</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">GraphQLResponseProjection</span> <span class="n">projection</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nc">GraphQLOperationRequest</span> <span class="n">request</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">ServerConfig</span> <span class="n">config</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">JavaResolverProxy</span><span class="o">(</span><span class="nc">ServerConfig</span> <span class="n">config</span><span class="o">,</span> <span class="nc">GraphQLResponseProjection</span> <span class="n">projection</span><span class="o">,</span> <span class="nc">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">GraphQLOperationRequest</span><span class="o">&gt;</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">config</span> <span class="o">=</span> <span class="n">config</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">projection</span> <span class="o">=</span> <span class="n">projection</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">request</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">newInstance</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InstantiationException</span> <span class="o">|</span> <span class="nc">IllegalAccessException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">ExecuteException</span><span class="o">(</span><span class="s">"newInstance failed: "</span><span class="o">,</span> <span class="n">e</span><span class="o">.</span><span class="na">getLocalizedMessage</span><span class="o">(),</span> <span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">invoke</span><span class="o">(</span><span class="nc">Object</span> <span class="n">proxy</span><span class="o">,</span> <span class="nc">Method</span> <span class="n">method</span><span class="o">,</span> <span class="nc">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="nc">Object</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getDeclaringClass</span><span class="o">()))</span> <span class="o">{</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Throwable</span> <span class="n">t</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">ExecuteException</span><span class="o">(</span><span class="s">"invoke failed: "</span><span class="o">,</span> <span class="n">t</span><span class="o">.</span><span class="na">getLocalizedMessage</span><span class="o">(),</span> <span class="n">t</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nf">proxyInvoke</span><span class="o">(</span><span class="n">method</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="nc">Object</span> <span class="nf">proxyInvoke</span><span class="o">(</span><span class="nc">Method</span> <span class="n">method</span><span class="o">,</span> <span class="nc">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Field</span> <span class="n">field</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">GraphQLResponseField</span><span class="o">&gt;</span> <span class="n">fields</span><span class="o">;</span>
+        <span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">entityClass</span><span class="o">;</span>
+        <span class="nc">Type</span> <span class="n">type</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">getGenericReturnType</span><span class="o">();</span>
+        <span class="c1">// 获取方法的返回类型，用于后续的json解析</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">type</span> <span class="k">instanceof</span> <span class="nc">ParameterizedType</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Type</span><span class="o">[]</span> <span class="n">parameterizedType</span> <span class="o">=</span> <span class="o">((</span><span class="nc">ParameterizedType</span><span class="o">)</span> <span class="n">type</span><span class="o">).</span><span class="na">getActualTypeArguments</span><span class="o">();</span>
+            <span class="n">entityClass</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Class</span><span class="o">&lt;?&gt;)</span> <span class="n">parameterizedType</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">entityClass</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Class</span><span class="o">&lt;?&gt;)</span><span class="n">type</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">isPrimitive</span><span class="o">(</span><span class="n">entityClass</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">assert</span><span class="o">(</span><span class="n">projection</span> <span class="o">==</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">assert</span><span class="o">(</span><span class="n">projection</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="o">}</span>
+		<span class="c1">// 利用Java8的特性，获取参数名列表与参数值组成map，用于发送graphql请求，可以不管</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Parameter</span><span class="o">&gt;</span> <span class="n">parameters</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getParameters</span><span class="o">()).</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+
+        <span class="k">if</span> <span class="o">(!</span><span class="n">parameters</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+            <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">parameterNames</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="nl">Parameter:</span><span class="o">:</span><span class="n">getName</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+            <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Object</span><span class="o">&gt;</span> <span class="n">arguments</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">args</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+            <span class="n">request</span><span class="o">.</span><span class="na">getInput</span><span class="o">().</span><span class="na">putAll</span><span class="o">(</span><span class="nc">CollectionUtils</span><span class="o">.</span><span class="na">listToMap</span><span class="o">(</span><span class="n">parameterNames</span><span class="o">,</span> <span class="n">arguments</span><span class="o">));</span>
+        <span class="o">}</span>
+        <span class="c1">// 使用反射获取父类的字段</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">field</span> <span class="o">=</span> <span class="n">projection</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getSuperclass</span><span class="o">().</span><span class="na">getDeclaredField</span><span class="o">(</span><span class="s">"fields"</span><span class="o">);</span>
+            <span class="n">field</span><span class="o">.</span><span class="na">setAccessible</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+            <span class="n">fields</span> <span class="o">=</span> <span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">GraphQLResponseField</span><span class="o">&gt;)</span> <span class="n">field</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">projection</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">NoSuchFieldException</span> <span class="o">|</span> <span class="nc">IllegalAccessException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">ExecuteException</span><span class="o">(</span><span class="s">"access fields failed: "</span><span class="o">,</span> <span class="n">e</span><span class="o">.</span><span class="na">getLocalizedMessage</span><span class="o">(),</span> <span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">field</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">field</span><span class="o">.</span><span class="na">setAccessible</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="c1">//if fields not null, use it directly, because user want to select fields</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">projection</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">fields</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">fields</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()))</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">ExecuteException</span><span class="o">(</span><span class="s">"projection verification failed: "</span><span class="o">,</span> <span class="s">"fields of projection cannot be empty"</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nc">GraphQLRequest</span> <span class="n">graphQLRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GraphQLRequest</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">projection</span><span class="o">);</span>
+        <span class="nc">Object</span> <span class="n">ret</span><span class="o">;</span>
+        <span class="c1">// 发送graphql请求获取json解析后的对象</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="nc">OkHttp</span><span class="o">.</span><span class="na">syncRunQuery</span><span class="o">(</span><span class="n">config</span><span class="o">,</span> <span class="n">graphQLRequest</span><span class="o">,</span> <span class="n">entityClass</span><span class="o">,</span> <span class="n">buildFunction3</span><span class="o">());</span>
+        <span class="k">return</span> <span class="n">ret</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div><h2 id="代理实现">代理实现</h2><p>有了处理器的实现类，我们还需构造代理对象，如下：</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">final</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">GitHubJavaClient</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">ServerConfig</span> <span class="n">config</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">resolver</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">GraphQLResponseProjection</span> <span class="n">projection</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">GraphQLOperationRequest</span><span class="o">&gt;</span> <span class="n">request</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nf">GitHubJavaClient</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="nc">Object</span> <span class="nf">getResolver</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">JavaResolverProxy</span> <span class="n">invocationHandler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">JavaResolverProxy</span><span class="o">(</span><span class="n">config</span><span class="o">,</span> <span class="n">projection</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+        <span class="k">return</span> <span class="nc">Proxy</span><span class="o">.</span><span class="na">newProxyInstance</span><span class="o">(</span><span class="n">resolver</span><span class="o">.</span><span class="na">getClassLoader</span><span class="o">(),</span> <span class="k">new</span> <span class="nc">Class</span><span class="o">[]{</span><span class="n">resolver</span><span class="o">},</span> <span class="n">invocationHandler</span><span class="o">);</span>
+    <span class="o">}</span>
+
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">setConfig</span><span class="o">(</span><span class="nc">ServerConfig</span> <span class="n">config</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">config</span> <span class="o">=</span> <span class="n">config</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">setResolver</span><span class="o">(</span><span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">resolver</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">resolver</span> <span class="o">=</span> <span class="n">resolver</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">setRequest</span><span class="o">(</span><span class="nc">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">GraphQLOperationRequest</span><span class="o">&gt;</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">request</span> <span class="o">=</span> <span class="n">request</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">setProjection</span><span class="o">(</span><span class="nc">GraphQLResponseProjection</span> <span class="n">projection</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">projection</span> <span class="o">=</span> <span class="n">projection</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">GitHubJavaClientBuilder</span> <span class="nf">newBuilder</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">GitHubJavaClientBuilder</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">GitHubJavaClientBuilder</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="nc">GraphQLResponseProjection</span> <span class="n">projection</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">GraphQLOperationRequest</span><span class="o">&gt;</span> <span class="n">request</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">ServerConfig</span> <span class="n">config</span><span class="o">;</span>
+
+        <span class="kd">private</span> <span class="nf">GitHubJavaClientBuilder</span><span class="o">()</span> <span class="o">{</span>
+
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">GitHubJavaClientBuilder</span> <span class="nf">setRequest</span><span class="o">(</span><span class="nc">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">GraphQLOperationRequest</span><span class="o">&gt;</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">request</span> <span class="o">=</span> <span class="n">request</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">GitHubJavaClientBuilder</span> <span class="nf">setConfig</span><span class="o">(</span><span class="nc">ServerConfig</span> <span class="n">config</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">config</span> <span class="o">=</span> <span class="n">config</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">GitHubJavaClientBuilder</span> <span class="nf">setProjection</span><span class="o">(</span><span class="nc">GraphQLResponseProjection</span> <span class="n">projection</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">projection</span> <span class="o">=</span> <span class="n">projection</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+        
+        <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"unchecked"</span><span class="o">)</span>
+        <span class="kd">public</span> <span class="o">&lt;</span><span class="nc">Resolver</span><span class="o">&gt;</span> <span class="nc">Resolver</span> <span class="nf">build</span><span class="o">(</span><span class="nc">Class</span><span class="o">&lt;</span><span class="nc">Resolver</span><span class="o">&gt;</span> <span class="n">resolver</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">GitHubJavaClient</span> <span class="n">invoke</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GitHubJavaClient</span><span class="o">();</span>
+            <span class="k">assert</span> <span class="o">(</span><span class="n">resolver</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">);</span>
+            <span class="k">assert</span> <span class="o">(</span><span class="n">request</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">);</span>
+            <span class="n">invoke</span><span class="o">.</span><span class="na">setProjection</span><span class="o">(</span><span class="n">projection</span><span class="o">);</span>
+            <span class="n">invoke</span><span class="o">.</span><span class="na">setResolver</span><span class="o">(</span><span class="n">resolver</span><span class="o">);</span>
+            <span class="n">invoke</span><span class="o">.</span><span class="na">setConfig</span><span class="o">(</span><span class="n">config</span><span class="o">);</span>
+            <span class="n">invoke</span><span class="o">.</span><span class="na">setRequest</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+            <span class="k">return</span> <span class="o">(</span><span class="nc">Resolver</span><span class="o">)</span> <span class="n">invoke</span><span class="o">.</span><span class="na">getResolver</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div><h2 id="使用">使用</h2><p>不需要new，直接调用接口的方法</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JavaClientExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+
+        <span class="c1">// 1. Use projection to select the preset returned.</span>
+        <span class="nc">UserResponseProjection</span> <span class="n">userResponseProjection</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">UserResponseProjection</span><span class="o">().</span><span class="na">id</span><span class="o">().</span><span class="na">avatarUrl</span><span class="o">().</span><span class="na">login</span><span class="o">().</span><span class="na">resourcePath</span><span class="o">();</span>
+
+        <span class="nc">QueryResolver</span> <span class="n">queryResolver</span> <span class="o">=</span> <span class="nc">GitHubJavaClient</span><span class="o">.</span><span class="na">newBuilder</span><span class="o">()</span>
+                <span class="c1">// 2. Set the service endpoint.</span>
+                <span class="o">.</span><span class="na">setConfig</span><span class="o">(</span><span class="nc">ServerConfig</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="s">"https://api.github.com/graphql"</span><span class="o">,</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">singletonMap</span><span class="o">(</span><span class="s">"Authorization"</span><span class="o">,</span> <span class="s">"Bearer xx"</span><span class="o">)))</span>
+                <span class="o">.</span><span class="na">setProjection</span><span class="o">(</span><span class="n">userResponseProjection</span><span class="o">)</span>
+                <span class="c1">// 3. Set the request corresponding to the resolver.</span>
+                <span class="o">.</span><span class="na">setRequest</span><span class="o">(</span><span class="nc">UserQueryRequest</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+                <span class="c1">// 4. Set the resolver that needs a proxy.</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="nc">QueryResolver</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+        <span class="c1">// 5. Use resolver to create a call.</span>
+        <span class="nc">UserTO</span> <span class="n">userTO</span> <span class="o">=</span> <span class="n">queryResolver</span><span class="o">.</span><span class="na">user</span><span class="o">(</span><span class="s">"jxnu-liguobin"</span><span class="o">);</span> <span class="c1">// projection and request must correspond to the return type of the user method.</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">userTO</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><h1 id="二scala中使用java反射">二、Scala中使用Java反射</h1><h2 id="被代理对象-1">被代理对象</h2><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">trait</span> <span class="nc">QueryResolver</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="nf">user</span><span class="o">(</span><span class="n">login</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">UserTO</span>
+<span class="o">}</span>
+</code></pre></div></div><p>Scala中也可直接使用Java反射操作Java/Scala类，但是代码不如Scala反射优美。同时有些Scala特有类型可能反射不到，此时必须使用Scala反射。</p><h2 id="invocationhandler实现-1">InvocationHandler实现</h2><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//这里的Manifest是Scala特有，用于获取运行时类</span>
+<span class="k">final</span> <span class="k">class</span> <span class="nc">ScalaResolverProxyV1</span><span class="o">[</span><span class="kt">Request</span> <span class="k">&lt;:</span> <span class="kt">GraphQLOperationRequest</span> <span class="kt">:</span> <span class="kt">Manifest</span><span class="o">]</span> <span class="nc">private</span>
+<span class="o">(</span><span class="k">val</span> <span class="nv">config</span><span class="k">:</span> <span class="kt">ServerConfig</span><span class="o">,</span> <span class="k">val</span> <span class="nv">projection</span><span class="k">:</span> <span class="kt">GraphQLResponseProjection</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">InvocationHandler</span>
+  <span class="k">with</span> <span class="nc">JavaDeserializerAdapter</span> <span class="o">{</span>
+
+  <span class="k">private</span> <span class="k">lazy</span> <span class="k">val</span> <span class="nv">request</span><span class="k">:</span> <span class="kt">GraphQLOperationRequest</span> <span class="o">=</span> <span class="n">manifest</span><span class="o">[</span><span class="kt">Request</span><span class="o">].</span><span class="py">runtimeClass</span><span class="o">.</span><span class="py">getConstructor</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">String</span><span class="o">]).</span>
+    <span class="nf">newInstance</span><span class="o">(</span><span class="kc">null</span><span class="o">).</span><span class="py">asInstanceOf</span><span class="o">[</span><span class="kt">GraphQLOperationRequest</span><span class="o">]</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">invoke</span><span class="o">(</span><span class="n">proxy</span><span class="k">:</span> <span class="kt">AnyRef</span><span class="o">,</span> <span class="n">method</span><span class="k">:</span> <span class="kt">Method</span><span class="o">,</span> <span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">AnyRef</span><span class="o">])</span><span class="k">:</span> <span class="kt">Any</span> <span class="o">=</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">AnyRef</span><span class="o">]</span> <span class="o">==</span> <span class="nv">method</span><span class="o">.</span><span class="py">getDeclaringClass</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">try</span> <span class="o">{</span>
+        <span class="nv">method</span><span class="o">.</span><span class="py">invoke</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">args</span><span class="o">)</span>
+      <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="n">t</span><span class="k">:</span> <span class="kt">Throwable</span> <span class="o">=&gt;</span>
+          <span class="k">throw</span> <span class="nc">ExecuteException</span><span class="o">(</span><span class="s">"invoke failed: "</span><span class="o">,</span> <span class="nv">t</span><span class="o">.</span><span class="py">getLocalizedMessage</span><span class="o">,</span> <span class="n">t</span><span class="o">)</span>
+      <span class="o">}</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="nf">proxyInvoke</span><span class="o">(</span><span class="n">method</span><span class="o">,</span> <span class="n">args</span><span class="o">)</span>
+    <span class="o">}</span>
+
+  <span class="k">private</span> <span class="k">def</span> <span class="nf">proxyInvoke</span><span class="o">(</span><span class="n">method</span><span class="k">:</span> <span class="kt">Method</span><span class="o">,</span> <span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">AnyRef</span><span class="o">])</span><span class="k">:</span> <span class="kt">Any</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">`</span><span class="n">type` = method.getGenericReturnType
+    val entityClass = `type` match {
+      case parameterizedType1: ParameterizedType =&gt;
+        val parameterizedType = parameterizedType1.getActualTypeArguments
+        parameterizedType(0).asInstanceOf[Class[_]]
+      case _ =&gt; `type</span><span class="o">`.</span><span class="py">asInstanceOf</span><span class="o">[</span><span class="kt">Class</span><span class="o">[</span><span class="k">_</span><span class="o">]]</span>
+    <span class="o">}</span>
+
+    <span class="nf">if</span> <span class="o">(</span><span class="nf">isPrimitive</span><span class="o">(</span><span class="n">entityClass</span><span class="o">))</span> <span class="o">{</span>
+      <span class="nf">assert</span><span class="o">(</span><span class="n">projection</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="nf">assert</span><span class="o">(</span><span class="n">projection</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="k">val</span> <span class="nv">parameters</span> <span class="k">=</span> <span class="nv">method</span><span class="o">.</span><span class="py">getParameters</span><span class="o">.</span><span class="py">toList</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="nv">parameters</span><span class="o">.</span><span class="py">nonEmpty</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">val</span> <span class="nv">parameterNames</span> <span class="k">=</span> <span class="nv">parameters</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">getName</span><span class="o">)</span>
+      <span class="k">val</span> <span class="nv">arguments</span> <span class="k">=</span> <span class="nv">args</span><span class="o">.</span><span class="py">toList</span>
+      <span class="nv">request</span><span class="o">.</span><span class="py">getInput</span><span class="o">.</span><span class="py">putAll</span><span class="o">(</span><span class="nv">CollectionUtils</span><span class="o">.</span><span class="py">listToMap</span><span class="o">(</span><span class="n">parameterNames</span><span class="o">,</span> <span class="n">arguments</span><span class="o">))</span>
+    <span class="o">}</span>
+    <span class="c1">// TODO remove reflect</span>
+    <span class="k">var</span> <span class="n">field</span><span class="k">:</span> <span class="kt">Field</span> <span class="o">=</span> <span class="kc">null</span>
+    <span class="k">var</span> <span class="n">fields</span><span class="k">:</span> <span class="kt">util.List</span><span class="o">[</span><span class="kt">GraphQLResponseField</span><span class="o">]</span> <span class="k">=</span> <span class="kc">null</span>
+    <span class="k">try</span> <span class="o">{</span>
+      <span class="n">field</span> <span class="k">=</span> <span class="nv">projection</span><span class="o">.</span><span class="py">getClass</span><span class="o">.</span><span class="py">getSuperclass</span><span class="o">.</span><span class="py">getDeclaredField</span><span class="o">(</span><span class="s">"fields"</span><span class="o">)</span>
+      <span class="nv">field</span><span class="o">.</span><span class="py">setAccessible</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+      <span class="n">fields</span> <span class="k">=</span> <span class="nv">field</span><span class="o">.</span><span class="py">get</span><span class="o">(</span><span class="n">projection</span><span class="o">).</span><span class="py">asInstanceOf</span><span class="o">[</span><span class="kt">util.List</span><span class="o">[</span><span class="kt">GraphQLResponseField</span><span class="o">]]</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="n">e</span><span class="o">@(</span><span class="k">_:</span> <span class="kt">NoSuchFieldException</span> <span class="kt">|</span> <span class="k">_</span><span class="kt">:</span> <span class="kt">IllegalAccessException</span><span class="o">)</span> <span class="k">=&gt;</span>
+        <span class="k">throw</span> <span class="nc">ExecuteException</span><span class="o">(</span><span class="s">"access fields failed: "</span><span class="o">,</span> <span class="nv">e</span><span class="o">.</span><span class="py">getLocalizedMessage</span><span class="o">,</span> <span class="n">e</span><span class="o">)</span>
+    <span class="o">}</span> <span class="k">finally</span> <span class="nf">if</span> <span class="o">(</span><span class="n">field</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="nv">field</span><span class="o">.</span><span class="py">setAccessible</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+
+    <span class="nf">if</span> <span class="o">(</span><span class="n">projection</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">fields</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="nv">fields</span><span class="o">.</span><span class="py">isEmpty</span><span class="o">))</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="nc">ExecuteException</span><span class="o">(</span><span class="s">"projection verification failed: "</span><span class="o">,</span> <span class="s">"fields of projection cannot be empty"</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="k">val</span> <span class="nv">graphQLRequest</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">GraphQLRequest</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">projection</span><span class="o">)</span>
+    <span class="nv">OkHttp</span><span class="o">.</span><span class="py">syncRunQuery</span><span class="o">(</span><span class="n">config</span><span class="o">,</span> <span class="n">graphQLRequest</span><span class="o">,</span> <span class="n">entityClass</span><span class="o">)(</span><span class="n">extractData</span><span class="o">)</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">ScalaResolverProxyV1</span> <span class="o">{</span>
+
+  <span class="k">def</span> <span class="nf">apply</span><span class="o">[</span><span class="kt">Request</span> <span class="k">&lt;:</span> <span class="kt">GraphQLOperationRequest</span> <span class="kt">:</span> <span class="kt">Manifest</span><span class="o">](</span><span class="n">config</span><span class="k">:</span> <span class="kt">ServerConfig</span><span class="o">,</span> <span class="n">projection</span><span class="k">:</span> <span class="kt">GraphQLResponseProjection</span><span class="o">)</span><span class="k">:</span>
+  <span class="kt">ScalaResolverProxyV1</span><span class="o">[</span><span class="kt">Request</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ScalaResolverProxyV1</span><span class="o">[</span><span class="kt">Request</span><span class="o">](</span><span class="n">config</span><span class="o">,</span> <span class="n">projection</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div><h2 id="代理实现-1">代理实现</h2><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">class</span> <span class="nc">GithubScalaClient</span> <span class="o">{</span>
+
+  <span class="k">private</span> <span class="k">var</span> <span class="n">config</span><span class="k">:</span> <span class="kt">ServerConfig</span> <span class="o">=</span> <span class="k">_</span>
+  <span class="k">private</span> <span class="k">var</span> <span class="n">resolver</span><span class="k">:</span> <span class="kt">Class</span><span class="o">[</span><span class="k">_</span><span class="o">]</span> <span class="k">=</span> <span class="k">_</span>
+  <span class="k">private</span> <span class="k">var</span> <span class="n">projection</span><span class="k">:</span> <span class="kt">GraphQLResponseProjection</span> <span class="o">=</span> <span class="k">_</span>
+
+  <span class="k">private</span> <span class="k">def</span> <span class="nf">getResolverObjectV1</span><span class="o">[</span><span class="kt">Request</span> <span class="k">&lt;:</span> <span class="kt">GraphQLOperationRequest</span> <span class="kt">:</span> <span class="kt">Manifest</span><span class="o">]</span><span class="k">:</span> <span class="kt">AnyRef</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">invocationHandler</span><span class="k">:</span> <span class="kt">ScalaResolverProxyV1</span><span class="o">[</span><span class="kt">Request</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ScalaResolverProxyV1</span><span class="o">[</span><span class="kt">Request</span><span class="o">](</span><span class="n">config</span><span class="o">,</span> <span class="n">projection</span><span class="o">)</span>
+    <span class="nv">Proxy</span><span class="o">.</span><span class="py">newProxyInstance</span><span class="o">(</span><span class="nv">resolver</span><span class="o">.</span><span class="py">getClassLoader</span><span class="o">,</span> <span class="nc">Array</span><span class="o">[</span><span class="kt">Class</span><span class="o">[</span><span class="k">_</span><span class="o">]](</span><span class="n">resolver</span><span class="o">),</span> <span class="n">invocationHandler</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">GithubScalaClient</span> <span class="o">{</span>
+
+  <span class="k">def</span> <span class="nf">newBuilder</span><span class="k">:</span> <span class="kt">GitHubScalaClientBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GitHubScalaClientBuilder</span><span class="o">()</span>
+
+  <span class="k">class</span> <span class="nc">GitHubScalaClientBuilder</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="k">private</span> <span class="k">var</span> <span class="n">projection</span><span class="k">:</span> <span class="kt">GraphQLResponseProjection</span> <span class="o">=</span> <span class="k">_</span>
+    <span class="k">private</span> <span class="k">var</span> <span class="n">config</span><span class="k">:</span> <span class="kt">ServerConfig</span> <span class="o">=</span> <span class="k">_</span>
+
+    <span class="k">def</span> <span class="nf">setConfig</span><span class="o">(</span><span class="n">config</span><span class="k">:</span> <span class="kt">ServerConfig</span><span class="o">)</span><span class="k">:</span> <span class="kt">GitHubScalaClientBuilder</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="py">config</span> <span class="k">=</span> <span class="n">config</span>
+      <span class="k">this</span>
+    <span class="o">}</span>
+
+    <span class="k">def</span> <span class="nf">setProjection</span><span class="o">(</span><span class="n">projection</span><span class="k">:</span> <span class="kt">GraphQLResponseProjection</span><span class="o">)</span><span class="k">:</span> <span class="kt">GitHubScalaClientBuilder</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="py">projection</span> <span class="k">=</span> <span class="n">projection</span>
+      <span class="k">this</span>
+    <span class="o">}</span>
+
+    <span class="k">def</span> <span class="nf">buildV1</span><span class="o">[</span><span class="kt">Resolver:</span> <span class="kt">Manifest</span>, <span class="kt">Request</span> <span class="k">&lt;:</span> <span class="kt">GraphQLOperationRequest</span> <span class="kt">:</span> <span class="kt">Manifest</span><span class="o">]</span><span class="k">:</span> <span class="kt">Resolver</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="nf">assert</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="py">config</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+      <span class="k">val</span> <span class="nv">invoke</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">GithubScalaClient</span>
+      <span class="nv">invoke</span><span class="o">.</span><span class="py">config</span> <span class="k">=</span> <span class="k">this</span><span class="o">.</span><span class="py">config</span>
+      <span class="nv">invoke</span><span class="o">.</span><span class="py">projection</span> <span class="k">=</span> <span class="k">this</span><span class="o">.</span><span class="py">projection</span>
+      <span class="nv">invoke</span><span class="o">.</span><span class="py">resolver</span> <span class="k">=</span> <span class="n">manifest</span><span class="o">[</span><span class="kt">Resolver</span><span class="o">].</span><span class="py">runtimeClass</span>
+      <span class="nv">invoke</span><span class="o">.</span><span class="py">getResolverObjectV1</span><span class="o">[</span><span class="kt">Request</span><span class="o">].</span><span class="py">asInstanceOf</span><span class="o">[</span><span class="kt">Resolver</span><span class="o">]</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div><h2 id="使用-1">使用</h2><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">object</span> <span class="nc">ScalaClientExample</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+
+  <span class="k">val</span> <span class="nv">userResponseProjection</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">UserResponseProjection</span><span class="o">().</span><span class="py">id</span><span class="o">().</span><span class="py">avatarUrl</span><span class="o">().</span><span class="py">login</span><span class="o">().</span><span class="py">resourcePath</span><span class="o">()</span>
+  <span class="k">val</span> <span class="nv">config</span> <span class="k">=</span> <span class="nc">ServerConfig</span><span class="o">(</span><span class="s">"https://api.github.com/graphql"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">(</span><span class="s">"Authorization"</span> <span class="o">-&gt;</span> <span class="s">"Bearer xx"</span><span class="o">))</span>
+  <span class="k">val</span> <span class="nv">queryResolver</span> <span class="k">=</span> <span class="nv">GithubScalaClient</span><span class="o">.</span><span class="py">newBuilder</span><span class="o">.</span><span class="py">setConfig</span><span class="o">(</span><span class="n">config</span><span class="o">).</span>
+    <span class="nf">setProjection</span><span class="o">(</span><span class="n">userResponseProjection</span><span class="o">).</span>
+    <span class="n">buildV1</span><span class="o">[</span><span class="kt">QueryResolver</span>, <span class="kt">UserQueryRequest</span><span class="o">]</span>
+
+  <span class="k">val</span> <span class="nv">userTO</span> <span class="k">=</span> <span class="nv">queryResolver</span><span class="o">.</span><span class="py">user</span><span class="o">(</span><span class="s">"jxnu-liguobin"</span><span class="o">)</span>
+  <span class="nf">println</span><span class="o">(</span><span class="nv">userTO</span><span class="o">.</span><span class="py">id</span><span class="o">)</span> <span class="c1">//tostring failed, because jackson use java Deserializer</span>
+<span class="o">}</span>
+</code></pre></div></div><h1 id="三scala反射">三、Scala反射</h1><h2 id="被代理对象-2">被代理对象</h2><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">trait</span> <span class="nc">QueryResolver</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="nf">user</span><span class="o">(</span><span class="n">login</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">UserTO</span>
+<span class="o">}</span>
+</code></pre></div></div><h2 id="invocationhandler实现-2">InvocationHandler实现</h2><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Scala反射的环境</span>
+<span class="k">import</span> <span class="nn">scala.reflect.runtime.</span><span class="o">{</span> <span class="n">universe</span> <span class="k">=&gt;</span> <span class="n">ru</span> <span class="o">}</span>
+<span class="k">import</span> <span class="nn">scala.reflect.runtime.universe._</span>
+
+<span class="k">final</span> <span class="k">class</span> <span class="nc">ScalaResolverProxyV2</span><span class="o">[</span><span class="kt">Request</span> <span class="k">&lt;:</span> <span class="kt">GraphQLOperationRequest</span> <span class="kt">:</span> <span class="kt">Manifest</span>, <span class="kt">Out:</span> <span class="kt">Manifest</span><span class="o">]</span> <span class="nc">private</span> <span class="c1">//使用Manifest传递返回类型，不再需要通过返回获取方法的返回类型，json解析时，需要使用ScalaObjectMapper和CaseClassObjectMapper</span>
+<span class="o">(</span><span class="k">val</span> <span class="nv">config</span><span class="k">:</span> <span class="kt">ServerConfig</span><span class="o">,</span> <span class="k">val</span> <span class="nv">projection</span><span class="k">:</span> <span class="kt">GraphQLResponseProjection</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">InvocationHandler</span>
+  <span class="k">with</span> <span class="nc">ScalaDeserializer</span> <span class="o">{</span>
+  <span class="c1">// 使用Scala反射获取构造函数 </span>
+  <span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">lazy</span> <span class="k">val</span> <span class="nv">constructor</span> <span class="k">=</span> <span class="nv">getRuntimeMirror</span><span class="o">.</span><span class="py">reflectClass</span><span class="o">(</span><span class="nv">getRequestScalaType</span><span class="o">.</span><span class="py">typeSymbol</span><span class="o">.</span><span class="py">asClass</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">reflectConstructor</span><span class="o">(</span><span class="nv">getRequestScalaType</span><span class="o">.</span><span class="py">members</span><span class="o">.</span><span class="py">find</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">isConstructor</span><span class="o">).</span><span class="py">get</span><span class="o">.</span><span class="py">asMethod</span><span class="o">)</span>
+
+  <span class="k">private</span> <span class="k">val</span> <span class="nv">request</span><span class="k">:</span> <span class="kt">GraphQLOperationRequest</span> <span class="o">=</span> <span class="nv">constructor</span><span class="o">.</span><span class="py">apply</span><span class="o">(</span><span class="kc">null</span><span class="o">).</span><span class="py">asInstanceOf</span><span class="o">[</span><span class="kt">GraphQLOperationRequest</span><span class="o">]</span>
+
+  <span class="c1">//当前类的运行时环境</span>
+  <span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">def</span> <span class="nf">getRuntimeMirror</span><span class="k">:</span> <span class="kt">ru.Mirror</span> <span class="o">=</span> <span class="nf">runtimeMirror</span><span class="o">(</span><span class="nv">getClass</span><span class="o">.</span><span class="py">getClassLoader</span><span class="o">)</span>
+  <span class="c1">//获取Request泛型的运行时类型，通过类型反射出构造函数	</span>
+  <span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">def</span> <span class="nf">getRequestScalaType</span><span class="k">:</span> <span class="kt">ru.Type</span> <span class="o">=</span> <span class="n">typeOf</span><span class="o">[</span><span class="kt">Request</span><span class="o">]</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">invoke</span><span class="o">(</span><span class="n">proxy</span><span class="k">:</span> <span class="kt">AnyRef</span><span class="o">,</span> <span class="n">method</span><span class="k">:</span> <span class="kt">Method</span><span class="o">,</span> <span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">AnyRef</span><span class="o">])</span><span class="k">:</span> <span class="kt">Any</span> <span class="o">=</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">AnyRef</span><span class="o">]</span> <span class="o">==</span> <span class="nv">method</span><span class="o">.</span><span class="py">getDeclaringClass</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">try</span> <span class="o">{</span>
+        <span class="nv">method</span><span class="o">.</span><span class="py">invoke</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">args</span><span class="o">)</span>
+      <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="n">t</span><span class="k">:</span> <span class="kt">Throwable</span> <span class="o">=&gt;</span>
+          <span class="k">throw</span> <span class="nc">ExecuteException</span><span class="o">(</span><span class="s">"invoke failed: "</span><span class="o">,</span> <span class="nv">t</span><span class="o">.</span><span class="py">getLocalizedMessage</span><span class="o">,</span> <span class="n">t</span><span class="o">)</span>
+      <span class="o">}</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="nf">proxyInvoke</span><span class="o">(</span><span class="n">method</span><span class="o">,</span> <span class="n">args</span><span class="o">)</span>
+    <span class="o">}</span>
+
+  <span class="k">private</span> <span class="k">def</span> <span class="nf">proxyInvoke</span><span class="o">(</span><span class="n">method</span><span class="k">:</span> <span class="kt">Method</span><span class="o">,</span> <span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">AnyRef</span><span class="o">])</span><span class="k">:</span> <span class="kt">Any</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">`</span><span class="n">type` = method.getGenericReturnType
+    val isCollection = `type</span><span class="o">`</span> <span class="k">match</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="k">_:</span> <span class="kt">ParameterizedType</span> <span class="o">=&gt;</span> <span class="kc">true</span>
+      <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="kc">false</span>
+    <span class="o">}</span>
+
+    <span class="nf">if</span> <span class="o">(</span><span class="nf">isPrimitive</span><span class="o">(</span><span class="n">manifest</span><span class="o">[</span><span class="kt">Out</span><span class="o">].</span><span class="py">runtimeClass</span><span class="o">))</span> <span class="o">{</span>
+      <span class="nf">assert</span><span class="o">(</span><span class="n">projection</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="nf">assert</span><span class="o">(</span><span class="n">projection</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="k">val</span> <span class="nv">parameters</span> <span class="k">=</span> <span class="nv">method</span><span class="o">.</span><span class="py">getParameters</span><span class="o">.</span><span class="py">toList</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="nv">parameters</span><span class="o">.</span><span class="py">nonEmpty</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">val</span> <span class="nv">parameterNames</span> <span class="k">=</span> <span class="nv">parameters</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">getName</span><span class="o">)</span>
+      <span class="k">val</span> <span class="nv">arguments</span> <span class="k">=</span> <span class="nv">args</span><span class="o">.</span><span class="py">toList</span>
+      <span class="nv">request</span><span class="o">.</span><span class="py">getInput</span><span class="o">.</span><span class="py">putAll</span><span class="o">(</span><span class="nv">CollectionUtils</span><span class="o">.</span><span class="py">listToMap</span><span class="o">(</span><span class="n">parameterNames</span><span class="o">,</span> <span class="n">arguments</span><span class="o">))</span>
+    <span class="o">}</span>
+
+    <span class="c1">// use shapeless LabelledGeneric</span>
+    <span class="c1">// Scala反射获取父类的私有字段</span>
+    <span class="k">def</span> <span class="nf">fieldValue</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Any</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="c1">//获取到当前类加载的运行时环境，反射出projection对象父类中的名为“fields”的字段</span>
+      <span class="c1">//members返回projection类的所有成员，包含继承过来的，所以这里可以拿到父类的“fields”字段</span>
+      <span class="k">val</span> <span class="nv">im</span> <span class="k">=</span> <span class="nv">ru</span><span class="o">.</span><span class="py">runtimeMirror</span><span class="o">(</span><span class="nv">projection</span><span class="o">.</span><span class="py">getClass</span><span class="o">.</span><span class="py">getClassLoader</span><span class="o">)</span>
+      <span class="nv">getRuntimeMirror</span><span class="o">.</span><span class="py">classSymbol</span><span class="o">(</span><span class="nv">projection</span><span class="o">.</span><span class="py">getClass</span><span class="o">).</span><span class="py">toType</span><span class="o">.</span><span class="py">members</span><span class="o">.</span><span class="py">filter</span><span class="o">(!</span><span class="nv">_</span><span class="o">.</span><span class="py">isMethod</span><span class="o">).</span>
+        <span class="nf">filter</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">name</span><span class="o">.</span><span class="py">decodedName</span><span class="o">.</span><span class="py">toString</span><span class="o">.</span><span class="py">trim</span><span class="o">.</span><span class="py">equals</span><span class="o">(</span><span class="n">name</span><span class="o">)).</span><span class="py">map</span><span class="o">(</span><span class="n">s</span> <span class="k">=&gt;</span> <span class="o">{</span>
+        <span class="nv">im</span><span class="o">.</span><span class="py">reflect</span><span class="o">(</span><span class="n">projection</span><span class="o">).</span><span class="py">reflectField</span><span class="o">(</span><span class="nv">s</span><span class="o">.</span><span class="py">asTerm</span><span class="o">).</span><span class="py">get</span>
+      <span class="o">}).</span><span class="py">head</span>
+    <span class="o">}</span>
+
+    <span class="k">val</span> <span class="nv">fields</span><span class="k">:</span> <span class="kt">java.util.List</span><span class="o">[</span><span class="kt">GraphQLResponseField</span><span class="o">]</span> <span class="k">=</span> <span class="nf">fieldValue</span><span class="o">(</span><span class="s">"fields"</span><span class="o">).</span><span class="py">asInstanceOf</span><span class="o">[</span><span class="kt">java.util.List</span><span class="o">[</span><span class="kt">GraphQLResponseField</span><span class="o">]]</span>
+
+    <span class="nf">if</span> <span class="o">(</span><span class="n">projection</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">fields</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="nv">fields</span><span class="o">.</span><span class="py">isEmpty</span><span class="o">))</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="nc">ExecuteException</span><span class="o">(</span><span class="s">"projection verification failed: "</span><span class="o">,</span> <span class="s">"fields of projection cannot be empty"</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="k">val</span> <span class="nv">graphQLRequest</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">GraphQLRequest</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">projection</span><span class="o">)</span>
+    <span class="c1">// extractData是一个解析函数，Out传递过去用于解析json。注意，这里没有entityClass</span>
+    <span class="nv">OkHttp</span><span class="o">.</span><span class="py">syncRunQuery</span><span class="o">(</span><span class="n">config</span><span class="o">,</span> <span class="n">isCollection</span><span class="o">,</span> <span class="n">graphQLRequest</span><span class="o">)(</span><span class="n">extractData</span><span class="o">[</span><span class="kt">Out</span><span class="o">])</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">ScalaResolverProxyV2</span> <span class="o">{</span>
+
+  <span class="k">def</span> <span class="nf">apply</span><span class="o">[</span><span class="kt">Request</span> <span class="k">&lt;:</span> <span class="kt">GraphQLOperationRequest</span> <span class="kt">:</span> <span class="kt">Manifest</span>, <span class="kt">Out:</span> <span class="kt">Manifest</span><span class="o">](</span><span class="n">config</span><span class="k">:</span> <span class="kt">ServerConfig</span><span class="o">,</span> <span class="n">projection</span><span class="k">:</span> <span class="kt">GraphQLResponseProjection</span><span class="o">)</span><span class="k">:</span>
+  <span class="kt">ScalaResolverProxyV2</span><span class="o">[</span><span class="kt">Request</span>, <span class="kt">Out</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ScalaResolverProxyV2</span><span class="o">[</span><span class="kt">Request</span>, <span class="kt">Out</span><span class="o">](</span><span class="n">config</span><span class="o">,</span> <span class="n">projection</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div><h2 id="代理实现-2">代理实现</h2><p>其实只要在上面的GithubScalaClient中添加2个方法即可。</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">private</span> <span class="k">def</span> <span class="nf">getResolverObjectV2</span><span class="o">[</span><span class="kt">Request</span> <span class="k">&lt;:</span> <span class="kt">GraphQLOperationRequest</span> <span class="kt">:</span> <span class="kt">Manifest</span>, <span class="kt">Out:</span> <span class="kt">Manifest</span><span class="o">]</span><span class="k">:</span> <span class="kt">AnyRef</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">invocationHandler</span><span class="k">:</span> <span class="kt">ScalaResolverProxyV2</span><span class="o">[</span><span class="kt">Request</span>, <span class="kt">Out</span><span class="o">]</span> <span class="k">=</span> <span class="nc">ScalaResolverProxyV2</span><span class="o">[</span><span class="kt">Request</span>, <span class="kt">Out</span><span class="o">](</span><span class="n">config</span><span class="o">,</span> <span class="n">projection</span><span class="o">)</span>
+    <span class="nv">Proxy</span><span class="o">.</span><span class="py">newProxyInstance</span><span class="o">(</span><span class="nv">resolver</span><span class="o">.</span><span class="py">getClassLoader</span><span class="o">,</span> <span class="nc">Array</span><span class="o">[</span><span class="kt">Class</span><span class="o">[</span><span class="k">_</span><span class="o">]](</span><span class="n">resolver</span><span class="o">),</span> <span class="n">invocationHandler</span><span class="o">)</span>
+  <span class="o">}</span>
+  <span class="k">def</span> <span class="nf">buildV2</span><span class="o">[</span><span class="kt">Resolver:</span> <span class="kt">Manifest</span>, <span class="kt">Request</span> <span class="k">&lt;:</span> <span class="kt">GraphQLOperationRequest</span> <span class="kt">:</span> <span class="kt">Manifest</span>, <span class="kt">Out:</span> <span class="kt">Manifest</span><span class="o">]</span><span class="k">:</span> <span class="kt">Resolver</span> <span class="o">=</span> <span class="o">{</span>
+	<span class="nf">assert</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="py">config</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+	<span class="k">val</span> <span class="nv">invoke</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">GithubScalaClient</span>
+	<span class="nv">invoke</span><span class="o">.</span><span class="py">config</span> <span class="k">=</span> <span class="k">this</span><span class="o">.</span><span class="py">config</span>
+	<span class="nv">invoke</span><span class="o">.</span><span class="py">projection</span> <span class="k">=</span> <span class="k">this</span><span class="o">.</span><span class="py">projection</span>
+	<span class="nv">invoke</span><span class="o">.</span><span class="py">resolver</span> <span class="k">=</span> <span class="n">manifest</span><span class="o">[</span><span class="kt">Resolver</span><span class="o">].</span><span class="py">runtimeClass</span>
+	<span class="nv">invoke</span><span class="o">.</span><span class="py">getResolverObjectV2</span><span class="o">[</span><span class="kt">Request</span>, <span class="kt">Out</span><span class="o">].</span><span class="py">asInstanceOf</span><span class="o">[</span><span class="kt">Resolver</span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div></div><h2 id="使用-2">使用</h2><p>由于我们使用了<code class="language-plaintext highlighter-rouge">Manifest</code>和<code class="language-plaintext highlighter-rouge">ScalaObjectMapper</code>，我们可以直接在调用时传递返回类型，这样就不需要使用反射获取方法的返回类型，减少一步操作，也更符合Scala代码风格。不过由于Jackson-scala-module提示不再支持Scala3，所以如果不能使用<code class="language-plaintext highlighter-rouge">Manifest</code>，那么就得继续使用<code class="language-plaintext highlighter-rouge">entityClass</code>。使用<code class="language-plaintext highlighter-rouge">Manifest</code>如下：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">val</span> <span class="nv">userResponseProjection1</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">UserResponseProjection</span><span class="o">().</span><span class="py">id</span><span class="o">().</span><span class="py">avatarUrl</span><span class="o">().</span><span class="py">login</span><span class="o">().</span><span class="py">resourcePath</span><span class="o">()</span>
+  <span class="k">val</span> <span class="nv">queryResolver1</span> <span class="k">=</span> <span class="nv">GithubScalaClient</span><span class="o">.</span><span class="py">newBuilder</span><span class="o">.</span><span class="py">setConfig</span><span class="o">(</span><span class="n">config</span><span class="o">).</span>
+    <span class="nf">setProjection</span><span class="o">(</span><span class="n">userResponseProjection</span><span class="o">).</span>
+    <span class="n">buildV2</span><span class="o">[</span><span class="kt">QueryResolver</span>, <span class="kt">UserQueryRequest</span>, <span class="kt">UserTO</span><span class="o">]</span><span class="c1">//指定返回类型</span>
+
+  <span class="k">val</span> <span class="nv">userTO1</span> <span class="k">=</span> <span class="nv">queryResolver1</span><span class="o">.</span><span class="py">user</span><span class="o">(</span><span class="s">"jxnu-liguobin"</span><span class="o">)</span>
+  <span class="nf">println</span><span class="o">(</span><span class="nv">userTO</span><span class="o">.</span><span class="py">toString</span><span class="o">())</span>
+</code></pre></div></div><p>当然，动态代理+JSON的最大问题之一是无法处理编译时的类型不匹配，只会在运行时暴露出来错误。本文不考虑性能问题，专注可行性，主要用于测试代码生成库graphql-java-codegen。</p><h1 id="四kotlin中使用java反射">四、Kotlin中使用Java反射</h1><h2 id="被代理对象-3">被代理对象</h2><div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">interface</span> <span class="nc">QueryResolver</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">rateLimit</span><span class="p">(</span><span class="n">dryRun</span><span class="p">:</span> <span class="nc">Boolean</span><span class="p">?):</span> <span class="nc">RateLimitTO</span><span class="p">?</span>
+<span class="p">}</span>
+</code></pre></div></div><p>具体就不写了，坑也很多，三种语言的源码在<a href="https://github.com/jxnu-liguobin/github-graphql-client/tree/master/src/main">github-graphql-client</a> 使用如下：</p><div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">object</span> <span class="nc">KotlinClientExample</span> <span class="p">{</span>
+
+    <span class="nd">@JvmStatic</span>
+    <span class="k">fun</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="nc">Array</span><span class="p">&lt;</span><span class="nc">String</span><span class="p">&gt;)</span> <span class="p">{</span>
+        <span class="c1">// Since Kotlin has a mandatory non-null for fields, a field-less interface test is used here</span>
+        <span class="kd">val</span> <span class="py">rateLimitResponseProjection</span> <span class="p">=</span> <span class="nc">RateLimitResponseProjection</span><span class="p">().</span><span class="n">`all</span><span class="err">$`</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="kd">val</span> <span class="py">queryResolver</span> <span class="p">=</span> <span class="nc">GithubKotlinClient</span><span class="p">.</span><span class="nf">newBuilder</span><span class="p">()</span>
+            <span class="p">.</span><span class="nf">setConfig</span><span class="p">(</span>
+                <span class="nc">ServerConfigAdapter</span><span class="p">(</span>
+                    <span class="s">"https://api.github.com/graphql"</span><span class="p">,</span>
+                    <span class="nf">mapOf</span><span class="p">(</span><span class="nc">Pair</span><span class="p">(</span><span class="s">"Authorization"</span><span class="p">,</span> <span class="s">"Bearer xx"</span><span class="p">))</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="p">.</span><span class="nf">setProjection</span><span class="p">(</span><span class="n">rateLimitResponseProjection</span><span class="p">).</span><span class="n">build</span><span class="p">&lt;</span><span class="nc">QueryResolver</span><span class="p">,</span> <span class="nc">RateLimitQueryRequest</span><span class="p">&gt;()</span>
+
+        <span class="kd">val</span> <span class="py">rateLimit</span> <span class="p">=</span> <span class="n">queryResolver</span><span class="p">.</span><span class="nf">rateLimit</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+        <span class="nf">println</span><span class="p">(</span><span class="n">rateLimit</span><span class="p">.</span><span class="nf">toString</span><span class="p">())</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://dreamylost.cn" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E5%A4%9A%E7%A7%8DJVM%E8%AF%AD%E8%A8%80%E7%9A%84%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84%E5%BA%94%E7%94%A8.html" target="_blank">https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E5%A4%9A%E7%A7%8DJVM%E8%AF%AD%E8%A8%80%E7%9A%84%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84%E5%BA%94%E7%94%A8.html</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E5%A4%9A%E', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@built/assets/search_data.json?v=1617175086', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://dreamylost.cn/" title="首页" target="">首页</a></li><li> <a href="https://dreamylost.cn/categories/" title="分类" target="">分类</a></li><li> <a href="https://dreamylost.cn/wiki/" title="维基" target="">维基</a></li><li> <a href="https://dreamylost.cn/links/" title="链接" target="">链接</a></li><li> <a href="https://dreamylost.cn/about/" title="关于" target="">关于</a></li><li><a href="https://dreamylost.cn/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>
