@@ -128,7 +128,7 @@ comments_provider: gitalk
 ## https://github.com/gitalk/gitalk#install
 gitalk:
     owner: jxnu-liguobin
-    repo: blog-comments
+    repo: dreamylost-comments
     clientID: 061aadb5d449c0877d7d
     clientSecret: 9aa7af7c248a7e36a07a86993e11a7acf7fbd353
 # 在使用其它评论组件时可点击显示 Disqus
