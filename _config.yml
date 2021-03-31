@@ -38,12 +38,12 @@ highlight_theme: github
 # ---------------- #
 #      Author      #
 # ---------------- #
-author: Zhuang Ma
+author: 梦境迷离
 organization: 
 organization_url: 
-github_username: mzlogin
-location: Wuhan, China
-email: chumpma@gmail.com
+github_username: jxnu-ligubin
+location: Beijing, China
+email: dreamylost@outlook.com
 
 # ---------------- #
 #    Navigation    #
@@ -128,7 +128,7 @@ comments_provider: gitalk
 ## https://github.com/gitalk/gitalk#install
 gitalk:
     owner: jxnu-liguobin
-    repo: dreamylost-comments
+    repo: blog-comments
     clientID: 061aadb5d449c0877d7d
     clientSecret: 9aa7af7c248a7e36a07a86993e11a7acf7fbd353
 # 在使用其它评论组件时可点击显示 Disqus
