@@ -8,6 +8,8 @@ menu: 关于
 permalink: /about/
 ---
 
+梦境亦是美，醒来亦是空。
+
 ## 联系
 
 <ul>
