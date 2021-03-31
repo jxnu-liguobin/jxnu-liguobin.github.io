@@ -2,7 +2,7 @@
 layout: page
 title: About
 description: 梦境亦是美，醒来亦是空
-keywords: jxnu-liguobn, 梦境迷离
+keywords: jxnu-liguobin, 梦境迷离
 comments: true
 menu: 关于
 permalink: /about/
