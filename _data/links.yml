@@ -1,3 +1,7 @@
+- name: 梦境迷离
+  url: http://dreamylost.cn
+  src: life
+  
 - name: 青墟
   url: https://www.cnblogs.com/guoxinyu
   src: www
@@ -9,4 +13,7 @@
   src: www
 - name: Rubin
   url: https://vzhougm.gitee.io
+  src: www
+- name: 码志
+  url: https://mazhuang.org
   src: www
