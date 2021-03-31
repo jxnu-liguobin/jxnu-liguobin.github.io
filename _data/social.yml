@@ -1,11 +1,15 @@
-#- sitename: GitHub
-#  name: mzlogin
-#  url: https://github.com/mzlogin
-#
-#- sitename: 博客
-#  name: 码志
-#  url: http://mazhuang.org
-#
-#- sitename: 知乎
-#  name: mzlogin
-#  url: http://www.zhihu.com/people/mzlogin
+- sitename: GitHub
+  name: 梦境迷离
+  url: https://github.com/jxnu-liguobin
+
+- sitename: 博客
+  name: 梦境迷离
+  url: http://dreamylost.cn
+
+- sitename: CSDN博客
+  name: 梦境迷离
+  url: https://blog.csdn.net/qq_34446485
+
+- sitename: 知乎
+  name: 梦境迷离
+  url: https://www.zhihu.com/people/dreamylost

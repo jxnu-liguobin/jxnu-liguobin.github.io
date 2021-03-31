@@ -1,6 +1,15 @@
-- name: Software Engineer Keywords
+- name: 后端语言
   keywords:
       - Scala
       - Java
       - Rust
       - Kotlin
+- name: 后端技术栈
+  keywords:
+    - gRPC
+    - graphQL
+    - akka
+    - redis
+    - shapeless 
+    - scalikejdbc
+    - playframework
