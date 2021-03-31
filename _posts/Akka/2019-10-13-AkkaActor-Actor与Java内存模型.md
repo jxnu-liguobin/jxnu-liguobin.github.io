@@ -48,7 +48,7 @@ description: 主要介绍Lightbend平台的Akka与Java内存模型的关系
 
 Future的完成“happens before”对其注册的任何回调的调用被执行之前。
 
-我们建议不要关闭非最终字段（在Java中为final，在Scala中为val），如果做如果选择关闭非最终字段，则必须标记它们。易挥发以使该字段的当前值在回调中可见。
+我们建议不要关闭（应该是指把字段放入了Future中）非最终字段（在Java中为final，在Scala中为val），如果确实选择关闭非最终字段，则必须将它们标记volatile，以使该字段的当前值在回调中可见。
 
 如果在引用上关闭，还必须确保所引用的实例是线程安全的。我们强烈建议远离使用锁定的对象，因为它会带来性能问题，在最坏的情况下，会导致死锁。这就是同步的危险。
 
@@ -130,7 +130,7 @@ class MyActor(echoActor: ActorRef, cleanUpActor: ActorRef) extends Actor {
 }
 ```
 
-* 讯息应不可变，这是为了避免共享可变状态陷阱。
+* 消息应当是不可变的，这是为了避免共享可变状态的陷阱。
 
 更多Future可以参考本博客的“Scala的Future分析”
 或[programcreek中的例子](https://www.programcreek.com/scala/scala.concurrent.Future)
