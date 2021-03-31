@@ -1,0 +1,186 @@
+<ul id="markdown-toc">
+  <li><a href="#adb-命令" id="markdown-toc-adb-命令">adb 命令</a></li>
+  <li><a href="#adb-shell-命令" id="markdown-toc-adb-shell-命令">adb shell 命令</a></li>
+</ul>
+
+<h4 id="adb-命令">adb 命令</h4>
+
+<p>adb 命令是 adb 这个程序自带的一些命令</p>
+
+<p><code class="language-plaintext highlighter-rouge">//</code>后面是追加注释下同</p>
+
+<ul>
+  <li>
+    <p>显示都有哪些设备连接
+<code class="language-plaintext highlighter-rouge">adb devices</code></p>
+  </li>
+  <li>
+    <p>清空日志
+<code class="language-plaintext highlighter-rouge">adb logcat  -c</code></p>
+  </li>
+  <li>
+    <p>将日志从手机实时推出到电脑文件中
+<code class="language-plaintext highlighter-rouge">adb logcat  -v threadtime &gt;&gt; test.log</code></p>
+  </li>
+  <li>
+    <p>将电脑文件推到手机文件中
+<code class="language-plaintext highlighter-rouge">adb push monkey.jar /sdcard</code></p>
+  </li>
+  <li>
+    <p>从手机拉取到本地
+<code class="language-plaintext highlighter-rouge">adb pull sdcard/test.txt /User/xx/xx/xx/xx</code> //例如复制 Sdcard 下的 pull.txt 文件到 D 盘：</p>
+  </li>
+  <li>
+    <p>进入adb模式，操作手机
+<code class="language-plaintext highlighter-rouge">adb shell</code></p>
+  </li>
+  <li>
+    <p>sdcard路径
+<code class="language-plaintext highlighter-rouge">/mnt/sdcard</code></p>
+  </li>
+  <li>
+    <p>设定指定的device
+<code class="language-plaintext highlighter-rouge">adb -s deviceSerial shell</code></p>
+  </li>
+</ul>
+
+<p>PS:远程设备 adb -s ip:port shell</p>
+
+<ul>
+  <li>
+    <p>结束 adb 服务、启动 adb 服务
+<code class="language-plaintext highlighter-rouge">adb kill-server、adb start-server</code></p>
+  </li>
+  <li>
+    <p>安装app
+<code class="language-plaintext highlighter-rouge">adb install</code> //覆盖安装是使用 -r 选项，目标 apk 存放于 PC 端，请用 adb install 安装
+<code class="language-plaintext highlighter-rouge">pm install</code> //adb shell 命令，目标 apk 存放于 Android 设备上，请用 pm install 安装</p>
+  </li>
+  <li>
+    <p>卸载应用
+<code class="language-plaintext highlighter-rouge">adb uninstall</code> //后面跟的参数是应用的包名（特别注意），-k 选项，卸载时保存数据和缓存目录
+<code class="language-plaintext highlighter-rouge">pm uninstall</code> //同上安装</p>
+  </li>
+  <li>
+    <p>重启 Android 设备
+<code class="language-plaintext highlighter-rouge">adb reboot</code></p>
+  </li>
+  <li>
+    <p>进入 fastboot 模式
+<code class="language-plaintext highlighter-rouge">bootloader、adb reboot-bootloader</code> //进入 fastboot 模式
+<code class="language-plaintext highlighter-rouge">recovery</code> //进入 recovery 模式</p>
+  </li>
+  <li>
+    <p>将宿主机上的某个端口重定向到设备的某个端口
+<code class="language-plaintext highlighter-rouge">adb forward tcp:1314 tcp:8888</code> //执行该命令后所有发往宿主机 1314 端口的消息、数据都会转发到 Android 设备的 8888 端口上，因此可以通过远程的方式控制 Android 设备。</p>
+  </li>
+  <li>
+    <p>远程连接 Android 设备
+<code class="language-plaintext highlighter-rouge">adb connect ip:port</code> //一般5555</p>
+  </li>
+</ul>
+
+<h4 id="adb-shell-命令">adb shell 命令</h4>
+
+<p><code class="language-plaintext highlighter-rouge">adb shell</code> 命令则是调用的 Android 系统中的命令，这些 Android 特有的命令都放在了 Android 设备的 system/bin 目录下</p>
+
+<ul>
+  <li>
+    <p>列出安装在设备上的应用
+<code class="language-plaintext highlighter-rouge">adb shell pm list package</code> //显示的是 package:包名</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> -s：列出系统应用
+ -3：列出第三方应用
+ -f：列出应用包名及对应的apk名及存放位置
+ -i：列出应用包名及其安装来源
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">adb shell pm list package -f -3 -i qutest</code> //过滤关键字，可以很方便地查找自己想要的应用</p>
+
+<ul>
+  <li>
+    <p>列出对应包名的 .apk 位置
+<code class="language-plaintext highlighter-rouge">adb shell pm path com.qu.test</code></p>
+  </li>
+  <li>
+    <p>实时查看当前正在运行的Activity
+<code class="language-plaintext highlighter-rouge">adb shell logcat | grep ActivityManager</code></p>
+  </li>
+  <li>
+    <p>查看当前activity
+<code class="language-plaintext highlighter-rouge">adb shell "dumpsys window | grep mCurrentFocus"</code></p>
+  </li>
+  <li>
+    <p>列出含有单元测试 case 的应用
+<code class="language-plaintext highlighter-rouge">pm list instrumentation</code></p>
+  </li>
+  <li>
+    <p>获取当前安卓系统版本，并赋值给变量
+<code class="language-plaintext highlighter-rouge">osVersion=$(adb devices shell getpropro.build.version.release)</code></p>
+  </li>
+  <li>
+    <p>查看运行在 Android 设备上的 adb 后台进程
+<code class="language-plaintext highlighter-rouge">adb shell ps | grep adbd</code></p>
+  </li>
+  <li>
+    <p>列出指定应用的 dump 信息
+<code class="language-plaintext highlighter-rouge">adb shell pm dump com.qu.test</code></p>
+  </li>
+  <li>
+    <p>清除应用数据
+<code class="language-plaintext highlighter-rouge">pm clear</code></p>
+  </li>
+  <li>
+    <p>设置应用安装位置、获取应用安装位置
+<code class="language-plaintext highlighter-rouge">pm set-install-location、pm get-install-location</code></p>
+  </li>
+  <li>
+    <p>截图
+<code class="language-plaintext highlighter-rouge">adb shell screencap -p /sdcard/screen.png</code> //截屏，保存至 sdcard 目录</p>
+  </li>
+  <li>
+    <p>发送按键事件
+<code class="language-plaintext highlighter-rouge">adb shell input keyevent KEYCODE_HOME</code></p>
+  </li>
+  <li>
+    <p>显示所有输入法
+<code class="language-plaintext highlighter-rouge">adb shell ime list -s</code> //禁用的不显示</p>
+  </li>
+  <li>
+    <p>禁用输入法
+<code class="language-plaintext highlighter-rouge">adb shell ime desable com.sohu.inputmethod.sogouoem/.SogouIME</code> //com.sohu.inputmethod.sogouoem/.SogouIME是输入法id，由前面命令得到</p>
+  </li>
+  <li>
+    <p>将ADBKeyBoard输入法设置为默认输入法
+<code class="language-plaintext highlighter-rouge">adb shell ime set com.android.adbkeyboard/.AdbIME</code></p>
+  </li>
+  <li>
+    <p>uiautomator传多参数
+<code class="language-plaintext highlighter-rouge">adb shell uiautomator runtest jar包 -c 含监听方法的全类名 -e key1 value1 -e key2 value2</code></p>
+  </li>
+  <li>
+    <p>关闭app
+<code class="language-plaintext highlighter-rouge">adb shell am force-stop $packageName</code> //app包名</p>
+  </li>
+  <li>
+    <p>输入
+<code class="language-plaintext highlighter-rouge">adb shell input keyevent 3</code> //3是键对应的值</p>
+  </li>
+  <li>
+    <p>设置代理
+<code class="language-plaintext highlighter-rouge">adb shell settings put global http_proxy ip:port</code></p>
+  </li>
+  <li>
+    <p>移除代理</p>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell settings delete global http_proxy
+adb shell settings delete global global_http_proxy_host
+adb shell settings delete global global_http_proxy_port 
+</code></pre></div>    </div>
+    <p>//移除必须在重启后生效</p>
+  </li>
+</ul>
+
+<p>仅供参考。后续遇到还会补充。。。</p>
+

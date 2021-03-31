@@ -102,8 +102,6 @@
   
   
   
-  
-  
 
   
     {
@@ -359,70 +357,6 @@
       "category" : "其他",
       
       "url"      : "https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E5%89%91%E6%8C%87offer.html",
-      "keywords" : ""
-    } ,
-  
-    {
-      "title"    : "Git相关命令",
-      "category" : "常用命令",
-      
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-Git%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4.html",
-      "keywords" : ""
-    } ,
-  
-    {
-      "title"    : "Linux命令",
-      "category" : "常用命令",
-      
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-Linux%E5%91%BD%E4%BB%A4.html",
-      "keywords" : ""
-    } ,
-  
-    {
-      "title"    : "adb命令",
-      "category" : "常用命令",
-      
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-adb%E5%91%BD%E4%BB%A4.html",
-      "keywords" : ""
-    } ,
-  
-    {
-      "title"    : "docker与k8s的常用命令",
-      "category" : "常用命令",
-      
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-docker%E4%B8%8Ek8s%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html",
-      "keywords" : ""
-    } ,
-  
-    {
-      "title"    : "pgsql常用命令",
-      "category" : "常用命令",
-      
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-pgsql%E5%91%BD%E4%BB%A4.html",
-      "keywords" : ""
-    } ,
-  
-    {
-      "title"    : "postman命令",
-      "category" : "常用命令",
-      
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-postman%E5%91%BD%E4%BB%A4.html",
-      "keywords" : ""
-    } ,
-  
-    {
-      "title"    : "Linux sed命令",
-      "category" : "常用命令",
-      
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-sed%E5%91%BD%E4%BB%A4.html",
-      "keywords" : ""
-    } ,
-  
-    {
-      "title"    : "Linux vim命令",
-      "category" : "常用命令",
-      
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-vim%E5%91%BD%E4%BB%A4.html",
       "keywords" : ""
     } ,
   
@@ -1159,6 +1093,70 @@
       "category" : "Redis",
       
       "url"      : "https://jxnu-liguobin.github.io/redis/Redis-Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E7%AC%94%E8%AE%B0_2.html",
+      "keywords" : ""
+    } ,
+  
+    {
+      "title"    : "Git相关命令",
+      "category" : "常用命令",
+      
+      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-Git%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/",
+      "keywords" : ""
+    } ,
+  
+    {
+      "title"    : "Linux命令",
+      "category" : "常用命令",
+      
+      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-Linux%E5%91%BD%E4%BB%A4/",
+      "keywords" : ""
+    } ,
+  
+    {
+      "title"    : "adb命令",
+      "category" : "常用命令",
+      
+      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-adb%E5%91%BD%E4%BB%A4/",
+      "keywords" : ""
+    } ,
+  
+    {
+      "title"    : "docker与k8s的常用命令",
+      "category" : "常用命令",
+      
+      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-docker%E4%B8%8Ek8s%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/",
+      "keywords" : ""
+    } ,
+  
+    {
+      "title"    : "pgsql常用命令",
+      "category" : "常用命令",
+      
+      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-pgsql%E5%91%BD%E4%BB%A4/",
+      "keywords" : ""
+    } ,
+  
+    {
+      "title"    : "postman命令",
+      "category" : "常用命令",
+      
+      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-postman%E5%91%BD%E4%BB%A4/",
+      "keywords" : ""
+    } ,
+  
+    {
+      "title"    : "Linux sed命令",
+      "category" : "常用命令",
+      
+      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-sed%E5%91%BD%E4%BB%A4/",
+      "keywords" : ""
+    } ,
+  
+    {
+      "title"    : "Linux vim命令",
+      "category" : "常用命令",
+      
+      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-vim%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
     } 
   
