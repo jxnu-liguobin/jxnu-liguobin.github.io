@@ -5,7 +5,7 @@
   
     {
       "title"    : "页面没有找到",
-      "url"      : "https://jxnu-liguobin.github.io/404.html",
+      "url"      : "https://dreamylost.cn/404.html",
       "keywords" : "404"
     } ,
   
@@ -13,7 +13,7 @@
   
     {
       "title"    : "About",
-      "url"      : "https://jxnu-liguobin.github.io/about/",
+      "url"      : "https://dreamylost.cn/about/",
       "keywords" : "jxnu-liguobin, 梦境迷离"
     } ,
   
@@ -21,7 +21,7 @@
   
     {
       "title"    : "归档",
-      "url"      : "https://jxnu-liguobin.github.io/archives/",
+      "url"      : "https://dreamylost.cn/archives/",
       "keywords" : "归档"
     } ,
   
@@ -29,7 +29,7 @@
   
     {
       "title"    : "Categories",
-      "url"      : "https://jxnu-liguobin.github.io/categories/",
+      "url"      : "https://dreamylost.cn/categories/",
       "keywords" : "分类"
     } ,
   
@@ -39,7 +39,7 @@
   
     {
       "title"    : "Links",
-      "url"      : "https://jxnu-liguobin.github.io/links/",
+      "url"      : "https://dreamylost.cn/links/",
       "keywords" : "友情链接"
     } ,
   
@@ -47,7 +47,7 @@
   
     {
       "title"    : "mindmap",
-      "url"      : "https://jxnu-liguobin.github.io/mindmap-viewer/",
+      "url"      : "https://dreamylost.cn/mindmap-viewer/",
       "keywords" : "mindmap"
     } ,
   
@@ -55,7 +55,7 @@
   
     {
       "title"    : "Open Source Projects",
-      "url"      : "https://jxnu-liguobin.github.io/open-source/",
+      "url"      : "https://dreamylost.cn/open-source/",
       "keywords" : "开源,open-source,GitHub,开源项目"
     } ,
   
@@ -65,7 +65,7 @@
   
     {
       "title"    : "Wiki",
-      "url"      : "https://jxnu-liguobin.github.io/wiki/",
+      "url"      : "https://dreamylost.cn/wiki/",
       "keywords" : "维基, Wiki"
     } ,
   
@@ -108,7 +108,7 @@
       "title"    : "关于入门ssm的一些个人想法",
       "category" : "随笔",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-%E5%85%B3%E4%BA%8E%E5%85%A5%E9%97%A8ssm%E7%9A%84%E4%B8%80%E4%BA%9B%E4%B8%AA%E4%BA%BA%E6%83%B3%E6%B3%95.html",
+      "url"      : "https://dreamylost.cn/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-%E5%85%B3%E4%BA%8E%E5%85%A5%E9%97%A8ssm%E7%9A%84%E4%B8%80%E4%BA%9B%E4%B8%AA%E4%BA%BA%E6%83%B3%E6%B3%95.html",
       "keywords" : ""
     } ,
   
@@ -116,7 +116,7 @@
       "title"    : "Scala的Spring开发工具类",
       "category" : "Scala",
       
-      "url"      : "https://jxnu-liguobin.github.io/scala/Scala-Scala%E7%9A%84Spring%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E7%B1%BB.html",
+      "url"      : "https://dreamylost.cn/scala/Scala-Scala%E7%9A%84Spring%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E7%B1%BB.html",
       "keywords" : ""
     } ,
   
@@ -124,7 +124,7 @@
       "title"    : "杭州邦盛科技面试",
       "category" : "面试",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E6%9D%AD%E5%B7%9E%E9%82%A6%E7%9B%9B%E7%A7%91%E6%8A%80%E9%9D%A2%E8%AF%95.html",
+      "url"      : "https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E6%9D%AD%E5%B7%9E%E9%82%A6%E7%9B%9B%E7%A7%91%E6%8A%80%E9%9D%A2%E8%AF%95.html",
       "keywords" : ""
     } ,
   
@@ -132,7 +132,7 @@
       "title"    : "网易实习第一面",
       "category" : "面试",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%BD%91%E6%98%93%E5%AE%9E%E4%B9%A0%E7%AC%AC%E4%B8%80%E9%9D%A2.html",
+      "url"      : "https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%BD%91%E6%98%93%E5%AE%9E%E4%B9%A0%E7%AC%AC%E4%B8%80%E9%9D%A2.html",
       "keywords" : ""
     } ,
   
@@ -140,7 +140,7 @@
       "title"    : "网易实习第二面",
       "category" : "面试",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%BD%91%E6%98%93%E5%AE%9E%E4%B9%A0%E7%AC%AC%E4%BA%8C%E9%9D%A2.html",
+      "url"      : "https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%BD%91%E6%98%93%E5%AE%9E%E4%B9%A0%E7%AC%AC%E4%BA%8C%E9%9D%A2.html",
       "keywords" : ""
     } ,
   
@@ -148,7 +148,7 @@
       "title"    : "51信用卡实习面试一轮游",
       "category" : "面试",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-51%E4%BF%A1%E7%94%A8%E5%8D%A1%E5%AE%9E%E4%B9%A0%E9%9D%A2%E8%AF%95%E4%B8%80%E8%BD%AE%E6%B8%B8.html",
+      "url"      : "https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-51%E4%BF%A1%E7%94%A8%E5%8D%A1%E5%AE%9E%E4%B9%A0%E9%9D%A2%E8%AF%95%E4%B8%80%E8%BD%AE%E6%B8%B8.html",
       "keywords" : ""
     } ,
   
@@ -156,7 +156,7 @@
       "title"    : "网易实习第三面",
       "category" : "面试",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%BD%91%E6%98%93%E5%AE%9E%E4%B9%A0%E7%AC%AC%E4%B8%89%E9%9D%A2.html",
+      "url"      : "https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%BD%91%E6%98%93%E5%AE%9E%E4%B9%A0%E7%AC%AC%E4%B8%89%E9%9D%A2.html",
       "keywords" : ""
     } ,
   
@@ -164,7 +164,7 @@
       "title"    : "网易实习第五面",
       "category" : "面试",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%BD%91%E6%98%93%E5%AE%9E%E4%B9%A0%E7%AC%AC%E4%BA%94%E9%9D%A2.html",
+      "url"      : "https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%BD%91%E6%98%93%E5%AE%9E%E4%B9%A0%E7%AC%AC%E4%BA%94%E9%9D%A2.html",
       "keywords" : ""
     } ,
   
@@ -172,7 +172,7 @@
       "title"    : "亚信面试",
       "category" : "面试",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E4%BA%9A%E4%BF%A1%E9%9D%A2%E8%AF%95.html",
+      "url"      : "https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E4%BA%9A%E4%BF%A1%E9%9D%A2%E8%AF%95.html",
       "keywords" : ""
     } ,
   
@@ -180,7 +180,7 @@
       "title"    : "酷家乐海投实习第一面",
       "category" : "面试",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E9%85%B7%E5%AE%B6%E4%B9%90%E6%B5%B7%E6%8A%95%E5%AE%9E%E4%B9%A0%E7%AC%AC%E4%B8%80%E9%9D%A2.html",
+      "url"      : "https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E9%85%B7%E5%AE%B6%E4%B9%90%E6%B5%B7%E6%8A%95%E5%AE%9E%E4%B9%A0%E7%AC%AC%E4%B8%80%E9%9D%A2.html",
       "keywords" : ""
     } ,
   
@@ -188,7 +188,7 @@
       "title"    : "酷家乐海投实习第二面",
       "category" : "面试",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E9%85%B7%E5%AE%B6%E4%B9%90%E6%B5%B7%E6%8A%95%E5%AE%9E%E4%B9%A0%E7%AC%AC%E4%BA%8C%E9%9D%A2.html",
+      "url"      : "https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E9%85%B7%E5%AE%B6%E4%B9%90%E6%B5%B7%E6%8A%95%E5%AE%9E%E4%B9%A0%E7%AC%AC%E4%BA%8C%E9%9D%A2.html",
       "keywords" : ""
     } ,
   
@@ -196,7 +196,7 @@
       "title"    : "排序算法",
       "category" : "算法",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95.html",
+      "url"      : "https://dreamylost.cn/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95.html",
       "keywords" : ""
     } ,
   
@@ -204,7 +204,7 @@
       "title"    : "SSM面试题搬运",
       "category" : "面试",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-SSM%E9%9D%A2%E8%AF%95%E9%A2%98%E6%90%AC%E8%BF%90.html",
+      "url"      : "https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-SSM%E9%9D%A2%E8%AF%95%E9%A2%98%E6%90%AC%E8%BF%90.html",
       "keywords" : ""
     } ,
   
@@ -212,7 +212,7 @@
       "title"    : "ArrayList",
       "category" : "Java源码",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-ArrayList.html",
+      "url"      : "https://dreamylost.cn/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-ArrayList.html",
       "keywords" : ""
     } ,
   
@@ -220,7 +220,7 @@
       "title"    : "ConcurrentHashMap",
       "category" : "Java源码",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-ConcurrentHashMap.html",
+      "url"      : "https://dreamylost.cn/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-ConcurrentHashMap.html",
       "keywords" : ""
     } ,
   
@@ -228,7 +228,7 @@
       "title"    : "HashMap",
       "category" : "Java源码",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-HashMap.html",
+      "url"      : "https://dreamylost.cn/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-HashMap.html",
       "keywords" : ""
     } ,
   
@@ -236,7 +236,7 @@
       "title"    : "HashMap2",
       "category" : "Java源码",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-HashMap2.html",
+      "url"      : "https://dreamylost.cn/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-HashMap2.html",
       "keywords" : ""
     } ,
   
@@ -244,7 +244,7 @@
       "title"    : "Hashtable",
       "category" : "Java源码",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-Hashtable.html",
+      "url"      : "https://dreamylost.cn/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-Hashtable.html",
       "keywords" : ""
     } ,
   
@@ -252,7 +252,7 @@
       "title"    : "LinkedBlockingQueue",
       "category" : "Java源码",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-LinkedBlockingQueue.html",
+      "url"      : "https://dreamylost.cn/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-LinkedBlockingQueue.html",
       "keywords" : ""
     } ,
   
@@ -260,7 +260,7 @@
       "title"    : "LinkedList",
       "category" : "Java源码",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-LinkedList.html",
+      "url"      : "https://dreamylost.cn/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-LinkedList.html",
       "keywords" : ""
     } ,
   
@@ -268,7 +268,7 @@
       "title"    : "Object",
       "category" : "Java源码",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-Object.html",
+      "url"      : "https://dreamylost.cn/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-Object.html",
       "keywords" : ""
     } ,
   
@@ -276,7 +276,7 @@
       "title"    : "Runtime",
       "category" : "Java源码",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-Runtime.html",
+      "url"      : "https://dreamylost.cn/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-Runtime.html",
       "keywords" : ""
     } ,
   
@@ -284,7 +284,7 @@
       "title"    : "StampedLock",
       "category" : "Java源码",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-StampedLock.html",
+      "url"      : "https://dreamylost.cn/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-StampedLock.html",
       "keywords" : ""
     } ,
   
@@ -292,7 +292,7 @@
       "title"    : "ThreadLocal",
       "category" : "Java源码",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-ThreadLocal.html",
+      "url"      : "https://dreamylost.cn/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-ThreadLocal.html",
       "keywords" : ""
     } ,
   
@@ -300,7 +300,7 @@
       "title"    : "多线程基础知识总结",
       "category" : "并发",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80.html",
+      "url"      : "https://dreamylost.cn/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80.html",
       "keywords" : ""
     } ,
   
@@ -308,7 +308,7 @@
       "title"    : "找工作总结",
       "category" : "随笔",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93.html",
+      "url"      : "https://dreamylost.cn/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93.html",
       "keywords" : ""
     } ,
   
@@ -316,7 +316,7 @@
       "title"    : "内存划分",
       "category" : "Java虚拟机",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E5%86%85%E5%AD%98%E5%88%92%E5%88%86.md.html",
+      "url"      : "https://dreamylost.cn/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E5%86%85%E5%AD%98%E5%88%92%E5%88%86.md.html",
       "keywords" : ""
     } ,
   
@@ -324,7 +324,7 @@
       "title"    : "虚拟机相关使用测试代码",
       "category" : "Java虚拟机",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E5%85%B3%E4%BD%BF%E7%94%A8%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81.html",
+      "url"      : "https://dreamylost.cn/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E5%85%B3%E4%BD%BF%E7%94%A8%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81.html",
       "keywords" : ""
     } ,
   
@@ -332,7 +332,7 @@
       "title"    : "Option类型使用",
       "category" : "Scala",
       
-      "url"      : "https://jxnu-liguobin.github.io/scala/Scala-Option%E7%B1%BB%E5%9E%8B%E4%BD%BF%E7%94%A8.html",
+      "url"      : "https://dreamylost.cn/scala/Scala-Option%E7%B1%BB%E5%9E%8B%E4%BD%BF%E7%94%A8.html",
       "keywords" : ""
     } ,
   
@@ -340,7 +340,7 @@
       "title"    : "Scala的Future介绍",
       "category" : "Scala",
       
-      "url"      : "https://jxnu-liguobin.github.io/scala/Scala-Scala%E7%9A%84Future%E4%BB%8B%E7%BB%8D.html",
+      "url"      : "https://dreamylost.cn/scala/Scala-Scala%E7%9A%84Future%E4%BB%8B%E7%BB%8D.html",
       "keywords" : ""
     } ,
   
@@ -348,7 +348,7 @@
       "title"    : "ASM与CGLIB的简单使用",
       "category" : "其他",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-ASM%E4%B8%8ECGLIB%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8.html",
+      "url"      : "https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-ASM%E4%B8%8ECGLIB%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8.html",
       "keywords" : ""
     } ,
   
@@ -356,7 +356,7 @@
       "title"    : "剑指offer",
       "category" : "其他",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E5%89%91%E6%8C%87offer.html",
+      "url"      : "https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E5%89%91%E6%8C%87offer.html",
       "keywords" : ""
     } ,
   
@@ -364,7 +364,7 @@
       "title"    : "AQS与锁",
       "category" : "并发",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-AQS%E4%B8%8E%E9%94%81.html",
+      "url"      : "https://dreamylost.cn/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-AQS%E4%B8%8E%E9%94%81.html",
       "keywords" : ""
     } ,
   
@@ -372,7 +372,7 @@
       "title"    : "Java内存模型",
       "category" : "并发",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.html",
+      "url"      : "https://dreamylost.cn/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.html",
       "keywords" : ""
     } ,
   
@@ -380,7 +380,7 @@
       "title"    : "StampedLock的实现分析",
       "category" : "并发",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-StampedLock%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90.html",
+      "url"      : "https://dreamylost.cn/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-StampedLock%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90.html",
       "keywords" : ""
     } ,
   
@@ -388,7 +388,7 @@
       "title"    : "操作系统简单总结",
       "category" : "操作系统",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93.html",
+      "url"      : "https://dreamylost.cn/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93.html",
       "keywords" : ""
     } ,
   
@@ -396,7 +396,7 @@
       "title"    : "操作系统补充",
       "category" : "操作系统",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%A1%A5%E5%85%85.html",
+      "url"      : "https://dreamylost.cn/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%A1%A5%E5%85%85.html",
       "keywords" : ""
     } ,
   
@@ -404,7 +404,7 @@
       "title"    : "MySQL总结收集",
       "category" : "数据库",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL%E6%80%BB%E7%BB%93%E6%94%B6%E9%9B%86.html",
+      "url"      : "https://dreamylost.cn/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93-MySQL%E6%80%BB%E7%BB%93%E6%94%B6%E9%9B%86.html",
       "keywords" : ""
     } ,
   
@@ -412,7 +412,7 @@
       "title"    : "RabbitMQ总结收集",
       "category" : "消息队列",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97-RabbitMQ%E6%80%BB%E7%BB%93%E6%94%B6%E9%9B%86.html",
+      "url"      : "https://dreamylost.cn/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97-RabbitMQ%E6%80%BB%E7%BB%93%E6%94%B6%E9%9B%86.html",
       "keywords" : ""
     } ,
   
@@ -420,7 +420,7 @@
       "title"    : "网络协议等总结",
       "category" : "计算机网络",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E7%AD%89%E6%80%BB%E7%BB%93.html",
+      "url"      : "https://dreamylost.cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E7%AD%89%E6%80%BB%E7%BB%93.html",
       "keywords" : ""
     } ,
   
@@ -428,7 +428,7 @@
       "title"    : "Redis面试题简单总结",
       "category" : "面试",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-Redis%E9%9D%A2%E8%AF%95%E9%A2%98%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93.html",
+      "url"      : "https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-Redis%E9%9D%A2%E8%AF%95%E9%A2%98%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93.html",
       "keywords" : ""
     } ,
   
@@ -436,7 +436,7 @@
       "title"    : "GrowingIO面试",
       "category" : "面试",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-GrowingIO%E9%9D%A2%E8%AF%95.html",
+      "url"      : "https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-GrowingIO%E9%9D%A2%E8%AF%95.html",
       "keywords" : ""
     } ,
   
@@ -444,7 +444,7 @@
       "title"    : "Scala面试题总结",
       "category" : "面试",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-Scala%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93.html",
+      "url"      : "https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-Scala%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93.html",
       "keywords" : ""
     } ,
   
@@ -452,7 +452,7 @@
       "title"    : "个人推荐书籍",
       "category" : "其他",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E6%8E%A8%E8%8D%90%E4%B9%A6%E7%B1%8D.html",
+      "url"      : "https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E6%8E%A8%E8%8D%90%E4%B9%A6%E7%B1%8D.html",
       "keywords" : ""
     } ,
   
@@ -460,7 +460,7 @@
       "title"    : "变量初始化顺序",
       "category" : "Scala",
       
-      "url"      : "https://jxnu-liguobin.github.io/scala/Scala-%E5%8F%98%E9%87%8F%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%BA%E5%BA%8F.html",
+      "url"      : "https://dreamylost.cn/scala/Scala-%E5%8F%98%E9%87%8F%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%BA%E5%BA%8F.html",
       "keywords" : ""
     } ,
   
@@ -468,7 +468,7 @@
       "title"    : "Option的fold方法使用注意点",
       "category" : "Scala",
       
-      "url"      : "https://jxnu-liguobin.github.io/scala/Scala-Option%E7%9A%84fold%E6%96%B9%E6%B3%95%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E7%82%B9.html",
+      "url"      : "https://dreamylost.cn/scala/Scala-Option%E7%9A%84fold%E6%96%B9%E6%B3%95%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E7%82%B9.html",
       "keywords" : ""
     } ,
   
@@ -476,7 +476,7 @@
       "title"    : "Play中序列化操作",
       "category" : "Scala",
       
-      "url"      : "https://jxnu-liguobin.github.io/scala/Scala-Play%E4%B8%AD%E5%BA%8F%E5%88%97%E5%8C%96%E6%93%8D%E4%BD%9C.html",
+      "url"      : "https://dreamylost.cn/scala/Scala-Play%E4%B8%AD%E5%BA%8F%E5%88%97%E5%8C%96%E6%93%8D%E4%BD%9C.html",
       "keywords" : ""
     } ,
   
@@ -484,7 +484,7 @@
       "title"    : "三种定时器的使用",
       "category" : "其他",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E4%B8%89%E7%A7%8D%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8.html",
+      "url"      : "https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E4%B8%89%E7%A7%8D%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8.html",
       "keywords" : ""
     } ,
   
@@ -492,7 +492,7 @@
       "title"    : "Java集合转Scala集合与迭代器失效",
       "category" : "Scala",
       
-      "url"      : "https://jxnu-liguobin.github.io/scala/Scala-Java%E9%9B%86%E5%90%88%E8%BD%ACScala%E9%9B%86%E5%90%88%E6%B5%81%E7%A8%8B.html",
+      "url"      : "https://dreamylost.cn/scala/Scala-Java%E9%9B%86%E5%90%88%E8%BD%ACScala%E9%9B%86%E5%90%88%E6%B5%81%E7%A8%8B.html",
       "keywords" : ""
     } ,
   
@@ -500,7 +500,7 @@
       "title"    : "MongoDB副本集快速启动脚本",
       "category" : "其他",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-MongoDB%E5%89%AF%E6%9C%AC%E9%9B%86%E5%BF%AB%E6%8D%B7%E5%90%AF%E5%8A%A8.html",
+      "url"      : "https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-MongoDB%E5%89%AF%E6%9C%AC%E9%9B%86%E5%BF%AB%E6%8D%B7%E5%90%AF%E5%8A%A8.html",
       "keywords" : ""
     } ,
   
@@ -508,7 +508,7 @@
       "title"    : "LinkedHashMap",
       "category" : "Java源码",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-LinkedHashMap.html",
+      "url"      : "https://dreamylost.cn/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-LinkedHashMap.html",
       "keywords" : ""
     } ,
   
@@ -516,7 +516,7 @@
       "title"    : "SQL常用语句积累",
       "category" : "数据库",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93-SQL%E5%B8%B8%E7%94%A8%E8%AF%AD%E5%8F%A5%E7%A7%AF%E7%B4%AF.html",
+      "url"      : "https://dreamylost.cn/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93-SQL%E5%B8%B8%E7%94%A8%E8%AF%AD%E5%8F%A5%E7%A7%AF%E7%B4%AF.html",
       "keywords" : ""
     } ,
   
@@ -524,7 +524,7 @@
       "title"    : "Actor与Java内存模型",
       "category" : "AkkaActor",
       
-      "url"      : "https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Actor%E4%B8%8EJava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.html",
+      "url"      : "https://dreamylost.cn/akkaactor/AkkaActor-Actor%E4%B8%8EJava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.html",
       "keywords" : ""
     } ,
   
@@ -532,7 +532,7 @@
       "title"    : "Actor初级使用",
       "category" : "AkkaActor",
       
-      "url"      : "https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Actor%E5%88%9D%E7%BA%A7%E4%BD%BF%E7%94%A8.html",
+      "url"      : "https://dreamylost.cn/akkaactor/AkkaActor-Actor%E5%88%9D%E7%BA%A7%E4%BD%BF%E7%94%A8.html",
       "keywords" : ""
     } ,
   
@@ -540,7 +540,7 @@
       "title"    : "Actor的监督与监控",
       "category" : "AkkaActor",
       
-      "url"      : "https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Actor%E7%9A%84%E7%9B%91%E7%9D%A3%E4%B8%8E%E7%9B%91%E6%8E%A7.html",
+      "url"      : "https://dreamylost.cn/akkaactor/AkkaActor-Actor%E7%9A%84%E7%9B%91%E7%9D%A3%E4%B8%8E%E7%9B%91%E6%8E%A7.html",
       "keywords" : ""
     } ,
   
@@ -548,7 +548,7 @@
       "title"    : "Actor消息传递的可靠性",
       "category" : "AkkaActor",
       
-      "url"      : "https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Actor%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7.html",
+      "url"      : "https://dreamylost.cn/akkaactor/AkkaActor-Actor%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7.html",
       "keywords" : ""
     } ,
   
@@ -556,7 +556,7 @@
       "title"    : "Actor的位置透明性说明",
       "category" : "AkkaActor",
       
-      "url"      : "https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Actor%E7%9A%84%E4%BD%8D%E7%BD%AE%E9%80%8F%E6%98%8E%E6%80%A7%E8%AF%B4%E6%98%8E.html",
+      "url"      : "https://dreamylost.cn/akkaactor/AkkaActor-Actor%E7%9A%84%E4%BD%8D%E7%BD%AE%E9%80%8F%E6%98%8E%E6%80%A7%E8%AF%B4%E6%98%8E.html",
       "keywords" : ""
     } ,
   
@@ -564,7 +564,7 @@
       "title"    : "Actor的引用、路径和地址",
       "category" : "AkkaActor",
       
-      "url"      : "https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Actor%E7%9A%84%E5%BC%95%E7%94%A8-%E8%B7%AF%E5%BE%84%E5%92%8C%E5%9C%B0%E5%9D%80.html",
+      "url"      : "https://dreamylost.cn/akkaactor/AkkaActor-Actor%E7%9A%84%E5%BC%95%E7%94%A8-%E8%B7%AF%E5%BE%84%E5%92%8C%E5%9C%B0%E5%9D%80.html",
       "keywords" : ""
     } ,
   
@@ -572,7 +572,7 @@
       "title"    : "Actor的容错处理",
       "category" : "AkkaActor",
       
-      "url"      : "https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Actor%E7%9A%84%E5%AE%B9%E9%94%99%E5%A4%84%E7%90%86.html",
+      "url"      : "https://dreamylost.cn/akkaactor/AkkaActor-Actor%E7%9A%84%E5%AE%B9%E9%94%99%E5%A4%84%E7%90%86.html",
       "keywords" : ""
     } ,
   
@@ -580,7 +580,7 @@
       "title"    : "Actor的调度器",
       "category" : "AkkaActor",
       
-      "url"      : "https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Actor%E7%9A%84%E8%B0%83%E5%BA%A6%E5%99%A8.html",
+      "url"      : "https://dreamylost.cn/akkaactor/AkkaActor-Actor%E7%9A%84%E8%B0%83%E5%BA%A6%E5%99%A8.html",
       "keywords" : ""
     } ,
   
@@ -588,7 +588,7 @@
       "title"    : "Actor的信箱与使用",
       "category" : "AkkaActor",
       
-      "url"      : "https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Actor%E7%9A%84%E4%BF%A1%E7%AE%B1%E4%B8%8E%E4%BD%BF%E7%94%A8.html",
+      "url"      : "https://dreamylost.cn/akkaactor/AkkaActor-Actor%E7%9A%84%E4%BF%A1%E7%AE%B1%E4%B8%8E%E4%BD%BF%E7%94%A8.html",
       "keywords" : ""
     } ,
   
@@ -596,7 +596,7 @@
       "title"    : "Actor的路由配置与使用",
       "category" : "AkkaActor",
       
-      "url"      : "https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Actor%E7%9A%84%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%BD%BF%E7%94%A8.html",
+      "url"      : "https://dreamylost.cn/akkaactor/AkkaActor-Actor%E7%9A%84%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%BD%BF%E7%94%A8.html",
       "keywords" : ""
     } ,
   
@@ -604,7 +604,7 @@
       "title"    : "Actor学习总结篇",
       "category" : "AkkaActor",
       
-      "url"      : "https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Actor%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%E7%AF%87.html",
+      "url"      : "https://dreamylost.cn/akkaactor/AkkaActor-Actor%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%E7%AF%87.html",
       "keywords" : ""
     } ,
   
@@ -612,7 +612,7 @@
       "title"    : "SSL与TLS概述",
       "category" : "其他",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-SSL%E4%B8%8ETLS%E6%A6%82%E8%BF%B0.html",
+      "url"      : "https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-SSL%E4%B8%8ETLS%E6%A6%82%E8%BF%B0.html",
       "keywords" : ""
     } ,
   
@@ -620,7 +620,7 @@
       "title"    : "HTTP核心服务端API",
       "category" : "AkkaHTTP",
       
-      "url"      : "https://jxnu-liguobin.github.io/akkahttp/AkkaHTTP-HTTP%E6%A0%B8%E5%BF%83%E6%9C%8D%E5%8A%A1%E5%99%A8API.html",
+      "url"      : "https://dreamylost.cn/akkahttp/AkkaHTTP-HTTP%E6%A0%B8%E5%BF%83%E6%9C%8D%E5%8A%A1%E5%99%A8API.html",
       "keywords" : ""
     } ,
   
@@ -628,7 +628,7 @@
       "title"    : "自动化完成本地服务到ci上k8s环境服务的请求转发",
       "category" : "其他",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E6%9C%AC%E5%9C%B0%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84%E5%88%B0k8s.html",
+      "url"      : "https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E6%9C%AC%E5%9C%B0%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84%E5%88%B0k8s.html",
       "keywords" : ""
     } ,
   
@@ -636,7 +636,7 @@
       "title"    : "Rust学习之所有权",
       "category" : "Rust",
       
-      "url"      : "https://jxnu-liguobin.github.io/rust/Rust-%E6%89%80%E6%9C%89%E6%9D%83.html",
+      "url"      : "https://dreamylost.cn/rust/Rust-%E6%89%80%E6%9C%89%E6%9D%83.html",
       "keywords" : ""
     } ,
   
@@ -644,7 +644,7 @@
       "title"    : "Rust学习之引用和借用",
       "category" : "Rust",
       
-      "url"      : "https://jxnu-liguobin.github.io/rust/Rust-Rust%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%95%E7%94%A8%E4%B8%8E%E5%80%9F%E7%94%A8.html",
+      "url"      : "https://dreamylost.cn/rust/Rust-Rust%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%95%E7%94%A8%E4%B8%8E%E5%80%9F%E7%94%A8.html",
       "keywords" : ""
     } ,
   
@@ -652,7 +652,7 @@
       "title"    : "Rust学习之切片类型",
       "category" : "Rust",
       
-      "url"      : "https://jxnu-liguobin.github.io/rust/Rust-%E5%88%87%E7%89%87.html",
+      "url"      : "https://dreamylost.cn/rust/Rust-%E5%88%87%E7%89%87.html",
       "keywords" : ""
     } ,
   
@@ -660,7 +660,7 @@
       "title"    : "Akka中的定时器",
       "category" : "AkkaActor",
       
-      "url"      : "https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Akka%E4%B8%AD%E7%9A%84%E5%AE%9A%E6%97%B6%E5%99%A8.html",
+      "url"      : "https://dreamylost.cn/akkaactor/AkkaActor-Akka%E4%B8%AD%E7%9A%84%E5%AE%9A%E6%97%B6%E5%99%A8.html",
       "keywords" : ""
     } ,
   
@@ -668,7 +668,7 @@
       "title"    : "LightArrayRevolverScheduler",
       "category" : "Akka源码",
       
-      "url"      : "https://jxnu-liguobin.github.io/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-LightArrayRevolverScheduler.html",
+      "url"      : "https://dreamylost.cn/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-LightArrayRevolverScheduler.html",
       "keywords" : ""
     } ,
   
@@ -676,7 +676,7 @@
       "title"    : "ActorSystem",
       "category" : "Akka源码",
       
-      "url"      : "https://jxnu-liguobin.github.io/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-ActorSystem.html",
+      "url"      : "https://dreamylost.cn/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-ActorSystem.html",
       "keywords" : ""
     } ,
   
@@ -684,7 +684,7 @@
       "title"    : "CircuitBreaker",
       "category" : "Akka源码",
       
-      "url"      : "https://jxnu-liguobin.github.io/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-CircuitBreaker.html",
+      "url"      : "https://dreamylost.cn/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-CircuitBreaker.html",
       "keywords" : ""
     } ,
   
@@ -692,7 +692,7 @@
       "title"    : "Seq",
       "category" : "Scala",
       
-      "url"      : "https://jxnu-liguobin.github.io/scala/Scala-Seq.html",
+      "url"      : "https://dreamylost.cn/scala/Scala-Seq.html",
       "keywords" : ""
     } ,
   
@@ -700,7 +700,7 @@
       "title"    : "Symbol",
       "category" : "Scala",
       
-      "url"      : "https://jxnu-liguobin.github.io/scala/Scala-Symbol.html",
+      "url"      : "https://dreamylost.cn/scala/Scala-Symbol.html",
       "keywords" : ""
     } ,
   
@@ -708,7 +708,7 @@
       "title"    : "Instrumentation",
       "category" : "GraphqlJava",
       
-      "url"      : "https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-Instrumentation.html",
+      "url"      : "https://dreamylost.cn/graphqljava/GraphqlJava-Instrumentation.html",
       "keywords" : ""
     } ,
   
@@ -716,7 +716,7 @@
       "title"    : "Data fetching",
       "category" : "GraphqlJava",
       
-      "url"      : "https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-DataFetcher.html",
+      "url"      : "https://dreamylost.cn/graphqljava/GraphqlJava-DataFetcher.html",
       "keywords" : ""
     } ,
   
@@ -724,7 +724,7 @@
       "title"    : "Execution",
       "category" : "GraphqlJava",
       
-      "url"      : "https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-Execution.html",
+      "url"      : "https://dreamylost.cn/graphqljava/GraphqlJava-Execution.html",
       "keywords" : ""
     } ,
   
@@ -732,7 +732,7 @@
       "title"    : "Schema",
       "category" : "GraphqlJava",
       
-      "url"      : "https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-Schema.html",
+      "url"      : "https://dreamylost.cn/graphqljava/GraphqlJava-Schema.html",
       "keywords" : ""
     } ,
   
@@ -740,7 +740,7 @@
       "title"    : "Data mapping",
       "category" : "GraphqlJava",
       
-      "url"      : "https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-DataMapping.html",
+      "url"      : "https://dreamylost.cn/graphqljava/GraphqlJava-DataMapping.html",
       "keywords" : ""
     } ,
   
@@ -748,7 +748,7 @@
       "title"    : "Scalars",
       "category" : "GraphqlJava",
       
-      "url"      : "https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-Scalars.html",
+      "url"      : "https://dreamylost.cn/graphqljava/GraphqlJava-Scalars.html",
       "keywords" : ""
     } ,
   
@@ -756,7 +756,7 @@
       "title"    : "Exceptions",
       "category" : "GraphqlJava",
       
-      "url"      : "https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-Exceptions.html",
+      "url"      : "https://dreamylost.cn/graphqljava/GraphqlJava-Exceptions.html",
       "keywords" : ""
     } ,
   
@@ -764,7 +764,7 @@
       "title"    : "SDL Directives",
       "category" : "GraphqlJava",
       
-      "url"      : "https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-SDLDirectives.html",
+      "url"      : "https://dreamylost.cn/graphqljava/GraphqlJava-SDLDirectives.html",
       "keywords" : ""
     } ,
   
@@ -772,7 +772,7 @@
       "title"    : "Defer",
       "category" : "GraphqlJava",
       
-      "url"      : "https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-Defer.html",
+      "url"      : "https://dreamylost.cn/graphqljava/GraphqlJava-Defer.html",
       "keywords" : ""
     } ,
   
@@ -780,7 +780,7 @@
       "title"    : "Scala中Seq的排序实现",
       "category" : "算法",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95-Scala%E4%B8%ADSeq%E7%9A%84%E6%8E%92%E5%BA%8F%E5%AE%9E%E7%8E%B0.html",
+      "url"      : "https://dreamylost.cn/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95-Scala%E4%B8%ADSeq%E7%9A%84%E6%8E%92%E5%BA%8F%E5%AE%9E%E7%8E%B0.html",
       "keywords" : ""
     } ,
   
@@ -788,7 +788,7 @@
       "title"    : "shapeless指南",
       "category" : "Scala",
       
-      "url"      : "https://jxnu-liguobin.github.io/scala/Scala-shapeless%E6%8C%87%E5%8D%97.html",
+      "url"      : "https://dreamylost.cn/scala/Scala-shapeless%E6%8C%87%E5%8D%97.html",
       "keywords" : ""
     } ,
   
@@ -796,7 +796,7 @@
       "title"    : "应届入职一年总结",
       "category" : "随笔",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-%E5%BA%94%E5%B1%8A%E5%85%A5%E8%81%8C%E4%B8%80%E5%B9%B4%E6%80%BB%E7%BB%93.html",
+      "url"      : "https://dreamylost.cn/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-%E5%BA%94%E5%B1%8A%E5%85%A5%E8%81%8C%E4%B8%80%E5%B9%B4%E6%80%BB%E7%BB%93.html",
       "keywords" : ""
     } ,
   
@@ -804,7 +804,7 @@
       "title"    : "RPC相关问题",
       "category" : "面试",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-RPC%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98.html",
+      "url"      : "https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-RPC%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98.html",
       "keywords" : ""
     } ,
   
@@ -812,7 +812,7 @@
       "title"    : "macro介绍",
       "category" : "Scala",
       
-      "url"      : "https://jxnu-liguobin.github.io/scala/Scala-marco%E4%BB%8B%E7%BB%8D.html",
+      "url"      : "https://dreamylost.cn/scala/Scala-marco%E4%BB%8B%E7%BB%8D.html",
       "keywords" : ""
     } ,
   
@@ -820,7 +820,7 @@
       "title"    : "Scala的类型系统和泛型",
       "category" : "Scala",
       
-      "url"      : "https://jxnu-liguobin.github.io/scala/Scala-Scala%E7%9A%84%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%E5%92%8C%E6%B3%9B%E5%9E%8B.html",
+      "url"      : "https://dreamylost.cn/scala/Scala-Scala%E7%9A%84%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%E5%92%8C%E6%B3%9B%E5%9E%8B.html",
       "keywords" : ""
     } ,
   
@@ -828,7 +828,7 @@
       "title"    : "什么是泛型编程",
       "category" : "Shapeless",
       
-      "url"      : "https://jxnu-liguobin.github.io/shapeless/Shapeless-%E4%BB%80%E4%B9%88%E6%98%AF%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B.html",
+      "url"      : "https://dreamylost.cn/shapeless/Shapeless-%E4%BB%80%E4%B9%88%E6%98%AF%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B.html",
       "keywords" : ""
     } ,
   
@@ -836,7 +836,7 @@
       "title"    : "代数数据类型和泛型表示",
       "category" : "Shapeless",
       
-      "url"      : "https://jxnu-liguobin.github.io/shapeless/Shapeless-%E4%BB%A3%E6%95%B0%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E6%B3%9B%E5%9E%8B%E8%A1%A8%E7%A4%BA.html",
+      "url"      : "https://dreamylost.cn/shapeless/Shapeless-%E4%BB%A3%E6%95%B0%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E6%B3%9B%E5%9E%8B%E8%A1%A8%E7%A4%BA.html",
       "keywords" : ""
     } ,
   
@@ -844,7 +844,7 @@
       "title"    : "自动派生类型类实例",
       "category" : "Shapeless",
       
-      "url"      : "https://jxnu-liguobin.github.io/shapeless/Shapeless-%E8%87%AA%E5%8A%A8%E6%B4%BE%E7%94%9F%E7%B1%BB%E5%9E%8B%E7%B1%BB%E5%AE%9E%E4%BE%8B.html",
+      "url"      : "https://dreamylost.cn/shapeless/Shapeless-%E8%87%AA%E5%8A%A8%E6%B4%BE%E7%94%9F%E7%B1%BB%E5%9E%8B%E7%B1%BB%E5%AE%9E%E4%BE%8B.html",
       "keywords" : ""
     } ,
   
@@ -852,7 +852,7 @@
       "title"    : "处理类型和隐式值",
       "category" : "Shapeless",
       
-      "url"      : "https://jxnu-liguobin.github.io/shapeless/Shapeless-%E5%A4%84%E7%90%86%E7%B1%BB%E5%9E%8B%E5%92%8C%E9%9A%90%E5%BC%8F%E5%80%BC.html",
+      "url"      : "https://dreamylost.cn/shapeless/Shapeless-%E5%A4%84%E7%90%86%E7%B1%BB%E5%9E%8B%E5%92%8C%E9%9A%90%E5%BC%8F%E5%80%BC.html",
       "keywords" : ""
     } ,
   
@@ -860,7 +860,7 @@
       "title"    : "在隐式派生过程中访问名称",
       "category" : "Shapeless",
       
-      "url"      : "https://jxnu-liguobin.github.io/shapeless/Shapeless-%E5%9C%A8%E9%9A%90%E5%BC%8F%E6%B4%BE%E7%94%9F%E8%BF%87%E7%A8%8B%E4%B8%AD%E8%AE%BF%E9%97%AE%E5%90%8D%E7%A7%B0.html",
+      "url"      : "https://dreamylost.cn/shapeless/Shapeless-%E5%9C%A8%E9%9A%90%E5%BC%8F%E6%B4%BE%E7%94%9F%E8%BF%87%E7%A8%8B%E4%B8%AD%E8%AE%BF%E9%97%AE%E5%90%8D%E7%A7%B0.html",
       "keywords" : ""
     } ,
   
@@ -868,7 +868,7 @@
       "title"    : "Scala的implicit和implicitly",
       "category" : "Scala",
       
-      "url"      : "https://jxnu-liguobin.github.io/scala/Scala-Scala%E7%9A%84implicit%E5%92%8Cimplicitly.html",
+      "url"      : "https://dreamylost.cn/scala/Scala-Scala%E7%9A%84implicit%E5%92%8Cimplicitly.html",
       "keywords" : ""
     } ,
   
@@ -876,7 +876,7 @@
       "title"    : "对HList和Coproduct进行操作",
       "category" : "Shapeless",
       
-      "url"      : "https://jxnu-liguobin.github.io/shapeless/Shapeless-%E5%AF%B9HList%E5%92%8CCoproduct%E8%BF%9B%E8%A1%8C%E6%93%8D%E4%BD%9C.html",
+      "url"      : "https://dreamylost.cn/shapeless/Shapeless-%E5%AF%B9HList%E5%92%8CCoproduct%E8%BF%9B%E8%A1%8C%E6%93%8D%E4%BD%9C.html",
       "keywords" : ""
     } ,
   
@@ -884,7 +884,7 @@
       "title"    : "对HList进行函数化操作",
       "category" : "Shapeless",
       
-      "url"      : "https://jxnu-liguobin.github.io/shapeless/Shapeless-%E5%AF%B9HList%E8%BF%9B%E8%A1%8C%E5%87%BD%E6%95%B0%E5%8C%96%E6%93%8D%E4%BD%9C.html",
+      "url"      : "https://dreamylost.cn/shapeless/Shapeless-%E5%AF%B9HList%E8%BF%9B%E8%A1%8C%E5%87%BD%E6%95%B0%E5%8C%96%E6%93%8D%E4%BD%9C.html",
       "keywords" : ""
     } ,
   
@@ -892,7 +892,7 @@
       "title"    : "类型计数",
       "category" : "Shapeless",
       
-      "url"      : "https://jxnu-liguobin.github.io/shapeless/Shapeless-%E7%B1%BB%E5%9E%8B%E8%AE%A1%E6%95%B0.html",
+      "url"      : "https://dreamylost.cn/shapeless/Shapeless-%E7%B1%BB%E5%9E%8B%E8%AE%A1%E6%95%B0.html",
       "keywords" : ""
     } ,
   
@@ -900,7 +900,7 @@
       "title"    : "动态代理与反射在Graphql客户端的应用",
       "category" : "GraphqlJava",
       
-      "url"      : "https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84%E5%9C%A8Graphql%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84%E5%BA%94%E7%94%A8.html",
+      "url"      : "https://dreamylost.cn/graphqljava/GraphqlJava-%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84%E5%9C%A8Graphql%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84%E5%BA%94%E7%94%A8.html",
       "keywords" : ""
     } ,
   
@@ -908,7 +908,7 @@
       "title"    : "javap和ASM",
       "category" : "其他",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-javap%E5%92%8CASM.html",
+      "url"      : "https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-javap%E5%92%8CASM.html",
       "keywords" : ""
     } ,
   
@@ -916,7 +916,7 @@
       "title"    : "Volatile",
       "category" : "并发",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-Volatile.html",
+      "url"      : "https://dreamylost.cn/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-Volatile.html",
       "keywords" : ""
     } ,
   
@@ -924,7 +924,7 @@
       "title"    : "线程池",
       "category" : "并发",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-%E7%BA%BF%E7%A8%8B%E6%B1%A0.html",
+      "url"      : "https://dreamylost.cn/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-%E7%BA%BF%E7%A8%8B%E6%B1%A0.html",
       "keywords" : ""
     } ,
   
@@ -932,7 +932,7 @@
       "title"    : "Java内存模型2",
       "category" : "Java虚拟机",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B2.html",
+      "url"      : "https://dreamylost.cn/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B2.html",
       "keywords" : ""
     } ,
   
@@ -940,7 +940,7 @@
       "title"    : "Java对象的内存布局",
       "category" : "Java虚拟机",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80.html",
+      "url"      : "https://dreamylost.cn/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-Java%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80.html",
       "keywords" : ""
     } ,
   
@@ -948,7 +948,7 @@
       "title"    : "DVM和JVM有什么区别",
       "category" : "Java虚拟机",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-DVM%E5%92%8CJVM%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB.html",
+      "url"      : "https://dreamylost.cn/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-DVM%E5%92%8CJVM%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB.html",
       "keywords" : ""
     } ,
   
@@ -956,7 +956,7 @@
       "title"    : "JVM中的方法内联",
       "category" : "Java虚拟机",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-JVM%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95%E5%86%85%E8%81%94.html",
+      "url"      : "https://dreamylost.cn/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-JVM%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95%E5%86%85%E8%81%94.html",
       "keywords" : ""
     } ,
   
@@ -964,7 +964,7 @@
       "title"    : "ZGC简介",
       "category" : "Java虚拟机",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-ZGC%E7%AE%80%E4%BB%8B.html",
+      "url"      : "https://dreamylost.cn/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-ZGC%E7%AE%80%E4%BB%8B.html",
       "keywords" : ""
     } ,
   
@@ -972,7 +972,7 @@
       "title"    : "最重要的JVM参数指南",
       "category" : "Java虚拟机",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84JVM%E5%8F%82%E6%95%B0%E6%8C%87%E5%8D%97.html",
+      "url"      : "https://dreamylost.cn/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84JVM%E5%8F%82%E6%95%B0%E6%8C%87%E5%8D%97.html",
       "keywords" : ""
     } ,
   
@@ -980,7 +980,7 @@
       "title"    : "Scala所有集合对比",
       "category" : "Scala",
       
-      "url"      : "https://jxnu-liguobin.github.io/scala/Scala-Scala%E6%89%80%E6%9C%89%E9%9B%86%E5%90%88%E5%AF%B9%E6%AF%94.html",
+      "url"      : "https://dreamylost.cn/scala/Scala-Scala%E6%89%80%E6%9C%89%E9%9B%86%E5%90%88%E5%AF%B9%E6%AF%94.html",
       "keywords" : ""
     } ,
   
@@ -988,7 +988,7 @@
       "title"    : "Java中的永久代与元空间",
       "category" : "Java虚拟机",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-Java%E4%B8%AD%E7%9A%84%E6%B0%B8%E4%B9%85%E4%BB%A3%E4%B8%8E%E5%85%83%E7%A9%BA%E9%97%B4.html",
+      "url"      : "https://dreamylost.cn/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-Java%E4%B8%AD%E7%9A%84%E6%B0%B8%E4%B9%85%E4%BB%A3%E4%B8%8E%E5%85%83%E7%A9%BA%E9%97%B4.html",
       "keywords" : ""
     } ,
   
@@ -996,7 +996,7 @@
       "title"    : "Java垃圾收集中如何使用Verbose",
       "category" : "Java虚拟机",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-Java%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Verbose.html",
+      "url"      : "https://dreamylost.cn/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-Java%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Verbose.html",
       "keywords" : ""
     } ,
   
@@ -1004,7 +1004,7 @@
       "title"    : "ReentrantReadWriteLock",
       "category" : "并发",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-ReentrantReadWriteLock.html",
+      "url"      : "https://dreamylost.cn/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-ReentrantReadWriteLock.html",
       "keywords" : ""
     } ,
   
@@ -1012,7 +1012,7 @@
       "title"    : "常见的垃圾收集器",
       "category" : "Java虚拟机",
       
-      "url"      : "https://jxnu-liguobin.github.io/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E5%B8%B8%E8%A7%81%E7%9A%84%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8.html",
+      "url"      : "https://dreamylost.cn/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E5%B8%B8%E8%A7%81%E7%9A%84%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8.html",
       "keywords" : ""
     } ,
   
@@ -1020,7 +1020,7 @@
       "title"    : "Consul和Raft介绍",
       "category" : "其他",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-Consul%E5%92%8CRaft%E4%BB%8B%E7%BB%8D.html",
+      "url"      : "https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-Consul%E5%92%8CRaft%E4%BB%8B%E7%BB%8D.html",
       "keywords" : ""
     } ,
   
@@ -1028,7 +1028,7 @@
       "title"    : "Consul领导选举",
       "category" : "其他",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-Consul%E9%A2%86%E5%AF%BC%E9%80%89%E4%B8%BE.html",
+      "url"      : "https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-Consul%E9%A2%86%E5%AF%BC%E9%80%89%E4%B8%BE.html",
       "keywords" : ""
     } ,
   
@@ -1036,7 +1036,7 @@
       "title"    : "ProtocolBuffer的原理",
       "category" : "其他",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-ProtocolBuffer%E7%9A%84%E5%8E%9F%E7%90%86.html",
+      "url"      : "https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-ProtocolBuffer%E7%9A%84%E5%8E%9F%E7%90%86.html",
       "keywords" : ""
     } ,
   
@@ -1044,7 +1044,7 @@
       "title"    : "并发中的ABA问题",
       "category" : "并发",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-%E5%B9%B6%E5%8F%91%E4%B8%AD%E7%9A%84ABA%E9%97%AE%E9%A2%98.html",
+      "url"      : "https://dreamylost.cn/%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91-%E5%B9%B6%E5%8F%91%E4%B8%AD%E7%9A%84ABA%E9%97%AE%E9%A2%98.html",
       "keywords" : ""
     } ,
   
@@ -1052,7 +1052,7 @@
       "title"    : "sql优化记录",
       "category" : "随笔",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-SQL%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95.html",
+      "url"      : "https://dreamylost.cn/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-SQL%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95.html",
       "keywords" : ""
     } ,
   
@@ -1060,7 +1060,7 @@
       "title"    : "快速动态切换JDK版本",
       "category" : "随笔",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-%E5%BF%AB%E9%80%9F%E5%8A%A8%E6%80%81%E5%88%87%E6%8D%A2JDK%E7%89%88%E6%9C%AC.html",
+      "url"      : "https://dreamylost.cn/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-%E5%BF%AB%E9%80%9F%E5%8A%A8%E6%80%81%E5%88%87%E6%8D%A2JDK%E7%89%88%E6%9C%AC.html",
       "keywords" : ""
     } ,
   
@@ -1068,7 +1068,7 @@
       "title"    : "Redis集群方式优缺点",
       "category" : "Redis",
       
-      "url"      : "https://jxnu-liguobin.github.io/redis/Redis-Redis%E9%9B%86%E7%BE%A4%E6%96%B9%E5%BC%8F%E4%BC%98%E7%BC%BA%E7%82%B9.html",
+      "url"      : "https://dreamylost.cn/redis/Redis-Redis%E9%9B%86%E7%BE%A4%E6%96%B9%E5%BC%8F%E4%BC%98%E7%BC%BA%E7%82%B9.html",
       "keywords" : ""
     } ,
   
@@ -1076,7 +1076,7 @@
       "title"    : "Redis设计与实现笔记_1",
       "category" : "Redis",
       
-      "url"      : "https://jxnu-liguobin.github.io/redis/Redis-Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E7%AC%94%E8%AE%B0_1.html",
+      "url"      : "https://dreamylost.cn/redis/Redis-Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E7%AC%94%E8%AE%B0_1.html",
       "keywords" : ""
     } ,
   
@@ -1084,7 +1084,7 @@
       "title"    : "SQL优化事项",
       "category" : "数据库",
       
-      "url"      : "https://jxnu-liguobin.github.io/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93-SQL%E4%BC%98%E5%8C%96%E4%BA%8B%E9%A1%B9.html",
+      "url"      : "https://dreamylost.cn/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93-SQL%E4%BC%98%E5%8C%96%E4%BA%8B%E9%A1%B9.html",
       "keywords" : ""
     } ,
   
@@ -1092,7 +1092,7 @@
       "title"    : "Redis设计与实现笔记_2",
       "category" : "Redis",
       
-      "url"      : "https://jxnu-liguobin.github.io/redis/Redis-Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E7%AC%94%E8%AE%B0_2.html",
+      "url"      : "https://dreamylost.cn/redis/Redis-Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E7%AC%94%E8%AE%B0_2.html",
       "keywords" : ""
     } ,
   
@@ -1100,7 +1100,7 @@
       "title"    : "Git相关命令",
       "category" : "常用命令",
       
-      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-Git%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/",
+      "url"      : "https://dreamylost.cn/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-Git%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
     } ,
   
@@ -1108,7 +1108,7 @@
       "title"    : "Linux命令",
       "category" : "常用命令",
       
-      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-Linux%E5%91%BD%E4%BB%A4/",
+      "url"      : "https://dreamylost.cn/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-Linux%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
     } ,
   
@@ -1116,7 +1116,7 @@
       "title"    : "adb命令",
       "category" : "常用命令",
       
-      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-adb%E5%91%BD%E4%BB%A4/",
+      "url"      : "https://dreamylost.cn/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-adb%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
     } ,
   
@@ -1124,7 +1124,7 @@
       "title"    : "docker与k8s的常用命令",
       "category" : "常用命令",
       
-      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-docker%E4%B8%8Ek8s%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/",
+      "url"      : "https://dreamylost.cn/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-docker%E4%B8%8Ek8s%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
     } ,
   
@@ -1132,7 +1132,7 @@
       "title"    : "pgsql常用命令",
       "category" : "常用命令",
       
-      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-pgsql%E5%91%BD%E4%BB%A4/",
+      "url"      : "https://dreamylost.cn/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-pgsql%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
     } ,
   
@@ -1140,7 +1140,7 @@
       "title"    : "postman命令",
       "category" : "常用命令",
       
-      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-postman%E5%91%BD%E4%BB%A4/",
+      "url"      : "https://dreamylost.cn/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-postman%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
     } ,
   
@@ -1148,7 +1148,7 @@
       "title"    : "Linux sed命令",
       "category" : "常用命令",
       
-      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-sed%E5%91%BD%E4%BB%A4/",
+      "url"      : "https://dreamylost.cn/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-sed%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
     } ,
   
@@ -1156,7 +1156,7 @@
       "title"    : "Linux vim命令",
       "category" : "常用命令",
       
-      "url"      : "https://jxnu-liguobin.github.io/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-vim%E5%91%BD%E4%BB%A4/",
+      "url"      : "https://dreamylost.cn/wiki/2018-11-11-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-vim%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
     } 
   
