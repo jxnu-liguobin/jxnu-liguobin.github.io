@@ -1098,7 +1098,7 @@
   
     {
       "title"    : "Git相关命令",
-      "category" : "常用命令",
+      "category" : "其他",
       
       "url"      : "https://dreamylost.cn/wiki/Git%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
@@ -1106,7 +1106,7 @@
   
     {
       "title"    : "Linux命令",
-      "category" : "常用命令",
+      "category" : "其他",
       
       "url"      : "https://dreamylost.cn/wiki/Linux%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
@@ -1114,7 +1114,7 @@
   
     {
       "title"    : "adb命令",
-      "category" : "常用命令",
+      "category" : "其他",
       
       "url"      : "https://dreamylost.cn/wiki/adb%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
@@ -1122,7 +1122,7 @@
   
     {
       "title"    : "docker与k8s的常用命令",
-      "category" : "常用命令",
+      "category" : "其他",
       
       "url"      : "https://dreamylost.cn/wiki/docker%E4%B8%8Ek8s%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
@@ -1130,7 +1130,7 @@
   
     {
       "title"    : "pgsql常用命令",
-      "category" : "常用命令",
+      "category" : "其他",
       
       "url"      : "https://dreamylost.cn/wiki/pgsql%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
@@ -1138,7 +1138,7 @@
   
     {
       "title"    : "postman命令",
-      "category" : "常用命令",
+      "category" : "其他",
       
       "url"      : "https://dreamylost.cn/wiki/postman%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
@@ -1146,7 +1146,7 @@
   
     {
       "title"    : "Linux sed命令",
-      "category" : "常用命令",
+      "category" : "其他",
       
       "url"      : "https://dreamylost.cn/wiki/sed%E5%91%BD%E4%BB%A4/",
       "keywords" : ""
@@ -1154,7 +1154,7 @@
   
     {
       "title"    : "Linux vim命令",
-      "category" : "常用命令",
+      "category" : "其他",
       
       "url"      : "https://dreamylost.cn/wiki/vim%E5%91%BD%E4%BB%A4/",
       "keywords" : ""

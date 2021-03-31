@@ -1,211 +1,47 @@
-<ul id="markdown-toc">
-  <li><a href="#说明" id="markdown-toc-说明">说明</a></li>
-  <li><a href="#docker命令" id="markdown-toc-docker命令">Docker命令</a>    <ul>
-      <li><a href="#镜像相关命令" id="markdown-toc-镜像相关命令">镜像相关命令</a></li>
-      <li><a href="#容器相关命令" id="markdown-toc-容器相关命令">容器相关命令</a></li>
-      <li><a href="#其他" id="markdown-toc-其他">其他</a></li>
-    </ul>
-  </li>
-  <li><a href="#k8s命令" id="markdown-toc-k8s命令">K8s命令</a></li>
-</ul>
-
-<h3 id="说明">说明</h3>
-
-<p>//是附加注释</p>
-
-<ol>
-  <li>此处主要常用的命令，不是命令大全</li>
-  <li>Mac上操作（Linux基本相同）</li>
-  <li>Docker命令分为镜像命令、容器命令、其他命令</li>
-</ol>
-
-<h3 id="docker命令">Docker命令</h3>
-
-<ul>
-  <li>安装docker</li>
-</ul>
-
-<p>CentOS6</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//EPEL库
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>docker与k8s的常用命令 &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://dreamylost.cn/wiki/docker%E4%B8%8Ek8s%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://dreamylost.cn/feed.xml"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/favicon.ico"><meta property="og:title" content="docker与k8s的常用命令"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content=""><meta name="og:description" content=""><meta property="og:url" content="https://dreamylost.cn/wiki/docker%E4%B8%8Ek8s%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2021-03-31"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script> <script data-ad-client="ca-pub-8236444920328818" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://dreamylost.cn/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://dreamylost.cn/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://dreamylost.cn/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://dreamylost.cn/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://dreamylost.cn/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://dreamylost.cn/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="docker与k8s的常用命令"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">docker与k8s的常用命令</h1></div></div><div class="column one-fourth mobile-hidden"> <img style="height:72px;width:72px" src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/images/qrcode.jpg" alt="梦境迷离" /></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><ul id="markdown-toc"><li><a href="#说明" id="markdown-toc-说明">说明</a></li><li><a href="#docker命令" id="markdown-toc-docker命令">Docker命令</a><ul><li><a href="#镜像相关命令" id="markdown-toc-镜像相关命令">镜像相关命令</a></li><li><a href="#容器相关命令" id="markdown-toc-容器相关命令">容器相关命令</a></li><li><a href="#其他" id="markdown-toc-其他">其他</a></li></ul></li><li><a href="#k8s命令" id="markdown-toc-k8s命令">K8s命令</a></li></ul><h3 id="说明">说明</h3><p>//是附加注释</p><ol><li>此处主要常用的命令，不是命令大全</li><li>Mac上操作（Linux基本相同）</li><li>Docker命令分为镜像命令、容器命令、其他命令</li></ol><h3 id="docker命令">Docker命令</h3><ul><li>安装docker</li></ul><p>CentOS6</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//EPEL库
 sudo yum install http://mirrors.yun-idc.com/epel/6/i386/epel-release-6-8.noarch.rpm
 sudo yum install docker-io
-</code></pre></div></div>
-<p>CentOS7</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install docker
-</code></pre></div></div>
-
-<p>注册为服务</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo service docker start
+</code></pre></div></div><p>CentOS7</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install docker
+</code></pre></div></div><p>注册为服务</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo service docker start
 sudo chkconfig docker on
-</code></pre></div></div>
-
-<h4 id="镜像相关命令">镜像相关命令</h4>
-
-<p>Docker镜像就是一个只读的模板</p>
-
-<ul>
-  <li>安装Linux
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull centos:6 //6是版本号
-</code></pre></div>    </div>
-  </li>
-  <li>查看所有的镜像，也包括tag在里面
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker images
-</code></pre></div>    </div>
-  </li>
-  <li>使用仓库的Dockerfile文件，创建一个镜像
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build -t IMAGE
-</code></pre></div>    </div>
-  </li>
-  <li>使用当前目录的Dockerfile创建镜像，标签为gio-test/test-project:test-tag
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build -t gio-test/test-project:test-tag . //后面有个点
-</code></pre></div>    </div>
-  </li>
-  <li>显示这台机器上的所有镜像
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker images -a
-</code></pre></div>    </div>
-  </li>
-  <li>从本机移除所有的镜像
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker rmi $(docker images -q)
-</code></pre></div>    </div>
-  </li>
-  <li>移除本地test镜像
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo docker rmi test/test //docker rm 命令是移除容器
-</code></pre></div>    </div>
-  </li>
-  <li>上传打完tag的镜像到remote的registry
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker push username/repository:tag
-</code></pre></div>    </div>
-  </li>
-  <li>从registry运行指定的镜像
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run username/repository:tag
-</code></pre></div>    </div>
-  </li>
-</ul>
-
-<p>如果你没有在这些命令中指定 <code class="language-plaintext highlighter-rouge">:tag</code> 部分，在你生成和运行镜像时，最新的tag <code class="language-plaintext highlighter-rouge">:latest</code> 会被默认使用。 
-如果没有指定tag，Docker会使用最新的镜像版本，即latest（所以不指定会坑爹）</p>
-
-<ul>
-  <li>查看镜像的详细信息
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker inspect IMAGE
-</code></pre></div>    </div>
-  </li>
-  <li>查看私有库的镜像
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl 192.168.x.x:5000/v2/_catalog
-</code></pre></div>    </div>
-  </li>
-  <li>搜索镜像
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker search consul //consul 服务注册发现框架
-</code></pre></div>    </div>
-  </li>
-  <li>导出镜像到本地文件
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker save -o ubuntu_14.04.tar ubuntu:14.04  //导出ubuntu到ubuntu_14.04.tar
-</code></pre></div>    </div>
-  </li>
-  <li>从文件载入镜像
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker load --input ubuntu_14.04.tar
+</code></pre></div></div><h4 id="镜像相关命令">镜像相关命令</h4><p>Docker镜像就是一个只读的模板</p><ul><li>安装Linux<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull centos:6 //6是版本号
+</code></pre></div></div></li><li>查看所有的镜像，也包括tag在里面<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker images
+</code></pre></div></div></li><li>使用仓库的Dockerfile文件，创建一个镜像<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build -t IMAGE
+</code></pre></div></div></li><li>使用当前目录的Dockerfile创建镜像，标签为gio-test/test-project:test-tag<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build -t gio-test/test-project:test-tag . //后面有个点
+</code></pre></div></div></li><li>显示这台机器上的所有镜像<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker images -a
+</code></pre></div></div></li><li>从本机移除所有的镜像<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker rmi $(docker images -q)
+</code></pre></div></div></li><li>移除本地test镜像<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo docker rmi test/test //docker rm 命令是移除容器
+</code></pre></div></div></li><li>上传打完tag的镜像到remote的registry<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker push username/repository:tag
+</code></pre></div></div></li><li>从registry运行指定的镜像<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run username/repository:tag
+</code></pre></div></div></li></ul><p>如果你没有在这些命令中指定 <code class="language-plaintext highlighter-rouge">:tag</code> 部分，在你生成和运行镜像时，最新的tag <code class="language-plaintext highlighter-rouge">:latest</code> 会被默认使用。 如果没有指定tag，Docker会使用最新的镜像版本，即latest（所以不指定会坑爹）</p><ul><li>查看镜像的详细信息<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker inspect IMAGE
+</code></pre></div></div></li><li>查看私有库的镜像<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl 192.168.x.x:5000/v2/_catalog
+</code></pre></div></div></li><li>搜索镜像<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker search consul //consul 服务注册发现框架
+</code></pre></div></div></li><li>导出镜像到本地文件<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker save -o ubuntu_14.04.tar ubuntu:14.04  //导出ubuntu到ubuntu_14.04.tar
+</code></pre></div></div></li><li>从文件载入镜像<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker load --input ubuntu_14.04.tar
 //或
 docker load &lt; ubuntu_14.04.tar //镜像存储文件将保存完整记录，体积也要大
-</code></pre></div>    </div>
-  </li>
-</ul>
-
-<h4 id="容器相关命令">容器相关命令</h4>
-
-<p>Docker利用容器来运行应用，容器是从镜像创建的运行实例</p>
-
-<ul>
-  <li>查看正在运行的所有的容器的列表
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps
-</code></pre></div>    </div>
-  </li>
-  <li>停止运行指定的容器
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker stop CONTAINER_ID
-</code></pre></div>    </div>
-  </li>
-  <li>查看所有的容器列表，包括没有在运行的
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps -a
-</code></pre></div>    </div>
-  </li>
-  <li>强行关闭指定的容器
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker kill CONTAINER_ID  //CONTAINER_ID是容器ID
-</code></pre></div>    </div>
-  </li>
-  <li>从这台机器上移除所有未运行的容器
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker rm $(docker ps -a -q)
-</code></pre></div>    </div>
-  </li>
-  <li>push文件到docker的某个容器中
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker cp squid.conf  CONTAINER_ID:/etc/squid
-</code></pre></div>    </div>
-  </li>
-  <li>进入运行的容器
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker exec -it CONTAINER_ID /bin/bash //可能有镜像的多个实例，需要指定运行的容器ID，而不是镜像ID，根据需要bash换成sh也可以
-</code></pre></div>    </div>
-  </li>
-  <li>将本地目录挂载到docker容器上
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -i -t -v /Users/xx:/etc/squid3 IMAGE /bin/bash //docker run -i -t -v 本地绝对路径:docker上绝对路径 镜像ID  /bin/bash
-</code></pre></div>    </div>
-  </li>
-  <li>将本地目录挂载到docker容器上并加端口映射启动容器
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run  -p 12345:3128 -i -t -v  /Users/xx:/etc/squid3 IMAGE /bin/bash
-</code></pre></div>    </div>
-  </li>
-  <li>运行镜像，并且映射主机端口12345 到容器端口 3128（默认）
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -p 12345:3128 IMAGE  //是镜像ID，下同
-</code></pre></div>    </div>
-  </li>
-  <li>同上，但是此条命令是把镜像运行在后台进程中
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -p -d 12345:3128 IMAGE  //-d表示后台运行
-</code></pre></div>    </div>
-  </li>
-  <li>进入正则运行的容器，并执行命令
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker exec -it CONTAINER_ID /bin/bash-c "ls"  //ls是需要执行的命令
-</code></pre></div>    </div>
-  </li>
-  <li>将一个已经终止的容器启动运行起来
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker start
-</code></pre></div>    </div>
-  </li>
-  <li>重新启动
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker restart
-</code></pre></div>    </div>
-  </li>
-  <li>提交容器修改
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker commit CONTAINER_ID IMAGE //不提交下次启动就是新的，里面修改都没有
-</code></pre></div>    </div>
-  </li>
-  <li>修改自己commit的容器tag
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker tag IMAGE_ID userName/repositoryName:tag //需要执行docker login，即时使用图形界面登陆过
-</code></pre></div>    </div>
-  </li>
-  <li>使用本地配置文件启动squid代理
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -p 3128:3128 -i -t -v /Users/xx:/etc/squid3 IMAGE
-</code></pre></div>    </div>
-  </li>
-  <li>导出容器快照到本地文件
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker export CONTAINER_ID &gt; fileName.tar
-</code></pre></div>    </div>
-  </li>
-  <li>从容器快照文件中再导入为镜像
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat fileName.tar | sudo docker import - test/test:1.0
-</code></pre></div>    </div>
-  </li>
-  <li>通过指定URL或者某个目录来导入
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker import http://example.com/exampleimage.tgz example/imagerepo  //容器快照文件将丢弃所有的历史记录和元数据信息
-</code></pre></div>    </div>
-  </li>
-</ul>
-
-<h4 id="其他">其他</h4>
-
-<ul>
-  <li>推送到私服
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker push 192.168.x.x:5000/docker-repo/squid:3.3.8-14
-</code></pre></div>    </div>
-  </li>
-  <li>docker的运行开启HTTP配置
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/Users/xx/.docker/daemon.json //使用安装包安装的
+</code></pre></div></div></li></ul><h4 id="容器相关命令">容器相关命令</h4><p>Docker利用容器来运行应用，容器是从镜像创建的运行实例</p><ul><li>查看正在运行的所有的容器的列表<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps
+</code></pre></div></div></li><li>停止运行指定的容器<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker stop CONTAINER_ID
+</code></pre></div></div></li><li>查看所有的容器列表，包括没有在运行的<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps -a
+</code></pre></div></div></li><li>强行关闭指定的容器<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker kill CONTAINER_ID  //CONTAINER_ID是容器ID
+</code></pre></div></div></li><li>从这台机器上移除所有未运行的容器<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker rm $(docker ps -a -q)
+</code></pre></div></div></li><li>push文件到docker的某个容器中<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker cp squid.conf  CONTAINER_ID:/etc/squid
+</code></pre></div></div></li><li>进入运行的容器<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker exec -it CONTAINER_ID /bin/bash //可能有镜像的多个实例，需要指定运行的容器ID，而不是镜像ID，根据需要bash换成sh也可以
+</code></pre></div></div></li><li>将本地目录挂载到docker容器上<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -i -t -v /Users/xx:/etc/squid3 IMAGE /bin/bash //docker run -i -t -v 本地绝对路径:docker上绝对路径 镜像ID  /bin/bash
+</code></pre></div></div></li><li>将本地目录挂载到docker容器上并加端口映射启动容器<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run  -p 12345:3128 -i -t -v  /Users/xx:/etc/squid3 IMAGE /bin/bash
+</code></pre></div></div></li><li>运行镜像，并且映射主机端口12345 到容器端口 3128（默认）<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -p 12345:3128 IMAGE  //是镜像ID，下同
+</code></pre></div></div></li><li>同上，但是此条命令是把镜像运行在后台进程中<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -p -d 12345:3128 IMAGE  //-d表示后台运行
+</code></pre></div></div></li><li>进入正则运行的容器，并执行命令<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker exec -it CONTAINER_ID /bin/bash-c "ls"  //ls是需要执行的命令
+</code></pre></div></div></li><li>将一个已经终止的容器启动运行起来<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker start
+</code></pre></div></div></li><li>重新启动<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker restart
+</code></pre></div></div></li><li>提交容器修改<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker commit CONTAINER_ID IMAGE //不提交下次启动就是新的，里面修改都没有
+</code></pre></div></div></li><li>修改自己commit的容器tag<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker tag IMAGE_ID userName/repositoryName:tag //需要执行docker login，即时使用图形界面登陆过
+</code></pre></div></div></li><li>使用本地配置文件启动squid代理<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -p 3128:3128 -i -t -v /Users/xx:/etc/squid3 IMAGE
+</code></pre></div></div></li><li>导出容器快照到本地文件<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker export CONTAINER_ID &gt; fileName.tar
+</code></pre></div></div></li><li>从容器快照文件中再导入为镜像<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat fileName.tar | sudo docker import - test/test:1.0
+</code></pre></div></div></li><li>通过指定URL或者某个目录来导入<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker import http://example.com/exampleimage.tgz example/imagerepo  //容器快照文件将丢弃所有的历史记录和元数据信息
+</code></pre></div></div></li></ul><h4 id="其他">其他</h4><ul><li>推送到私服<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker push 192.168.x.x:5000/docker-repo/squid:3.3.8-14
+</code></pre></div></div></li><li>docker的运行开启HTTP配置<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/Users/xx/.docker/daemon.json //使用安装包安装的
 {
 "debug" : true,
 "insecure-registries" : [
@@ -213,48 +49,16 @@ docker load &lt; ubuntu_14.04.tar //镜像存储文件将保存完整记录，�
 ],
 "experimental" : true
 }
-</code></pre></div>    </div>
-  </li>
-  <li>拷贝docker的文件到本地
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker cp CONTAINER_ID:/etc/squid3/squid.conf /Users/xx/xx
-</code></pre></div>    </div>
-  </li>
-  <li>本地文件拷贝到docker
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker cp 本地路径 容器ID:容器路径
-</code></pre></div>    </div>
-  </li>
-  <li>查看docker的端口映射
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker port  CONTAINER_ID
-</code></pre></div>    </div>
-  </li>
-  <li>给容器安装vim命令
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get update //同步 /etc/apt/sources.list 和 /etc/apt/sources.list.d 中列出的源的索引 
+</code></pre></div></div></li><li>拷贝docker的文件到本地<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker cp CONTAINER_ID:/etc/squid3/squid.conf /Users/xx/xx
+</code></pre></div></div></li><li>本地文件拷贝到docker<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker cp 本地路径 容器ID:容器路径
+</code></pre></div></div></li><li>查看docker的端口映射<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker port  CONTAINER_ID
+</code></pre></div></div></li><li>给容器安装vim命令<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get update //同步 /etc/apt/sources.list 和 /etc/apt/sources.list.d 中列出的源的索引 
 apt-get install vim //安装命令，其他类似（先登录进运行的容器，关闭容器则失效）
-</code></pre></div>    </div>
-  </li>
-  <li>查看squid代理的链接访问日志
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tail -f /var/log/squid/access.log //根据版本可能是squid3
-</code></pre></div>    </div>
-  </li>
-  <li>容器内的Linux安装Apache
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install apache2=2.4.29-1ubuntu4.5 //后面是版本号
-</code></pre></div>    </div>
-  </li>
-  <li>使用Docker credentials 登录到CLI会话
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker login
-</code></pre></div>    </div>
-  </li>
-  <li>添加squid的证书
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo htpasswd -c squid_passwd  dreamylost
-</code></pre></div>    </div>
-  </li>
-</ul>
-
-<h3 id="k8s命令">K8s命令</h3>
-
-<ul>
-  <li>端口映射
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>映射本地端口到远程k8s容器的pod上的端口，以k8s-ads-tracking的server-1为例
+</code></pre></div></div></li><li>查看squid代理的链接访问日志<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tail -f /var/log/squid/access.log //根据版本可能是squid3
+</code></pre></div></div></li><li>容器内的Linux安装Apache<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get install apache2=2.4.29-1ubuntu4.5 //后面是版本号
+</code></pre></div></div></li><li>使用Docker credentials 登录到CLI会话<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker login
+</code></pre></div></div></li><li>添加squid的证书<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo htpasswd -c squid_passwd  dreamylost
+</code></pre></div></div></li></ul><h3 id="k8s命令">K8s命令</h3><ul><li>端口映射<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>映射本地端口到远程k8s容器的pod上的端口，以k8s-ads-tracking的server-1为例
 1.查询所有运行的pods并以k8s-ads-tracking开头的
 kubectl -n k8s-ads-tracking get pods --kubeconfig=/Users/name/project-conf/k8s-config
 k8s-config是k8s的验证配置文件，有秘钥
@@ -265,62 +69,16 @@ netstat -antp | grep 1
 4.映射端口
 kubectl -n k8s-ads-tracking port-forward k8s-ads-tracking-server-1-85f4ff5fcb-9b9bs 19000:19000 --kubeconfig=/Users/name/project-conf/k8s-config
 5.完成将本地19000端口映射到k8s环境的`k8s-ads-tracking-server-1-85f4ff5fcb-9b9bs`实例上的19000端口上
-</code></pre></div>    </div>
-  </li>
-  <li>获取Pod的运行状态
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl get pods //以nginx为例，下同
-</code></pre></div>    </div>
-  </li>
-  <li>获取Pod中所有容器的运行状态
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl  get pods nginx -o json //json以json形式展示，wide以直接铺开的形式展示
-</code></pre></div>    </div>
-  </li>
-  <li>获得Pod的更多详细信息
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl describe pods nginx
-</code></pre></div>    </div>
-  </li>
-  <li>根据Pod的名称删除指定的Pod
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl delete pods/nginx
-</code></pre></div>    </div>
-  </li>
-  <li>根据yaml配置文件删除Pod
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl delete -f pod-nginx.yaml
-</code></pre></div>    </div>
-  </li>
-  <li>进入到容器内部
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl exec -it nginx bash
-</code></pre></div>    </div>
-  </li>
-  <li>如果Pod中有多个容器，可以使用-c参数指定具体的容器
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl exec -it nginx bash -c nginx
-</code></pre></div>    </div>
-  </li>
-  <li>观察容器的输出日志
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl logs nginx // -f --tail 200 等价 tail命令的tail -200f
-</code></pre></div>    </div>
-  </li>
-  <li>获取所有配置
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl get configmaps 
-</code></pre></div>    </div>
-  </li>
-  <li>获取某个Pod的配置
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl get configmaps nginx-configs
-</code></pre></div>    </div>
-  </li>
-  <li>编辑配置
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl edit configmaps nginx-configs //zsh装了k8s插件后可以提示有哪些配置文件，如果不想重新部署时镜像配置失效，可以放到全局配置
-</code></pre></div>    </div>
-  </li>
-  <li>删除Pod
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl delete pods nginx-6c5f5ff6fd-fqtl9 //修改Pod配置后需要删除Pod，使其自动重启生效。
-</code></pre></div>    </div>
-  </li>
-</ul>
-
-<p>待补充。。。</p>
-
-<p><a href="https://blog.csdn.net/qq_34446485/article/details/90738092">最详细的 在Windows上 使用docker 搭建 consul 集群</a></p>
-
-<p><a href="http://docs.kubernetes.org.cn">Kubernetes 中文文档</a></p>
-
-<p>PS: 镜像可以理解是已经打包的开放包，容器是包的一次执行，与运行时相关的一般都使用容器CONTAINER_ID</p>
+</code></pre></div></div></li><li>获取Pod的运行状态<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl get pods //以nginx为例，下同
+</code></pre></div></div></li><li>获取Pod中所有容器的运行状态<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl  get pods nginx -o json //json以json形式展示，wide以直接铺开的形式展示
+</code></pre></div></div></li><li>获得Pod的更多详细信息<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl describe pods nginx
+</code></pre></div></div></li><li>根据Pod的名称删除指定的Pod<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl delete pods/nginx
+</code></pre></div></div></li><li>根据yaml配置文件删除Pod<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl delete -f pod-nginx.yaml
+</code></pre></div></div></li><li>进入到容器内部<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl exec -it nginx bash
+</code></pre></div></div></li><li>如果Pod中有多个容器，可以使用-c参数指定具体的容器<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl exec -it nginx bash -c nginx
+</code></pre></div></div></li><li>观察容器的输出日志<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl logs nginx // -f --tail 200 等价 tail命令的tail -200f
+</code></pre></div></div></li><li>获取所有配置<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl get configmaps 
+</code></pre></div></div></li><li>获取某个Pod的配置<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl get configmaps nginx-configs
+</code></pre></div></div></li><li>编辑配置<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl edit configmaps nginx-configs //zsh装了k8s插件后可以提示有哪些配置文件，如果不想重新部署时镜像配置失效，可以放到全局配置
+</code></pre></div></div></li><li>删除Pod<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl delete pods nginx-6c5f5ff6fd-fqtl9 //修改Pod配置后需要删除Pod，使其自动重启生效。
+</code></pre></div></div></li></ul><p>待补充。。。</p><p><a href="https://blog.csdn.net/qq_34446485/article/details/90738092">最详细的 在Windows上 使用docker 搭建 consul 集群</a></p><p><a href="http://docs.kubernetes.org.cn">Kubernetes 中文文档</a></p><p>PS: 镜像可以理解是已经打包的开放包，容器是包的一次执行，与运行时相关的一般都使用容器CONTAINER_ID</p><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://dreamylost.cn" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://dreamylost.cn/wiki/docker%E4%B8%8Ek8s%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_blank">https://dreamylost.cn/wiki/docker%E4%B8%8Ek8s%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/wiki/docker%E4%B8%8Ek8s%E7%9A%84%E5%B8%B8%E7%94%A', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@built/assets/search_data.json?v=1617169847', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://dreamylost.cn/" title="首页" target="">首页</a></li><li> <a href="https://dreamylost.cn/categories/" title="分类" target="">分类</a></li><li> <a href="https://dreamylost.cn/wiki/" title="维基" target="">维基</a></li><li> <a href="https://dreamylost.cn/links/" title="链接" target="">链接</a></li><li> <a href="https://dreamylost.cn/about/" title="关于" target="">关于</a></li><li><a href="https://dreamylost.cn/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>

@@ -1,105 +1,13 @@
-<ul id="markdown-toc">
-  <li><a href="#1录制接口" id="markdown-toc-1录制接口">1、录制接口</a></li>
-  <li><a href="#2collection-runner" id="markdown-toc-2collection-runner">2、Collection Runner</a></li>
-  <li><a href="#3流程控制" id="markdown-toc-3流程控制">3、流程控制</a></li>
-  <li><a href="#4断言" id="markdown-toc-4断言">4、断言</a></li>
-  <li><a href="#5提取接口返回值" id="markdown-toc-5提取接口返回值">5、提取接口返回值</a></li>
-  <li><a href="#6设置环境变量" id="markdown-toc-6设置环境变量">6、设置环境变量</a></li>
-  <li><a href="#7动态请求参数" id="markdown-toc-7动态请求参数">7、动态请求参数</a></li>
-  <li><a href="#8调试" id="markdown-toc-8调试">8、调试</a></li>
-  <li><a href="#9global" id="markdown-toc-9global">9、global</a></li>
-  <li><a href="#10数据文件" id="markdown-toc-10数据文件">10、数据文件</a>    <ul>
-      <li><a href="#json格式" id="markdown-toc-json格式">JSON格式</a></li>
-      <li><a href="#csv格式" id="markdown-toc-csv格式">CSV格式</a></li>
-    </ul>
-  </li>
-  <li><a href="#注意" id="markdown-toc-注意">注意</a></li>
-</ul>
-
-<h4 id="1录制接口">1、录制接口</h4>
-
-<p>接口调用方希望测试业务逻辑时，用不着Fiddler/Charles抓包再往里面一个个填这么麻烦，开启Postman的代理（默认5555端口），浏览器/手机设好对应的IP和端口就行。
-支持正则表达式过滤URL，建议排除掉静态资源、流量统计站和别的后台进程时不时请求的网站
-baidu|google|microsoft|github|qq.com|.*.(html?|css|js|png|jpe?g|webp|ico)$
-可以设置保存的位置：</p>
-<ol>
-  <li>如果所有操作步骤都要做接口测试，建议直接保存到目标集合</li>
-  <li>如果一大堆操作里只取其中一个到几个接口，建议保存到历史记录，挑出想要的另存到目标集合，不用浪费时间删</li>
-</ol>
-
-<h4 id="2collection-runner">2、Collection Runner</h4>
-
-<ul>
-  <li>适合一次运行/调试多个用例</li>
-  <li>适合开发自测接口性能（例如循环个10000次），至少响应时间和稳定性都过关了才交给别人调用</li>
-  <li>跟Newman一样的运行环境，跟Newman一样默认不保存环境变量，跟Newman一样可以载入数据文件，适合用界面调通了用例再放到命令行做持续集成</li>
-</ul>
-
-<p>【特别注意】
-各个集合之间、同一集合各个文件夹之间、同一集合放文件夹和不放文件夹的用例之间，不能有任何依赖关系
-Postman/Newman是用JS写的，批量执行的最小粒度是文件夹
-单线程异步的性质决定了文件夹的执行顺序跟看上去的排列顺序没有任何关系
-只有同一文件夹内的用例，或直接放集合下的用例，执行的顺序跟看上去的顺序一样
-每个集合测1个方面，集合内每个文件夹测1个完全独立的子场景，此外</p>
-
-<ul>
-  <li>目前集合下只支持1级文件夹，不推荐场景搞太复杂，用例管理起来有难度</li>
-  <li>目前集合和文件夹只能按字母顺序排序，用例可以拖动排序</li>
-  <li>目前搜索不能搜到URL地址，建议用例名写成 /path/to/api 接口描述，方便看和搜索</li>
-  <li>如果打算做自动化和持续集成，集合、文件夹的名字建议英文无空格，方便命令行调用</li>
-</ul>
-
-<h4 id="3流程控制">3、流程控制</h4>
-
-<p>只有在collection runner或Newman里才生效（在普通界面你选哪个发送就是哪个）</p>
-
-<ol>
-  <li>假设2个用例的顺序为：用例A用例B如果希望执行顺序为： 用例A -&gt; 用例B -&gt; 用例A，又不想复制一份用例A，那么，用例A的Tests里写if (xxx) postman.setNextRequest(‘null’);  终止执行</li>
-  <li>用例B的Tests里写postman.setNextRequest(‘用例A’);【注意】如果不设终止条件，用例A执行完到用例B，用例B执行完又指向用例A，会构成死循环</li>
-  <li>PS：postman是Postman提供的全局对象</li>
-</ol>
-
-<h4 id="4断言">4、断言</h4>
-
-<p>在主界面可以靠肉眼看返回结果，但在collection runner/Newman里如果不加断言，跑完没法知道是成功还是失败&lt;/br&gt;
-断言写在Tests标签页里，上手可以参考文档和界面右边的代码模板：&lt;/br&gt;</p>
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">tests</span><span class="p">[</span><span class="dl">'</span><span class="s1">Status code is 200</span><span class="dl">'</span><span class="p">]</span> <span class="o">=</span> <span class="nx">responseCode</span><span class="p">.</span><span class="nx">code</span> <span class="o">===</span> <span class="mi">200</span><span class="p">;</span>  
-</code></pre></div></div>
-<p>推荐用全等 ===，确保类型和值都一致</p>
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">tests</span><span class="p">[</span><span class="dl">'</span><span class="s1">Response time is less than 200ms</span><span class="dl">'</span><span class="p">]</span> <span class="o">=</span> <span class="nx">responseTime</span> <span class="o">&lt;</span> <span class="mi">200</span><span class="p">;</span>
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>postman命令 &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://dreamylost.cn/wiki/postman%E5%91%BD%E4%BB%A4/"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://dreamylost.cn/feed.xml"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/favicon.ico"><meta property="og:title" content="postman命令"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content=""><meta name="og:description" content=""><meta property="og:url" content="https://dreamylost.cn/wiki/postman%E5%91%BD%E4%BB%A4/"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2021-03-31"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script> <script data-ad-client="ca-pub-8236444920328818" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://dreamylost.cn/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://dreamylost.cn/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://dreamylost.cn/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://dreamylost.cn/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://dreamylost.cn/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://dreamylost.cn/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="postman命令"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">postman命令</h1></div></div><div class="column one-fourth mobile-hidden"> <img style="height:72px;width:72px" src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/images/qrcode.jpg" alt="梦境迷离" /></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><ul id="markdown-toc"><li><a href="#1录制接口" id="markdown-toc-1录制接口">1、录制接口</a></li><li><a href="#2collection-runner" id="markdown-toc-2collection-runner">2、Collection Runner</a></li><li><a href="#3流程控制" id="markdown-toc-3流程控制">3、流程控制</a></li><li><a href="#4断言" id="markdown-toc-4断言">4、断言</a></li><li><a href="#5提取接口返回值" id="markdown-toc-5提取接口返回值">5、提取接口返回值</a></li><li><a href="#6设置环境变量" id="markdown-toc-6设置环境变量">6、设置环境变量</a></li><li><a href="#7动态请求参数" id="markdown-toc-7动态请求参数">7、动态请求参数</a></li><li><a href="#8调试" id="markdown-toc-8调试">8、调试</a></li><li><a href="#9global" id="markdown-toc-9global">9、global</a></li><li><a href="#10数据文件" id="markdown-toc-10数据文件">10、数据文件</a><ul><li><a href="#json格式" id="markdown-toc-json格式">JSON格式</a></li><li><a href="#csv格式" id="markdown-toc-csv格式">CSV格式</a></li></ul></li><li><a href="#注意" id="markdown-toc-注意">注意</a></li></ul><h4 id="1录制接口">1、录制接口</h4><p>接口调用方希望测试业务逻辑时，用不着Fiddler/Charles抓包再往里面一个个填这么麻烦，开启Postman的代理（默认5555端口），浏览器/手机设好对应的IP和端口就行。 支持正则表达式过滤URL，建议排除掉静态资源、流量统计站和别的后台进程时不时请求的网站 baidu|google|microsoft|github|qq.com|.*.(html?|css|js|png|jpe?g|webp|ico)$ 可以设置保存的位置：</p><ol><li>如果所有操作步骤都要做接口测试，建议直接保存到目标集合</li><li>如果一大堆操作里只取其中一个到几个接口，建议保存到历史记录，挑出想要的另存到目标集合，不用浪费时间删</li></ol><h4 id="2collection-runner">2、Collection Runner</h4><ul><li>适合一次运行/调试多个用例</li><li>适合开发自测接口性能（例如循环个10000次），至少响应时间和稳定性都过关了才交给别人调用</li><li>跟Newman一样的运行环境，跟Newman一样默认不保存环境变量，跟Newman一样可以载入数据文件，适合用界面调通了用例再放到命令行做持续集成</li></ul><p>【特别注意】 各个集合之间、同一集合各个文件夹之间、同一集合放文件夹和不放文件夹的用例之间，不能有任何依赖关系 Postman/Newman是用JS写的，批量执行的最小粒度是文件夹 单线程异步的性质决定了文件夹的执行顺序跟看上去的排列顺序没有任何关系 只有同一文件夹内的用例，或直接放集合下的用例，执行的顺序跟看上去的顺序一样 每个集合测1个方面，集合内每个文件夹测1个完全独立的子场景，此外</p><ul><li>目前集合下只支持1级文件夹，不推荐场景搞太复杂，用例管理起来有难度</li><li>目前集合和文件夹只能按字母顺序排序，用例可以拖动排序</li><li>目前搜索不能搜到URL地址，建议用例名写成 /path/to/api 接口描述，方便看和搜索</li><li>如果打算做自动化和持续集成，集合、文件夹的名字建议英文无空格，方便命令行调用</li></ul><h4 id="3流程控制">3、流程控制</h4><p>只有在collection runner或Newman里才生效（在普通界面你选哪个发送就是哪个）</p><ol><li>假设2个用例的顺序为：用例A用例B如果希望执行顺序为： 用例A -&gt; 用例B -&gt; 用例A，又不想复制一份用例A，那么，用例A的Tests里写if (xxx) postman.setNextRequest(‘null’); 终止执行</li><li>用例B的Tests里写postman.setNextRequest(‘用例A’);【注意】如果不设终止条件，用例A执行完到用例B，用例B执行完又指向用例A，会构成死循环</li><li>PS：postman是Postman提供的全局对象</li></ol><h4 id="4断言">4、断言</h4><p>在主界面可以靠肉眼看返回结果，但在collection runner/Newman里如果不加断言，跑完没法知道是成功还是失败&lt;/br&gt; 断言写在Tests标签页里，上手可以参考文档和界面右边的代码模板：&lt;/br&gt;</p><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">tests</span><span class="p">[</span><span class="dl">'</span><span class="s1">Status code is 200</span><span class="dl">'</span><span class="p">]</span> <span class="o">=</span> <span class="nx">responseCode</span><span class="p">.</span><span class="nx">code</span> <span class="o">===</span> <span class="mi">200</span><span class="p">;</span>  
+</code></pre></div></div><p>推荐用全等 ===，确保类型和值都一致</p><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">tests</span><span class="p">[</span><span class="dl">'</span><span class="s1">Response time is less than 200ms</span><span class="dl">'</span><span class="p">]</span> <span class="o">=</span> <span class="nx">responseTime</span> <span class="o">&lt;</span> <span class="mi">200</span><span class="p">;</span>
 <span class="nx">tests</span><span class="p">[</span><span class="dl">'</span><span class="s1">Body matches string</span><span class="dl">'</span><span class="p">]</span> <span class="o">=</span> <span class="nx">responseBody</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="dl">'</span><span class="s1">xxx</span><span class="dl">'</span><span class="p">);</span> 
-</code></pre></div></div>
-<p>只要有指定关键字就行，在哪、有几个等都不管</p>
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">tests</span><span class="p">[</span><span class="dl">'</span><span class="s1">Content-Type is present</span><span class="dl">'</span><span class="p">]</span><span class="o">=</span><span class="nx">postman</span><span class="p">.</span><span class="nx">getResponseHeader</span><span class="p">(</span><span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">)</span> <span class="o">||</span> <span class="kc">false</span><span class="p">;</span>
+</code></pre></div></div><p>只要有指定关键字就行，在哪、有几个等都不管</p><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">tests</span><span class="p">[</span><span class="dl">'</span><span class="s1">Content-Type is present</span><span class="dl">'</span><span class="p">]</span><span class="o">=</span><span class="nx">postman</span><span class="p">.</span><span class="nx">getResponseHeader</span><span class="p">(</span><span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">)</span> <span class="o">||</span> <span class="kc">false</span><span class="p">;</span>
 
-</code></pre></div></div>
-<p>Postman的断言实际上就是往全局对象 tests 添加键值对，它的key会显示在报告界面上，value是可以解析为boolean的表达式，如果得出的值是true，在报告里显示为成功，false失败
-【变通】用总是为真的断言来显示信息</p>
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">tests</span><span class="p">[</span><span class="s2">`[INFO] Request params: </span><span class="p">${</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">data</span><span class="p">)}</span><span class="s2">`</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>  
-</code></pre></div></div>
-<p>显示所有请求参数（在自动化测试里很有用）</p>
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">tests</span><span class="p">[</span><span class="s2">`跑第</span><span class="p">${</span><span class="nx">iteration</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span><span class="s2">次`</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-</code></pre></div></div>
-<ul>
-  <li>用在runner里循环很多次时，迭代次数iteration是Postman提供的全局变量，从0开始</li>
-  <li>PS：request是Postman提供的全局对象</li>
-  <li>responseCode（对象）、responseTime（数字）、responseBody（字符串）目前是Postman收到服务器返回内容才声明的变量</li>
-  <li>【注意】如果你在做自动化测试，目前在接口超时没返回时：responseCode、responseTime、responseBody都没定义，使用时会导致脚本出错，判断是否超时没返回的只能靠header</li>
-  <li>request.data里的变量在超时时不解析，很容易让人误会请求参数传错了，建议此时不显示这行</li>
-  <li>关于’use strict’;因为Postman提供了不少全局变量，写了’use strict’;会在用到这些变量的地方出警告提示，如果平时有养成好习惯，不用容易出错的写法，不写它也没关系</li>
-</ul>
-
-<h4 id="5提取接口返回值">5、提取接口返回值</h4>
-
-<ol>
-  <li>返回JSON时
-    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">json</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">responseBody</span><span class="p">);</span>  <span class="c1">// responseBody是包含整个返回内容的字符串</span>
-</code></pre></div>    </div>
-    <p>1) 提取某字段的值：</p>
-    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">foobar</span> <span class="o">=</span> <span class="nx">json</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">bar</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">foobar</span><span class="p">;</span>  <span class="c1">// 假设结构为 {"foo": {"bar": [{"foobar": 1}, {"baz": 2}]}}</span>
-</code></pre></div>    </div>
-    <p>2) 想用在自动化测试可以多写点：</p>
-    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">json</span><span class="p">;</span>
+</code></pre></div></div><p>Postman的断言实际上就是往全局对象 tests 添加键值对，它的key会显示在报告界面上，value是可以解析为boolean的表达式，如果得出的值是true，在报告里显示为成功，false失败 【变通】用总是为真的断言来显示信息</p><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">tests</span><span class="p">[</span><span class="s2">`[INFO] Request params: </span><span class="p">${</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">data</span><span class="p">)}</span><span class="s2">`</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>  
+</code></pre></div></div><p>显示所有请求参数（在自动化测试里很有用）</p><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">tests</span><span class="p">[</span><span class="s2">`跑第</span><span class="p">${</span><span class="nx">iteration</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span><span class="s2">次`</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</code></pre></div></div><ul><li>用在runner里循环很多次时，迭代次数iteration是Postman提供的全局变量，从0开始</li><li>PS：request是Postman提供的全局对象</li><li>responseCode（对象）、responseTime（数字）、responseBody（字符串）目前是Postman收到服务器返回内容才声明的变量</li><li>【注意】如果你在做自动化测试，目前在接口超时没返回时：responseCode、responseTime、responseBody都没定义，使用时会导致脚本出错，判断是否超时没返回的只能靠header</li><li>request.data里的变量在超时时不解析，很容易让人误会请求参数传错了，建议此时不显示这行</li><li>关于’use strict’;因为Postman提供了不少全局变量，写了’use strict’;会在用到这些变量的地方出警告提示，如果平时有养成好习惯，不用容易出错的写法，不写它也没关系</li></ul><h4 id="5提取接口返回值">5、提取接口返回值</h4><ol><li>返回JSON时<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">json</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">responseBody</span><span class="p">);</span>  <span class="c1">// responseBody是包含整个返回内容的字符串</span>
+</code></pre></div></div><p>1) 提取某字段的值：</p><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">foobar</span> <span class="o">=</span> <span class="nx">json</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">bar</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">foobar</span><span class="p">;</span>  <span class="c1">// 假设结构为 {"foo": {"bar": [{"foobar": 1}, {"baz": 2}]}}</span>
+</code></pre></div></div><p>2) 想用在自动化测试可以多写点：</p><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">json</span><span class="p">;</span>
 <span class="k">try</span> <span class="p">{</span>
  <span class="nx">json</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">responseBody</span><span class="p">);</span>
 <span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
@@ -109,94 +17,19 @@ Postman/Newman是用JS写的，批量执行的最小粒度是文件夹
  }`</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
  <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
 <span class="p">}</span>
-</code></pre></div>    </div>
-  </li>
-  <li>返回HTML时
-A. 用正则表达式匹配
-    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">foo</span> <span class="o">=</span> <span class="nx">responseBody</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/foo/g</span><span class="p">);</span>  <span class="c1">// g 全局 i 不分大小写 m 多行tests['blahblahblah'] = foo[0] === 'bar';</span>
-</code></pre></div>    </div>
-    <p>正则里包含变量时：</p>
-    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">foo</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">xxx</span><span class="dl">'</span><span class="p">;</span><span class="kd">let</span> <span class="nx">bar</span> <span class="o">=</span> <span class="nx">responseBody</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s2">`^</span><span class="p">${</span><span class="nx">foo</span><span class="p">}</span><span class="s2">.*, 'g');
-</span></code></pre></div>    </div>
-    <p>B. 用CheerioJS库：</p>
-    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">html</span> <span class="o">=</span> <span class="nx">cheerio</span><span class="p">(</span><span class="nx">responseBody</span><span class="p">);</span>
+</code></pre></div></div></li><li>返回HTML时 A. 用正则表达式匹配<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">foo</span> <span class="o">=</span> <span class="nx">responseBody</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/foo/g</span><span class="p">);</span>  <span class="c1">// g 全局 i 不分大小写 m 多行tests['blahblahblah'] = foo[0] === 'bar';</span>
+</code></pre></div></div><p>正则里包含变量时：</p><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">foo</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">xxx</span><span class="dl">'</span><span class="p">;</span><span class="kd">let</span> <span class="nx">bar</span> <span class="o">=</span> <span class="nx">responseBody</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s2">`^</span><span class="p">${</span><span class="nx">foo</span><span class="p">}</span><span class="s2">.*, 'g');
+</span></code></pre></div></div><p>B. 用CheerioJS库：</p><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">html</span> <span class="o">=</span> <span class="nx">cheerio</span><span class="p">(</span><span class="nx">responseBody</span><span class="p">);</span>
 <span class="kd">let</span> <span class="nx">titleText</span> <span class="o">=</span> <span class="nx">html</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="dl">'</span><span class="s1">title</span><span class="dl">'</span><span class="p">).</span><span class="nx">text</span><span class="p">();</span>  <span class="c1">// 取</span>
-</code></pre></div>    </div>
-    <h4 id="6设置环境变量">6、设置环境变量</h4>
-  </li>
-</ol>
-
-<p>Postman的环境变量分为 environment 和 global 2种，实际上就是environment、globals这2个全局的对象（字典）里的内容。它们的key作为变量名，value作为变量的值。</p>
-
-<p>environment满足99%的需要，平时只用它就够了，global留到后文讲</p>
-
-<ul>
-  <li>作用域为整个集合</li>
-  <li>能创建多个environment文件，方便切换不同测试环境</li>
-</ul>
-
-<p>在地址栏、header、请求参数、外部数据文件里，用 {{变量名}} 获取环境变量的值。
-如：{{URL}}/path/to/api（更常见的${}在JS的ES6语法里被占用了，Postman只能选这么个奇怪写法）</p>
-
-<p>在Pre-request Script和Tests的代码里略有不同：官方提供的方法</p>
-<ul>
-  <li>设置 postman.setEnvironmentVariable(‘variableKey’, value);//注意：通过菜单或以上方法设置的环境变量，值会转成字符串，取的时候要转换</li>
-  <li>获取let foo = postman.getEnvironmentVariable(‘variableKey’);//字符串数字转数字：Number(foo)</li>
-  <li>字符串’true’ ‘false’转布尔值：Boolean(foo) 或 !!foo</li>
-  <li>更新就是再设置一次同名的环境变量，换别的值</li>
-  <li>清除环境变量postman.clearEnvironmentVariable(‘variableKey’);//懒人版</li>
-  <li>既然知道实际上是操作 environment 对象，如果你有JS基础，可以直接：添加keyenvironment.variableKey = 12345;  少打字，取出时也不用转换类型</li>
-  <li>获取let foo = environment.variableKey;</li>
-  <li>清除delete environment.variableKey;</li>
-  <li>obj.foo = undefined; 的写法无效，Postman把undefined转成了字符串……</li>
-  <li>如果你非要跟自己过不去，用了变量名不允许的字符做key（比如有空格），只能写成 environment[‘variableKey’]</li>
-  <li>只要没跟自己过不去，可以用ES6的对象解构语法一次取多个：let {key1, key2, key3} = environment;</li>
-  <li>注意】在Postman主界面运行过后，通过代码设置的环境变量会存到IndexedDB，跟在菜单里设置一样，用例跑完不消失，但在collection runner或Newman跑则是默认不保存，跑完就消失，做自动化测试时要注意</li>
-</ul>
-
-<h4 id="7动态请求参数">7、动态请求参数</h4>
-
-<p>在runner里循环发n次请求/做自动化测试时，有些接口不适合写死参数，Postman有以下内建变量，适合一次性使用：</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">guid</span>  <span class="c1">// 生成GUID，使用双花括号</span>
+</code></pre></div></div><h4 id="6设置环境变量">6、设置环境变量</h4></li></ol><p>Postman的环境变量分为 environment 和 global 2种，实际上就是environment、globals这2个全局的对象（字典）里的内容。它们的key作为变量名，value作为变量的值。</p><p>environment满足99%的需要，平时只用它就够了，global留到后文讲</p><ul><li>作用域为整个集合</li><li>能创建多个environment文件，方便切换不同测试环境</li></ul><p>在地址栏、header、请求参数、外部数据文件里，用 {{变量名}} 获取环境变量的值。 如：{{URL}}/path/to/api（更常见的${}在JS的ES6语法里被占用了，Postman只能选这么个奇怪写法）</p><p>在Pre-request Script和Tests的代码里略有不同：官方提供的方法</p><ul><li>设置 postman.setEnvironmentVariable(‘variableKey’, value);//注意：通过菜单或以上方法设置的环境变量，值会转成字符串，取的时候要转换</li><li>获取let foo = postman.getEnvironmentVariable(‘variableKey’);//字符串数字转数字：Number(foo)</li><li>字符串’true’ ‘false’转布尔值：Boolean(foo) 或 !!foo</li><li>更新就是再设置一次同名的环境变量，换别的值</li><li>清除环境变量postman.clearEnvironmentVariable(‘variableKey’);//懒人版</li><li>既然知道实际上是操作 environment 对象，如果你有JS基础，可以直接：添加keyenvironment.variableKey = 12345; 少打字，取出时也不用转换类型</li><li>获取let foo = environment.variableKey;</li><li>清除delete environment.variableKey;</li><li>obj.foo = undefined; 的写法无效，Postman把undefined转成了字符串……</li><li>如果你非要跟自己过不去，用了变量名不允许的字符做key（比如有空格），只能写成 environment[‘variableKey’]</li><li>只要没跟自己过不去，可以用ES6的对象解构语法一次取多个：let {key1, key2, key3} = environment;</li><li>注意】在Postman主界面运行过后，通过代码设置的环境变量会存到IndexedDB，跟在菜单里设置一样，用例跑完不消失，但在collection runner或Newman跑则是默认不保存，跑完就消失，做自动化测试时要注意</li></ul><h4 id="7动态请求参数">7、动态请求参数</h4><p>在runner里循环发n次请求/做自动化测试时，有些接口不适合写死参数，Postman有以下内建变量，适合一次性使用：</p><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">guid</span>  <span class="c1">// 生成GUID，使用双花括号</span>
 <span class="nx">timestamp</span>  <span class="c1">// 当前时间戳</span>
 <span class="nx">randomInt</span>  <span class="c1">// 0-1000的随机整数</span>
-</code></pre></div></div>
-<p>{% raw %}</p>
-<ul>
-  <li>参数依赖上一个请求的返回：上个请求的Tests里提取参数存环境变量，这个请求里用{{变量名}}取值</li>
-  <li>参数每次都不同，但之后的断言或别的请求里可能还要用：在Pre-request Script里写代码处理，存为环境变量，参数里用{{变量名}}取值</li>
-</ul>
-
-<p>例如</p>
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">randomInt</span> <span class="o">=</span> <span class="p">(</span><span class="nx">min</span><span class="p">,</span> <span class="nx">max</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">max</span> <span class="o">-</span> <span class="nx">min</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="nx">min</span><span class="p">;</span>  <span class="c1">// 随机整数</span>
+</code></pre></div></div><p>{% raw %}</p><ul><li>参数依赖上一个请求的返回：上个请求的Tests里提取参数存环境变量，这个请求里用{{变量名}}取值</li><li>参数每次都不同，但之后的断言或别的请求里可能还要用：在Pre-request Script里写代码处理，存为环境变量，参数里用{{变量名}}取值</li></ul><p>例如</p><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">randomInt</span> <span class="o">=</span> <span class="p">(</span><span class="nx">min</span><span class="p">,</span> <span class="nx">max</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">max</span> <span class="o">-</span> <span class="nx">min</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="nx">min</span><span class="p">;</span>  <span class="c1">// 随机整数</span>
 <span class="kd">const</span> <span class="nx">getRandomValue</span> <span class="o">=</span> <span class="nx">list</span> <span class="o">=&gt;</span> <span class="nx">list</span><span class="p">[</span><span class="nx">randomInt</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">list</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)];</span>  <span class="c1">// 随机选项</span>
 <span class="nx">environment</span><span class="p">.</span><span class="nx">randomMobile</span> <span class="o">=</span> <span class="s2">`18</span><span class="p">${</span><span class="nx">randomInt</span><span class="p">(</span><span class="mi">100000000</span><span class="p">,</span> <span class="mi">999999999</span><span class="p">)}</span><span class="s2">`</span><span class="p">;</span><span class="c1">// 随机手机</span>
 <span class="nx">environment</span><span class="p">.</span><span class="nx">randomDevice</span> <span class="o">=</span> <span class="nx">getRandomValue</span><span class="p">([</span><span class="dl">'</span><span class="s1">ios</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">android</span><span class="dl">'</span><span class="p">]);</span><span class="c1">// 随机设备名</span>
-</code></pre></div></div>
-<p>Postman目前没有很方便的重用代码的手段，编辑框也不是IDE，没智能提示，尽量别整那么复杂</p>
-
-<h4 id="8调试">8、调试</h4>
-
-<p>cmd + alt + c（Windows ctrl + alt + c）打开Postman控制台，可以看请求和响应内容
-用console.log()打印，到控制台看
-或</p>
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">tests</span><span class="p">[</span><span class="dl">'</span><span class="s1">这里拼出你想看的字符串</span><span class="dl">'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span> <span class="c1">//在界面报告看断言</span>
-</code></pre></div></div>
-<p>mock http://blog.getpostman.com/2016/01/26/using-a-mocking-service-to-create-postman-collections/</p>
-
-<h4 id="9global">9、global</h4>
-
-<p>不做自动化测试可以跳过这段
-跟environment几乎完全一样，在地址栏、header、请求参数、外部数据文件里也是{{}} 调用，除了：</p>
-<ul>
-  <li>只有1个global文件</li>
-  <li>菜单藏得较深，在生成的API文档里也不解析，决定了它不适合做参数化</li>
-  <li>environment和global同名时，优先用environment</li>
-</ul>
-
-<p>global只建议用在1种场景：定义公共函数，先正常地写好函数，再用在线压缩工具压成一行，在菜单里选 Bulk Edit，以每行一对 key:value 的形式编辑，变量名做key，函数做value</p>
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">assertNotTimeout</span><span class="p">:</span> <span class="kd">var</span> <span class="nx">hasResponse</span> <span class="o">=</span> <span class="nx">postman</span><span class="p">.</span><span class="nx">getResponseHeader</span><span class="p">(</span><span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">)</span> <span class="p">?</span> <span class="kc">true</span><span class="p">:</span><span class="kc">false</span><span class="p">;</span>
+</code></pre></div></div><p>Postman目前没有很方便的重用代码的手段，编辑框也不是IDE，没智能提示，尽量别整那么复杂</p><h4 id="8调试">8、调试</h4><p>cmd + alt + c（Windows ctrl + alt + c）打开Postman控制台，可以看请求和响应内容 用console.log()打印，到控制台看 或</p><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">tests</span><span class="p">[</span><span class="dl">'</span><span class="s1">这里拼出你想看的字符串</span><span class="dl">'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span> <span class="c1">//在界面报告看断言</span>
+</code></pre></div></div><p>mock http://blog.getpostman.com/2016/01/26/using-a-mocking-service-to-create-postman-collections/</p><h4 id="9global">9、global</h4><p>不做自动化测试可以跳过这段 跟environment几乎完全一样，在地址栏、header、请求参数、外部数据文件里也是{{}} 调用，除了：</p><ul><li>只有1个global文件</li><li>菜单藏得较深，在生成的API文档里也不解析，决定了它不适合做参数化</li><li>environment和global同名时，优先用environment</li></ul><p>global只建议用在1种场景：定义公共函数，先正常地写好函数，再用在线压缩工具压成一行，在菜单里选 Bulk Edit，以每行一对 key:value 的形式编辑，变量名做key，函数做value</p><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">assertNotTimeout</span><span class="p">:</span> <span class="kd">var</span> <span class="nx">hasResponse</span> <span class="o">=</span> <span class="nx">postman</span><span class="p">.</span><span class="nx">getResponseHeader</span><span class="p">(</span><span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">)</span> <span class="p">?</span> <span class="kc">true</span><span class="p">:</span><span class="kc">false</span><span class="p">;</span>
 <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">hasResponse</span><span class="p">)</span> <span class="nx">tests</span><span class="p">[</span><span class="dl">'</span><span class="s1">服务端在超时前没返回任何数据，请检查相关服务、网络或反向代理设置（以下跳过其他断言）</span><span class="dl">'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
 <span class="nl">logParams</span><span class="p">:</span> <span class="k">if</span> <span class="p">(</span><span class="nx">hasResponse</span><span class="p">)</span> <span class="nx">tests</span><span class="p">[</span><span class="s2">` [INFO]请求参数（超时没返回时不解析）：$ {
     JSON.stringify(request.data)
@@ -238,114 +71,25 @@ A. 用正则表达式匹配
         actual
     }）`</span><span class="p">]</span> <span class="o">=</span> <span class="nx">actual</span> <span class="o">!==</span> <span class="nx">expected</span><span class="p">;</span>
 <span class="p">};</span>
-</code></pre></div></div>
-<ul>
-  <li>注意在这里定义变量只有 var 的作用域够大，用 let 或 const 的话eval后就销毁了</li>
-  <li>假设返回 {“name”:”张三”,”userType”:1,”settings”:[]}，在Tests里一上来就写
-    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">eval</span><span class="p">(</span><span class="nx">globals</span><span class="p">.</span><span class="nx">assertNotTimeout</span><span class="p">);</span>  
-</code></pre></div>    </div>
-  </li>
-  <li>判断是否超时（通过有没有Content-Type请求头），超时则断言失败
-    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">eval</span><span class="p">(</span><span class="nx">globals</span><span class="p">.</span><span class="nx">logParams</span><span class="p">);</span>  
-</code></pre></div>    </div>
-  </li>
-  <li>如果不超时，显示发出的请求参数
-    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">eval</span><span class="p">(</span><span class="nx">globals</span><span class="p">.</span><span class="nx">getResponseJson</span><span class="p">);</span>  
-</code></pre></div>    </div>
-  </li>
-  <li>如果不超时，解析返回的JSON对象，赋给json变量，返回值不合法则断言失败</li>
-  <li>下面定义了3个公共函数，免得每次断言都要写一大串
-    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">eval</span><span class="p">(</span><span class="nx">globals</span><span class="p">.</span><span class="nx">assertType</span><span class="p">);</span>
+</code></pre></div></div><ul><li>注意在这里定义变量只有 var 的作用域够大，用 let 或 const 的话eval后就销毁了</li><li>假设返回 {“name”:”张三”,”userType”:1,”settings”:[]}，在Tests里一上来就写<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">eval</span><span class="p">(</span><span class="nx">globals</span><span class="p">.</span><span class="nx">assertNotTimeout</span><span class="p">);</span>  
+</code></pre></div></div></li><li>判断是否超时（通过有没有Content-Type请求头），超时则断言失败<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">eval</span><span class="p">(</span><span class="nx">globals</span><span class="p">.</span><span class="nx">logParams</span><span class="p">);</span>  
+</code></pre></div></div></li><li>如果不超时，显示发出的请求参数<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">eval</span><span class="p">(</span><span class="nx">globals</span><span class="p">.</span><span class="nx">getResponseJson</span><span class="p">);</span>  
+</code></pre></div></div></li><li>如果不超时，解析返回的JSON对象，赋给json变量，返回值不合法则断言失败</li><li>下面定义了3个公共函数，免得每次断言都要写一大串<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">eval</span><span class="p">(</span><span class="nx">globals</span><span class="p">.</span><span class="nx">assertType</span><span class="p">);</span>
 <span class="nb">eval</span><span class="p">(</span><span class="nx">globals</span><span class="p">.</span><span class="nx">assertEqual</span><span class="p">);</span>
 <span class="nb">eval</span><span class="p">(</span><span class="nx">globals</span><span class="p">.</span><span class="nx">assertNotEqual</span><span class="p">);</span>
 <span class="c1">// 上面3个基本满足日常使用需要</span>
-</code></pre></div>    </div>
-    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">json</span><span class="p">)</span> <span class="p">{</span>
+</code></pre></div></div><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">json</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">assertType</span><span class="p">(</span><span class="dl">'</span><span class="s1">用户名</span><span class="dl">'</span><span class="p">,</span> <span class="nx">json</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="dl">'</span><span class="s1">string</span><span class="dl">'</span><span class="p">);</span><span class="c1">// 在报告中显示为： '用户名为string，（实际值：张三）'</span>
   <span class="nx">assertType</span><span class="p">(</span><span class="dl">'</span><span class="s1">设置</span><span class="dl">'</span><span class="p">,</span> <span class="nx">json</span><span class="p">.</span><span class="nx">settings</span><span class="p">,</span> <span class="dl">'</span><span class="s1">array</span><span class="dl">'</span><span class="p">);</span><span class="c1">// JS里其实没有array类型（数组是object），这里做了处理，让报告更好懂  </span>
   <span class="nx">assertEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">用户类型</span><span class="dl">'</span><span class="p">,</span> <span class="nx">json</span><span class="p">.</span><span class="nx">userType</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span><span class="c1">//显示为：'用户类型等于1，（实际值：1）'</span>
   <span class="nx">assertNotEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">用户类型</span><span class="dl">'</span><span class="p">,</span> <span class="nx">json</span><span class="p">.</span><span class="nx">userType</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span><span class="c1">//显示为：'用户类型不等于2，（实际值：1）'</span>
 <span class="p">}</span>
-</code></pre></div>    </div>
-  </li>
-  <li>在官方给出更方便的重用代码的方法前，这是除了复制粘贴外的重用方法，如果不做自动化测试，且断言写得很简单，不建议这么搞</li>
-  <li>如果不幸跳了自动化的坑，通常一个项目会有100~200个接口要做自动化测试，要仔细比较哪种方法成本更高</li>
-  <li>定义函数前要仔细考虑好，万一中途要改参数和返回值，已经写好的n份也得改……</li>
-  <li>建议定义的公共函数不超过个位数，并保留好没压缩的版本，不然别人没法接手</li>
-</ul>
-
-<p>http://blog.getpostman.com/2015/09/29/writing-a-behaviour-driven-api-testing-environment-within-postman/</p>
-
-<p>如果确实要在代码里设global，官方的：</p>
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nx">postman</span><span class="p">.</span><span class="nx">setGlobalVariable</span><span class="p">(</span><span class="dl">'</span><span class="s1">variableKey</span><span class="dl">'</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>  
-</code></pre></div></div>
-<p>同样存成字符串</p>
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">bar</span> <span class="o">=</span> <span class="nx">postman</span><span class="p">.</span><span class="nx">getGlobalVariable</span><span class="p">(</span><span class="dl">'</span><span class="s1">variableKey</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div></li><li>在官方给出更方便的重用代码的方法前，这是除了复制粘贴外的重用方法，如果不做自动化测试，且断言写得很简单，不建议这么搞</li><li>如果不幸跳了自动化的坑，通常一个项目会有100~200个接口要做自动化测试，要仔细比较哪种方法成本更高</li><li>定义函数前要仔细考虑好，万一中途要改参数和返回值，已经写好的n份也得改……</li><li>建议定义的公共函数不超过个位数，并保留好没压缩的版本，不然别人没法接手</li></ul><p>http://blog.getpostman.com/2015/09/29/writing-a-behaviour-driven-api-testing-environment-within-postman/</p><p>如果确实要在代码里设global，官方的：</p><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nx">postman</span><span class="p">.</span><span class="nx">setGlobalVariable</span><span class="p">(</span><span class="dl">'</span><span class="s1">variableKey</span><span class="dl">'</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>  
+</code></pre></div></div><p>同样存成字符串</p><div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">bar</span> <span class="o">=</span> <span class="nx">postman</span><span class="p">.</span><span class="nx">getGlobalVariable</span><span class="p">(</span><span class="dl">'</span><span class="s1">variableKey</span><span class="dl">'</span><span class="p">);</span>
 <span class="nx">postman</span><span class="p">.</span><span class="nx">clearGlobalVariable</span><span class="p">(</span><span class="dl">'</span><span class="s1">variableKey</span><span class="dl">'</span><span class="p">);</span><span class="c1">//清除该变量</span>
-</code></pre></div></div>
-
-<h4 id="10数据文件">10、数据文件</h4>
-
-<p>在collection runner或命令行的Newman里可以加载数据文件</p>
-<h5 id="json格式">JSON格式</h5>
-<ol>
-  <li>文件里有且只有1个数组，每个对象算1条用例（在Postman里的全局变量叫做data）</li>
-  <li>key作为变量名，value作为变量的值</li>
-  <li>文件里依然可以用{{}} 拿到环境变量，注意不要把自己绕进去：</li>
-  <li>如果是Pre-request Script里生成的环境变量，直接写进请求参数，不用经这里
-    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">  </span><span class="p">{</span><span class="nl">"mobile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"17000000001"</span><span class="p">,</span><span class="w"> </span><span class="nl">"pwd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456"</span><span class="p">},</span><span class="w">  </span><span class="p">{</span><span class="nl">"mobile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"17000000002"</span><span class="p">,</span><span class="w"> </span><span class="nl">"pwd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"654321"</span><span class="p">},</span><span class="w">  </span><span class="p">{</span><span class="nl">"mobile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"17000000003"</span><span class="p">,</span><span class="w"> </span><span class="nl">"pwd"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">},</span><span class="w">  </span><span class="p">{</span><span class="nl">"mobile"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="nl">"pwd"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">}]</span><span class="w">
-</span></code></pre></div>    </div>
-    <p>显然，这是json文件，并不能在里面写代码（除非你蛋疼在value里写字符串然后在用例里eval）</p>
-  </li>
-  <li>用例的请求参数里依然用  拿到数据文件里的值，代码里则是 data.key</li>
-  <li>如果key跟environment/globals里的key重名，这里的 &gt; environment &gt; globals
-    <h5 id="csv格式">CSV格式</h5>
-  </li>
-  <li>第1行变量名，下面是值，每行1条用例，没有空格</li>
-  <li>没JSON格式的数据文件灵活
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mobile,pwd
+</code></pre></div></div><h4 id="10数据文件">10、数据文件</h4><p>在collection runner或命令行的Newman里可以加载数据文件</p><h5 id="json格式">JSON格式</h5><ol><li>文件里有且只有1个数组，每个对象算1条用例（在Postman里的全局变量叫做data）</li><li>key作为变量名，value作为变量的值</li><li>文件里依然可以用{{}} 拿到环境变量，注意不要把自己绕进去：</li><li>如果是Pre-request Script里生成的环境变量，直接写进请求参数，不用经这里<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">  </span><span class="p">{</span><span class="nl">"mobile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"17000000001"</span><span class="p">,</span><span class="w"> </span><span class="nl">"pwd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123456"</span><span class="p">},</span><span class="w">  </span><span class="p">{</span><span class="nl">"mobile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"17000000002"</span><span class="p">,</span><span class="w"> </span><span class="nl">"pwd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"654321"</span><span class="p">},</span><span class="w">  </span><span class="p">{</span><span class="nl">"mobile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"17000000003"</span><span class="p">,</span><span class="w"> </span><span class="nl">"pwd"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">},</span><span class="w">  </span><span class="p">{</span><span class="nl">"mobile"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="nl">"pwd"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">}]</span><span class="w">
+</span></code></pre></div></div><p>显然，这是json文件，并不能在里面写代码（除非你蛋疼在value里写字符串然后在用例里eval）</p></li><li>用例的请求参数里依然用 拿到数据文件里的值，代码里则是 data.key</li><li>如果key跟environment/globals里的key重名，这里的 &gt; environment &gt; globals<h5 id="csv格式">CSV格式</h5></li><li>第1行变量名，下面是值，每行1条用例，没有空格</li><li>没JSON格式的数据文件灵活<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mobile,pwd
 17000000001,123456
 17000000002,654321
 17000000003,322323
-</code></pre></div>    </div>
-  </li>
-</ol>
-
-<h4 id="注意">注意</h4>
-
-<p>谨慎使用。这东西增加了调试和定位问题的复杂性，也就大大增加了维护成本，而它带来的收益并不明显：</p>
-<ol>
-  <li>针对单个接口的简单压力测试
-Postman不是正经的压测工具，既然选择了它就是图简单方便，
-像JMeter那样用CSV文件做数据源的意义不大，还得另外写程序/脚本生成这样的文件，时间上不划算
-直接用代码生成数据就好，不差那一两毫秒</li>
-  <li>数据驱动测试：一条用例测多种参数组合，包括合法和非法值，避免复制粘贴n条略有不同的
-很诱人</li>
-</ol>
-
-<p>但是：</p>
-<ul>
-  <li>产品设计时有考虑异常情况吗？</li>
-  <li>需求来源是否统一？</li>
-  <li>需求是否足够稳定？</li>
-  <li>整个项目有统一的异常处理规范还是看开发个人习惯？
-如果不确定有些输入要不要/怎么处理，意味着改动可能会非常大
-今天非法，明天变合法，后天又变非法<br />
-如果冒烟用例用在持续集成，有测试不通过会阻止发布，会严重干扰正常发版，也影响大家对自动化测试的信心</li>
-</ul>
-
-<p>此外：</p>
-<ul>
-  <li>内部的基础组件为了不同项目通用，可能会允许看起来相当没道理的值</li>
-  <li>不对外暴露的接口为了性能，可能会有意去掉所有校验</li>
-  <li>不要因为所谓“测试思维”，就在不了解的情况下为了测试而测试</li>
-  <li>这种力气留到探索性测试和安全测试，自动化测试还是要讲求稳定和省事</li>
-  <li>为了能匹配正常和异常情况（和具体哪一种异常情况），断言必须写得比平时复杂</li>
-  <li>然后你会希望把断言条件也写进数据文件里，一种格式，eval后到处通用</li>
-  <li>然后数据文件的格式会变得远比上面的示例复杂</li>
-  <li>然后你会准备一键生成模板的脚本，批量修改的脚本，封装Newman的脚本，一个框架的雏形……别问我怎么知道的，然后你回过头发现，一开始不用数据文件不就省事多了？！</li>
-</ul>
-
-<p>原文：http://f.dataguru.cn/thread-866724-1-1.html</p>
-
-<p>仅整理格式</p>
+</code></pre></div></div></li></ol><h4 id="注意">注意</h4><p>谨慎使用。这东西增加了调试和定位问题的复杂性，也就大大增加了维护成本，而它带来的收益并不明显：</p><ol><li>针对单个接口的简单压力测试 Postman不是正经的压测工具，既然选择了它就是图简单方便， 像JMeter那样用CSV文件做数据源的意义不大，还得另外写程序/脚本生成这样的文件，时间上不划算 直接用代码生成数据就好，不差那一两毫秒</li><li>数据驱动测试：一条用例测多种参数组合，包括合法和非法值，避免复制粘贴n条略有不同的 很诱人</li></ol><p>但是：</p><ul><li>产品设计时有考虑异常情况吗？</li><li>需求来源是否统一？</li><li>需求是否足够稳定？</li><li>整个项目有统一的异常处理规范还是看开发个人习惯？ 如果不确定有些输入要不要/怎么处理，意味着改动可能会非常大 今天非法，明天变合法，后天又变非法<br /> 如果冒烟用例用在持续集成，有测试不通过会阻止发布，会严重干扰正常发版，也影响大家对自动化测试的信心</li></ul><p>此外：</p><ul><li>内部的基础组件为了不同项目通用，可能会允许看起来相当没道理的值</li><li>不对外暴露的接口为了性能，可能会有意去掉所有校验</li><li>不要因为所谓“测试思维”，就在不了解的情况下为了测试而测试</li><li>这种力气留到探索性测试和安全测试，自动化测试还是要讲求稳定和省事</li><li>为了能匹配正常和异常情况（和具体哪一种异常情况），断言必须写得比平时复杂</li><li>然后你会希望把断言条件也写进数据文件里，一种格式，eval后到处通用</li><li>然后数据文件的格式会变得远比上面的示例复杂</li><li>然后你会准备一键生成模板的脚本，批量修改的脚本，封装Newman的脚本，一个框架的雏形……别问我怎么知道的，然后你回过头发现，一开始不用数据文件不就省事多了？！</li></ul><p>原文：http://f.dataguru.cn/thread-866724-1-1.html</p><p>仅整理格式</p><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://dreamylost.cn" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://dreamylost.cn/wiki/postman%E5%91%BD%E4%BB%A4/" target="_blank">https://dreamylost.cn/wiki/postman%E5%91%BD%E4%BB%A4/</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/wiki/postman%E5%91%BD%E4%BB%A4/', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@built/assets/search_data.json?v=1617169847', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://dreamylost.cn/" title="首页" target="">首页</a></li><li> <a href="https://dreamylost.cn/categories/" title="分类" target="">分类</a></li><li> <a href="https://dreamylost.cn/wiki/" title="维基" target="">维基</a></li><li> <a href="https://dreamylost.cn/links/" title="链接" target="">链接</a></li><li> <a href="https://dreamylost.cn/about/" title="关于" target="">关于</a></li><li><a href="https://dreamylost.cn/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>
