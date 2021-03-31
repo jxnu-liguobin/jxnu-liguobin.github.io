@@ -1,0 +1,310 @@
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>Scalars &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-Scalars.html"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://jxnu-liguobin.github.io/feed.xml"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/favicon.ico"><meta property="og:title" content="Scalars"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content=""><meta name="og:description" content=""><meta property="og:url" content="https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-Scalars.html"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2020-04-03"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://jxnu-liguobin.github.io/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://jxnu-liguobin.github.io/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://jxnu-liguobin.github.io/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://jxnu-liguobin.github.io/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://jxnu-liguobin.github.io/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://jxnu-liguobin.github.io/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="Scalars"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">Scalars</h1><div class="collection-info"> <span class="meta-info"> <span class="octicon octicon-calendar"></span> 2020/04/03 </span> <span class="meta-info"> <span class="octicon octicon-file-directory"></span> <a href="https://jxnu-liguobin.github.io/categories/#GraphqlJava" title="GraphqlJava">GraphqlJava</a> </span> <span class="meta-info"> <span class="octicon octicon-clock"></span> 共 7747 字，约 23 分钟 </span></div></div></div><div class="column one-fourth mobile-hidden"><div class="collection-title"></div></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><ul id="markdown-toc"><li><a href="#writing-your-own-custom-scalars" id="markdown-toc-writing-your-own-custom-scalars">Writing your Own Custom Scalars</a></li><li><a href="#coercing-values" id="markdown-toc-coercing-values">Coercing values</a></li><li><a href="#validation-of-input-and-output" id="markdown-toc-validation-of-input-and-output">Validation of input and output</a></li><li><a href="#example-implementation" id="markdown-toc-example-implementation">Example implementation</a></li><li><a href="#使用自定义标量" id="markdown-toc-使用自定义标量">使用自定义标量</a></li></ul><p>graphql类型系统的叶节点称为标量。一旦达到标量类型，就无法进一步下降到类型层次结构中。标量类型旨在表示不可分的值。</p><p>graphql规范指出，所有实现都必须具有以下标量类型。</p><ul><li>String 又名 GraphQLString - 一个UTF‐8字符序列</li><li>Boolean 又名 GraphQLBoolean - true 或 false</li><li>Int 又名 GraphQLInt - 一个有符号的32位整数</li><li>Float 又名 GraphQLFloat - 一个有符号双精度浮点数</li><li>ID 又名 GraphQLID - 唯一标识符，以与String相同的方式序列化；但是，将其定义为ID表示它不是人类可读的。</li></ul><p>graphql-java添加了以下标量类型，这些标量类型在基于Java的系统中很有用</p><ul><li>Long GraphQLLong - java.lang.Long</li><li>Short GraphQLShort - java.lang.Short</li><li>Byte GraphQLByte - java.lang.Byte</li><li>BigDecimal GraphQLBigDecimal - java.math.BigDecimal</li><li>BigInteger GraphQLBigInteger - java.math.BigInteger</li></ul><p>graphql.Scalars类包含所提供标量类型的单例实例</p><h1 id="writing-your-own-custom-scalars">Writing your Own Custom Scalars</h1><p>您可以编写自己的自定义标量实现。这样，您将负责在运行时强制限制值，我们将在稍后解释。</p><p>想象我们决定需要一个电子邮件标量类型。它将电子邮件地址作为输入和输出。</p><p>我们将为此创建一个单例graphql.schema.GraphQLScalarType实例。</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">GraphQLScalarType</span> <span class="no">EMAIL</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GraphQLScalarType</span><span class="o">(</span><span class="s">"email"</span><span class="o">,</span> <span class="s">"A custom scalar that handles emails"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Coercing</span><span class="o">()</span> <span class="o">{</span>
+    
+    <span class="c1">//接受一个Java对象并将其转换为该标量的输出形式</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">serialize</span><span class="o">(</span><span class="nc">Object</span> <span class="n">dataFetcherResult</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">serializeEmail</span><span class="o">(</span><span class="n">dataFetcherResult</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="c1">//接受变量输入对象并转换为Java运行时表示形式</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">parseValue</span><span class="o">(</span><span class="nc">Object</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">parseEmailFromVariable</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="c1">//将AST文字graphql.language.Value作为输入并转换为Java运行时表示形式</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">parseLiteral</span><span class="o">(</span><span class="nc">Object</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">parseEmailFromAstLiteral</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+</code></pre></div></div><h1 id="coercing-values">Coercing values</h1><p>任何自定义标量实现中的实际工作都是实现graphql.schema.Coercing。</p><p>您的自定义标量代码必须处理2种形式的输入（parseValue/parseLiteral）和1种形式的输出（序列化）。</p><p>想象一下这个查询，它使用变量，AST文字并输出我们的标量类型电子邮件。</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">mutation</span><span class="w"> </span><span class="n">Contact</span><span class="p">(</span><span class="nv">$mainContact</span><span class="p">:</span><span class="w"> </span><span class="n">Email</span><span class="p">!)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">makeContact</span><span class="p">(</span><span class="n">mainContactEmail</span><span class="p">:</span><span class="w"> </span><span class="nv">$mainContact</span><span class="p">,</span><span class="w"> </span><span class="n">backupContactEmail</span><span class="p">:</span><span class="w"> </span><span class="s2">"backup@company.com"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">mainContactEmail</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div><p>我们的自定义电子邮件标量将</p><ul><li>通过parseValue调用以将$mainContact变量值转换为运行时对象</li><li>通过parseLiteral调用以将AST graphql.language.StringValue “backup@company.com” 转换为运行时对象</li><li>通过序列化调用，以将mainContactEmail的运行时表示形式转换为可用于输出的表单</li></ul><h1 id="validation-of-input-and-output">Validation of input and output</h1><p>该方法可以验证接收到的输入是否有意义。例如，我们的电子邮件标量将尝试验证输入和输出确实是电子邮件地址。</p><p>graphql.schema.Coercing的JavaDoc方法协定如下</p><ul><li>只允许从序列化抛出graphql.schema.CoercingSerializeException。这表明该值不能序列化为适当的形式。您不得允许其他运行时异常转义此方法以获取正常的graphql行为进行验证。您必须返回非null值。</li><li>仅允许从parseValue引发graphql.schema.CoercingParseValueException。这表明该值不能解析为适当形式的输入。您不得允许其他运行时异常转义此方法以获取正常的graphql行为进行验证。您必须返回非null值。</li><li>仅允许从parseLiteral引发graphql.schema.CoercingParseLiteralException。这表明AST值不能解析为适当形式的输入。您不得允许任何运行时异常转义此方法，以获取正常的graphql行为进行验证。</li></ul><p>有些人试图依靠运行时异常进行验证，并希望它们以graphql错误的形式出现。然而并发如此，您必须遵循Coercing方法协定，以允许graphql-java引擎根据有关标量类型的graphql规范工作。</p><h1 id="example-implementation">Example implementation</h1><p>以下是我们想象中的email标量类型的一个非常粗略的实现，以向您展示如何实现这种标量的Coercing方法。</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">EmailScalar</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">GraphQLScalarType</span> <span class="nc">Email</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GraphQLScalarType</span><span class="o">(</span><span class="s">"email"</span><span class="o">,</span> <span class="s">"A custom scalar that handles emails"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Coercing</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">serialize</span><span class="o">(</span><span class="nc">Object</span> <span class="n">dataFetcherResult</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nf">serializeEmail</span><span class="o">(</span><span class="n">dataFetcherResult</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">parseValue</span><span class="o">(</span><span class="nc">Object</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nf">parseEmailFromVariable</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">parseLiteral</span><span class="o">(</span><span class="nc">Object</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nf">parseEmailFromAstLiteral</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">});</span>
+
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">looksLikeAnEmailAddress</span><span class="o">(</span><span class="nc">String</span> <span class="n">possibleEmailValue</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 这个正则不是标准的验证邮件地址的那个</span>
+        <span class="k">return</span> <span class="nc">Pattern</span><span class="o">.</span><span class="na">matches</span><span class="o">(</span><span class="s">"^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$"</span><span class="o">,</span> <span class="n">possibleEmailValue</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">Object</span> <span class="nf">serializeEmail</span><span class="o">(</span><span class="nc">Object</span> <span class="n">dataFetcherResult</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">possibleEmailValue</span> <span class="o">=</span> <span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">dataFetcherResult</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">looksLikeAnEmailAddress</span><span class="o">(</span><span class="n">possibleEmailValue</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">possibleEmailValue</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">CoercingSerializeException</span><span class="o">(</span><span class="s">"Unable to serialize "</span> <span class="o">+</span> <span class="n">possibleEmailValue</span> <span class="o">+</span> <span class="s">" as an email address"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">Object</span> <span class="nf">parseEmailFromVariable</span><span class="o">(</span><span class="nc">Object</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">input</span> <span class="k">instanceof</span> <span class="nc">String</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">String</span> <span class="n">possibleEmailValue</span> <span class="o">=</span> <span class="n">input</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">looksLikeAnEmailAddress</span><span class="o">(</span><span class="n">possibleEmailValue</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">possibleEmailValue</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">CoercingParseValueException</span><span class="o">(</span><span class="s">"Unable to parse variable value "</span> <span class="o">+</span> <span class="n">input</span> <span class="o">+</span> <span class="s">" as an email address"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">Object</span> <span class="nf">parseEmailFromAstLiteral</span><span class="o">(</span><span class="nc">Object</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">input</span> <span class="k">instanceof</span> <span class="nc">StringValue</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">String</span> <span class="n">possibleEmailValue</span> <span class="o">=</span> <span class="o">((</span><span class="nc">StringValue</span><span class="o">)</span> <span class="n">input</span><span class="o">).</span><span class="na">getValue</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">looksLikeAnEmailAddress</span><span class="o">(</span><span class="n">possibleEmailValue</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">possibleEmailValue</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">CoercingParseLiteralException</span><span class="o">(</span>
+                <span class="s">"Value is not any email address : '"</span> <span class="o">+</span> <span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">input</span><span class="o">)</span> <span class="o">+</span> <span class="s">"'"</span>
+        <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><h1 id="使用自定义标量">使用自定义标量</h1><p>使用上面定义的Email类型完成请求与相应</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//自定义标量，......表示省略</span>
+<span class="o">......</span>
+
+<span class="c1">//在StarWarsWiring中定义（或直接使用，主要为了使用依赖注入）</span>
+<span class="nc">GraphQLScalarType</span> <span class="nc">Email</span> <span class="o">=</span> <span class="nc">EmailScalar</span><span class="o">.</span><span class="na">Email</span><span class="o">;</span>
+
+<span class="o">......</span>
+
+<span class="c1">//在织入时绑定</span>
+<span class="kd">private</span> <span class="nc">GraphQLSchema</span> <span class="nf">buildSchema</span><span class="o">(</span><span class="nc">String</span> <span class="n">sdl</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//读取从resources下加载解析的gql schema文件的字符串</span>
+    <span class="nc">TypeDefinitionRegistry</span> <span class="n">typeRegistry</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SchemaParser</span><span class="o">().</span><span class="na">parse</span><span class="o">(</span><span class="n">sdl</span><span class="o">);</span>
+    <span class="c1">//创建运行时类型织入</span>
+    <span class="nc">RuntimeWiring</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="nc">RuntimeWiring</span><span class="o">.</span><span class="na">newRuntimeWiring</span><span class="o">();</span>
+    <span class="c1">//动态映射</span>
+    <span class="c1">//运行时织入包含DataFetcher、TypeResolvers和自定义Scalar，它们是制作完全可执行的schema所必需的。</span>
+    <span class="n">builder</span><span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="n">newTypeWiring</span><span class="o">(</span><span class="s">"Query"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">dataFetcher</span><span class="o">(</span><span class="s">"hero"</span><span class="o">,</span> <span class="n">starWarsWiring</span><span class="o">.</span><span class="na">heroDataFetcher</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">dataFetcher</span><span class="o">(</span><span class="s">"human"</span><span class="o">,</span> <span class="n">starWarsWiring</span><span class="o">.</span><span class="na">humanDataFetcher</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">dataFetcher</span><span class="o">(</span><span class="s">"humans"</span><span class="o">,</span> <span class="n">starWarsWiring</span><span class="o">.</span><span class="na">humansDataFetcher</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">dataFetcher</span><span class="o">(</span><span class="s">"droid"</span><span class="o">,</span> <span class="n">starWarsWiring</span><span class="o">.</span><span class="na">droidDataFetcher</span><span class="o">));</span>
+    <span class="n">builder</span><span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="n">newTypeWiring</span><span class="o">(</span><span class="s">"Human"</span><span class="o">).</span><span class="na">dataFetcher</span><span class="o">(</span><span class="s">"friends"</span><span class="o">,</span> <span class="n">starWarsWiring</span><span class="o">.</span><span class="na">friendsDataFetcher</span><span class="o">));</span>
+    <span class="n">builder</span><span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="n">newTypeWiring</span><span class="o">(</span><span class="s">"Droid"</span><span class="o">).</span><span class="na">dataFetcher</span><span class="o">(</span><span class="s">"friends"</span><span class="o">,</span> <span class="n">starWarsWiring</span><span class="o">.</span><span class="na">friendsDataFetcher</span><span class="o">));</span>
+    <span class="n">builder</span><span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="n">newTypeWiring</span><span class="o">(</span><span class="s">"Character"</span><span class="o">).</span><span class="na">typeResolver</span><span class="o">(</span><span class="n">starWarsWiring</span><span class="o">.</span><span class="na">characterTypeResolver</span><span class="o">));</span>
+    <span class="n">builder</span><span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="n">newTypeWiring</span><span class="o">(</span><span class="s">"Episode"</span><span class="o">).</span><span class="na">enumValues</span><span class="o">(</span><span class="n">starWarsWiring</span><span class="o">.</span><span class="na">episodeResolver</span><span class="o">));</span>
+    <span class="n">builder</span><span class="o">.</span><span class="na">scalar</span><span class="o">(</span><span class="n">starWarsWiring</span><span class="o">.</span><span class="na">Email</span><span class="o">);</span><span class="c1">//注入StarWarsWiring中实现的自定义的标量</span>
+    <span class="nc">SchemaGenerator</span> <span class="n">schemaGenerator</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SchemaGenerator</span><span class="o">();</span>
+    <span class="c1">//创建gql schema对象，构造可执行请求的gql</span>
+    <span class="k">return</span> <span class="n">schemaGenerator</span><span class="o">.</span><span class="na">makeExecutableSchema</span><span class="o">(</span><span class="n">typeRegistry</span><span class="o">,</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div><p>在starWarsSchemaAnnotated.graphqls文件修改为</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">scalar</span><span class="w"> </span><span class="n">Email</span><span class="w">
+
+</span><span class="err">......</span><span class="w">
+</span><span class="k">type</span><span class="w"> </span><span class="n">Human</span><span class="w"> </span><span class="k">implements</span><span class="w"> </span><span class="n">Character</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+    </span><span class="n">friends</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Character</span><span class="p">]</span><span class="w">
+    </span><span class="n">appearsIn</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Episode</span><span class="p">]!</span><span class="w">
+    </span><span class="n">homePlanet</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+    </span><span class="n">secretBackstory</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="err">@</span><span class="n">deprecated</span><span class="p">(</span><span class="n">reason</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">"</span><span class="n">We</span><span class="w"> </span><span class="n">have</span><span class="w"> </span><span class="n">decided</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">canon</span><span class="err">"</span><span class="p">)</span><span class="w">
+    </span><span class="c"># 添加一个属性，使用了自定义标量</span><span class="w">
+    </span><span class="n">email</span><span class="p">:</span><span class="w"> </span><span class="n">Email</span><span class="p">!</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="err">......</span><span class="w">
+
+</span></code></pre></div></div><p>修改Java POJO，为Human类增加String类型 email字段</p><p>使用如下查询</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="n">humans</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">name</span><span class="w">
+    </span><span class="n">email</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div><p>返回信息（开了追踪所以有extensions属性）</p><div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"humans"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Luke Skywalker"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dreamylost@outlook.com"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Darth Vader"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dreamylost@outlook.com"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Han Solo"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dreamylost@outlook.com"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Leia Organa"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dreamylost@outlook.com"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"extensions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"tracing"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"startTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-04-03T09:25:00.753Z"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"endTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-04-03T09:25:00.757Z"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">3874865</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"parsing"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"startOffset"</span><span class="p">:</span><span class="w"> </span><span class="mi">491647</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">404205</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nl">"validation"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"startOffset"</span><span class="p">:</span><span class="w"> </span><span class="mi">754108</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">231721</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nl">"execution"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"resolvers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                            </span><span class="s2">"humans"</span><span class="w">
+                        </span><span class="p">],</span><span class="w">
+                        </span><span class="nl">"parentType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Query"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"returnType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"[Human]"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"fieldName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"humans"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"startOffset"</span><span class="p">:</span><span class="w"> </span><span class="mi">1317556</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">506334</span><span class="w">
+                    </span><span class="p">},</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                            </span><span class="s2">"humans"</span><span class="p">,</span><span class="w">
+                            </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                            </span><span class="s2">"name"</span><span class="w">
+                        </span><span class="p">],</span><span class="w">
+                        </span><span class="nl">"parentType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Human"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"returnType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String!"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"fieldName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"startOffset"</span><span class="p">:</span><span class="w"> </span><span class="mi">2007874</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">58120</span><span class="w">
+                    </span><span class="p">},</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                            </span><span class="s2">"humans"</span><span class="p">,</span><span class="w">
+                            </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                            </span><span class="s2">"email"</span><span class="w">
+                        </span><span class="p">],</span><span class="w">
+                        </span><span class="nl">"parentType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Human"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"returnType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Email!"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"fieldName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"startOffset"</span><span class="p">:</span><span class="w"> </span><span class="mi">2199262</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">58219</span><span class="w">
+                    </span><span class="p">},</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                            </span><span class="s2">"humans"</span><span class="p">,</span><span class="w">
+                            </span><span class="mi">1</span><span class="p">,</span><span class="w">
+                            </span><span class="s2">"name"</span><span class="w">
+                        </span><span class="p">],</span><span class="w">
+                        </span><span class="nl">"parentType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Human"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"returnType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String!"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"fieldName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"startOffset"</span><span class="p">:</span><span class="w"> </span><span class="mi">2507644</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">36967</span><span class="w">
+                    </span><span class="p">},</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                            </span><span class="s2">"humans"</span><span class="p">,</span><span class="w">
+                            </span><span class="mi">1</span><span class="p">,</span><span class="w">
+                            </span><span class="s2">"email"</span><span class="w">
+                        </span><span class="p">],</span><span class="w">
+                        </span><span class="nl">"parentType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Human"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"returnType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Email!"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"fieldName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"startOffset"</span><span class="p">:</span><span class="w"> </span><span class="mi">2643613</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">27507</span><span class="w">
+                    </span><span class="p">},</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                            </span><span class="s2">"humans"</span><span class="p">,</span><span class="w">
+                            </span><span class="mi">2</span><span class="p">,</span><span class="w">
+                            </span><span class="s2">"name"</span><span class="w">
+                        </span><span class="p">],</span><span class="w">
+                        </span><span class="nl">"parentType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Human"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"returnType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String!"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"fieldName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"startOffset"</span><span class="p">:</span><span class="w"> </span><span class="mi">2880688</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">34660</span><span class="w">
+                    </span><span class="p">},</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                            </span><span class="s2">"humans"</span><span class="p">,</span><span class="w">
+                            </span><span class="mi">2</span><span class="p">,</span><span class="w">
+                            </span><span class="s2">"email"</span><span class="w">
+                        </span><span class="p">],</span><span class="w">
+                        </span><span class="nl">"parentType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Human"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"returnType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Email!"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"fieldName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"startOffset"</span><span class="p">:</span><span class="w"> </span><span class="mi">3097616</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">47421</span><span class="w">
+                    </span><span class="p">},</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                            </span><span class="s2">"humans"</span><span class="p">,</span><span class="w">
+                            </span><span class="mi">3</span><span class="p">,</span><span class="w">
+                            </span><span class="s2">"name"</span><span class="w">
+                        </span><span class="p">],</span><span class="w">
+                        </span><span class="nl">"parentType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Human"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"returnType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String!"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"fieldName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"startOffset"</span><span class="p">:</span><span class="w"> </span><span class="mi">3369605</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">30026</span><span class="w">
+                    </span><span class="p">},</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                            </span><span class="s2">"humans"</span><span class="p">,</span><span class="w">
+                            </span><span class="mi">3</span><span class="p">,</span><span class="w">
+                            </span><span class="s2">"email"</span><span class="w">
+                        </span><span class="p">],</span><span class="w">
+                        </span><span class="nl">"parentType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Human"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"returnType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Email!"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"fieldName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email"</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"startOffset"</span><span class="p">:</span><span class="w"> </span><span class="mi">3505375</span><span class="p">,</span><span class="w">
+                        </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">45639</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">]</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"dataloader"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"overall-statistics"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"loadCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"loadErrorCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"loadErrorRatio"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"batchInvokeCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"batchLoadCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"batchLoadRatio"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"batchLoadExceptionCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"batchLoadExceptionRatio"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"cacheHitCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"cacheHitRatio"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nl">"individual-statistics"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"characters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="nl">"loadCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"loadErrorCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"loadErrorRatio"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"batchInvokeCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"batchLoadCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"batchLoadRatio"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"batchLoadExceptionCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"batchLoadExceptionRatio"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"cacheHitCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+                    </span><span class="nl">"cacheHitRatio"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div><p>完整代码 https://github.com/jxnu-liguobin/springboot-examples</p><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://jxnu-liguobin.github.io" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-Scalars.html" target="_blank">https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-Scalars.html</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/graphqljava/GraphqlJava-Scalars.html', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://jxnu-liguobin.github.io/assets/search_data.json?v=1617164835', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://jxnu-liguobin.github.io/" title="首页" target="">首页</a></li><li> <a href="https://jxnu-liguobin.github.io/categories/" title="分类" target="">分类</a></li><li> <a href="https://jxnu-liguobin.github.io/wiki/" title="维基" target="">维基</a></li><li> <a href="https://jxnu-liguobin.github.io/links/" title="链接" target="">链接</a></li><li> <a href="https://jxnu-liguobin.github.io/about/" title="关于" target="">关于</a></li><li><a href="https://jxnu-liguobin.github.io/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>

@@ -1,0 +1,806 @@
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>Scala的Spring开发工具类 &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://jxnu-liguobin.github.io/scala/Scala-Scala%E7%9A%84Spring%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E7%B1%BB.html"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://jxnu-liguobin.github.io/feed.xml"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/favicon.ico"><meta property="og:title" content="Scala的Spring开发工具类"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content=""><meta name="og:description" content=""><meta property="og:url" content="https://jxnu-liguobin.github.io/scala/Scala-Scala%E7%9A%84Spring%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E7%B1%BB.html"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2018-05-02"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://jxnu-liguobin.github.io/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://jxnu-liguobin.github.io/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://jxnu-liguobin.github.io/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://jxnu-liguobin.github.io/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://jxnu-liguobin.github.io/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://jxnu-liguobin.github.io/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="Scala的Spring开发工"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">Scala的Spring开发工具类</h1><div class="collection-info"> <span class="meta-info"> <span class="octicon octicon-calendar"></span> 2018/05/02 </span> <span class="meta-info"> <span class="octicon octicon-file-directory"></span> <a href="https://jxnu-liguobin.github.io/categories/#Scala" title="Scala">Scala</a> </span> <span class="meta-info"> <span class="octicon octicon-clock"></span> 共 16929 字，约 49 分钟 </span></div></div></div><div class="column one-fourth mobile-hidden"><div class="collection-title"></div></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><ul id="markdown-toc"><li><a href="#spring-data-redis工具-redis键值对操作" id="markdown-toc-spring-data-redis工具-redis键值对操作">Spring Data Redis工具 redis键值对操作</a></li><li><a href="#springmail工具-邮件发送相关服务" id="markdown-toc-springmail工具-邮件发送相关服务">SpringMail工具 邮件发送相关服务</a></li><li><a href="#user实体类-定义与java兼容的scala实体类用于mybatis操作数据库" id="markdown-toc-user实体类-定义与java兼容的scala实体类用于mybatis操作数据库">User实体类 定义与Java兼容的Scala实体类用于Mybatis操作数据库</a></li><li><a href="#spring缓存支持配置-配置自定义缓存管理器为redis" id="markdown-toc-spring缓存支持配置-配置自定义缓存管理器为redis">Spring缓存支持配置 配置自定义缓存管理器为redis</a></li><li><a href="#spring连接池属性注入-配置redis连接" id="markdown-toc-spring连接池属性注入-配置redis连接">Spring连接池属性注入 配置redis连接</a></li><li><a href="#springmvc配置-scala继承java抽象类" id="markdown-toc-springmvc配置-scala继承java抽象类">SpringMVC配置 Scala继承Java抽象类</a></li><li><a href="#swagger2配置" id="markdown-toc-swagger2配置">Swagger2配置</a></li><li><a href="#spring处理拦截器-scala实现java接口" id="markdown-toc-spring处理拦截器-scala实现java接口">Spring处理拦截器 Scala实现Java接口</a></li><li><a href="#scala时间工具" id="markdown-toc-scala时间工具">Scala时间工具</a></li><li><a href="#scala下载url图片" id="markdown-toc-scala下载url图片">Scala下载URL图片</a></li></ul><h4 id="spring-data-redis工具-redis键值对操作">Spring Data Redis工具 redis键值对操作</h4><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">java.util.Set</span>
+<span class="k">import</span> <span class="nn">java.util.concurrent.TimeUnit</span>
+
+<span class="k">import</span> <span class="nn">org.slf4j.</span><span class="o">{</span><span class="nc">Logger</span><span class="o">,</span> <span class="nc">LoggerFactory</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span>
+<span class="k">import</span> <span class="nn">org.springframework.data.redis.core.RedisTemplate</span>
+<span class="k">import</span> <span class="nn">org.springframework.stereotype.Service</span>
+
+<span class="nd">@Service</span>
+<span class="k">class</span> <span class="nc">RedisService</span> <span class="o">{</span>
+
+    <span class="k">private</span> <span class="k">val</span> <span class="nv">LOGGER</span><span class="k">:</span> <span class="kt">Logger</span> <span class="o">=</span> <span class="nv">LoggerFactory</span><span class="o">.</span><span class="py">getLogger</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">RedisService</span><span class="o">])</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="k">private</span> <span class="k">var</span> <span class="n">redisTemplate</span><span class="k">:</span> <span class="kt">RedisTemplate</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="k">_</span>
+
+    <span class="cm">/**
+      * 获取Set集合数据
+      *
+      * @param k
+      * @return Set[String]
+      */</span>
+    <span class="k">def</span> <span class="nf">getSets</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Set</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+        <span class="nv">redisTemplate</span><span class="o">.</span><span class="py">opsForSet</span><span class="o">.</span><span class="py">members</span><span class="o">(</span><span class="n">k</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * 移除Set集合中的value
+      *
+      * @param k
+      * @param v
+      */</span>
+    <span class="k">def</span> <span class="nf">removeSetValue</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">v</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="nf">if</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">v</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span>
+        <span class="o">}</span>
+        <span class="nv">redisTemplate</span><span class="o">.</span><span class="py">opsForSet</span><span class="o">().</span><span class="py">remove</span><span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">v</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * 保存到Set集合中
+      *
+      * @param k
+      * @param v
+      */</span>
+    <span class="k">def</span> <span class="nf">setSet</span><span class="o">(</span><span class="n">k</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">v</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="nf">if</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">v</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span>
+        <span class="o">}</span>
+        <span class="nv">redisTemplate</span><span class="o">.</span><span class="py">opsForSet</span><span class="o">().</span><span class="py">add</span><span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">v</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * 存储Map格式
+      *
+      * @param key
+      * @param hashKey
+      * @param hashValue
+      *
+      */</span>
+    <span class="k">def</span> <span class="nf">setMap</span><span class="o">(</span><span class="n">key</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">hashKey</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">hashValue</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+        <span class="nv">redisTemplate</span><span class="o">.</span><span class="py">opsForHash</span><span class="o">().</span><span class="py">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">hashKey</span><span class="o">,</span> <span class="n">hashValue</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * 存储带有过期时间的key-value
+      *
+      * @param key
+      * @param value
+      * @param timeOut 过期时间
+      * @param unit    时间单位
+      *
+      */</span>
+    <span class="k">def</span> <span class="nf">setTime</span><span class="o">(</span><span class="n">key</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">value</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">timeOut</span><span class="k">:</span> <span class="kt">Long</span><span class="o">,</span> <span class="n">unit</span><span class="k">:</span> <span class="kt">TimeUnit</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+        <span class="nf">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"redis存储的value的值为空"</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nc">IllegalArgumentException</span><span class="o">(</span><span class="s">"redis存储的value的值为空"</span><span class="o">)</span>
+        <span class="o">}</span>
+        <span class="nf">if</span> <span class="o">(</span><span class="n">timeOut</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nv">redisTemplate</span><span class="o">.</span><span class="py">opsForValue</span><span class="o">().</span><span class="py">set</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">,</span> <span class="n">timeOut</span><span class="o">,</span> <span class="n">unit</span><span class="o">)</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="nv">redisTemplate</span><span class="o">.</span><span class="py">opsForValue</span><span class="o">().</span><span class="py">set</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * 存储key-value
+      *
+      * @param key
+      * @return Object
+      *
+      */</span>
+    <span class="k">def</span> <span class="nf">set</span><span class="o">(</span><span class="n">key</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">value</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+        <span class="nf">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"redis存储的value的值为空"</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nc">IllegalArgumentException</span><span class="o">(</span><span class="s">"redis存储的value的值为空"</span><span class="o">)</span>
+        <span class="o">}</span>
+        <span class="nv">redisTemplate</span><span class="o">.</span><span class="py">opsForValue</span><span class="o">().</span><span class="py">set</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * 根据key获取value
+      *
+      * @param key
+      * @return Object
+      *
+      */</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="o">(</span><span class="n">key</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Object</span> <span class="o">=</span> <span class="nv">redisTemplate</span><span class="o">.</span><span class="py">opsForValue</span><span class="o">().</span><span class="py">get</span><span class="o">(</span><span class="n">key</span><span class="o">)</span>
+
+    <span class="cm">/**
+      * 判断key是否存在
+      *
+      * @param key
+      * @return Boolean
+      *
+      */</span>
+    <span class="k">def</span> <span class="nf">exists</span><span class="o">(</span><span class="n">key</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nv">redisTemplate</span><span class="o">.</span><span class="py">hasKey</span><span class="o">(</span><span class="n">key</span><span class="o">)</span>
+
+
+    <span class="cm">/**
+      * 删除key对应的value
+      *
+      * @param key
+      *
+      */</span>
+    <span class="k">def</span> <span class="nf">removeValue</span><span class="o">(</span><span class="n">key</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="nf">if</span> <span class="o">(</span><span class="nf">exists</span><span class="o">(</span><span class="n">key</span><span class="o">))</span> <span class="nv">redisTemplate</span><span class="o">.</span><span class="py">delete</span><span class="o">(</span><span class="n">key</span><span class="o">)</span>
+
+    <span class="cm">/**
+      * 模式匹配批量删除key
+      *
+      * @param keyParttern
+      *
+      */</span>
+    <span class="k">def</span> <span class="nf">removePattern</span><span class="o">(</span><span class="n">keyParttern</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+        <span class="k">val</span> <span class="nv">keys</span><span class="k">:</span> <span class="kt">Set</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nv">redisTemplate</span><span class="o">.</span><span class="py">keys</span><span class="o">(</span><span class="n">keyParttern</span><span class="o">)</span>
+        <span class="nf">if</span> <span class="o">(</span><span class="nv">keys</span><span class="o">.</span><span class="py">size</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="nv">redisTemplate</span><span class="o">.</span><span class="py">delete</span><span class="o">(</span><span class="n">keys</span><span class="o">)</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div><h4 id="springmail工具-邮件发送相关服务">SpringMail工具 邮件发送相关服务</h4><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">java.io.File</span>
+
+<span class="k">import</span> <span class="nn">javax.mail.MessagingException</span>
+<span class="k">import</span> <span class="nn">org.slf4j.</span><span class="o">{</span><span class="nc">Logger</span><span class="o">,</span> <span class="nc">LoggerFactory</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">org.springframework.beans.factory.annotation.</span><span class="o">{</span><span class="nc">Autowired</span><span class="o">,</span> <span class="nc">Value</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">org.springframework.core.io.FileSystemResource</span>
+<span class="k">import</span> <span class="nn">org.springframework.mail.SimpleMailMessage</span>
+<span class="k">import</span> <span class="nn">org.springframework.mail.javamail.</span><span class="o">{</span><span class="nc">JavaMailSender</span><span class="o">,</span> <span class="nc">MimeMessageHelper</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">org.springframework.stereotype.Service</span>
+
+<span class="nd">@Service</span>
+<span class="k">class</span> <span class="nc">MailService</span> <span class="o">{</span>
+
+    <span class="k">private</span> <span class="k">final</span> <span class="k">val</span> <span class="nv">LOGGER</span><span class="k">:</span> <span class="kt">Logger</span> <span class="o">=</span> <span class="nv">LoggerFactory</span><span class="o">.</span><span class="py">getLogger</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">MailService</span><span class="o">])</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="k">private</span> <span class="k">var</span> <span class="n">sender</span><span class="k">:</span> <span class="kt">JavaMailSender</span> <span class="o">=</span> <span class="k">_</span>
+
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${spring.mail.username}"</span><span class="o">)</span>
+    <span class="k">private</span> <span class="k">var</span> <span class="n">username</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="k">_</span>
+
+    <span class="cm">/**
+      * 发送纯文本的简单邮件
+      *
+      * @param to      邮件接收者
+      * @param subject 主题
+      * @param content 内容
+      */</span>
+    <span class="k">def</span> <span class="nf">sendSimpleMail</span><span class="o">(</span><span class="n">to</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">subject</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">content</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+        <span class="k">val</span> <span class="nv">message</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SimpleMailMessage</span>
+        <span class="nv">message</span><span class="o">.</span><span class="py">setFrom</span><span class="o">(</span><span class="n">username</span><span class="o">)</span>
+        <span class="nv">message</span><span class="o">.</span><span class="py">setTo</span><span class="o">(</span><span class="n">to</span><span class="o">)</span>
+        <span class="nv">message</span><span class="o">.</span><span class="py">setSubject</span><span class="o">(</span><span class="n">subject</span><span class="o">)</span>
+        <span class="nv">message</span><span class="o">.</span><span class="py">setText</span><span class="o">(</span><span class="n">content</span><span class="o">)</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nv">sender</span><span class="o">.</span><span class="py">send</span><span class="o">(</span><span class="n">message</span><span class="o">)</span>
+            <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"发送给  "</span> <span class="o">+</span> <span class="n">to</span> <span class="o">+</span> <span class="s">" 邮件发送成功"</span><span class="o">)</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+            <span class="k">case</span> <span class="n">ex</span><span class="k">:</span> <span class="kt">Exception</span> <span class="o">=&gt;</span> <span class="o">{</span>
+                <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"发送给 "</span> <span class="o">+</span> <span class="n">to</span> <span class="o">+</span> <span class="s">" 邮件发送失败！"</span> <span class="o">+</span> <span class="nv">ex</span><span class="o">.</span><span class="py">getMessage</span><span class="o">)</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * 发送html格式的邮件
+      *
+      * @param to      邮件接收者
+      * @param subject 主题
+      * @param content 内容
+      */</span>
+    <span class="k">def</span> <span class="nf">sendHtmlMail</span><span class="o">(</span><span class="n">to</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">subject</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">content</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+        <span class="k">val</span> <span class="nv">message</span> <span class="k">=</span> <span class="nv">sender</span><span class="o">.</span><span class="py">createMimeMessage</span><span class="o">()</span>
+        <span class="k">val</span> <span class="nv">helper</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MimeMessageHelper</span><span class="o">(</span><span class="n">message</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+        <span class="nv">helper</span><span class="o">.</span><span class="py">setFrom</span><span class="o">(</span><span class="n">username</span><span class="o">)</span>
+        <span class="nv">helper</span><span class="o">.</span><span class="py">setTo</span><span class="o">(</span><span class="n">to</span><span class="o">)</span>
+        <span class="nv">helper</span><span class="o">.</span><span class="py">setSubject</span><span class="o">(</span><span class="n">subject</span><span class="o">)</span>
+        <span class="nv">helper</span><span class="o">.</span><span class="py">setText</span><span class="o">(</span><span class="n">content</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nv">sender</span><span class="o">.</span><span class="py">send</span><span class="o">(</span><span class="n">message</span><span class="o">)</span>
+            <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"发送给  "</span> <span class="o">+</span> <span class="n">to</span> <span class="o">+</span> <span class="s">" html格式的邮件发送成功"</span><span class="o">)</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+            <span class="k">case</span> <span class="n">ex</span><span class="k">:</span> <span class="kt">MessagingException</span> <span class="o">=&gt;</span> <span class="o">{</span>
+                <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"发送给  "</span> <span class="o">+</span> <span class="n">to</span> <span class="o">+</span> <span class="s">" html格式的邮件发送失败！"</span> <span class="o">+</span> <span class="nv">ex</span><span class="o">.</span><span class="py">getMessage</span><span class="o">)</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * 发送带附件的邮件
+      *
+      * @param to       邮件接收者
+      * @param subject  主题
+      * @param content  内容
+      * @param filePath 附件路径
+      */</span>
+    <span class="k">def</span> <span class="nf">sendAttachmentsMail</span><span class="o">(</span><span class="n">to</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">subject</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">content</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">filePath</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+        <span class="k">val</span> <span class="nv">message</span> <span class="k">=</span> <span class="nv">sender</span><span class="o">.</span><span class="py">createMimeMessage</span><span class="o">()</span>
+        <span class="k">val</span> <span class="nv">helper</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MimeMessageHelper</span><span class="o">(</span><span class="n">message</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+        <span class="nv">helper</span><span class="o">.</span><span class="py">setFrom</span><span class="o">(</span><span class="n">username</span><span class="o">)</span>
+        <span class="nv">helper</span><span class="o">.</span><span class="py">setTo</span><span class="o">(</span><span class="n">to</span><span class="o">)</span>
+        <span class="nv">helper</span><span class="o">.</span><span class="py">setSubject</span><span class="o">(</span><span class="n">subject</span><span class="o">)</span>
+        <span class="nv">helper</span><span class="o">.</span><span class="py">setText</span><span class="o">(</span><span class="n">content</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+        <span class="k">val</span> <span class="nv">file</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">FileSystemResource</span><span class="o">(</span><span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">filePath</span><span class="o">))</span>
+        <span class="k">val</span> <span class="nv">fileName</span> <span class="k">=</span> <span class="nv">filePath</span><span class="o">.</span><span class="py">substring</span><span class="o">(</span><span class="nv">filePath</span><span class="o">.</span><span class="py">lastIndexOf</span><span class="o">(</span><span class="nv">File</span><span class="o">.</span><span class="py">separator</span><span class="o">))</span>
+        <span class="nv">helper</span><span class="o">.</span><span class="py">addAttachment</span><span class="o">(</span><span class="n">fileName</span><span class="o">,</span> <span class="n">file</span><span class="o">)</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nv">sender</span><span class="o">.</span><span class="py">send</span><span class="o">(</span><span class="n">message</span><span class="o">)</span>
+            <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"发送给  "</span> <span class="o">+</span> <span class="n">to</span> <span class="o">+</span> <span class="s">" 带附件邮件发送成功"</span><span class="o">)</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+            <span class="k">case</span> <span class="n">ex</span><span class="k">:</span> <span class="kt">MessagingException</span> <span class="o">=&gt;</span> <span class="o">{</span>
+                <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"发送给   "</span> <span class="o">+</span> <span class="n">to</span> <span class="o">+</span> <span class="s">" 带附件邮件发送失败！"</span> <span class="o">+</span> <span class="nv">ex</span><span class="o">.</span><span class="py">getMessage</span><span class="o">)</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * 发送嵌入静态资源（一般是图片）的邮件
+      *
+      * @param to      邮件接收者
+      * @param subject 主题
+      * @param content 邮件内容，需要包括一个静态资源的id，比如：&lt;img src=\"cid:rscId01\" &gt;
+      * @param rscPath 静态资源路径和文件名
+      * @param rscId   静态资源id
+      */</span>
+    <span class="k">def</span> <span class="nf">sendInlineResourceMail</span><span class="o">(</span><span class="n">to</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">subject</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">content</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">rscPath</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">rscId</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+        <span class="k">val</span> <span class="nv">message</span> <span class="k">=</span> <span class="nv">sender</span><span class="o">.</span><span class="py">createMimeMessage</span><span class="o">()</span>
+        <span class="k">val</span> <span class="nv">helper</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MimeMessageHelper</span><span class="o">(</span><span class="n">message</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+        <span class="nv">helper</span><span class="o">.</span><span class="py">setFrom</span><span class="o">(</span><span class="n">username</span><span class="o">)</span>
+        <span class="nv">helper</span><span class="o">.</span><span class="py">setTo</span><span class="o">(</span><span class="n">to</span><span class="o">)</span>
+        <span class="nv">helper</span><span class="o">.</span><span class="py">setSubject</span><span class="o">(</span><span class="n">subject</span><span class="o">)</span>
+        <span class="nv">helper</span><span class="o">.</span><span class="py">setText</span><span class="o">(</span><span class="n">content</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+        <span class="k">val</span> <span class="nv">res</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">FileSystemResource</span><span class="o">(</span><span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">rscPath</span><span class="o">))</span>
+        <span class="nv">helper</span><span class="o">.</span><span class="py">addInline</span><span class="o">(</span><span class="n">rscId</span><span class="o">,</span> <span class="n">res</span><span class="o">)</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nv">sender</span><span class="o">.</span><span class="py">send</span><span class="o">(</span><span class="n">message</span><span class="o">)</span>
+            <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"发送给  "</span> <span class="o">+</span> <span class="n">to</span> <span class="o">+</span> <span class="s">" 嵌入静态资源的邮件发送成功"</span><span class="o">)</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+            <span class="k">case</span> <span class="n">ex</span><span class="k">:</span> <span class="kt">MessagingException</span> <span class="o">=&gt;</span> <span class="o">{</span>
+                <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"发送给  "</span> <span class="o">+</span> <span class="n">to</span> <span class="o">+</span> <span class="s">" 嵌入静态资源的邮件发送失败！"</span> <span class="o">+</span> <span class="nv">ex</span><span class="o">.</span><span class="py">getMessage</span><span class="o">)</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><h4 id="user实体类-定义与java兼容的scala实体类用于mybatis操作数据库">User实体类 定义与Java兼容的Scala实体类用于Mybatis操作数据库</h4><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">java.util.Date</span>
+
+<span class="k">import</span> <span class="nn">org.hibernate.validator.constraints.NotEmpty</span>
+<span class="k">import</span> <span class="nn">org.springframework.format.annotation.DateTimeFormat</span>
+
+<span class="k">import</span> <span class="nn">scala.beans.BeanProperty</span>
+
+<span class="k">class</span> <span class="nc">User</span> <span class="k">extends</span> <span class="nc">Serializable</span> <span class="o">{</span>
+
+    <span class="nd">@BeanProperty</span>
+    <span class="k">var</span> <span class="n">id</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span>
+
+    <span class="nd">@BeanProperty</span>
+    <span class="nd">@NotEmpty</span>
+    <span class="k">var</span> <span class="n">username</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="k">_</span>
+
+    <span class="nd">@BeanProperty</span>
+    <span class="nd">@NotEmpty</span>
+    <span class="k">var</span> <span class="n">password</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="k">_</span>
+
+    <span class="nd">@BeanProperty</span>
+    <span class="nd">@NotEmpty</span>
+    <span class="k">var</span> <span class="n">sign</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="k">_</span>
+
+    <span class="nd">@BeanProperty</span>
+    <span class="k">var</span> <span class="n">avatar</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="k">_</span>
+
+    <span class="nd">@BeanProperty</span>
+    <span class="nd">@NotEmpty</span>
+    <span class="k">var</span> <span class="n">email</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="k">_</span>
+
+    <span class="nd">@BeanProperty</span>
+    <span class="c1">//@NotNull</span>
+    <span class="nd">@DateTimeFormat</span><span class="o">(</span><span class="n">pattern</span> <span class="k">=</span> <span class="s">"yyyy-MM-dd"</span><span class="o">)</span>
+    <span class="k">var</span> <span class="n">createDate</span><span class="k">:</span> <span class="kt">Date</span> <span class="o">=</span> <span class="k">_</span>
+
+    <span class="nd">@BeanProperty</span>
+    <span class="k">var</span> <span class="n">sex</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span>
+
+    <span class="nd">@BeanProperty</span>
+    <span class="k">var</span> <span class="n">status</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="k">_</span>
+
+    <span class="nd">@BeanProperty</span>
+    <span class="k">var</span> <span class="n">active</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="k">_</span>
+
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">toString</span> <span class="k">=</span> <span class="n">s</span><span class="s">"User(id=$id, username=$username, password=$password, sign=$sign, avatar=$avatar, email=$email, createDate=$createDate, sex=$sex, status=$status, active=$active)"</span>
+<span class="o">}</span>
+</code></pre></div></div><h4 id="spring缓存支持配置-配置自定义缓存管理器为redis">Spring缓存支持配置 配置自定义缓存管理器为redis</h4><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">java.lang.reflect.Method</span>
+
+<span class="k">import</span> <span class="nn">com.fasterxml.jackson.annotation.</span><span class="o">{</span><span class="nc">JsonAutoDetect</span><span class="o">,</span> <span class="nc">PropertyAccessor</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">com.fasterxml.jackson.databind.ObjectMapper</span>
+<span class="k">import</span> <span class="nn">org.slf4j.</span><span class="o">{</span><span class="nc">Logger</span><span class="o">,</span> <span class="nc">LoggerFactory</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">org.springframework.beans.factory.annotation.Value</span>
+<span class="k">import</span> <span class="nn">org.springframework.cache.CacheManager</span>
+<span class="k">import</span> <span class="nn">org.springframework.cache.annotation.</span><span class="o">{</span><span class="nc">CachingConfigurerSupport</span><span class="o">,</span> <span class="nc">EnableCaching</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">org.springframework.cache.interceptor.KeyGenerator</span>
+<span class="k">import</span> <span class="nn">org.springframework.context.annotation.</span><span class="o">{</span><span class="nc">Bean</span><span class="o">,</span> <span class="nc">Configuration</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">org.springframework.data.redis.cache.RedisCacheManager</span>
+<span class="k">import</span> <span class="nn">org.springframework.data.redis.connection.RedisConnectionFactory</span>
+<span class="k">import</span> <span class="nn">org.springframework.data.redis.core.</span><span class="o">{</span><span class="nc">RedisTemplate</span><span class="o">,</span> <span class="nc">StringRedisTemplate</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer</span>
+
+<span class="nd">@EnableCaching</span>
+<span class="nd">@Configuration</span>
+<span class="k">class</span> <span class="nc">CacheConfig</span> <span class="k">extends</span> <span class="nc">CachingConfigurerSupport</span> <span class="o">{</span>
+
+    <span class="k">private</span> <span class="k">final</span> <span class="k">val</span> <span class="nv">LOGGER</span><span class="k">:</span> <span class="kt">Logger</span> <span class="o">=</span> <span class="nv">LoggerFactory</span><span class="o">.</span><span class="py">getLogger</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">CacheConfig</span><span class="o">])</span>
+
+    <span class="c1">//允许超时</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${spring.redis.timeout}"</span><span class="o">)</span>
+    <span class="k">private</span> <span class="k">var</span> <span class="n">timeout</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span>
+
+    <span class="nd">@Bean</span>
+    <span class="k">def</span> <span class="nf">cacheManager</span><span class="o">(</span><span class="n">redisTemplate</span><span class="k">:</span> <span class="kt">RedisTemplate</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">CacheManager</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="k">val</span> <span class="nv">cacheManager</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">RedisCacheManager</span><span class="o">(</span><span class="n">redisTemplate</span><span class="o">)</span>
+        <span class="c1">//设置key-value过期时间</span>
+        <span class="nv">cacheManager</span><span class="o">.</span><span class="py">setDefaultExpiration</span><span class="o">(</span><span class="n">timeout</span><span class="o">)</span>
+        <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"初始化Redis缓存管理器完成!"</span><span class="o">)</span>
+        <span class="n">cacheManager</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * 缓存保存策略
+      *
+      * @return KeyGenerator
+      */</span>
+    <span class="nd">@Bean</span>
+    <span class="k">def</span> <span class="nf">wiselyKeyGenerator</span><span class="o">()</span><span class="k">:</span> <span class="kt">KeyGenerator</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="k">new</span> <span class="nc">KeyGenerator</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">override</span> <span class="k">protected</span> <span class="k">def</span> <span class="nf">generate</span><span class="o">(</span><span class="n">target</span><span class="k">:</span> <span class="kt">Any</span><span class="o">,</span> <span class="n">method</span><span class="k">:</span> <span class="kt">Method</span><span class="o">,</span> <span class="n">params</span><span class="k">:</span> <span class="kt">AnyRef*</span><span class="o">)</span><span class="k">:</span> <span class="kt">Object</span> <span class="o">=</span> <span class="o">{</span>
+                <span class="k">val</span> <span class="nv">sb</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span>
+                <span class="nv">sb</span><span class="o">.</span><span class="py">append</span><span class="o">(</span><span class="nv">target</span><span class="o">.</span><span class="py">getClass</span><span class="o">.</span><span class="py">getName</span><span class="o">)</span>
+                <span class="nv">sb</span><span class="o">.</span><span class="py">append</span><span class="o">(</span><span class="nv">method</span><span class="o">.</span><span class="py">getName</span><span class="o">)</span>
+                <span class="nf">for</span> <span class="o">(</span><span class="n">param</span> <span class="k">&lt;-</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="nv">sb</span><span class="o">.</span><span class="py">append</span><span class="o">(</span><span class="nv">param</span><span class="o">.</span><span class="py">toString</span><span class="o">)</span>
+                <span class="o">}</span>
+                <span class="nv">sb</span><span class="o">.</span><span class="py">toString</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="k">def</span> <span class="nf">redisTemplate</span><span class="o">(</span><span class="n">factory</span><span class="k">:</span> <span class="kt">RedisConnectionFactory</span><span class="o">)</span><span class="k">:</span> <span class="kt">RedisTemplate</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+        <span class="k">val</span> <span class="nv">template</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">StringRedisTemplate</span><span class="o">(</span><span class="n">factory</span><span class="o">)</span>
+        <span class="nf">setSerializer</span><span class="o">(</span><span class="n">template</span><span class="o">)</span>
+        <span class="nv">template</span><span class="o">.</span><span class="py">afterPropertiesSet</span><span class="o">()</span>
+        <span class="n">template</span>
+    <span class="o">}</span>
+
+    <span class="k">def</span> <span class="nf">setSerializer</span><span class="o">(</span><span class="n">template</span><span class="k">:</span> <span class="kt">StringRedisTemplate</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="k">val</span> <span class="nv">jackson2JsonRedisSerializer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Jackson2JsonRedisSerializer</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">Object</span><span class="o">])</span>
+        <span class="k">val</span> <span class="nv">om</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ObjectMapper</span>
+        <span class="nv">om</span><span class="o">.</span><span class="py">setVisibility</span><span class="o">(</span><span class="nv">PropertyAccessor</span><span class="o">.</span><span class="py">ALL</span><span class="o">,</span> <span class="nv">JsonAutoDetect</span><span class="o">.</span><span class="py">Visibility</span><span class="o">.</span><span class="py">ANY</span><span class="o">)</span>
+        <span class="nv">om</span><span class="o">.</span><span class="py">enableDefaultTyping</span><span class="o">(</span><span class="nv">ObjectMapper</span><span class="o">.</span><span class="py">DefaultTyping</span><span class="o">.</span><span class="py">NON_FINAL</span><span class="o">)</span>
+        <span class="nv">jackson2JsonRedisSerializer</span><span class="o">.</span><span class="py">setObjectMapper</span><span class="o">(</span><span class="n">om</span><span class="o">)</span>
+        <span class="nv">template</span><span class="o">.</span><span class="py">setValueSerializer</span><span class="o">(</span><span class="n">jackson2JsonRedisSerializer</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><h4 id="spring连接池属性注入-配置redis连接">Spring连接池属性注入 配置redis连接</h4><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">org.slf4j.</span><span class="o">{</span><span class="nc">Logger</span><span class="o">,</span> <span class="nc">LoggerFactory</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">org.springframework.beans.factory.annotation.Value</span>
+<span class="k">import</span> <span class="nn">org.springframework.context.annotation.</span><span class="o">{</span><span class="nc">Bean</span><span class="o">,</span> <span class="nc">Configuration</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">org.springframework.data.redis.connection.jedis.JedisConnectionFactory</span>
+<span class="k">import</span> <span class="nn">redis.clients.jedis.JedisPoolConfig</span>
+
+<span class="nd">@Configuration</span>
+<span class="k">class</span> <span class="nc">RedisConfig</span> <span class="o">{</span>
+
+    <span class="k">private</span> <span class="k">final</span> <span class="k">val</span> <span class="nv">LOGGER</span><span class="k">:</span> <span class="kt">Logger</span> <span class="o">=</span> <span class="nv">LoggerFactory</span><span class="o">.</span><span class="py">getLogger</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">RedisConfig</span><span class="o">])</span>
+    <span class="c1">//主机地址    </span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${spring.redis.host}"</span><span class="o">)</span>
+    <span class="k">private</span> <span class="k">var</span> <span class="n">host</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="k">_</span>
+    <span class="c1">//端口</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${spring.redis.port}"</span><span class="o">)</span>
+    <span class="k">private</span> <span class="k">var</span> <span class="n">port</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span>
+    <span class="c1">//允许超时</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${spring.redis.timeout}"</span><span class="o">)</span>
+    <span class="k">private</span> <span class="k">var</span> <span class="n">timeout</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span>
+    <span class="c1">//认证</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${spring.redis.password}"</span><span class="o">)</span>
+    <span class="k">private</span> <span class="k">var</span> <span class="n">password</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="k">_</span>
+    <span class="c1">//数据库索引数量</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${spring.redis.database}"</span><span class="o">)</span>
+    <span class="k">private</span> <span class="k">var</span> <span class="n">database</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span>
+    <span class="c1">//连接池中的最大空闲连接</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${spring.redis.pool.max-idle}"</span><span class="o">)</span>
+    <span class="k">private</span> <span class="k">var</span> <span class="n">maxIdle</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span>
+    <span class="c1">//连接池中的最小空闲连接</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${spring.redis.pool.min-idle}"</span><span class="o">)</span>
+    <span class="k">private</span> <span class="k">var</span> <span class="n">minIdle</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span>
+    <span class="c1">//连接池最大连接数（使用负值表示没有限制）</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${spring.redis.pool.max-active}"</span><span class="o">)</span>
+    <span class="k">private</span> <span class="k">var</span> <span class="n">maxActive</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span>
+    <span class="c1">//连接池最大阻塞等待时间（使用负值表示没有限制）</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${spring.redis.pool.max-wait}"</span><span class="o">)</span>
+    <span class="k">private</span> <span class="k">var</span> <span class="n">maxWait</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">_</span>
+
+    <span class="cm">/**
+      * Jedis数据源配置
+      *
+      * @return JedisPoolConfig
+      */</span>
+    <span class="nd">@Bean</span>
+    <span class="k">def</span> <span class="nf">jedisPoolConfig</span><span class="o">()</span><span class="k">:</span> <span class="kt">JedisPoolConfig</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="k">val</span> <span class="nv">jedisPoolConfig</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">JedisPoolConfig</span>
+        <span class="nv">jedisPoolConfig</span><span class="o">.</span><span class="py">setMaxIdle</span><span class="o">(</span><span class="n">maxIdle</span><span class="o">)</span>
+        <span class="nv">jedisPoolConfig</span><span class="o">.</span><span class="py">setMinIdle</span><span class="o">(</span><span class="n">minIdle</span><span class="o">)</span>
+        <span class="nv">jedisPoolConfig</span><span class="o">.</span><span class="py">setMaxWaitMillis</span><span class="o">(</span><span class="n">maxWait</span><span class="o">)</span>
+        <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"Init the RedisPoolConfig Finished"</span><span class="o">)</span>
+        <span class="n">jedisPoolConfig</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * Jedis数据连接工厂
+      *
+      * @return JedisConnectionFactory
+      */</span>
+    <span class="nd">@Bean</span>
+    <span class="k">def</span> <span class="nf">redisConnectionFactory</span><span class="o">(</span><span class="n">poolConfig</span><span class="k">:</span> <span class="kt">JedisPoolConfig</span><span class="o">)</span><span class="k">:</span> <span class="kt">JedisConnectionFactory</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="k">val</span> <span class="nv">factory</span><span class="k">:</span> <span class="kt">JedisConnectionFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">JedisConnectionFactory</span>
+        <span class="nv">factory</span><span class="o">.</span><span class="py">setHostName</span><span class="o">(</span><span class="n">host</span><span class="o">)</span>
+        <span class="nv">factory</span><span class="o">.</span><span class="py">setPort</span><span class="o">(</span><span class="n">port</span><span class="o">)</span>
+        <span class="nv">factory</span><span class="o">.</span><span class="py">setTimeout</span><span class="o">(</span><span class="n">timeout</span><span class="o">)</span>
+        <span class="nv">factory</span><span class="o">.</span><span class="py">setPassword</span><span class="o">(</span><span class="n">password</span><span class="o">)</span>
+        <span class="nv">factory</span><span class="o">.</span><span class="py">setDatabase</span><span class="o">(</span><span class="n">database</span><span class="o">)</span>
+        <span class="nv">factory</span><span class="o">.</span><span class="py">setPoolConfig</span><span class="o">(</span><span class="n">poolConfig</span><span class="o">)</span>
+        <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"Init the Redis instance Finished"</span><span class="o">)</span>
+        <span class="n">factory</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div><h4 id="springmvc配置-scala继承java抽象类">SpringMVC配置 Scala继承Java抽象类</h4><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span>
+<span class="k">import</span> <span class="nn">org.springframework.web.servlet.config.annotation.</span><span class="o">{</span><span class="nc">InterceptorRegistry</span><span class="o">,</span> <span class="nc">ResourceHandlerRegistry</span><span class="o">,</span> <span class="nc">ViewControllerRegistry</span><span class="o">,</span> <span class="nc">WebMvcConfigurerAdapter</span><span class="o">}</span>
+
+<span class="nd">@Configuration</span>
+<span class="k">class</span> <span class="nc">SpringMVCConfig</span> <span class="k">extends</span> <span class="nc">WebMvcConfigurerAdapter</span> <span class="o">{</span>
+
+ <span class="c1">//在SpringBoot2.0及Spring 5.0 WebMvcConfigurerAdapter已被废弃</span>
+    <span class="c1">//    1.直接实现WebMvcConfigurer （官方推荐）</span>
+    <span class="c1">//    2.直接继承WebMvcConfigurationSupport</span>
+    <span class="cm">/**
+      * 重写addViewControllers方法配置默认主页
+      *
+      * @param registry
+      */</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">addViewControllers</span><span class="o">(</span><span class="n">registry</span><span class="k">:</span> <span class="kt">ViewControllerRegistry</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="nv">registry</span><span class="o">.</span><span class="py">addViewController</span><span class="o">(</span><span class="s">"/"</span><span class="o">).</span><span class="py">setViewName</span><span class="o">(</span><span class="s">"forward:/index.html"</span><span class="o">)</span>
+        <span class="nv">registry</span><span class="o">.</span><span class="py">setOrder</span><span class="o">(</span><span class="nv">org</span><span class="o">.</span><span class="py">springframework</span><span class="o">.</span><span class="py">core</span><span class="o">.</span><span class="py">Ordered</span><span class="o">.</span><span class="py">HIGHEST_PRECEDENCE</span><span class="o">)</span>
+        <span class="nv">super</span><span class="o">.</span><span class="py">addViewControllers</span><span class="o">(</span><span class="n">registry</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * 注册拦截器
+      *
+      * @param registry
+      */</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">addInterceptors</span><span class="o">(</span><span class="n">registry</span><span class="k">:</span> <span class="kt">InterceptorRegistry</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+        <span class="c1">// addPathPatterns 用于添加拦截规则，excludePathPatterns 用户排除拦截</span>
+        <span class="nv">registry</span><span class="o">.</span><span class="py">addInterceptor</span><span class="o">(</span><span class="k">new</span> <span class="nc">SystemHandlerInterceptor</span><span class="o">)</span>
+          <span class="o">.</span><span class="py">addPathPatterns</span><span class="o">(</span><span class="s">"/**"</span><span class="o">)</span>
+          <span class="o">.</span><span class="py">excludePathPatterns</span><span class="o">(</span><span class="s">"/"</span><span class="o">)</span>
+          <span class="o">.</span><span class="py">excludePathPatterns</span><span class="o">(</span><span class="s">"/*.html"</span><span class="o">)</span>
+          <span class="o">.</span><span class="py">excludePathPatterns</span><span class="o">(</span><span class="s">"/swagger-resources/**"</span><span class="o">,</span> <span class="s">"/webjars/**"</span><span class="o">,</span> <span class="s">"/v2/**"</span><span class="o">,</span> <span class="s">"/swagger-ui.html/**"</span><span class="o">)</span>
+        <span class="nv">super</span><span class="o">.</span><span class="py">addInterceptors</span><span class="o">(</span><span class="n">registry</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * addResourceLocations是必须的，否则swagger被拦截
+      *
+      * @param registry
+      */</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">addResourceHandlers</span><span class="o">(</span><span class="n">registry</span><span class="k">:</span> <span class="kt">ResourceHandlerRegistry</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nv">registry</span><span class="o">.</span><span class="py">addResourceHandler</span><span class="o">(</span><span class="s">"swagger-ui.html"</span><span class="o">)</span>
+          <span class="o">.</span><span class="py">addResourceLocations</span><span class="o">(</span><span class="s">"classpath:/META-INF/resources/"</span><span class="o">)</span>
+        <span class="nv">registry</span><span class="o">.</span><span class="py">addResourceHandler</span><span class="o">(</span><span class="s">"/webjars/**"</span><span class="o">)</span>
+          <span class="o">.</span><span class="py">addResourceLocations</span><span class="o">(</span><span class="s">"classpath:/META-INF/resources/webjars/"</span><span class="o">)</span>
+        <span class="nv">super</span><span class="o">.</span><span class="py">addResourceHandlers</span><span class="o">(</span><span class="n">registry</span><span class="o">)</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><h4 id="swagger2配置">Swagger2配置</h4><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">org.springframework.context.annotation.</span><span class="o">{</span><span class="nc">Bean</span><span class="o">,</span> <span class="nc">Configuration</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">springfox.documentation.builders.</span><span class="o">{</span><span class="nc">ApiInfoBuilder</span><span class="o">,</span> <span class="nc">PathSelectors</span><span class="o">,</span> <span class="nc">RequestHandlerSelectors</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">springfox.documentation.spi.DocumentationType</span>
+<span class="k">import</span> <span class="nn">springfox.documentation.spring.web.plugins.Docket</span>
+<span class="k">import</span> <span class="nn">springfox.documentation.swagger2.annotations.EnableSwagger2</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableSwagger2</span>
+<span class="k">class</span> <span class="nc">Swagger2Config</span> <span class="o">{</span>
+
+    <span class="cm">/**
+      * swagger2的配置文件，这里可以配置swagger2的一些基本的内容，比如扫描的包等等
+      */</span>
+    <span class="nd">@Bean</span>
+    <span class="k">def</span> <span class="nf">createRestApi</span><span class="o">()</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Docket</span><span class="o">(</span><span class="nv">DocumentationType</span><span class="o">.</span><span class="py">SWAGGER_2</span><span class="o">).</span><span class="py">apiInfo</span><span class="o">(</span><span class="nf">apiInfo</span><span class="o">())</span>
+      <span class="o">.</span><span class="py">select</span><span class="o">().</span><span class="py">apis</span><span class="o">(</span><span class="nv">RequestHandlerSelectors</span><span class="o">.</span><span class="py">basePackage</span><span class="o">(</span><span class="s">"cn.edu.controller"</span><span class="o">))</span>
+      <span class="o">.</span><span class="py">paths</span><span class="o">(</span><span class="nv">PathSelectors</span><span class="o">.</span><span class="py">any</span><span class="o">()).</span><span class="py">build</span><span class="o">()</span>
+
+    <span class="k">private</span> <span class="k">val</span> <span class="nv">apiInfo</span> <span class="k">=</span> <span class="o">()</span> <span class="k">=&gt;</span> <span class="k">new</span> <span class="nc">ApiInfoBuilder</span><span class="o">()</span>
+      <span class="c1">// 页面标题</span>
+      <span class="o">.</span><span class="py">title</span><span class="o">(</span><span class="s">"test"</span><span class="o">)</span>
+      <span class="c1">// 创建人</span>
+      <span class="o">.</span><span class="py">description</span><span class="o">(</span><span class="s">"梦境迷离：https://github.com/jxnu-liguobin"</span><span class="o">).</span><span class="py">termsOfServiceUrl</span><span class="o">(</span><span class="s">"https://github.com/jxnu-liguobin"</span><span class="o">)</span>
+      <span class="c1">// 创建人</span>
+      <span class="o">.</span><span class="py">contact</span><span class="o">(</span><span class="s">"梦境迷离"</span><span class="o">)</span>
+      <span class="c1">// 版本号</span>
+      <span class="o">.</span><span class="py">version</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">).</span><span class="py">build</span><span class="o">()</span>
+
+<span class="o">}</span>
+</code></pre></div></div><h4 id="spring处理拦截器-scala实现java接口">Spring处理拦截器 Scala实现Java接口</h4><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">javax.servlet.http.</span><span class="o">{</span><span class="nc">HttpServletRequest</span><span class="o">,</span> <span class="nc">HttpServletResponse</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">org.slf4j.</span><span class="o">{</span><span class="nc">Logger</span><span class="o">,</span> <span class="nc">LoggerFactory</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">org.springframework.web.servlet.</span><span class="o">{</span><span class="nc">HandlerInterceptor</span><span class="o">,</span> <span class="nc">ModelAndView</span><span class="o">}</span>
+
+<span class="k">class</span> <span class="nc">SystemHandlerInterceptor</span> <span class="k">extends</span> <span class="nc">HandlerInterceptor</span> <span class="o">{</span>
+
+    <span class="k">private</span> <span class="k">final</span> <span class="k">val</span> <span class="nv">LOGGER</span><span class="k">:</span> <span class="kt">Logger</span> <span class="o">=</span> <span class="nv">LoggerFactory</span><span class="o">.</span><span class="py">getLogger</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">SystemHandlerInterceptor</span><span class="o">])</span>
+
+    <span class="cm">/**
+      * 前置处理器，在请求处理之前调用
+      *
+      * @param request
+      * @param response
+      * @param handler
+      * @return Boolean
+      */</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">preHandle</span><span class="o">(</span><span class="n">request</span><span class="k">:</span> <span class="kt">HttpServletRequest</span><span class="o">,</span> <span class="n">response</span><span class="k">:</span> <span class="kt">HttpServletResponse</span><span class="o">,</span> <span class="n">handler</span><span class="k">:</span> <span class="kt">Object</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"前置处理器，在请求处理之前调用"</span><span class="o">)</span>
+            <span class="k">return</span> <span class="kc">true</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * 请求处理之后进行调用，但是在视图被渲染之前(Controller方法调用之后)
+      *
+      * @param request
+      * @param response
+      * @param handler
+      * @param modelAndView
+      */</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">postHandle</span><span class="o">(</span><span class="n">request</span><span class="k">:</span> <span class="kt">HttpServletRequest</span><span class="o">,</span> <span class="n">response</span><span class="k">:</span> <span class="kt">HttpServletResponse</span><span class="o">,</span> <span class="n">handler</span><span class="k">:</span> <span class="kt">Object</span><span class="o">,</span>
+                            <span class="n">modelAndView</span><span class="k">:</span> <span class="kt">ModelAndView</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"请求处理之后，视图渲染之前调用"</span><span class="o">)</span>
+
+    <span class="o">}</span>
+
+    <span class="cm">/**
+      * 后置处理器，渲染视图完成
+      *
+      * @param request
+      * @param response
+      * @param handler
+      * @param ex
+      */</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">afterCompletion</span><span class="o">(</span><span class="n">request</span><span class="k">:</span> <span class="kt">HttpServletRequest</span><span class="o">,</span> <span class="n">response</span><span class="k">:</span> <span class="kt">HttpServletResponse</span><span class="o">,</span> <span class="n">handler</span><span class="k">:</span> <span class="kt">Object</span><span class="o">,</span>
+                                 <span class="n">ex</span><span class="k">:</span> <span class="kt">Exception</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+        <span class="nv">LOGGER</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"后置处理器，在请求处理之后调用"</span><span class="o">)</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><h4 id="scala时间工具">Scala时间工具</h4><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">java.text.SimpleDateFormat</span>
+<span class="k">import</span> <span class="nn">java.util.</span><span class="o">{</span><span class="nc">Calendar</span><span class="o">,</span> <span class="nc">Date</span><span class="o">,</span> <span class="nc">TimeZone</span><span class="o">}</span>
+
+<span class="cm">/**
+ * 日期处理
+ *
+ * @author 梦境迷离
+ * @version 1.0, 2019-07-14
+ */</span>
+<span class="k">object</span> <span class="nc">DateUtils</span> <span class="o">{</span>
+
+  <span class="k">private</span> <span class="k">final</span> <span class="k">val</span> <span class="nv">patternComplete</span> <span class="k">=</span> <span class="s">"yyyy-MM-dd HH:mm:ss"</span>
+
+  <span class="k">private</span> <span class="k">final</span> <span class="k">val</span> <span class="nv">patternAll</span> <span class="k">=</span> <span class="s">"yyyy-MM-dd HH:mm:ss SSS"</span>
+
+  <span class="k">private</span> <span class="k">final</span> <span class="k">val</span> <span class="nv">patternPart</span> <span class="k">=</span> <span class="s">"yyyy-MM-dd"</span>
+
+  <span class="k">private</span> <span class="k">final</span> <span class="k">lazy</span> <span class="k">val</span> <span class="nv">zone</span> <span class="k">=</span> <span class="nv">TimeZone</span><span class="o">.</span><span class="py">getTimeZone</span><span class="o">(</span><span class="s">"GMT+8:00"</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 时区默认北京的部分解析器
+   *
+   * @param timeZone
+   */</span>
+  <span class="k">private</span> <span class="k">def</span> <span class="nf">partSimpleDateFormat</span><span class="o">(</span><span class="n">timeZone</span><span class="k">:</span> <span class="kt">TimeZone</span> <span class="o">=</span> <span class="n">zone</span><span class="o">)</span><span class="k">:</span> <span class="kt">SimpleDateFormat</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">sdf</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SimpleDateFormat</span><span class="o">(</span><span class="n">patternPart</span><span class="o">)</span>
+    <span class="nv">sdf</span><span class="o">.</span><span class="py">setTimeZone</span><span class="o">(</span><span class="n">timeZone</span><span class="o">)</span>
+    <span class="n">sdf</span>
+  <span class="o">}</span>
+
+  <span class="cm">/**
+   * 时区默认北京的完整解析器
+   *
+   * @param timeZone
+   */</span>
+  <span class="k">private</span> <span class="k">def</span> <span class="nf">completeSimpleDateFormat</span><span class="o">(</span><span class="n">timeZone</span><span class="k">:</span> <span class="kt">TimeZone</span> <span class="o">=</span> <span class="n">zone</span><span class="o">)</span><span class="k">:</span> <span class="kt">SimpleDateFormat</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">sdf</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SimpleDateFormat</span><span class="o">(</span><span class="n">patternComplete</span><span class="o">)</span>
+    <span class="nv">sdf</span><span class="o">.</span><span class="py">setTimeZone</span><span class="o">(</span><span class="n">timeZone</span><span class="o">)</span>
+    <span class="n">sdf</span>
+  <span class="o">}</span>
+
+  <span class="cm">/**
+   * 时区默认北京的精确解析器
+   *
+   * @param timeZone
+   */</span>
+  <span class="k">private</span> <span class="k">def</span> <span class="nf">allSimpleDateFormat</span><span class="o">(</span><span class="n">timeZone</span><span class="k">:</span> <span class="kt">TimeZone</span> <span class="o">=</span> <span class="n">zone</span><span class="o">)</span><span class="k">:</span> <span class="kt">SimpleDateFormat</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">sdf</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SimpleDateFormat</span><span class="o">(</span><span class="n">patternAll</span><span class="o">)</span>
+    <span class="nv">sdf</span><span class="o">.</span><span class="py">setTimeZone</span><span class="o">(</span><span class="n">timeZone</span><span class="o">)</span>
+    <span class="n">sdf</span>
+  <span class="o">}</span>
+
+  <span class="cm">/**
+   * 时区默认北京的自定义解析器
+   *
+   * @param timeZone
+   * @param pattern
+   * @return
+   */</span>
+  <span class="k">def</span> <span class="nf">simpleDateFormat</span><span class="o">(</span><span class="n">timeZone</span><span class="k">:</span> <span class="kt">TimeZone</span> <span class="o">=</span> <span class="n">zone</span><span class="o">,</span> <span class="n">pattern</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">SimpleDateFormat</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">sdf</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SimpleDateFormat</span><span class="o">(</span><span class="n">pattern</span><span class="o">)</span>
+    <span class="nv">sdf</span><span class="o">.</span><span class="py">setTimeZone</span><span class="o">(</span><span class="n">timeZone</span><span class="o">)</span>
+    <span class="n">sdf</span>
+  <span class="o">}</span>
+
+  <span class="cm">/**
+   * 获取格式化后的当前时间 yyyy-MM-dd
+   */</span>
+  <span class="k">def</span> <span class="nf">partFormatCurrentDate</span> <span class="k">=</span> <span class="nf">partSimpleDateFormat</span><span class="o">().</span><span class="py">format</span><span class="o">(</span><span class="k">new</span> <span class="nc">Date</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 获取特定格式的当前时间 yyyy-MM-dd
+   */</span>
+  <span class="k">def</span> <span class="nf">partParseCurrentDate</span> <span class="k">=</span> <span class="nf">partSimpleDateFormat</span><span class="o">().</span><span class="py">parse</span><span class="o">(</span><span class="n">partFormatCurrentDate</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 获取特定格式的当前时间
+   *
+   * @param pattern 自定义格式
+   */</span>
+  <span class="k">def</span> <span class="nf">formatCurrentDate</span><span class="o">(</span><span class="n">pattern</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="nf">simpleDateFormat</span><span class="o">(</span><span class="n">pattern</span> <span class="k">=</span> <span class="n">pattern</span><span class="o">).</span><span class="py">format</span><span class="o">(</span><span class="k">new</span> <span class="nc">Date</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 获取当前时间 yyyy-MM-dd HH:mm:ss
+   */</span>
+  <span class="k">def</span> <span class="nf">completeFormatCurrentDate</span> <span class="k">=</span> <span class="nf">completeSimpleDateFormat</span><span class="o">().</span><span class="py">format</span><span class="o">(</span><span class="k">new</span> <span class="nc">Date</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 获取特定格式的当前时间 yyyy-MM-dd HH:mm:ss
+   */</span>
+  <span class="k">def</span> <span class="nf">completeParseCurrentDate</span> <span class="k">=</span> <span class="nf">completeSimpleDateFormat</span><span class="o">().</span><span class="py">parse</span><span class="o">(</span><span class="n">completeFormatCurrentDate</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 获取当前时间Long类型
+   */</span>
+  <span class="k">def</span> <span class="nf">getCurrentTimeStamp</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Date</span><span class="o">().</span><span class="py">getTime</span>
+
+  <span class="cm">/**
+   * 获取当前时间戳的 yyyy-MM-dd HH:mm:ss 表示
+   *
+   * @param timeStamp 时间戳
+   */</span>
+  <span class="k">def</span> <span class="nf">completeFormatTimeStamp</span><span class="o">(</span><span class="n">timeStamp</span><span class="k">:</span> <span class="kt">Long</span><span class="o">)</span> <span class="k">=</span> <span class="nf">completeSimpleDateFormat</span><span class="o">().</span><span class="py">format</span><span class="o">(</span><span class="k">new</span> <span class="nc">Date</span><span class="o">(</span><span class="n">timeStamp</span><span class="o">))</span>
+
+  <span class="cm">/**
+   * 使用自定义的格式串，格式化指定的日期
+   *
+   * @param date    日期
+   * @param pattern 日期格式
+   */</span>
+  <span class="k">def</span> <span class="nf">formatDate</span><span class="o">(</span><span class="n">date</span><span class="k">:</span> <span class="kt">Date</span><span class="o">,</span> <span class="n">pattern</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="nf">simpleDateFormat</span><span class="o">(</span><span class="n">pattern</span> <span class="k">=</span> <span class="n">pattern</span><span class="o">).</span><span class="py">format</span><span class="o">(</span><span class="n">date</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 使用自定义的格式串，格式化指定的日期字符串
+   *
+   * @param dateStr
+   * @param pattern
+   */</span>
+  <span class="k">def</span> <span class="nf">parseDate</span><span class="o">(</span><span class="n">dateStr</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">pattern</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="nf">simpleDateFormat</span><span class="o">(</span><span class="n">pattern</span> <span class="k">=</span> <span class="n">pattern</span><span class="o">).</span><span class="py">parse</span><span class="o">(</span><span class="n">dateStr</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 用 yyyy-MM-dd HH:mm:ss 格式化指定的日期
+   *
+   * @param date 时间对象
+   */</span>
+  <span class="k">def</span> <span class="nf">completeFormatDate</span><span class="o">(</span><span class="n">date</span><span class="k">:</span> <span class="kt">Date</span><span class="o">)</span> <span class="k">=</span> <span class="nf">completeSimpleDateFormat</span><span class="o">().</span><span class="py">format</span><span class="o">(</span><span class="n">date</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 从日期字符串解析出完整的日期（有时分秒）
+   *
+   * @param dateStr 时间字符串
+   */</span>
+  <span class="k">def</span> <span class="nf">completeParseDate</span><span class="o">(</span><span class="n">dateStr</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="nf">completeSimpleDateFormat</span><span class="o">().</span><span class="py">parse</span><span class="o">(</span><span class="n">dateStr</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 从日期字符串仅解析出日期（无时分秒）
+   *
+   * @param dateStr 日期字符串
+   */</span>
+  <span class="k">def</span> <span class="nf">partParseDate</span><span class="o">(</span><span class="n">dateStr</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="nf">partSimpleDateFormat</span><span class="o">().</span><span class="py">parse</span><span class="o">(</span><span class="n">dateStr</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 用 yyyy-MM-dd 格式化指定的日期
+   */</span>
+  <span class="k">def</span> <span class="nf">partFormatDate</span><span class="o">(</span><span class="n">date</span><span class="k">:</span> <span class="kt">Date</span><span class="o">)</span> <span class="k">=</span> <span class="nf">partSimpleDateFormat</span><span class="o">().</span><span class="py">format</span><span class="o">(</span><span class="n">date</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 精确解析时间字符串（毫秒级）
+   *
+   * @param dateStr 包含毫秒的时间字符串
+   */</span>
+  <span class="k">def</span> <span class="nf">allParseDate</span><span class="o">(</span><span class="n">dateStr</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="nf">allSimpleDateFormat</span><span class="o">().</span><span class="py">parse</span><span class="o">(</span><span class="n">dateStr</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 用 yyyy-MM-dd HH:mm:ss sss 格式化指定的日期
+   *
+   * @param date 包含毫秒的时间
+   */</span>
+  <span class="k">def</span> <span class="nf">allFormatDate</span><span class="o">(</span><span class="n">date</span><span class="k">:</span> <span class="kt">Date</span><span class="o">)</span> <span class="k">=</span> <span class="nf">allSimpleDateFormat</span><span class="o">().</span><span class="py">format</span><span class="o">(</span><span class="n">date</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 获取当前时间戳的 yyyy-MM-dd HH:mm:ss SSS 表示
+   *
+   * @param timeStamp 时间戳
+   */</span>
+  <span class="k">def</span> <span class="nf">allFormatTimeStamp</span><span class="o">(</span><span class="n">timeStamp</span><span class="k">:</span> <span class="kt">Long</span><span class="o">)</span> <span class="k">=</span> <span class="nf">allSimpleDateFormat</span><span class="o">().</span><span class="py">format</span><span class="o">(</span><span class="k">new</span> <span class="nc">Date</span><span class="o">(</span><span class="n">timeStamp</span><span class="o">))</span>
+
+  <span class="cm">/**
+   * 获取星期几
+   */</span>
+  <span class="k">def</span> <span class="nf">dayOfWeek</span> <span class="k">=</span> <span class="o">(</span><span class="n">dateStr</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">date</span> <span class="k">=</span> <span class="nf">partSimpleDateFormat</span><span class="o">().</span><span class="py">parse</span><span class="o">(</span><span class="n">dateStr</span><span class="o">)</span>
+    <span class="k">val</span> <span class="nv">cal</span> <span class="k">=</span> <span class="nv">Calendar</span><span class="o">.</span><span class="py">getInstance</span><span class="o">()</span>
+    <span class="nv">cal</span><span class="o">.</span><span class="py">setTime</span><span class="o">(</span><span class="n">date</span><span class="o">)</span>
+    <span class="k">var</span> <span class="n">w</span> <span class="k">=</span> <span class="nv">cal</span><span class="o">.</span><span class="py">get</span><span class="o">(</span><span class="nv">Calendar</span><span class="o">.</span><span class="py">DAY_OF_WEEK</span><span class="o">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="c1">//星期天 默认为0</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="n">w</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">)</span>
+      <span class="n">w</span> <span class="k">=</span> <span class="mi">7</span>
+    <span class="n">w</span>
+  <span class="o">}</span>
+
+  <span class="cm">/**
+   * 判断是否是周末
+   */</span>
+  <span class="k">def</span> <span class="nf">isWeekendDay</span> <span class="k">=</span> <span class="o">(</span><span class="n">dateStr</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">dayNumOfWeek</span> <span class="k">=</span> <span class="nf">dayOfWeek</span><span class="o">(</span><span class="n">dateStr</span><span class="o">)</span>
+    <span class="n">dayNumOfWeek</span> <span class="o">==</span> <span class="mi">6</span> <span class="o">||</span> <span class="n">dayNumOfWeek</span> <span class="o">==</span> <span class="mi">7</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><h4 id="scala下载url图片">Scala下载URL图片</h4><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ *
+ * @param fileUrl 下载链接
+ * @param target  保存地址且重命名后的文件
+ */</span>
+<span class="k">def</span> <span class="nf">downloadFile</span><span class="o">(</span><span class="n">fileUrl</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">target</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">var</span> <span class="n">in</span><span class="k">:</span> <span class="kt">InputStream</span> <span class="o">=</span> <span class="kc">null</span>
+    <span class="k">var</span> <span class="n">connection</span><span class="k">:</span> <span class="kt">HttpURLConnection</span> <span class="o">=</span> <span class="kc">null</span>
+    <span class="k">var</span> <span class="n">out</span><span class="k">:</span> <span class="kt">OutputStream</span> <span class="o">=</span> <span class="kc">null</span>
+    <span class="k">try</span> <span class="o">{</span>
+
+        <span class="k">val</span> <span class="nv">url</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">URL</span><span class="o">(</span><span class="n">fileUrl</span><span class="o">)</span>
+        <span class="n">connection</span> <span class="k">=</span> <span class="nv">url</span><span class="o">.</span><span class="py">openConnection</span><span class="o">().</span><span class="py">asInstanceOf</span><span class="o">[</span><span class="kt">HttpURLConnection</span><span class="o">]</span>
+        <span class="nv">connection</span><span class="o">.</span><span class="py">setRequestMethod</span><span class="o">(</span><span class="s">"GET"</span><span class="o">)</span>
+        <span class="n">in</span> <span class="k">=</span> <span class="nv">connection</span><span class="o">.</span><span class="py">getInputStream</span>
+        <span class="k">val</span> <span class="nv">fileToDownloadAs</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">java</span><span class="o">.</span><span class="py">io</span><span class="o">.</span><span class="py">File</span><span class="o">(</span><span class="n">target</span><span class="o">)</span>
+        <span class="n">out</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BufferedOutputStream</span><span class="o">(</span><span class="k">new</span> <span class="nc">FileOutputStream</span><span class="o">(</span><span class="n">fileToDownloadAs</span><span class="o">))</span>
+        <span class="k">val</span> <span class="nv">byteArray</span> <span class="k">=</span> <span class="nv">Stream</span><span class="o">.</span><span class="py">continually</span><span class="o">(</span><span class="nv">in</span><span class="o">.</span><span class="py">read</span><span class="o">).</span><span class="py">takeWhile</span><span class="o">(-</span><span class="mi">1</span> <span class="o">!=).</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">toByte</span><span class="o">).</span><span class="py">toArray</span>
+        <span class="nv">out</span><span class="o">.</span><span class="py">write</span><span class="o">(</span><span class="n">byteArray</span><span class="o">)</span>
+
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="n">ex</span><span class="k">:</span> <span class="kt">Exception</span> <span class="o">=&gt;</span> <span class="o">{</span>
+            <span class="nv">logger</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="nv">ex</span><span class="o">.</span><span class="py">getMessage</span><span class="o">)</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">finally</span> <span class="o">{</span>
+
+        <span class="nf">if</span> <span class="o">(</span><span class="n">in</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nv">in</span><span class="o">.</span><span class="py">close</span><span class="o">()</span>
+        <span class="o">}</span>
+
+        <span class="nf">if</span> <span class="o">(</span><span class="n">out</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nv">out</span><span class="o">.</span><span class="py">close</span><span class="o">()</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://jxnu-liguobin.github.io" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://jxnu-liguobin.github.io/scala/Scala-Scala%E7%9A%84Spring%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E7%B1%BB.html" target="_blank">https://jxnu-liguobin.github.io/scala/Scala-Scala%E7%9A%84Spring%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E7%B1%BB.html</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/scala/Scala-Scala%E7%9A%84Spring%E5%BC%80%E5%8F%9', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://jxnu-liguobin.github.io/assets/search_data.json?v=1617164830', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://jxnu-liguobin.github.io/" title="首页" target="">首页</a></li><li> <a href="https://jxnu-liguobin.github.io/categories/" title="分类" target="">分类</a></li><li> <a href="https://jxnu-liguobin.github.io/wiki/" title="维基" target="">维基</a></li><li> <a href="https://jxnu-liguobin.github.io/links/" title="链接" target="">链接</a></li><li> <a href="https://jxnu-liguobin.github.io/about/" title="关于" target="">关于</a></li><li><a href="https://jxnu-liguobin.github.io/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>

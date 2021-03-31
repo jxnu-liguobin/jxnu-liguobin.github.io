@@ -1,0 +1,152 @@
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>Actor的调度器 &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Actor%E7%9A%84%E8%B0%83%E5%BA%A6%E5%99%A8.html"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://jxnu-liguobin.github.io/feed.xml"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/favicon.ico"><meta property="og:title" content="Actor的调度器"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content=""><meta name="og:description" content=""><meta property="og:url" content="https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Actor%E7%9A%84%E8%B0%83%E5%BA%A6%E5%99%A8.html"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2019-10-22"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://jxnu-liguobin.github.io/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://jxnu-liguobin.github.io/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://jxnu-liguobin.github.io/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://jxnu-liguobin.github.io/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://jxnu-liguobin.github.io/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://jxnu-liguobin.github.io/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="Actor的调度器"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">Actor的调度器</h1><div class="collection-info"> <span class="meta-info"> <span class="octicon octicon-calendar"></span> 2019/10/22 </span> <span class="meta-info"> <span class="octicon octicon-file-directory"></span> <a href="https://jxnu-liguobin.github.io/categories/#AkkaActor" title="AkkaActor">AkkaActor</a> </span> <span class="meta-info"> <span class="octicon octicon-clock"></span> 共 7393 字，约 22 分钟 </span></div></div></div><div class="column one-fourth mobile-hidden"><div class="collection-title"></div></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><ul id="markdown-toc"><li><a href="#默认的调度器" id="markdown-toc-默认的调度器">默认的调度器</a></li><li><a href="#查看调度器" id="markdown-toc-查看调度器">查看调度器</a></li><li><a href="#为actor设置调度器" id="markdown-toc-为actor设置调度器">为Actor设置调度器</a></li><li><a href="#调度器类型" id="markdown-toc-调度器类型">调度器类型</a></li><li><a href="#小心处理阻塞" id="markdown-toc-小心处理阻塞">小心处理阻塞</a></li><li><a href="#问题阻塞默认调度器" id="markdown-toc-问题阻塞默认调度器">问题：阻塞默认调度器</a></li><li><a href="#解决方案专门用于阻塞操作的调度器" id="markdown-toc-解决方案专门用于阻塞操作的调度器">解决方案：专门用于阻塞操作的调度器</a></li><li><a href="#阻塞操作的可用解决方案" id="markdown-toc-阻塞操作的可用解决方案">阻塞操作的可用解决方案</a></li></ul><p>Akka的消息调度器（MessageDispatcher）是使Akka Actors“滴答”的东西，可以说它是机器的引擎。所有MessageDispatcher实现也都是一个ExecutionContext（参考“Scala的Future解读”），这意味着它们可以用于执行任意代码，例如 Future 实例。以下调度器与调度程序等同，均指Dispatcher，可以理解为Spring的Servlet分派器。</p><h3 id="默认的调度器">默认的调度器</h3><p>每个ActorSystem都会有一个默认的调度程序，如果没有为Actor配置任何其他的话，就会使用它。可以修改默认调度程序，默认情况下，它是具有指定的default-executor的调度程序。如果使用传入的ExecutionContext创建ActorSystem，则此ExecutionContext将用作此ActorSystem中所有调度程序的默认执行器（与Future中使用自定义ExecutionContext类似）。如果未给出ExecutionContext，它将返回到<code class="language-plaintext highlighter-rouge">akka.actor.default-dispatcher.default-executor.fallback</code>中指定的执行器默认情况下，这是一个“fork-join-executor”，它在大多数情况下提供了出色的性能。</p><h3 id="查看调度器">查看调度器</h3><p>调度器实现ExecutionContext接口，因此可以用于运行Future调用等。</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// for use with Futures, Scheduler, etc.</span>
+<span class="k">implicit</span> <span class="k">val</span> <span class="nv">executionContext</span> <span class="k">=</span> <span class="nv">system</span><span class="o">.</span><span class="py">dispatchers</span><span class="o">.</span><span class="py">lookup</span><span class="o">(</span><span class="s">"my-dispatcher"</span><span class="o">)</span>
+</code></pre></div></div><h3 id="为actor设置调度器">为Actor设置调度器</h3><p>因此，如果您想给Actor一个不同于默认的调度程序，您需要做两件事，第一件是配置Dispatcher：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>my-dispatcher {
+  # 基于事件的调度器的名称
+  type = Dispatcher
+  # 使用哪种执行器
+  executor = "fork-join-executor"
+  # fork连接池的配置
+  fork-join-executor {
+    # Min number of threads to cap factor-based parallelism number to
+    parallelism-min = 2
+    # Parallelism (threads) ... ceil(available processors * factor)
+    parallelism-factor = 2.0
+    # Max number of threads to cap factor-based parallelism number to
+    parallelism-max = 10
+  }
+  # Throughput defines the maximum number of messages to be
+  # processed per actor before the thread jumps to the next actor.
+  # Set to 1 for as fair as possible.
+  throughput = 100
+}
+</code></pre></div></div><blockquote><p>parallelism-max没有设置ForkJoinPool分配的线程总数的上限。它是一个专门设置会话池持续运行的热线程数，以减少处理新传入任务的延迟。您可以在JDK的<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html">ForkJoinPool</a>文档中阅读更多有关并行性的内容。</p></blockquote><p>另一个使用“thread-pool-executor”的示例：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>blocking-io-dispatcher {
+  type = Dispatcher
+  executor = "thread-pool-executor"
+  thread-pool-executor {
+    fixed-pool-size = 32
+  }
+  throughput = 1
+}
+</code></pre></div></div><p>线程池执行器Dispatcher是使用java.util.concurrent.ThreadPoolExecutor实现的。您可以在JDK的<a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html">ThreadPoolExecutor</a>文档中更详细地了解它。或者查阅<a href="https://doc.akka.io/docs/akka/current/general/configuration.html">Akka官方的配置文件说明</a></p><p>然后像往常一样创建actor对象，并在部署配置中定义Dispatcher。</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">akka.actor.Props</span>
+<span class="k">val</span> <span class="nv">myActor</span> <span class="k">=</span> <span class="nv">context</span><span class="o">.</span><span class="py">actorOf</span><span class="o">(</span><span class="nc">Props</span><span class="o">[</span><span class="kt">MyActor</span><span class="o">],</span> <span class="s">"myactor"</span><span class="o">)</span>
+</code></pre></div></div><p>配置文件中</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>akka.actor.deployment {
+  /myactor {
+    dispatcher = my-dispatcher
+  }
+}
+</code></pre></div></div><p>部署配置的一个替代方法是在代码中定义Dispatcher。如果在部署配置中定义Dispatcher，则将使用此值而不是以编程方式提供的参数。即配置优先级高与代码。</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">akka.actor.Props</span>
+<span class="k">val</span> <span class="nv">myActor</span> <span class="k">=</span>
+  <span class="nv">context</span><span class="o">.</span><span class="py">actorOf</span><span class="o">(</span><span class="nc">Props</span><span class="o">[</span><span class="kt">MyActor</span><span class="o">].</span><span class="py">withDispatcher</span><span class="o">(</span><span class="s">"my-dispatcher"</span><span class="o">),</span> <span class="s">"myactor1"</span><span class="o">)</span>
+</code></pre></div></div><blockquote><p>您在WithDispatcher中指定的Dispatcher和部署配置中的Dispatcher属性实际上是配置的路径。所以在这个例子中它是一个属于顶级层次结构的调度器，你也可以把它作为一个属于子级别层次的调度器，你需要使用点来表示层级关系，比如：“foo.bar.my dispatcher”。actor的层次结构说明请参考“监督与监控”。</p></blockquote><h3 id="调度器类型">调度器类型</h3><ul><li>Dispatcher 这是一个基于事件的调度器，它将一组Actors绑定到线程池。如果没有指定一个，则使用默认的Dispatcher。<ul><li>可共享性：不受限</li><li>邮箱：任意，为每个actor创建一个</li><li>使用场景：默认分派器，bulkheading</li><li>底层实现：java.util.concurrent.executorService。使用“fork join executor”、“fork-join-executor”或akka.dispatcher.ExecutorServiceConfigurator的FQCN指定使用“executor”。</li></ul></li><li>PinnedDispatcher 这个Dispatcher为使用它的每个actor指定了一个唯一的线程；也就是说，每个actor都将有自己的线程池，其中只有一个线程在池中。<ul><li>可共享性：无</li><li>邮箱：任意，为每个actor创建一个</li><li>使用场景：bulkheading</li><li>底层实现：任何akka.dispatch.ThreadPoolExecutorConfigurator。默认情况下是“thread-pool-executor”。</li></ul></li><li>CallingThreadDispatcher 此调度器仅在当前线程上运行调用。此Dispatcher不创建任何新线程，但可以从不同的线程同时用于同一个演员。有关详细信息和限制，请参阅<a href="https://doc.akka.io/docs/akka/current/testing.html#callingthreaddispatcher">CallingThreadDispatcher</a>。<ul><li>可共享性：不受限</li><li>邮箱：任意，每个线程为每个actor创建一个（按需）</li><li>使用场景：测试</li><li>底层实现：调用线程（duh）</li></ul></li></ul><p>更多调度器配置示例：</p><p>配置具有固定线程池大小的调度器，例如用于执行阻塞IO的actor：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>blocking-io-dispatcher {
+  type = Dispatcher
+  executor = "thread-pool-executor"
+  thread-pool-executor {
+    fixed-pool-size = 32
+  }
+  throughput = 1
+}
+</code></pre></div></div><p>然后使用它：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">myActor</span> <span class="k">=</span>
+  <span class="nv">context</span><span class="o">.</span><span class="py">actorOf</span><span class="o">(</span><span class="nc">Props</span><span class="o">[</span><span class="kt">MyActor</span><span class="o">].</span><span class="py">withDispatcher</span><span class="o">(</span><span class="s">"blocking-io-dispatcher"</span><span class="o">),</span> <span class="s">"myactor2"</span><span class="o">)</span>
+</code></pre></div></div><p>另一个基于核数(例如CPU绑定任务)使用线程池的示例</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>my-thread-pool-dispatcher {
+  # Dispatcher is the name of the event-based dispatcher
+  type = Dispatcher
+  # What kind of ExecutionService to use
+  executor = "thread-pool-executor"
+  # Configuration for the thread pool
+  thread-pool-executor {
+    # minimum number of threads to cap factor-based core number to
+    core-pool-size-min = 2
+    # No of core threads ... ceil(available processors * factor)
+    core-pool-size-factor = 2.0
+    # maximum number of threads to cap factor-based number to
+    core-pool-size-max = 10
+  }
+  # Throughput defines the maximum number of messages to be
+  # processed per actor before the thread jumps to the next actor.
+  # Set to 1 for as fair as possible.
+  throughput = 100
+}
+</code></pre></div></div><p>在保持某些内部状态的actor相对较少的情况下，使用关联池的另一种调度程序可能会增加吞吐量。关联池尽力确保actor始终计划在同一线程上运行。此actor-to-thread pinning旨在减少cpu缓存未命中，从而显著提高吞吐量。</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>affinity-pool-dispatcher {
+  # Dispatcher is the name of the event-based dispatcher
+  type = Dispatcher
+  # What kind of ExecutionService to use
+  executor = "affinity-pool-executor"
+  # Configuration for the thread pool
+  affinity-pool-executor {
+    # Min number of threads to cap factor-based parallelism number to
+    parallelism-min = 8
+    # Parallelism (threads) ... ceil(available processors * factor)
+    parallelism-factor = 1
+    # Max number of threads to cap factor-based parallelism number to
+    parallelism-max = 16
+  }
+  # Throughput defines the maximum number of messages to be
+  # processed per actor before the thread jumps to the next actor.
+  # Set to 1 for as fair as possible.
+  throughput = 100
+}
+</code></pre></div></div><p>配置PinnedDispatcher：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>my-pinned-dispatcher {
+  executor = "thread-pool-executor"
+  type = PinnedDispatcher
+}
+</code></pre></div></div><p>然后使用它：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">myActor</span> <span class="k">=</span>
+  <span class="nv">context</span><span class="o">.</span><span class="py">actorOf</span><span class="o">(</span><span class="nc">Props</span><span class="o">[</span><span class="kt">MyActor</span><span class="o">].</span><span class="py">withDispatcher</span><span class="o">(</span><span class="s">"my-pinned-dispatcher"</span><span class="o">),</span> <span class="s">"myactor3"</span><span class="o">)</span>
+</code></pre></div></div><blockquote><p>根据上面的my-thread-pool-dispatcher示例，thread-pool-executor配置是不适用的。这是因为当使用PinnedDispatcher时，每个actor都会有自己的线程池，而这个线程池只有一个线程。</p></blockquote><p>不能保证随着时间的推移使用相同的线程，因为PinnedDispatcher有超时设置，以便在空闲actor的情况下减少资源使用。要始终使用相同的线程，您需要向PinnedDispatcher的配置中添加thread-pool-executor.allow-core-timeout=off。</p><h3 id="小心处理阻塞">小心处理阻塞</h3><p>在某些情况下，不可避免地要执行阻塞操作，即让线程在不确定的时间内休眠，等待外部事件的发生。例如，遗留的RDBMS驱动程序或消息传递API，其根本原因通常是(网络)I/O造成的。</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">BlockingActor</span> <span class="k">extends</span> <span class="nc">Actor</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">receive</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="n">i</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=&gt;</span>
+      <span class="nv">Thread</span><span class="o">.</span><span class="py">sleep</span><span class="o">(</span><span class="mi">5000</span><span class="o">)</span> <span class="c1">//阻塞5秒</span>
+      <span class="nf">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Blocking operation finished: ${i}"</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><p>面对这种情况，您可能会尝试将阻塞调用包装在一个未来中，然后使用它，但是这个策略太简单了：当应用程序在增长的负载下运行时，您很可能会发现瓶颈或内存不足或线程不足。</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">BlockingFutureActor</span> <span class="k">extends</span> <span class="nc">Actor</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="nv">executionContext</span><span class="k">:</span> <span class="kt">ExecutionContext</span> <span class="o">=</span> <span class="nv">context</span><span class="o">.</span><span class="py">dispatcher</span>
+
+  <span class="k">def</span> <span class="nf">receive</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="n">i</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=&gt;</span>
+      <span class="nf">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Calling blocking Future: ${i}"</span><span class="o">)</span>
+      <span class="nc">Future</span> <span class="o">{</span>
+        <span class="nv">Thread</span><span class="o">.</span><span class="py">sleep</span><span class="o">(</span><span class="mi">5000</span><span class="o">)</span> <span class="c1">//阻塞5秒</span>
+        <span class="nf">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Blocking future finished ${i}"</span><span class="o">)</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><h3 id="问题阻塞默认调度器">问题：阻塞默认调度器</h3><p>这里的关键是这一行：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">implicit</span> <span class="k">val</span> <span class="nv">executionContext</span><span class="k">:</span> <span class="kt">ExecutionContext</span> <span class="o">=</span> <span class="nv">context</span><span class="o">.</span><span class="py">dispatcher</span>
+</code></pre></div></div><p>使用context.Dispatcher作为执行阻塞的Future executes的调度器可能是一个问题，因为默认情况下，这个调度器用于所有其他actor处理，除非您为该actor设置了一个单独的调度器（参考“为Actor设置调度器”）。</p><p>如果所有可用线程都被阻塞，那么同一调度程序上的所有actor都将急需线程，并且无法处理传入的消息。</p><blockquote><p>如果可能的话，也应该避免阻塞API。尝试查找或构建反应式API，以便将阻塞最小化，或转移到专用调度程序。通常，当与现有库或系统集成时，不可能避免阻塞API。下面的解决方案解释如何正确处理阻塞操作。请注意，同样的提示适用于管理Akka中任何地方的阻塞操作，包括streams、http和其他构建在其之上的反应式库。</p></blockquote><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">PrintActor</span> <span class="k">extends</span> <span class="nc">Actor</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">receive</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="n">i</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=&gt;</span>
+      <span class="nf">println</span><span class="o">(</span><span class="n">s</span><span class="s">"PrintActor: ${i}"</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+<span class="o">``</span>
+
+<span class="o">```</span><span class="n">scala</span>
+<span class="k">val</span> <span class="nv">actor1</span> <span class="k">=</span> <span class="nv">system</span><span class="o">.</span><span class="py">actorOf</span><span class="o">(</span><span class="nc">Props</span><span class="o">(</span><span class="k">new</span> <span class="nc">BlockingFutureActor</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">actor2</span> <span class="k">=</span> <span class="nv">system</span><span class="o">.</span><span class="py">actorOf</span><span class="o">(</span><span class="nc">Props</span><span class="o">(</span><span class="k">new</span> <span class="nc">PrintActor</span><span class="o">))</span>
+
+<span class="nf">for</span> <span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">actor1</span> <span class="o">!</span> <span class="n">i</span>
+  <span class="n">actor2</span> <span class="o">!</span> <span class="n">i</span>
+<span class="o">}</span>
+</code></pre></div></div><p>在这里，应用程序向BlockingFutureActor和PrintActor发送100条消息，大量akka.actor.default-dispatcher线程正在处理请求。当您运行上述代码时，可能会看到整个应用程序被阻塞在这样的地方：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;　PrintActor: 44
+&gt;　PrintActor: 45
+</code></pre></div></div><p>PrintActor被认为是非阻塞的，但是它不能继续处理剩余的消息，因为所有的线程都被其他阻塞的actor占用和阻塞，从而导致线程饥饿。</p><h3 id="解决方案专门用于阻塞操作的调度器">解决方案：专门用于阻塞操作的调度器</h3><p>在applicy.conf中，专门用于阻塞行为的调度器应该配置如下：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>my-blocking-dispatcher {
+  type = Dispatcher
+  executor = "thread-pool-executor"
+  thread-pool-executor {
+    fixed-pool-size = 16
+  }
+  throughput = 1
+}
+</code></pre></div></div><p>基于线程池的调度程序允许我们对它将承载的线程数量设置一个限制，这样我们就可以严格控制系统中最多会有多少阻塞的线程。</p><p>应该根据您期望在这个dispatcher上运行的工作负载以及运行应用程序的机器的核数来精确地调整其大小。通常，一个很小的核数是一个很好的默认值。</p><p>每当必须执行阻塞时，请使用上述配置的dispatcher而不是默认的dispatcher：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SeparateDispatcherFutureActor</span> <span class="k">extends</span> <span class="nc">Actor</span> <span class="o">{</span>
+  <span class="k">implicit</span> <span class="k">val</span> <span class="nv">executionContext</span><span class="k">:</span> <span class="kt">ExecutionContext</span> <span class="o">=</span> <span class="nv">context</span><span class="o">.</span><span class="py">system</span><span class="o">.</span><span class="py">dispatchers</span><span class="o">.</span><span class="py">lookup</span><span class="o">(</span><span class="s">"my-blocking-dispatcher"</span><span class="o">)</span>
+
+  <span class="k">def</span> <span class="nf">receive</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="n">i</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=&gt;</span>
+      <span class="nf">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Calling blocking Future: ${i}"</span><span class="o">)</span>
+      <span class="nc">Future</span> <span class="o">{</span>
+        <span class="nv">Thread</span><span class="o">.</span><span class="py">sleep</span><span class="o">(</span><span class="mi">5000</span><span class="o">)</span>
+        <span class="nf">println</span><span class="o">(</span><span class="n">s</span><span class="s">"Blocking future finished ${i}"</span><span class="o">)</span>
+      <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><h3 id="阻塞操作的可用解决方案">阻塞操作的可用解决方案</h3><p>“阻塞问题”的非详尽解决办法包括以下建议：</p><ul><li>在路由器管理的actor（或一组actor）中执行阻塞调用，确保配置专门用于此目的或足够大小的线程池。</li><li>在Future中执行阻塞调用，确保在任何时间点都有这样的调用次数的上限（提交无限制的此类任务数量将耗尽您的内存或线程限制）。</li><li>在Future中执行阻塞调用，为线程池提供一个线程数量上限，这个上限适合于运行应用程序的硬件，如本节中详细解释的那样。</li><li>指定一个线程来管理一组阻塞资源（例如，NIO选择器驱动多个通道），并在actor消息出现时分派事件。</li></ul><p>第一种可能性特别适合于具有单线程性质的资源，比如数据库句柄，传统上只能一次执行一个未执行的查询，并使用内部同步来确保这一点。一个常见的模式是为N个actor创建一个路由器，每个actor封装一个DB连接并处理发送给路由器的查询。然后，必须对数字N进行调优，以获得最大吞吐量，这取决于部署在哪个硬件上的DBMS。</p><ul><li>使用搜狗翻译、百度翻译、谷歌翻译，仅供参考</li><li>来自官方文档、参考《响应式架构 消息模式Actor实现与Scala、Akka应用集成》</li><li>后续随着理解深入会继续修改错误和描述，以便更好理解，本博客开源，欢迎指出错误</li></ul><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://jxnu-liguobin.github.io" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Actor%E7%9A%84%E8%B0%83%E5%BA%A6%E5%99%A8.html" target="_blank">https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Actor%E7%9A%84%E8%B0%83%E5%BA%A6%E5%99%A8.html</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/akkaactor/AkkaActor-Actor%E7%9A%84%E8%B0%83%E5%BA', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://jxnu-liguobin.github.io/assets/search_data.json?v=1617164834', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://jxnu-liguobin.github.io/" title="首页" target="">首页</a></li><li> <a href="https://jxnu-liguobin.github.io/categories/" title="分类" target="">分类</a></li><li> <a href="https://jxnu-liguobin.github.io/wiki/" title="维基" target="">维基</a></li><li> <a href="https://jxnu-liguobin.github.io/links/" title="链接" target="">链接</a></li><li> <a href="https://jxnu-liguobin.github.io/about/" title="关于" target="">关于</a></li><li><a href="https://jxnu-liguobin.github.io/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>

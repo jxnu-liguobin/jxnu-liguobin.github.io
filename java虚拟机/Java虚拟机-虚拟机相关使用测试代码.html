@@ -1,0 +1,307 @@
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>虚拟机相关使用测试代码 &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://jxnu-liguobin.github.io/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E5%85%B3%E4%BD%BF%E7%94%A8%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81.html"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://jxnu-liguobin.github.io/feed.xml"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/favicon.ico"><meta property="og:title" content="虚拟机相关使用测试代码"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content="JVM 相关代码 （JVM知识参考《深入理解Java虚拟机》）"><meta name="og:description" content="JVM 相关代码 （JVM知识参考《深入理解Java虚拟机》）"><meta property="og:url" content="https://jxnu-liguobin.github.io/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E5%85%B3%E4%BD%BF%E7%94%A8%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81.html"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2018-11-11"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://jxnu-liguobin.github.io/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://jxnu-liguobin.github.io/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://jxnu-liguobin.github.io/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://jxnu-liguobin.github.io/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://jxnu-liguobin.github.io/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://jxnu-liguobin.github.io/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="虚拟机相关使用测试代码"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">虚拟机相关使用测试代码</h1><div class="collection-info"> <span class="meta-info"> <span class="octicon octicon-calendar"></span> 2018/11/11 </span> <span class="meta-info"> <span class="octicon octicon-file-directory"></span> <a href="https://jxnu-liguobin.github.io/categories/#Java虚拟机" title="Java虚拟机">Java虚拟机</a> </span> <span class="meta-info"> <span class="octicon octicon-clock"></span> 共 7017 字，约 21 分钟 </span></div></div></div><div class="column one-fourth mobile-hidden"><div class="collection-title"></div></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><h3 id="jvm-相关代码-jvm知识参考深入理解java虚拟机">JVM 相关代码 （JVM知识参考《深入理解Java虚拟机》）</h3><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+* 打印类加载器
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ClassLoaderInfoT</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nc">ClassLoader</span> <span class="n">loader</span> <span class="o">=</span> <span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getContextClassLoader</span><span class="o">();</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"当前类加载器："</span> <span class="o">+</span> <span class="n">loader</span><span class="o">);</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"当前类的父亲加载器（根加载器）："</span> <span class="o">+</span> <span class="n">loader</span><span class="o">.</span><span class="na">getParent</span><span class="o">());</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"当前类父亲的父亲加载器（无）："</span> <span class="o">+</span> <span class="n">loader</span><span class="o">.</span><span class="na">getParent</span><span class="o">().</span><span class="na">getParent</span><span class="o">());</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><p>结果：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>当前类加载器：sun.misc.Launcher$AppClassLoader@b4aac2
+当前类的父亲加载器（根加载器）：sun.misc.Launcher$ExtClassLoader@1193f2d
+当前类父亲的父亲加载器（无）：null
+</code></pre></div></div><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * 输出浮点数在虚拟机的实际表示
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FloatInJvm</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kt">float</span> <span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="o">;</span>
+		<span class="c1">// 输出-5的补码，即虚拟机内部实际表示</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Integer</span><span class="o">.</span><span class="na">toBinaryString</span><span class="o">(</span><span class="nc">Float</span><span class="o">.</span><span class="na">floatToRawIntBits</span><span class="o">(</span><span class="n">a</span><span class="o">)));</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><p>结果：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>11000000101000000000000000000000
+</code></pre></div></div><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Parent</span> <span class="o">{</span>
+	<span class="kd">static</span> <span class="o">{</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Parent init"</span><span class="o">);</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">100</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">Child</span> <span class="kd">extends</span> <span class="nc">Parent</span> <span class="o">{</span>
+	<span class="kd">static</span> <span class="o">{</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Child  init"</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">InitMain</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">new</span> <span class="nf">Child</span><span class="o">();</span><span class="c1">// new关键字初始化 注释开启和未开启作比较</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"======"</span><span class="o">);</span>
+		<span class="c1">// 通过子类调用从父类继承过来的静态属性，不会引起子类初始化</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Child</span><span class="o">.</span><span class="na">v</span><span class="o">);</span> <span class="c1">// 此时Child已经被加载，但未被初始化</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><p>结果：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Parent init
+Child  init
+======
+100
+</code></pre></div></div><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * 负整形数在Jvm中的表示
+ * 
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">IntegerInJvm</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span><span class="o">;</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">32</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="o">(</span><span class="n">a</span> <span class="o">&amp;</span> <span class="mh">0x80000000</span> <span class="o">&gt;&gt;&gt;</span> <span class="n">i</span><span class="o">)</span> <span class="o">&gt;&gt;&gt;</span> <span class="o">(</span><span class="mi">31</span> <span class="o">-</span> <span class="n">i</span><span class="o">);</span>
+			<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Integer</span><span class="o">.</span><span class="na">toBinaryString</span><span class="o">(</span><span class="n">a</span><span class="o">));</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><p>结果：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>11111111111111111111111111110110
+11111111111111111111111111110110
+</code></pre></div></div><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * 打印堆内存 input: java -Xmx256m org.jvmcore.heap.JvmXmxArgs a b 打印始终小于 256M ,
+ * 因为GC在不同区域采用不同回收算法，可用内存的减少为了其使用空间换时间的策略。
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">JvmXmxArgs</span> <span class="o">{</span>
+	
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">arg</span> <span class="o">:</span> <span class="n">args</span><span class="o">)</span>
+			<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"参数为"</span> <span class="o">+</span> <span class="n">arg</span><span class="o">);</span>
+		<span class="c1">// 堆内存</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"-Xmx:"</span> <span class="o">+</span> <span class="nc">Runtime</span><span class="o">.</span><span class="na">getRuntime</span><span class="o">().</span><span class="na">maxMemory</span><span class="o">()</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">+</span> <span class="s">"M"</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><p>结果：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-Xmx:247M
+</code></pre></div></div><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * 打印GC信息 input: -XX:+PrintGC
+ */</span>
+<span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"unused"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LocalVarGC</span> <span class="o">{</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">localVarGc1</span><span class="o">()</span> <span class="o">{</span>
+		<span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="mi">6</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">];</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">gc</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">localVarGc2</span><span class="o">()</span> <span class="o">{</span>
+		<span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="mi">6</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">];</span>
+		<span class="n">bytes</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">gc</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">localVarGc3</span><span class="o">()</span> <span class="o">{</span>
+		<span class="o">{</span>
+			<span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="mi">6</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">];</span>
+		<span class="o">}</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">gc</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">localVarGc4</span><span class="o">()</span> <span class="o">{</span>
+		<span class="o">{</span>
+			<span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="mi">6</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">];</span>
+		<span class="o">}</span>
+		<span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">gc</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">localVarGc5</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">localVarGc1</span><span class="o">();</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">gc</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nc">LocalVarGC</span> <span class="n">ins</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LocalVarGC</span><span class="o">();</span>
+		 <span class="n">ins</span><span class="o">.</span><span class="na">localVarGc1</span><span class="o">();</span>
+		 <span class="n">ins</span><span class="o">.</span><span class="na">localVarGc2</span><span class="o">();</span>
+		 <span class="n">ins</span><span class="o">.</span><span class="na">localVarGc3</span><span class="o">();</span>
+		 <span class="n">ins</span><span class="o">.</span><span class="na">localVarGc4</span><span class="o">();</span>
+		<span class="n">ins</span><span class="o">.</span><span class="na">localVarGc5</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><p>结果（注意：需要添加参数-XX:+PrintGC启动）：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Full GC (System.gc())  8384K-&gt;651K(15872K), 0.0024131 secs]
+[Full GC (System.gc())  6795K-&gt;651K(15936K), 0.0015233 secs]
+[Full GC (System.gc())  6885K-&gt;651K(15936K), 0.0016029 secs]
+[Full GC (System.gc())  6795K-&gt;597K(15936K), 0.0018010 secs]
+[Full GC (System.gc())  6741K-&gt;597K(15936K), 0.0017124 secs]
+[Full GC (System.gc())  597K-&gt;597K(15936K), 0.0012238 secs]
+</code></pre></div></div><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * 堆栈溢出的理解 input: // -Xss128K
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">StackDeep</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">recursion</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">count</span><span class="o">++;</span>
+		<span class="n">recursion</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"unused"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">recursion</span><span class="o">(</span><span class="kt">long</span> <span class="n">a</span><span class="o">,</span> <span class="kt">long</span> <span class="n">b</span><span class="o">,</span> <span class="kt">long</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kt">long</span> <span class="n">e</span> <span class="o">=</span> <span class="mi">1</span><span class="o">,</span> <span class="n">f</span> <span class="o">=</span> <span class="mi">2</span><span class="o">,</span> <span class="n">g</span> <span class="o">=</span> <span class="mi">3</span><span class="o">,</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">4</span><span class="o">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">5</span><span class="o">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">6</span><span class="o">,</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">7</span><span class="o">,</span> <span class="n">q</span> <span class="o">=</span> <span class="mi">8</span><span class="o">,</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">10</span><span class="o">,</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">9</span><span class="o">;</span>
+		<span class="n">count</span><span class="o">++;</span>
+		<span class="n">recursion</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">c</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="c1">// recursion(0L,0L,0L);</span>
+			<span class="n">recursion</span><span class="o">();</span>
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Throwable</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+			<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"counts = "</span> <span class="o">+</span> <span class="n">count</span><span class="o">);</span>
+			<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><p>结果（注意：需要添加参数-Xss128K启动）</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>counts = 2502
+java.lang.StackOverflowError
+    at cn.edu.jxnu.jvm.classloader.StackDeep.recursion(StackDeep.java:10)
+</code></pre></div></div><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * 显示类加载，获取方法签名
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">StringCL</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ClassNotFoundException</span> <span class="o">{</span>
+		<span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">clzStr</span> <span class="o">=</span> <span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"java.lang.String"</span><span class="o">);</span>
+		<span class="c1">// 返回对象方法数组</span>
+		<span class="c1">// 返回已加载类声明的所有成员变量的Field对象数组,不包括从父类继承的成员变量.</span>
+		<span class="nc">Method</span><span class="o">[]</span> <span class="n">methods</span> <span class="o">=</span> <span class="n">clzStr</span><span class="o">.</span><span class="na">getDeclaredMethods</span><span class="o">();</span>
+		<span class="k">for</span> <span class="o">(</span><span class="nc">Method</span> <span class="n">m</span> <span class="o">:</span> <span class="n">methods</span><span class="o">)</span> <span class="o">{</span>
+			<span class="c1">// 获取修饰符标志的字符串</span>
+			<span class="nc">String</span> <span class="n">mod</span> <span class="o">=</span> <span class="nc">Modifier</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">m</span><span class="o">.</span><span class="na">getModifiers</span><span class="o">());</span>
+			<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">mod</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">"("</span><span class="o">);</span>
+			<span class="nc">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">ps</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="na">getParameterTypes</span><span class="o">();</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">ps</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+				<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="sc">')'</span><span class="o">);</span>
+			<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ps</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+				<span class="kt">char</span> <span class="n">end</span> <span class="o">=</span> <span class="n">i</span> <span class="o">==</span> <span class="n">ps</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">?</span> <span class="sc">')'</span> <span class="o">:</span> <span class="sc">','</span><span class="o">;</span>
+				<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">ps</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">getSimpleName</span><span class="o">()</span> <span class="o">+</span> <span class="n">end</span><span class="o">);</span>
+			<span class="o">}</span>
+			<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><p>结果：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public equals(Object)
+public toString()
+public hashCode()
+public compareTo(String)
+public volatile compareTo(Object)
+public indexOf(String,int)
+public indexOf(String)
+public indexOf(int,int)
+public indexOf(int)
+static indexOf(char[],int,int,char[],int,int,int)
+static indexOf(char[],int,int,String,int)
+public static valueOf(int)
+public static valueOf(long)
+public static valueOf(float)
+public static valueOf(boolean)
+public static valueOf(char[])
+public static valueOf(char[],int,int)
+public static valueOf(Object)
+public static valueOf(char)
+public static valueOf(double)
+public charAt(int)
+private static checkBounds(byte[],int,int)
+public codePointAt(int)
+public codePointBefore(int)
+public codePointCount(int,int)
+public compareToIgnoreCase(String)
+public concat(String)
+public contains(CharSequence)
+public contentEquals(CharSequence)
+public contentEquals(StringBuffer)
+public static copyValueOf(char[])
+public static copyValueOf(char[],int,int)
+public endsWith(String)
+public equalsIgnoreCase(String)
+public static transient format(Locale,String,Object[])
+public static transient format(String,Object[])
+public getBytes(int,int,byte[],int)
+public getBytes(Charset)
+public getBytes(String)
+public getBytes()
+public getChars(int,int,char[],int)
+ getChars(char[],int)
+private indexOfSupplementary(int,int)
+public native intern()
+public isEmpty()
+public static transient join(CharSequence,CharSequence[])
+public static join(CharSequence,Iterable)
+public lastIndexOf(int)
+public lastIndexOf(String)
+static lastIndexOf(char[],int,int,String,int)
+public lastIndexOf(String,int)
+public lastIndexOf(int,int)
+static lastIndexOf(char[],int,int,char[],int,int,int)
+private lastIndexOfSupplementary(int,int)
+public length()
+public matches(String)
+private nonSyncContentEquals(AbstractStringBuilder)
+public offsetByCodePoints(int,int)
+public regionMatches(int,String,int,int)
+public regionMatches(boolean,int,String,int,int)
+public replace(char,char)
+public replace(CharSequence,CharSequence)
+public replaceAll(String,String)
+public replaceFirst(String,String)
+public split(String)
+public split(String,int)
+public startsWith(String,int)
+public startsWith(String)
+public subSequence(int,int)
+public substring(int)
+public substring(int,int)
+public toCharArray()
+public toLowerCase(Locale)
+public toLowerCase()
+public toUpperCase()
+public toUpperCase(Locale)
+public trim()
+</code></pre></div></div><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * final的static字段比普通static字段初始化快【final实际上是在类加载的准备阶段初始化
+ * static在此阶段只会初始化为0/null值，在解析之后的初始化阶段【类的cinit方法】才是真正使用用户给的值进行初始化】
+ */</span>
+<span class="kd">class</span> <span class="nc">FinalFieldClass</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">CONST_STR</span> <span class="o">=</span> <span class="s">"CONSTSTR"</span><span class="o">;</span>
+
+	<span class="kd">static</span> <span class="o">{</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"FinalFieldClass init"</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UseFinalField</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">FinalFieldClass</span><span class="o">.</span><span class="na">CONST_STR</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><p>结果：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CONSTSTR         PS:特别注意这个
+</code></pre></div></div><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * 实现自己的类加载器
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PathClassLoader</span> <span class="kd">extends</span> <span class="nc">URLClassLoader</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">packageName</span> <span class="o">=</span> <span class="s">"cn.edu.jxnu.classloader"</span><span class="o">;</span>
+
+	<span class="nc">PathClassLoader</span><span class="o">(</span><span class="no">URL</span><span class="o">[]</span> <span class="n">classPath</span><span class="o">,</span> <span class="nc">ClassLoader</span> <span class="n">parent</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">(</span><span class="n">classPath</span><span class="o">,</span> <span class="n">parent</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">protected</span> <span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">findClass</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ClassNotFoundException</span> <span class="o">{</span>
+		<span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">aClass</span> <span class="o">=</span> <span class="n">findLoadedClass</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">aClass</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="n">aClass</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="k">if</span> <span class="o">(!</span><span class="n">packageName</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">name</span><span class="o">))</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">loadClass</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+		<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="nf">findClass</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><p>参考【Jeff Lee】</p><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://jxnu-liguobin.github.io" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://jxnu-liguobin.github.io/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E5%85%B3%E4%BD%BF%E7%94%A8%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81.html" target="_blank">https://jxnu-liguobin.github.io/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E5%85%B3%E4%BD%BF%E7%94%A8%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81.html</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/java%E8%99%9A%E6%8B%9F%E6%9C%BA/Java%E8%99%9A%E6%', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://jxnu-liguobin.github.io/assets/search_data.json?v=1617164832', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://jxnu-liguobin.github.io/" title="首页" target="">首页</a></li><li> <a href="https://jxnu-liguobin.github.io/categories/" title="分类" target="">分类</a></li><li> <a href="https://jxnu-liguobin.github.io/wiki/" title="维基" target="">维基</a></li><li> <a href="https://jxnu-liguobin.github.io/links/" title="链接" target="">链接</a></li><li> <a href="https://jxnu-liguobin.github.io/about/" title="关于" target="">关于</a></li><li><a href="https://jxnu-liguobin.github.io/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>

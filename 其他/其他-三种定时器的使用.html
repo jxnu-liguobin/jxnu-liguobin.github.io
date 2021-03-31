@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>三种定时器的使用 &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E4%B8%89%E7%A7%8D%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8.html"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://jxnu-liguobin.github.io/feed.xml"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/favicon.ico"><meta property="og:title" content="三种定时器的使用"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content=""><meta name="og:description" content=""><meta property="og:url" content="https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E4%B8%89%E7%A7%8D%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8.html"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2019-09-18"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://jxnu-liguobin.github.io/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://jxnu-liguobin.github.io/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://jxnu-liguobin.github.io/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://jxnu-liguobin.github.io/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://jxnu-liguobin.github.io/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://jxnu-liguobin.github.io/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="三种定时器的使用"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">三种定时器的使用</h1><div class="collection-info"> <span class="meta-info"> <span class="octicon octicon-calendar"></span> 2019/09/18 </span> <span class="meta-info"> <span class="octicon octicon-file-directory"></span> <a href="https://jxnu-liguobin.github.io/categories/#其他" title="其他">其他</a> </span> <span class="meta-info"> <span class="octicon octicon-clock"></span> 共 6427 字，约 19 分钟 </span></div></div></div><div class="column one-fourth mobile-hidden"><div class="collection-title"></div></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><ul id="markdown-toc"><li><a href="#概述" id="markdown-toc-概述">概述</a></li><li><a href="#java-timer" id="markdown-toc-java-timer">Java Timer</a><ul><li><a href="#基本原理" id="markdown-toc-基本原理">基本原理</a></li><li><a href="#timer主要特性总结" id="markdown-toc-timer主要特性总结">Timer主要特性总结</a></li><li><a href="#代码示例1" id="markdown-toc-代码示例1">代码示例1</a></li><li><a href="#结果1" id="markdown-toc-结果1">结果1</a></li></ul></li><li><a href="#javascheduledexecutorservice" id="markdown-toc-javascheduledexecutorservice">Java ScheduledExecutorService</a><ul><li><a href="#scheduledthreadpoolexecutor的创建" id="markdown-toc-scheduledthreadpoolexecutor的创建">ScheduledThreadPoolExecutor的创建</a></li><li><a href="#scheduledthreadpoolexecutor的启动" id="markdown-toc-scheduledthreadpoolexecutor的启动">ScheduledThreadPoolExecutor的启动</a></li><li><a href="#scheduledthreadpoolexecutor的优点" id="markdown-toc-scheduledthreadpoolexecutor的优点">ScheduledThreadPoolExecutor的优点</a></li><li><a href="#代码示例2" id="markdown-toc-代码示例2">代码示例2</a></li><li><a href="#结果2" id="markdown-toc-结果2">结果2</a></li></ul></li><li><a href="#akka-actorscheduler" id="markdown-toc-akka-actorscheduler">Akka Actor scheduler</a><ul><li><a href="#代码示例3" id="markdown-toc-代码示例3">代码示例3</a></li><li><a href="#结果3" id="markdown-toc-结果3">结果3</a></li><li><a href="#补充" id="markdown-toc-补充">补充</a></li></ul></li></ul><h1 id="概述">概述</h1><p>下面均使用并模拟了两个task2：一个在Future中抛出一次异常的task1(Future使用了onComplete)、一个在Future内外均各抛出一次异常的task2（Future使用了onComplete）</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="nn">io.growing.schedule</span>
+
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
+<span class="k">import</span> <span class="nn">scala.util.Failure</span>
+
+<span class="cm">/**
+ *
+ * @author liguobin@growingio.com
+ * @version 1.0,2019/9/17
+ */</span>
+<span class="k">object</span> <span class="nc">UserTask</span> <span class="o">{</span>
+
+  <span class="c1">//仅load内部抛出运行时异常</span>
+  <span class="k">def</span> <span class="nf">task1</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="nf">println</span><span class="o">(</span><span class="s">"我开始执行任务1"</span><span class="o">)</span>
+    <span class="nf">load</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="py">map</span> <span class="o">{</span> <span class="n">x</span> <span class="k">=&gt;</span>
+      <span class="nf">println</span><span class="o">(</span><span class="s">"任务1-我在执行更新数据 x: "</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="k">private</span> <span class="k">var</span> <span class="n">j</span> <span class="k">=</span> <span class="mi">0</span>
+
+  <span class="c1">//load内部与外部各抛一次运行时异常</span>
+  <span class="k">def</span> <span class="nf">task2</span><span class="o">()</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="nf">println</span><span class="o">(</span><span class="s">"我开始执行任务2"</span><span class="o">)</span>
+    <span class="nf">load</span><span class="o">(</span><span class="mi">2</span><span class="o">).</span><span class="py">map</span> <span class="o">{</span> <span class="n">x</span> <span class="k">=&gt;</span>
+      <span class="nf">println</span><span class="o">(</span><span class="s">"任务2-我在执行更新数据 x: "</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="c1">//模拟仅抛出一次异常</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nc">Exception</span><span class="o">(</span><span class="s">"Future 外抛出的异常"</span><span class="o">)</span> 
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="c1">//@see https://docs.scala-lang.org/zh-cn/overviews/core/futures.html</span>
+  <span class="c1">//当Future带着某个值就位时，我们就说该Future携带计算结果成功就位。</span>
+  <span class="c1">//当Future因对应计算过程抛出异常而就绪，我们就说这个Future因该异常而失败。</span>
+  <span class="c1">//如果此Future以异常完成，那么新的Future也将包含此异常</span>
+  <span class="k">private</span> <span class="k">var</span> <span class="n">i</span> <span class="k">=</span> <span class="mi">0</span>
+
+  <span class="k">private</span> <span class="k">def</span> <span class="nf">load</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">f</span> <span class="k">=</span> <span class="nc">Future</span> <span class="o">{</span>
+      <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+      <span class="nf">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nf">println</span><span class="o">(</span><span class="n">s</span><span class="s">"任务$name-我正在抛出异常"</span><span class="o">)</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nc">Exception</span><span class="o">(</span><span class="s">"Future 内抛出的异常"</span><span class="o">)</span>
+      <span class="o">}</span>
+      <span class="mi">1</span>
+    <span class="o">}</span>
+    <span class="nv">f</span><span class="o">.</span><span class="py">onComplete</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="nc">Failure</span><span class="o">(</span><span class="n">t</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nf">println</span><span class="o">(</span><span class="n">s</span><span class="s">"任务$name-load方法捕获到错误了"</span><span class="o">)</span>
+      <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span>
+    <span class="o">}</span>
+    <span class="n">f</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div><h1 id="java-timer">Java Timer</h1><p>Timer是一个比较老的库，从Java1.3版本开始的，并且是线程安全的，其内部均使用synchronized</p><h2 id="基本原理">基本原理</h2><ul><li>其内部将任务TimerTask(Runnable)传递进优先级队列数据结构TaskQueue，其中优先级以下次被执行时间为值构造小根堆（nextExecutionTime，由fixUp、fixDown进行上下调整）。</li><li>执行schedule方法时，task的下次执行时间已经根据传进的delay+当前系统时间戳计算好。并将TimerTask入队，然后获取小根堆的根节点，如果是当前节点则直接将它唤醒（根节点表示离将被执行时间最近的任务，如果小根堆是当前任务，那么当前任务就是马上被执行的任务）。</li><li>初始化Timer对象时，会启动TimerThread线程，并将整个任务队列传进去，所有待调度的任务在队列中等待被执行。TimerThread这个相当于整个任务的调度线程。</li><li>TimerThread线程的run方法会执行mainLoop方法，整个方法是一个死循环，不停的从队列取出可执行的任务，被取消的任务将从队列中删除。其中执行时还会判断当前时间戳与任务入队时的nextExecutionTime，只有在这个时间小于等于当前时间戳时，任务才会开始被调度，否则不会被处理并被要求开始wait。在这个处理过程中mainLoop方法只会处理中断异常InterruptedException，任何其他异常都将导致任务被取消，并退出mainLoop方法的死循环，任务调度线程直接结束。</li></ul><h2 id="timer主要特性总结">Timer主要特性总结</h2><ul><li>Timer 是基于绝对时间的，对系统时间比较敏感</li><li>Timer 是内部是单一线程，调度线程挂了任务全挂</li><li>Timer 运行多个 TimeTask 时，只要其中之一没有捕获抛出的异常，其它任务便会自动终止运行，无法在异常出现后继续恢复执行</li><li>Timer 执行线程默认不是 daemon 线程, 任务执行完，主线程（或其他启动定时器的线程）结束时，task 线程并没有结束。需要注意潜在内存泄漏问题</li><li>内部使用了大量的synchronized和锁来保证线程安全性</li><li>Timer内部优先级队列大小默认是128个，满时扩容为当前容量的2倍，并向上调整</li></ul><h2 id="代码示例1">代码示例1</h2><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">object</span> <span class="nc">TimerTest3</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+
+  <span class="nf">pull</span><span class="o">()</span>
+
+  <span class="k">lazy</span> <span class="k">val</span> <span class="nv">timer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Timer</span><span class="o">()</span>
+
+  <span class="c1">//这里使用main方法测试，使用val不会被初始化，除非加lazy @see https://www.jianshu.com/p/f99e09effea4</span>
+  <span class="k">def</span> <span class="nf">LongServerTask</span><span class="k">:</span> <span class="kt">TimerTask</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TimerTask</span> <span class="o">{</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">run</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="nv">UserTask</span><span class="o">.</span><span class="py">task1</span><span class="o">()</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="nf">pull</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="nv">timer</span><span class="o">.</span><span class="py">schedule</span><span class="o">(</span><span class="nc">LongServerTask</span><span class="o">,</span> <span class="mi">3000</span><span class="o">,</span> <span class="mi">3000</span><span class="o">)</span>
+    <span class="nv">timer</span><span class="o">.</span><span class="py">schedule</span><span class="o">(</span><span class="n">updateHotDataTask</span><span class="o">,</span> <span class="mi">3000</span><span class="o">,</span> <span class="mi">3000</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="nf">updateHotDataTask</span><span class="k">:</span> <span class="kt">TimerTask</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TimerTask</span> <span class="o">{</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">run</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="nv">UserTask</span><span class="o">.</span><span class="py">task2</span><span class="o">()</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><h2 id="结果1">结果1</h2><p>task1和task2的Future中的异常都被吃掉了，task2的异常由于Future外部没有onComplete捕获，会导致task被取消，所有定时任务直接结束，main方法停止。</p><h1 id="javascheduledexecutorservice">Java ScheduledExecutorService</h1><p>基于上述Timer的设计缺陷以及功能上的不足，不引入第三方库的前提下，可以使用现有Java类库的ScheduledExecutorService类。该类是一个接口，从Java1.5开始，继承自ExecutorService接口</p><p>我们有两种方法创建：</p><ul><li>通过Executors的静态方法newScheduledThreadPool来创建自己的定时任务，只需传入核心线程数量、（ThreadFactory可选）</li><li>通过new ScheduledThreadPoolExecutor实例来创建，同样也只需传入核心线程数量、（ThreadFactory可选），甚至可以使用自定义的拒绝策略。实际上Executors仅对ExecutorService的子类作了封装，以便更快更简单创建一个线程池</li></ul><h2 id="scheduledthreadpoolexecutor的创建">ScheduledThreadPoolExecutor的创建</h2><p>两方法的比较：线程池不推荐使用Executors去创建，而是通过ThreadPoolExecutor的方式，这样的处理方式让写的人更加明确线程池的运行规则，规避资源耗尽的风险</p><ul><li>newFixedThreadPool和newSingleThreadExecutor: 主要问题是堆积的请求处理队列可能会耗费非常大的内存，甚至OOM。</li><li>newCachedThreadPool和newScheduledThreadPool: 主要问题是线程数最大数是Integer.MAX_VALUE，可能会创建数量非常多的线程，甚至OOM。 Scheduled线程池能按时间计划来执行任务，允许用户设定计划执行任务的时间，int类型的参数是设定 线程池中线程的最小数目。当任务较多时，线程池可能会自动创建更多的工作线程来执行任务</li></ul><h2 id="scheduledthreadpoolexecutor的启动">ScheduledThreadPoolExecutor的启动</h2><ul><li>scheduleAtFixedRate  固定频率   下一次执行时间相当于是上一次的执行时间加上period</li><li>scheduleWithFixedDelay  固定周期   下一次执行时间是上一次任务执行完的系统时间加上period，因而具体执行时间不是固定的，但周期是固定的，是采用相对固定的延迟来执行任务</li></ul><h2 id="scheduledthreadpoolexecutor的优点">ScheduledThreadPoolExecutor的优点</h2><ul><li>基于相对时间，即使是固定周期时也是基于纳秒的时间，比毫秒更加精确。</li><li>内部是个线程池，所以可以支持多个任务并发执行，Timer就一个任务调度线程</li><li>拥有拒绝策略，支持异常捕获后的处理，可自行扩展（只有通过execute提交的任务，才能将它抛出的异常交给UncaughtExceptionHandler，而通过submit提交的任务，无论是抛出的未检测异常还是已检查异常，都将被认为是任务返回状态的一部分，可以捕获Future.get）</li><li>使用可重入锁以及CAS而非synchronized关键字</li></ul><h2 id="代码示例2">代码示例2</h2><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="nn">io.growing.schedule</span>
+
+<span class="k">import</span> <span class="nn">java.util.concurrent.</span><span class="o">{</span> <span class="nc">Executors</span><span class="o">,</span> <span class="k">_</span> <span class="o">}</span>
+
+
+<span class="cm">/**
+ * @see https://www.jianshu.com/p/925dba9f5969
+ * @author liguobin@growingio.com
+ * @version 1.0,2019/9/16
+ */</span>
+<span class="k">object</span> <span class="nc">ScheduledThreadPoolExecutorTest</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+
+  <span class="nf">pull</span><span class="o">()</span>
+
+  <span class="k">lazy</span> <span class="k">val</span> <span class="nv">delegate</span> <span class="k">=</span> <span class="nv">Executors</span><span class="o">.</span><span class="py">defaultThreadFactory</span>
+  <span class="k">lazy</span> <span class="k">val</span> <span class="nv">tf</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ThreadFactory</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">newThread</span><span class="o">(</span><span class="n">r</span><span class="k">:</span> <span class="kt">Runnable</span><span class="o">)</span><span class="k">:</span> <span class="kt">Thread</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="k">val</span> <span class="nv">res</span> <span class="k">=</span> <span class="nv">delegate</span><span class="o">.</span><span class="py">newThread</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+      <span class="nv">res</span><span class="o">.</span><span class="py">setUncaughtExceptionHandler</span><span class="o">((</span><span class="n">t</span><span class="k">:</span> <span class="kt">Thread</span><span class="o">,</span> <span class="n">e</span><span class="k">:</span> <span class="kt">Throwable</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">{</span>
+        <span class="nf">println</span><span class="o">(</span><span class="s">"uncaughtException捕获到异常了"</span><span class="o">)</span>
+        <span class="nv">e</span><span class="o">.</span><span class="py">printStackTrace</span><span class="o">()</span>
+      <span class="o">})</span>
+      <span class="n">res</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="k">lazy</span> <span class="k">val</span> <span class="nv">executor</span> <span class="k">=</span> <span class="nv">Executors</span><span class="o">.</span><span class="py">newScheduledThreadPool</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="n">tf</span><span class="o">)</span>
+ 
+  <span class="k">lazy</span> <span class="k">val</span> <span class="nv">task1</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Runnable</span> <span class="o">{</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">run</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="nv">UserTask</span><span class="o">.</span><span class="py">task1</span><span class="o">()</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="k">lazy</span> <span class="k">val</span> <span class="nv">task2</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Runnable</span> <span class="o">{</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">run</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="nv">UserTask</span><span class="o">.</span><span class="py">task2</span><span class="o">()</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="nf">pull</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="nv">executor</span><span class="o">.</span><span class="py">scheduleWithFixedDelay</span><span class="o">(</span><span class="n">task1</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="nv">TimeUnit</span><span class="o">.</span><span class="py">SECONDS</span><span class="o">)</span>
+    <span class="nv">executor</span><span class="o">.</span><span class="py">scheduleWithFixedDelay</span><span class="o">(</span><span class="n">task2</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="nv">TimeUnit</span><span class="o">.</span><span class="py">SECONDS</span><span class="o">)</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div><h2 id="结果2">结果2</h2><p>task1和task2的Future中的异常都被吃掉了，任务继续执行，task2的异常由于Future外部没有onComplete捕获，但不影响task1的执行，task1仍能继续工作，但task2无法被继续执行。基于此种方法更新缓存，需要自己实现重试策略。</p><h1 id="akka-actorscheduler">Akka Actor scheduler</h1><p>其原理使用是系统actor的scheduler调度器定时发送消息给其他actor以触发定时任务的执行。同样，akka定时任务也执行传入两个时间、第一次延迟时间和后续间隔时间，以及消息接受者和消息内容。</p><p>Akka2.5.3的官方文档：https://doc.akka.io/docs/akka/2.5.3/scala/scheduler.html，文档讲的很清楚，就不复制了。</p><h2 id="代码示例3">代码示例3</h2><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="nn">io.growing.schedule</span>
+
+<span class="k">import</span> <span class="nn">java.util.concurrent.TimeUnit</span>
+
+<span class="k">import</span> <span class="nn">akka.actor.</span><span class="o">{</span> <span class="nc">Actor</span><span class="o">,</span> <span class="nc">ActorRef</span><span class="o">,</span> <span class="nc">ActorSystem</span><span class="o">,</span> <span class="nc">Props</span> <span class="o">}</span>
+
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.duration._</span>
+
+<span class="cm">/**
+ *
+ * @author liguobin@growingio.com
+ * @version 1.0,2019/9/17
+ */</span>
+<span class="k">class</span> <span class="nc">JobScheduler</span><span class="o">(</span><span class="n">jobActor</span><span class="k">:</span> <span class="kt">ActorRef</span><span class="o">,</span> <span class="n">system</span><span class="k">:</span> <span class="kt">ActorSystem</span><span class="o">)(</span><span class="k">implicit</span> <span class="n">ec</span><span class="k">:</span> <span class="kt">ExecutionContext</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">start</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">//两个定时任务，task1，Future内部异常被捕获</span>
+    <span class="c1">// task2，Future内部异常被捕获，且Future外还抛出异常，两个task的异常都只会出现一次。</span>
+    <span class="nv">system</span><span class="o">.</span><span class="py">scheduler</span><span class="o">.</span><span class="py">schedule</span><span class="o">(</span><span class="mi">0</span> <span class="n">seconds</span><span class="o">,</span> <span class="nv">Duration</span><span class="o">.</span><span class="py">create</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="nv">TimeUnit</span><span class="o">.</span><span class="py">SECONDS</span><span class="o">),</span> <span class="n">jobActor</span><span class="o">,</span> <span class="s">"task1"</span><span class="o">)</span>
+    <span class="nv">system</span><span class="o">.</span><span class="py">scheduler</span><span class="o">.</span><span class="py">schedule</span><span class="o">(</span><span class="mi">0</span> <span class="n">seconds</span><span class="o">,</span> <span class="nv">Duration</span><span class="o">.</span><span class="py">create</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="nv">TimeUnit</span><span class="o">.</span><span class="py">SECONDS</span><span class="o">),</span> <span class="n">jobActor</span><span class="o">,</span> <span class="s">"task2"</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">class</span> <span class="nc">JobActor</span> <span class="k">extends</span> <span class="nc">Actor</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">receive</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="s">"task1"</span> <span class="k">=&gt;</span> <span class="o">{</span>
+      <span class="nf">println</span><span class="o">(</span><span class="s">"receive message from task1..."</span><span class="o">)</span>
+      <span class="nv">UserTask</span><span class="o">.</span><span class="py">task1</span><span class="o">()</span>
+    <span class="o">}</span>
+    <span class="k">case</span> <span class="s">"task2"</span> <span class="k">=&gt;</span> <span class="o">{</span>
+      <span class="nf">println</span><span class="o">(</span><span class="s">"receive message from task2..."</span><span class="o">)</span>
+      <span class="nv">UserTask</span><span class="o">.</span><span class="py">task2</span><span class="o">()</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">TestJobScheduler</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+
+  <span class="k">implicit</span> <span class="k">val</span> <span class="nv">ec</span> <span class="k">=</span> <span class="nv">ExecutionContext</span><span class="o">.</span><span class="py">global</span>
+  <span class="k">val</span> <span class="nv">system</span> <span class="k">=</span> <span class="nv">ActorSystem</span><span class="o">.</span><span class="py">apply</span><span class="o">(</span><span class="s">"schedulerJob"</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nv">jobActor</span> <span class="k">=</span> <span class="nv">system</span><span class="o">.</span><span class="py">actorOf</span><span class="o">(</span><span class="nc">Props</span><span class="o">[</span><span class="kt">JobActor</span><span class="o">])</span>
+  <span class="k">val</span> <span class="nv">schedule</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">JobScheduler</span><span class="o">(</span><span class="n">jobActor</span><span class="o">,</span> <span class="n">system</span><span class="o">)</span>
+  <span class="nv">schedule</span><span class="o">.</span><span class="py">start</span><span class="o">()</span>
+<span class="o">}</span>
+</code></pre></div></div><h2 id="结果3">结果3</h2><p>Future内抛出的异常被onComplete吃掉了，虽然外部的异常使得akka出错，但是下次任务仍会继续执行，符合需求预期。另外：错误次数呢？</p><h2 id="补充">补充</h2><p>值得一提的是，根据官方文档说明，使用Runnable的定时任务在遇到异常时同样会取消当前task，与ScheduledThreadPoolExecutor表现一致</p><p>参见官方文档：https://doc.akka.io/docs/akka/2.5.3/scala/scheduler.html</p><p>下面这个定时任务实现方式，一旦task2中抛出未被捕获的异常，整个schedule就不会再被调用，定时任务中止。</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//If the `Runnable` throws an exception the repeated scheduling is aborted,</span>
+<span class="c1">//i.e. the function will not be invoked any more.</span>
+<span class="nv">system</span><span class="o">.</span><span class="py">scheduler</span><span class="o">.</span><span class="py">schedule</span><span class="o">(</span><span class="mi">0</span> <span class="n">seconds</span><span class="o">,</span> <span class="nv">Duration</span><span class="o">.</span><span class="py">create</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="nv">TimeUnit</span><span class="o">.</span><span class="py">SECONDS</span><span class="o">),</span> <span class="k">new</span> <span class="nc">Runnable</span> <span class="o">{</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">run</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="nv">UserTask</span><span class="o">.</span><span class="py">task2</span><span class="o">()</span>
+        <span class="o">}</span>
+<span class="o">})</span>
+</code></pre></div></div><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://jxnu-liguobin.github.io" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E4%B8%89%E7%A7%8D%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8.html" target="_blank">https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E4%B8%89%E7%A7%8D%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8.html</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E4%B8%89%E', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://jxnu-liguobin.github.io/assets/search_data.json?v=1617164833', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://jxnu-liguobin.github.io/" title="首页" target="">首页</a></li><li> <a href="https://jxnu-liguobin.github.io/categories/" title="分类" target="">分类</a></li><li> <a href="https://jxnu-liguobin.github.io/wiki/" title="维基" target="">维基</a></li><li> <a href="https://jxnu-liguobin.github.io/links/" title="链接" target="">链接</a></li><li> <a href="https://jxnu-liguobin.github.io/about/" title="关于" target="">关于</a></li><li><a href="https://jxnu-liguobin.github.io/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>

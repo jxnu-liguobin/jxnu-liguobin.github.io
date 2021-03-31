@@ -1,0 +1,244 @@
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>Scala面试题总结 &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-Scala%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93.html"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://jxnu-liguobin.github.io/feed.xml"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/favicon.ico"><meta property="og:title" content="Scala面试题总结"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content=""><meta name="og:description" content=""><meta property="og:url" content="https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-Scala%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93.html"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2019-05-12"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://jxnu-liguobin.github.io/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://jxnu-liguobin.github.io/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://jxnu-liguobin.github.io/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://jxnu-liguobin.github.io/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://jxnu-liguobin.github.io/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://jxnu-liguobin.github.io/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="Scala面试题总结"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">Scala面试题总结</h1><div class="collection-info"> <span class="meta-info"> <span class="octicon octicon-calendar"></span> 2019/05/12 </span> <span class="meta-info"> <span class="octicon octicon-file-directory"></span> <a href="https://jxnu-liguobin.github.io/categories/#面试" title="面试">面试</a> </span> <span class="meta-info"> <span class="octicon octicon-clock"></span> 共 7732 字，约 23 分钟 </span></div></div></div><div class="column one-fourth mobile-hidden"><div class="collection-title"></div></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><ul id="markdown-toc"><li><a href="#说明" id="markdown-toc-说明">说明</a></li><li><a href="#q1-varval-和-def-三个关键字之间的区别" id="markdown-toc-q1-varval-和-def-三个关键字之间的区别">Q1 var、val 和 def 三个关键字之间的区别？</a></li><li><a href="#q2-trait特质和-abstract-class抽象类的区别" id="markdown-toc-q2-trait特质和-abstract-class抽象类的区别">Q2 trait（特质）和 abstract class（抽象类）的区别？</a></li><li><a href="#q3-object-和-class-的区别" id="markdown-toc-q3-object-和-class-的区别">Q3 object 和 class 的区别？</a></li><li><a href="#q4-case-class-样例类是什么" id="markdown-toc-q4-case-class-样例类是什么">Q4 case class （样例类）是什么？</a></li><li><a href="#q5-java-和-scala-异步计算的区别" id="markdown-toc-q5-java-和-scala-异步计算的区别">Q5 Java 和 Scala 异步计算的区别？</a></li><li><a href="#q6-unapply-和-apply-方法的区别以及各自使用场景" id="markdown-toc-q6-unapply-和-apply-方法的区别以及各自使用场景">Q6 unapply 和 apply 方法的区别，以及各自使用场景？</a></li><li><a href="#q7-伴生对象是什么" id="markdown-toc-q7-伴生对象是什么">Q7 伴生对象是什么？</a></li><li><a href="#q8-scala-类型系统中-nilnullnonenothing四个类型的区别" id="markdown-toc-q8-scala-类型系统中-nilnullnonenothing四个类型的区别">Q8 Scala 类型系统中 Nil、Null、None、Nothing四个类型的区别？</a></li><li><a href="#q9-unit-类型是什么" id="markdown-toc-q9-unit-类型是什么">Q9 Unit 类型是什么？</a></li><li><a href="#q10-call-by-value-和-call-by-name-求值策略的区别" id="markdown-toc-q10-call-by-value-和-call-by-name-求值策略的区别">Q10 call-by-value 和 call-by-name 求值策略的区别？</a></li><li><a href="#q11-option-类型的定义和使用场景" id="markdown-toc-q11-option-类型的定义和使用场景">Q11 Option 类型的定义和使用场景？</a></li><li><a href="#q12-yield-如何工作" id="markdown-toc-q12-yield-如何工作">Q12 yield 如何工作？</a></li><li><a href="#q13-解释隐示参数的优先级" id="markdown-toc-q13-解释隐示参数的优先级">Q13 解释隐示参数的优先级</a></li><li><a href="#q14-comprehension推导式的语法糖是什么操作" id="markdown-toc-q14-comprehension推导式的语法糖是什么操作">Q14 comprehension（推导式）的语法糖是什么操作？</a></li><li><a href="#q15-streams当使用-scala-steams-时需要考虑什么scala-的-streams-内部使用什么技术" id="markdown-toc-q15-streams当使用-scala-steams-时需要考虑什么scala-的-streams-内部使用什么技术">Q15 Streams：当使用 Scala Steams 时需要考虑什么？Scala 的 Streams 内部使用什么技术？</a></li><li><a href="#q16-什么是-value-class" id="markdown-toc-q16-什么是-value-class">Q16 什么是 value class？</a></li><li><a href="#q17-optiontry-和-either-三者的区别" id="markdown-toc-q17-optiontry-和-either-三者的区别">Q17 Option、Try 和 Either 三者的区别？</a></li><li><a href="#q18-什么是函数柯里化" id="markdown-toc-q18-什么是函数柯里化">Q18 什么是函数柯里化？</a></li><li><a href="#q19-什么是尾递归" id="markdown-toc-q19-什么是尾递归">Q19 什么是尾递归？</a></li><li><a href="#q20-什么是高阶函数" id="markdown-toc-q20-什么是高阶函数">Q20 什么是高阶函数？</a></li></ul><h3 id="说明">说明</h3><p>搬运并补充 <a href="https://www.playscala.cn/article/view?_id=10-5cd54475eeab56146a538620">www.playscala.cn</a></p><h3 id="q1-varval-和-def-三个关键字之间的区别">Q1 var、val 和 def 三个关键字之间的区别？</h3><ul><li>var是变量声明关键字，类似于Java中的变量，变量值可以更改，但是变量类型不能更改。不可被lazy修饰，可被final修饰（不可覆盖）</li><li>val常量声明关键字。补充：方法的参数也是val，不可再次赋值，但是每次方法执行完val会被释放，下回调用时是新的值，与普通常量在程序初始化后不再改变是有差异的。</li><li>def 关键字用于创建方法（<a href="https://tpolecat.github.io/2014/06/09/methods-functions.html">注意方法和函数的区别</a>）。</li><li>还有一个lazy val（惰性val）声明，意思是当需要计算时才使用，避免重复计算。</li></ul><p>代码示例：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="n">x</span> <span class="k">=</span> <span class="mi">3</span> <span class="c1">//  x是Int类型</span>
+<span class="n">x</span> <span class="k">=</span> <span class="mi">4</span>      <span class="c1">// </span>
+<span class="n">x</span> <span class="k">=</span> <span class="s">"error"</span> <span class="c1">// 类型变化，编译器报错'error: type mismatch'</span>
+
+<span class="k">val</span> <span class="nv">y</span> <span class="k">=</span> <span class="mi">3</span>
+<span class="n">y</span> <span class="k">=</span> <span class="mi">4</span>        <span class="c1">//常量值不可更改，报错 'error: reassignment to val'</span>
+
+<span class="k">def</span> <span class="nf">fun</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="s">"Hey! My name is: "</span> <span class="o">+</span> <span class="n">name</span>
+<span class="nf">fun</span><span class="o">(</span><span class="s">"Scala"</span><span class="o">)</span> <span class="c1">// "Hey! My name is: Scala"</span>
+
+<span class="c1">//注意scala中函数式编程一切都是表达式</span>
+<span class="k">lazy</span> <span class="k">val</span> <span class="nv">x</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="nf">println</span><span class="o">(</span><span class="s">"computing x"</span><span class="o">)</span>
+  <span class="mi">3</span>
+<span class="o">}</span>
+<span class="k">val</span> <span class="nv">y</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="nf">println</span><span class="o">(</span><span class="s">"computing y"</span><span class="o">)</span>
+  <span class="mi">10</span>
+<span class="o">}</span>
+<span class="n">x</span><span class="o">+</span><span class="n">x</span>  <span class="c1">//</span>
+<span class="n">y</span><span class="o">+</span><span class="n">y</span>  <span class="c1">// x 没有计算, 打印结果"computing y" </span>
+</code></pre></div></div><h3 id="q2-trait特质和-abstract-class抽象类的区别">Q2 trait（特质）和 abstract class（抽象类）的区别？</h3><ul><li>一个类只能集成一个抽象类，但是可以通过with关键字继承多个特质（混入多个特质）；</li><li>抽象类有带参数的构造函数，特质不行（如 trait t（i：Int）{} ，这种声明是错误的）；</li><li>trait的线性化细节描述见本库scala-examples部分（Construction4）。</li><li>trait 支持 Cake Pattern 模式</li></ul><p>代码示例：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ *
+ * @author 梦境迷离
+ * @version 1.0,2020/6/10
+ */</span>
+<span class="k">trait</span> <span class="nc">EngineComponent</span> <span class="o">{</span>
+
+  <span class="k">trait</span> <span class="nc">Engine</span> <span class="o">{</span>
+
+    <span class="k">private</span> <span class="k">var</span> <span class="n">running</span> <span class="k">=</span> <span class="kc">false</span>
+
+    <span class="k">def</span> <span class="nf">start</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="nf">println</span><span class="o">(</span><span class="s">"Engine start"</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="k">def</span> <span class="nf">stop</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="nf">println</span><span class="o">(</span><span class="s">"Engine stop"</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="k">def</span> <span class="nf">isRunning</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">running</span>
+
+    <span class="k">def</span> <span class="nf">fuelType</span><span class="k">:</span> <span class="kt">FuelType</span>
+  <span class="o">}</span>
+
+  <span class="k">val</span> <span class="nv">engine</span><span class="k">:</span> <span class="kt">Engine</span>
+
+  <span class="k">protected</span> <span class="k">class</span> <span class="nc">DieselEngine</span> <span class="k">extends</span> <span class="nc">Engine</span> <span class="o">{</span>
+    <span class="k">override</span> <span class="k">val</span> <span class="nv">fuelType</span> <span class="k">=</span> <span class="nv">FuelType</span><span class="o">.</span><span class="py">Diesel</span>
+  <span class="o">}</span>
+
+
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">FuelType</span> <span class="k">extends</span> <span class="nc">Enumeration</span> <span class="o">{</span>
+  <span class="k">type</span> <span class="kt">FuelType</span> <span class="o">=</span> <span class="nc">Value</span>
+  <span class="k">val</span> <span class="nv">Diesel</span> <span class="k">=</span> <span class="nc">Value</span>
+<span class="o">}</span>
+
+<span class="c1">//需要混入了EngineComponent的才能使用CarComponent</span>
+<span class="k">trait</span> <span class="nc">CarComponent</span> <span class="o">{</span>
+  <span class="k">this:</span> <span class="kt">EngineComponent</span> <span class="o">=&gt;</span>
+
+  <span class="k">trait</span> <span class="nc">Car</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="nf">drive</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span>
+
+    <span class="k">def</span> <span class="nf">park</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span>
+  <span class="o">}</span>
+
+  <span class="k">val</span> <span class="nv">car</span><span class="k">:</span> <span class="kt">Car</span>
+
+  <span class="k">protected</span> <span class="k">class</span> <span class="nc">HondaCar</span> <span class="k">extends</span> <span class="nc">Car</span> <span class="o">{</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">drive</span><span class="o">()</span> <span class="o">{</span>
+      <span class="nv">engine</span><span class="o">.</span><span class="py">start</span><span class="o">()</span>
+      <span class="nf">println</span><span class="o">(</span><span class="s">"Vroom vroom"</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">park</span><span class="o">()</span> <span class="o">{</span>
+      <span class="nf">println</span><span class="o">(</span><span class="s">"HondaCar"</span><span class="o">)</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">AppSpec</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+
+  <span class="nv">APP</span><span class="o">.</span><span class="py">car</span><span class="o">.</span><span class="py">drive</span><span class="o">()</span>
+  <span class="nv">APP</span><span class="o">.</span><span class="py">car</span><span class="o">.</span><span class="py">park</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">APP</span> <span class="k">extends</span> <span class="nc">CarComponent</span> <span class="k">with</span> <span class="nc">EngineComponent</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">val</span> <span class="nv">car</span><span class="k">:</span> <span class="kt">APP.Car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HondaCar</span><span class="o">()</span> <span class="c1">//实例化时使用了engine</span>
+  <span class="k">override</span> <span class="k">val</span> <span class="nv">engine</span><span class="k">:</span> <span class="kt">APP.Engine</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DieselEngine</span><span class="o">()</span>
+
+<span class="o">}</span>
+</code></pre></div></div><h3 id="q3-object-和-class-的区别">Q3 object 和 class 的区别？</h3><ul><li>object是类的单例对象，开发人员无需用new关键字实例化。如果对象的名称和类名相同，这个对象就是伴生对象（深入了解请参考问题Q7）</li></ul><p>代码示例：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//声明一个类</span>
+<span class="k">class</span> <span class="nc">MyClass</span><span class="o">(</span><span class="n">number</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">classMethod</span><span class="o">()</span> <span class="k">=</span> <span class="nf">println</span><span class="o">(</span><span class="n">text</span><span class="o">)</span>
+<span class="o">}</span>
+<span class="c1">//声明一个对象</span>
+<span class="k">object</span> <span class="nc">MyObject</span><span class="o">{</span>
+  <span class="k">def</span> <span class="nf">objectMethod</span><span class="o">()</span><span class="k">=</span><span class="nf">println</span><span class="o">(</span><span class="s">"object"</span><span class="o">)</span>
+<span class="o">}</span>
+<span class="k">new</span> <span class="nc">MyClass</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"text"</span><span class="o">).</span><span class="py">classMethod</span><span class="o">()</span> <span class="c1">//打印结果test，需要实例化类</span>
+<span class="nv">Myclass</span><span class="o">.</span><span class="py">classMethod</span><span class="o">()</span>  <span class="c1">//无法直接调用类的方法</span>
+<span class="nv">MyObject</span><span class="o">.</span><span class="py">objectMethod</span><span class="o">()</span> <span class="c1">//打印结果object，对象可以直接调用方法</span>
+</code></pre></div></div><h3 id="q4-case-class-样例类是什么">Q4 case class （样例类）是什么？</h3><p>样例类是一种不可变且可分解类的语法糖，这个语法糖的意思大概是在构建时，自动实现一些功能。样例类具有以下特性：</p><ol><li>自动添加与类名一致的构造函数（这个就是前面提到的伴生对象，通过apply方法实现），即构造对象时，不需要new；</li><li>样例类中的参数默认添加val关键字，即参数不能修改；</li><li>默认实现了toString，equals，hashCode，copy等方法；</li><li>样例类可以通过==比较两个对象，并且不在构造方法中定义的属性不会用在比较上；</li><li>样例类不能支持继承。</li></ol><p>代码示例：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//声明一个样例类</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">MyCaseClass</span><span class="o">(</span><span class="n">number</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">others</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Int</span><span class="o">]){</span>
+ <span class="nf">println</span><span class="o">(</span><span class="n">number</span><span class="o">)</span>
+<span class="o">}</span>
+<span class="c1">//不需要new关键字，创建一个对象</span>
+<span class="k">val</span> <span class="nv">dto</span> <span class="k">=</span> <span class="nc">MyCaseClass</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">"text"</span><span class="o">,</span> <span class="nv">List</span><span class="o">.</span><span class="py">empty</span><span class="o">)</span> <span class="c1">//打印结果3</span>
+
+<span class="c1">//利用样例类默认实现的copy方法</span>
+<span class="nv">dto</span><span class="o">.</span><span class="py">copy</span><span class="o">(</span><span class="n">number</span> <span class="k">=</span> <span class="mi">5</span><span class="o">)</span> <span class="c1">//打印结果5</span>
+
+<span class="k">val</span> <span class="nv">dto2</span> <span class="k">=</span> <span class="nc">MyCaseClass</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">"text"</span><span class="o">,</span> <span class="nv">List</span><span class="o">.</span><span class="py">empty</span><span class="o">)</span>
+<span class="nf">pringln</span><span class="o">(</span><span class="n">dto</span> <span class="o">==</span> <span class="n">dto2</span><span class="o">)</span> <span class="c1">// 返回true，两个不同的引用对象</span>
+<span class="k">class</span> <span class="nc">MyClass</span><span class="o">(</span><span class="n">number</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">others</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Int</span><span class="o">])</span> <span class="o">{}</span>
+<span class="k">val</span> <span class="nv">c1</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MyClass</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"txt"</span><span class="o">,</span> <span class="nv">List</span><span class="o">.</span><span class="py">empty</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">c2</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MyClass</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"txt"</span><span class="o">,</span> <span class="nv">List</span><span class="o">.</span><span class="py">empty</span><span class="o">)</span>
+<span class="nf">println</span><span class="o">(</span><span class="n">c1</span> <span class="o">==</span> <span class="n">c2</span> <span class="o">)</span><span class="c1">// 返回false,两个不同的引用对象</span>
+</code></pre></div></div><h3 id="q5-java-和-scala-异步计算的区别">Q5 Java 和 Scala 异步计算的区别？</h3><p>这里作者的意思是他大概也不清楚，请阅读这个 <a href="https://stackoverflow.com/questions/31366277/what-are-the-differences-between-a-scala-future-and-a-java-future/31368177#31368177">really clean and simple answer on StackOverflow</a>，我个人理解还不到位后续补上。</p><h3 id="q6-unapply-和-apply-方法的区别以及各自使用场景">Q6 unapply 和 apply 方法的区别，以及各自使用场景？</h3><ul><li>先讲一个概念——提取器，它实现了构造器相反的效果，构造器从给定的参数创建一个对象，然而提取器却从对象中提取出构造该对象的参数， scala标准库预定义了一些提取器，如上面提到的样例类中，会自动创建一个伴生对象（包含apply和unapply方法）。</li><li>为了成为一个提取器，unapply方法需要被伴生对象。</li><li>apply方法是为了自动实现样例类的对象，无需new关键字。</li></ul><h3 id="q7-伴生对象是什么">Q7 伴生对象是什么？</h3><ul><li>前面已经提到过，伴生对象就是与类名相同的对象，伴生对象可以访问类中的私有量，类也可以访问伴生对象中的私有方法，类似于Java类中的静态方法。 伴生对象必须和其对应的类定义在相同的源文件。</li></ul><p>代码示例：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//定义一个类</span>
+<span class="k">class</span> <span class="nc">MyClass</span><span class="o">(</span><span class="n">number</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="o">{</span>
+
+  <span class="k">private</span> <span class="k">val</span> <span class="nv">classSecret</span> <span class="k">=</span> <span class="mi">42</span>
+
+  <span class="k">def</span> <span class="nf">x</span> <span class="k">=</span> <span class="nv">MyClass</span><span class="o">.</span><span class="py">objectSecret</span> <span class="o">+</span> <span class="s">"?"</span>  <span class="c1">// MyClass.objectSecret-&gt;在类中可以访问伴生对象的方法，在类的外部则无法访问</span>
+<span class="o">}</span>
+
+<span class="c1">//定义一个伴生对象</span>
+<span class="k">object</span> <span class="nc">MyClass</span> <span class="o">{</span> <span class="c1">// 和类名称相同</span>
+  <span class="k">private</span> <span class="k">val</span> <span class="nv">objectSecret</span> <span class="k">=</span> <span class="s">"42"</span>
+
+  <span class="k">def</span> <span class="nf">y</span><span class="o">(</span><span class="n">arg</span><span class="k">:</span> <span class="kt">MyClass</span><span class="o">)</span> <span class="k">=</span> <span class="nv">arg</span><span class="o">.</span><span class="py">classSecret</span> <span class="o">-</span><span class="mi">1</span> <span class="c1">// arg.classSecret -&gt; 在伴生对象中可以访问类的常量</span>
+<span class="o">}</span>
+
+<span class="nv">MyClass</span><span class="o">.</span><span class="py">objectSecret</span> <span class="c1">// 无法访问</span>
+<span class="nv">MyClass</span><span class="o">.</span><span class="py">classSecret</span> <span class="c1">// 无法访问</span>
+
+<span class="k">new</span> <span class="nc">MyClass</span><span class="o">(-</span><span class="mi">1</span><span class="o">,</span> <span class="s">"random"</span><span class="o">).</span><span class="py">objectSecret</span> <span class="c1">// 无法访问</span>
+<span class="k">new</span> <span class="nc">MyClass</span><span class="o">(-</span><span class="mi">1</span><span class="o">,</span> <span class="s">"random"</span><span class="o">).</span><span class="py">classSecret</span> <span class="c1">// 无法访问</span>
+</code></pre></div></div><h3 id="q8-scala-类型系统中-nilnullnonenothing四个类型的区别">Q8 Scala 类型系统中 Nil、Null、None、Nothing四个类型的区别？</h3><p>Scala类型图：</p><p><img src="../public/image/scala%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84.jpg" alt="Scala类型系统继承结构图" /></p><ul><li>Null是一个trait（特质），是所有引用类型AnyRef的一个子类型，null是Null唯一的实例。</li><li>Nothing也是一个trait（特质），是所有类型Any（包括值类型和引用类型）的子类型，它不在有子类型，它也没有实例，实际上为了一个方法抛出异常，通常会设置一个默认返回类型。</li><li>Nil代表一个List空类型，等同List[Nothing]</li><li>None是Option monad的空标识（深入了解请参考问题Q11）</li></ul><h3 id="q9-unit-类型是什么">Q9 Unit 类型是什么？</h3><ul><li>Unit代表没有任何意义的值类型，类似于java中的void类型，他是AnyVal的子类型，仅有一个实例对象”( )”</li></ul><h3 id="q10-call-by-value-和-call-by-name-求值策略的区别">Q10 call-by-value 和 call-by-name 求值策略的区别？</h3><ul><li>call-by-value是在调用函数之前计算；</li><li>call-by-name是在需要时计算（懒惰求值、非严格求值）。</li></ul><p>示例代码：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//声明第一个函数</span>
+<span class="k">def</span> <span class="nf">func</span><span class="o">()</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="nf">println</span><span class="o">(</span><span class="s">"computing stuff...."</span><span class="o">)</span>
+  <span class="mi">42</span> <span class="c1">// return something</span>
+<span class="o">}</span>
+<span class="c1">//声明第二个函数，scala默认的求值就是call-by-value</span>
+<span class="k">def</span> <span class="nf">callByValue</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="nf">println</span><span class="o">(</span><span class="s">"1st x: "</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span>
+  <span class="nf">println</span><span class="o">(</span><span class="s">"2nd x: "</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span>
+<span class="o">}</span>
+<span class="c1">//声明第三个函数，用=&gt;表示call-by-name求值</span>
+<span class="k">def</span> <span class="nf">callByName</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="nc">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="nf">println</span><span class="o">(</span><span class="s">"1st x: "</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span>
+  <span class="nf">println</span><span class="o">(</span><span class="s">"2nd x: "</span> <span class="o">+</span> <span class="n">x</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="c1">//开始调用</span>
+
+<span class="c1">//call-by-value求值</span>
+<span class="nf">callByValue</span><span class="o">(</span><span class="nf">func</span><span class="o">())</span>   
+<span class="c1">//输出结果</span>
+<span class="c1">//computing stuff....  </span>
+<span class="c1">//1st x: 42  </span>
+<span class="c1">//2nd x: 42</span>
+
+<span class="c1">//call-by-name求值</span>
+<span class="nf">callByName</span><span class="o">(</span><span class="nf">func</span><span class="o">())</span>   
+<span class="c1">//输出结果</span>
+<span class="c1">//computing stuff....  </span>
+<span class="c1">//1st x: 42  </span>
+<span class="c1">//computing stuff....</span>
+<span class="c1">//2nd x: 42</span>
+</code></pre></div></div><h3 id="q11-option-类型的定义和使用场景">Q11 Option 类型的定义和使用场景？</h3><ul><li>在Java中，null是一个关键字，不是一个对象，当开发者希望返回一个空对象时，却返回了一个关键字，为了解决这个问题，Scala建议开发者返回值是空值时， 使用Option类型，在Scala中null是Null的唯一对象，会引起异常，Option则可以避免。Option有两个子类型，Some和None（空值），如果有必要获取异常详细的信息，可以使用Either。</li></ul><p>代码示例：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">person</span><span class="k">:</span> <span class="kt">Person</span> <span class="o">=</span> <span class="nf">getPersonByIdOnDatabaseUnsafe</span><span class="o">(</span><span class="n">id</span> <span class="k">=</span> <span class="mi">4</span><span class="o">)</span> <span class="c1">// 如果没有id=4的person时，返回null对象</span>
+<span class="nf">println</span><span class="o">(</span><span class="n">s</span><span class="s">"This person age is ${person.age}"</span><span class="o">)</span> <span class="c1">//如果是null，抛出异常</span>
+
+<span class="k">val</span> <span class="nv">personOpt</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span> <span class="k">=</span> 
+<span class="nf">getPersonByIdOnDatabaseSafe</span><span class="o">(</span><span class="n">id</span> <span class="k">=</span> <span class="mi">4</span><span class="o">)</span> <span class="c1">// 如果没有id=4的person时，返回None类型</span>
+
+<span class="n">personOpt</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Some</span><span class="o">(</span><span class="n">p</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nf">println</span><span class="o">(</span><span class="n">s</span><span class="s">"This person age is ${p.age}"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">None</span> <span class="k">=&gt;</span> <span class="nf">println</span><span class="o">(</span><span class="s">"There is no person with that id"</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div><h3 id="q12-yield-如何工作">Q12 yield 如何工作？</h3><ul><li>yield用于循环迭代中生成新值，yield是comprehensions的一部分，是多个操作（foreach, map, flatMap, filter or withFilter）的composition语法糖。（深入了解请参考问题Q14）</li></ul><p>代码示例：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//scala命令行</span>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nf">for</span> <span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">1</span> <span class="n">to</span> <span class="mi">5</span><span class="o">)</span> <span class="k">yield</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">2</span> 
+<span class="n">res0</span><span class="k">:</span> <span class="kt">scala.collection.immutable.IndexedSeq</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Vector</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span>
+<span class="c1">//其中to是闭区间</span>
+</code></pre></div></div><h3 id="q13-解释隐示参数的优先级">Q13 解释隐示参数的优先级</h3><p>在Scala中implicit的功能很强大。当编译器寻找implicits时，如果不注意隐式参数的优先级，可能会引起意外的错误。因此编译器会按顺序查找隐式关键字。顺序如下：</p><ol><li>当前类声明的implicits ；</li><li>导入包中的 implicits；</li><li>外部域（声明在外部域的implicts）；</li><li>inheritance；</li><li>package object；</li><li>implicit scope like companion objects。</li></ol><p>一个参考文章：<a href="http://eed3si9n.com/implicit-parameter-precedence-again">set of examples can be found here</a>.</p><h3 id="q14-comprehension推导式的语法糖是什么操作">Q14 comprehension（推导式）的语法糖是什么操作？</h3><ul><li>comprehension（推导式）是若干个操作组成的替代语法。如果不用yield关键字，comprehension（推导式）可以被foreach操作替代，或者被map/flatMap，filter代替。</li></ul><p>示例代码：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//三层循环嵌套</span>
+<span class="k">for</span> <span class="o">{</span>
+  <span class="n">x</span> <span class="k">&lt;-</span> <span class="n">c1</span>
+  <span class="n">y</span> <span class="k">&lt;-</span> <span class="n">c2</span>
+  <span class="n">z</span> <span class="k">&lt;-</span> <span class="n">c3</span> <span class="k">if</span> <span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<span class="o">}</span> <span class="k">yield</span> <span class="o">{...}</span>
+
+<span class="c1">//上面的可转换为</span>
+<span class="nv">c1</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="nv">c2</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="n">y</span> <span class="k">=&gt;</span> <span class="nv">c3</span><span class="o">.</span><span class="py">withFilter</span><span class="o">(</span><span class="n">z</span> <span class="k">=&gt;</span> <span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">).</span><span class="py">map</span><span class="o">(</span><span class="n">z</span> <span class="k">=&gt;</span> <span class="o">{...})))</span>
+</code></pre></div></div><h3 id="q15-streams当使用-scala-steams-时需要考虑什么scala-的-streams-内部使用什么技术">Q15 Streams：当使用 Scala Steams 时需要考虑什么？Scala 的 Streams 内部使用什么技术？</h3><ul><li>还没有理解，暂时不翻译，后续补上。</li></ul><h3 id="q16-什么是-value-class">Q16 什么是 value class？</h3><ul><li>开发时经常遇到这个的问题，当你使用integer时，希望它代表一些东西，而不是全部东西，例如，一个integer代表年龄，另一个代表高度。由于上述原因，我们考虑包裹原始类型生成一个新的有意义的类型（如年龄类型和高度类型）。</li><li><a href="https://docs.scala-lang.org/overviews/core/value-classes.html">Value classes</a> 允许开发者安全的增加一个新类型，避免运行时对象分配。 有一些 <a href="https://docs.scala-lang.org/overviews/core/value-classes.html">必须进行分配的情况</a> and 限制， 但是基本的思想是：在编译时，通过使用原始类型替换值类实例，删除对象分配。更多细节<a href="https://docs.scala-lang.org/sips/completed/value-classes.html">More details can be found on its SIP</a>.</li></ul><h3 id="q17-optiontry-和-either-三者的区别">Q17 Option、Try 和 Either 三者的区别？</h3><p>这三种monads允许我们显示函数没有按预期执行的计算结果。</p><ul><li>Option表示可选值，它的返回类型是Some（代表返回有效数据）或None（代表返回空值）。</li><li>Try类似于Java中的try/catch，如果计算成功，返回Success的实例，如果抛出异常，返回Failure。</li><li>Either可以提供一些计算失败的信息，Either有两种可能返回类型：预期/正确/成功的 和 错误的信息。</li></ul><p>代码示例：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//返回一个Either类型</span>
+<span class="k">def</span> <span class="nf">personAge</span><span class="o">(</span><span class="n">id</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Either</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="nv">personOpt</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Person</span><span class="o">]</span> <span class="k">=</span> <span class="nv">DB</span><span class="o">.</span><span class="py">getPersonById</span><span class="o">(</span><span class="n">id</span><span class="o">)</span> <span class="c1">//返回Option类型，如果为null返回None，否则返回Some</span>
+
+  <span class="n">personOpt</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nc">None</span> <span class="k">=&gt;</span> <span class="nc">Left</span><span class="o">(</span><span class="n">s</span><span class="s">"Could not get person with id: $id"</span><span class="o">)</span>  <span class="c1">//Left 包含错误或无效值</span>
+    <span class="k">case</span> <span class="nc">Some</span><span class="o">(</span><span class="n">person</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Right</span><span class="o">(</span><span class="nv">person</span><span class="o">.</span><span class="py">age</span><span class="o">)</span>                    <span class="c1">//Right包含正确或有效值</span>
+  <span class="o">}</span>
+</code></pre></div></div><h3 id="q18-什么是函数柯里化">Q18 什么是函数柯里化？</h3><ul><li>柯里化技术是一个接受多个参数的函数转化为接受其中几个参数的函数。经常被用来处理高阶函数。</li></ul><p>代码示例：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">add</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)(</span><span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="k">val</span> <span class="nv">add2</span> <span class="k">=</span> <span class="nf">add</span><span class="o">(</span><span class="mi">2</span><span class="o">)(</span><span class="k">_</span><span class="o">)</span>  <span class="c1">//_ 表示不只一个的意思，实际是部分应用函数参数，具体参考小红书第二章的习题柯里化与反柯里化实现</span>
+
+<span class="n">scala</span><span class="o">&gt;</span> <span class="nf">add2</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+<span class="n">res0</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">5</span>
+</code></pre></div></div><h3 id="q19-什么是尾递归">Q19 什么是尾递归？</h3><ul><li>正常递归，每一次递归步骤，需要保存信息到堆栈里面，当递归步骤很多时，导致堆栈溢出；</li><li>尾递归就是为了解决上述问题，在尾递归中所有的计算都是在递归之前调用；</li><li>编译器可以利用这个属性避免堆栈错误，尾递归的调用可以使信息不插入堆栈，从而优化尾递归；</li><li>使用 @tailrec 标签可使编译器强制使用尾递归。</li></ul><p>代码示例：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">sum</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span> <span class="c1">// 求和计算</span>
+  <span class="nf">if</span><span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">n</span>
+  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="n">n</span> <span class="o">+</span> <span class="nf">sum</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="nd">@tailrec</span>  <span class="c1">//告诉编译器</span>
+<span class="k">def</span> <span class="nf">tailSum</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">acc</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="nf">if</span><span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">acc</span>
+  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="nf">tailSum</span><span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">,</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">n</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="nf">sum</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span>
+<span class="mi">5</span> <span class="o">+</span> <span class="nf">sum</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span> <span class="c1">// 暂停计算 =&gt; 需要添加信息到堆栈</span>
+<span class="mi">5</span> <span class="o">+</span> <span class="o">(</span><span class="mi">4</span> <span class="o">+</span> <span class="nf">sum</span><span class="o">(</span><span class="mi">3</span><span class="o">))</span>
+<span class="mi">5</span> <span class="o">+</span> <span class="o">(</span><span class="mi">4</span> <span class="o">+</span> <span class="o">(</span><span class="mi">3</span> <span class="o">+</span> <span class="nf">sum</span><span class="o">(</span><span class="mi">2</span><span class="o">)))</span>
+<span class="mi">5</span> <span class="o">+</span> <span class="o">(</span><span class="mi">4</span> <span class="o">+</span> <span class="o">(</span><span class="mi">3</span> <span class="o">+</span> <span class="o">(</span><span class="mi">2</span> <span class="o">+</span> <span class="nf">sum</span><span class="o">(</span><span class="mi">1</span><span class="o">))))</span>
+<span class="mi">5</span> <span class="o">+</span> <span class="o">(</span><span class="mi">4</span> <span class="o">+</span> <span class="o">(</span><span class="mi">3</span> <span class="o">+</span> <span class="o">(</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)))</span>
+<span class="mi">15</span>
+
+<span class="nf">tailSum</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span> <span class="c1">// tailSum(5, 0) 默认值是0</span>
+<span class="nf">tailSum</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span> <span class="c1">// 不需要暂停计算</span>
+<span class="nf">tailSum</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">9</span><span class="o">)</span>
+<span class="nf">tailSum</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">12</span><span class="o">)</span>
+<span class="nf">tailSum</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">14</span><span class="o">)</span>
+<span class="nf">tailSum</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">15</span><span class="o">)</span>
+<span class="mi">15</span>
+</code></pre></div></div><h3 id="q20-什么是高阶函数">Q20 什么是高阶函数？</h3><ul><li>高阶函数指能接受或者返回其他函数的函数，scala中的filter map flatMap函数都能接受其他函数作为参数。</li></ul><p>个人总结:</p><ol><li>monads概念的需要进一步理解</li><li>Scala Steams使用的内部技术</li><li>Scala中隐形参数的使用</li><li>高阶函数的灵活运用</li></ol><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://jxnu-liguobin.github.io" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-Scala%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93.html" target="_blank">https://jxnu-liguobin.github.io/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-Scala%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93.html</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-Scala%E9%9D', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://jxnu-liguobin.github.io/assets/search_data.json?v=1617164833', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://jxnu-liguobin.github.io/" title="首页" target="">首页</a></li><li> <a href="https://jxnu-liguobin.github.io/categories/" title="分类" target="">分类</a></li><li> <a href="https://jxnu-liguobin.github.io/wiki/" title="维基" target="">维基</a></li><li> <a href="https://jxnu-liguobin.github.io/links/" title="链接" target="">链接</a></li><li> <a href="https://jxnu-liguobin.github.io/about/" title="关于" target="">关于</a></li><li><a href="https://jxnu-liguobin.github.io/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>

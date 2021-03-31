@@ -1,0 +1,331 @@
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>javap和ASM &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-javap%E5%92%8CASM.html"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://jxnu-liguobin.github.io/feed.xml"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/favicon.ico"><meta property="og:title" content="javap和ASM"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content=""><meta name="og:description" content=""><meta property="og:url" content="https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-javap%E5%92%8CASM.html"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2020-09-03"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://jxnu-liguobin.github.io/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://jxnu-liguobin.github.io/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://jxnu-liguobin.github.io/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://jxnu-liguobin.github.io/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://jxnu-liguobin.github.io/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://jxnu-liguobin.github.io/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="javap和ASM"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">javap和ASM</h1><div class="collection-info"> <span class="meta-info"> <span class="octicon octicon-calendar"></span> 2020/09/03 </span> <span class="meta-info"> <span class="octicon octicon-file-directory"></span> <a href="https://jxnu-liguobin.github.io/categories/#其他" title="其他">其他</a> </span> <span class="meta-info"> <span class="octicon octicon-clock"></span> 共 10223 字，约 30 分钟 </span></div></div></div><div class="column one-fourth mobile-hidden"><div class="collection-title"></div></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><ul id="markdown-toc"><li><a href="#反编译-java-文件" id="markdown-toc-反编译-java-文件">反编译 Java 文件</a></li><li><a href="#反编译-scala-文件" id="markdown-toc-反编译-scala-文件">反编译 Scala 文件</a></li><li><a href="#scala-静态方法实现" id="markdown-toc-scala-静态方法实现">Scala 静态方法实现</a></li><li><a href="#jvm-方法调用指令" id="markdown-toc-jvm-方法调用指令">JVM 方法调用指令</a></li><li><a href="#使用本地变量表" id="markdown-toc-使用本地变量表">使用本地变量表</a></li><li><a href="#asm-框架执行流程" id="markdown-toc-asm-框架执行流程">ASM 框架执行流程</a></li><li><a href="#使用-classreader-获取私有字段" id="markdown-toc-使用-classreader-获取私有字段">使用 ClassReader 获取私有字段</a></li></ul><p>本文是<a href="https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-ASM%E4%B8%8ECGLIB%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8.html">ASM与CGLIB的简单使用</a>的后续，更多的是提供思路和总结自己觉得比较有用的内容</p><p><code class="language-plaintext highlighter-rouge">javap</code>是Java class文件分解器，可以反编译（即对<code class="language-plaintext highlighter-rouge">javac</code>编译的文件进行反编译），也可以查看java编译器生成的字节码。用于分解class文件。</p><p>先看看<code class="language-plaintext highlighter-rouge">javap</code>都有哪些参数（java 8）：</p><table><thead><tr><th>参数</th><th>说明</th></tr></thead><tbody><tr><td>-help –help -?</td><td>输出此用法消息</td></tr><tr><td>-version</td><td>版本信息</td></tr><tr><td>-v -verbose</td><td>输出附加信息</td></tr><tr><td>-l</td><td>输出行号和本地变量表</td></tr><tr><td>-public</td><td>仅显示公共类和成员</td></tr><tr><td>-protected</td><td>显示受保护的/公共类和成员</td></tr><tr><td>-package</td><td>显示程序包/受保护的/公共类和成员 (默认)</td></tr><tr><td>-p -private</td><td>显示所有类和成员</td></tr><tr><td>-c</td><td>对代码进行反汇编</td></tr><tr><td>-s</td><td>输出内部类型签名</td></tr><tr><td>-sysinfo</td><td>显示正在处理的类的系统信息 (路径、大小、日期,、MD5 散列)</td></tr><tr><td>-constants</td><td>显示静态最终常量</td></tr><tr><td>-classpath<path></path></td><td>指定查找用户类文件的位置</td></tr><tr><td>-bootclasspath<path></path></td><td>覆盖引导类文件的位置</td></tr></tbody></table><h2 id="反编译-java-文件">反编译 Java 文件</h2><p>命令 <code class="language-plaintext highlighter-rouge">javap -c</code></p><p>Java 类：</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JavapJavaSpec</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">_P_1</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">_P_2</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">method1</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"hello"</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">method2</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"world"</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">String</span> <span class="nf">methodStatic</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"hello world"</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><p>编译后生成一个字节码文件<code class="language-plaintext highlighter-rouge">JavapJavaSpec.class</code>，反编译字节码文件：</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//javap -c JavapJavaSpec </span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">JavapJavaSpec</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">_P_2</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nf">JavapJavaSpec</span><span class="o">();</span>
+    <span class="nl">Code:</span>
+       <span class="mi">0</span><span class="o">:</span> <span class="n">aload_0</span>
+       <span class="mi">1</span><span class="o">:</span> <span class="n">invokespecial</span> <span class="err">#</span><span class="mi">1</span>                  <span class="c1">// Method java/lang/Object."&lt;init&gt;":()V</span>
+       <span class="mi">4</span><span class="o">:</span> <span class="k">return</span>
+
+  <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">method1</span><span class="o">();</span>
+    <span class="nl">Code:</span>
+       <span class="mi">0</span><span class="o">:</span> <span class="n">ldc</span>           <span class="err">#</span><span class="mi">2</span>                  <span class="c1">// String hello</span>
+       <span class="mi">2</span><span class="o">:</span> <span class="n">areturn</span>
+
+  <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">method2</span><span class="o">();</span>
+    <span class="nl">Code:</span>
+       <span class="mi">0</span><span class="o">:</span> <span class="n">ldc</span>           <span class="err">#</span><span class="mi">3</span>                  <span class="c1">// String world</span>
+       <span class="mi">2</span><span class="o">:</span> <span class="n">areturn</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">methodStatic</span><span class="o">();</span>
+    <span class="nl">Code:</span>
+       <span class="mi">0</span><span class="o">:</span> <span class="n">ldc</span>           <span class="err">#</span><span class="mi">4</span>                  <span class="c1">// String hello world</span>
+       <span class="mi">2</span><span class="o">:</span> <span class="n">areturn</span>
+<span class="o">}</span>
+</code></pre></div></div><h2 id="反编译-scala-文件">反编译 Scala 文件</h2><p>Scala 类：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">JavapScalaSpec</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">method1</span> <span class="k">=</span> <span class="s">"hello"</span>
+
+  <span class="k">def</span> <span class="nf">method2</span> <span class="k">=</span> <span class="s">"world"</span>
+
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">JavapScalaSpec</span> <span class="o">{</span>
+  <span class="k">private</span> <span class="k">val</span> <span class="nv">_P_1</span> <span class="k">=</span> <span class="mi">1</span>
+  <span class="k">val</span> <span class="nv">_P_2</span> <span class="k">=</span> <span class="mi">2</span>
+
+  <span class="k">def</span> <span class="nf">methodStatic</span> <span class="k">=</span> <span class="s">"hello world"</span>
+
+<span class="o">}</span>
+</code></pre></div></div><p>编译生成两个字节码文件<code class="language-plaintext highlighter-rouge">JavapScalaSpec$.class</code>、<code class="language-plaintext highlighter-rouge">JavapScalaSpec.class</code>分别反编译两个字节码文件：</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//javap -c JavapScalaSpec </span>
+<span class="nc">Compiled</span> <span class="n">from</span> <span class="s">"JavapScalaSpec.scala"</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">JavapScalaSpec</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">methodStatic</span><span class="o">();</span>
+    <span class="nl">Code:</span>
+       <span class="mi">0</span><span class="o">:</span> <span class="n">getstatic</span>     <span class="err">#</span><span class="mi">16</span>                 <span class="c1">// Field JavapScalaSpec$.MODULE$:LJavapScalaSpec$;</span>
+       <span class="mi">3</span><span class="o">:</span> <span class="n">invokevirtual</span> <span class="err">#</span><span class="mi">18</span>                 <span class="c1">// Method JavapScalaSpec$.methodStatic:()Ljava/lang/String;</span>
+       <span class="mi">6</span><span class="o">:</span> <span class="n">areturn</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">_P_2</span><span class="o">();</span>
+    <span class="nl">Code:</span>
+       <span class="mi">0</span><span class="o">:</span> <span class="n">getstatic</span>     <span class="err">#</span><span class="mi">16</span>                 <span class="c1">// Field JavapScalaSpec$.MODULE$:LJavapScalaSpec$;</span>
+       <span class="mi">3</span><span class="o">:</span> <span class="n">invokevirtual</span> <span class="err">#</span><span class="mi">22</span>                 <span class="c1">// Method JavapScalaSpec$._P_2:()I</span>
+       <span class="mi">6</span><span class="o">:</span> <span class="n">ireturn</span>
+
+  <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">method1</span><span class="o">();</span>
+    <span class="nl">Code:</span>
+       <span class="mi">0</span><span class="o">:</span> <span class="n">ldc</span>           <span class="err">#</span><span class="mi">25</span>                 <span class="c1">// String hello</span>
+       <span class="mi">2</span><span class="o">:</span> <span class="n">areturn</span>
+
+  <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">method2</span><span class="o">();</span>
+    <span class="nl">Code:</span>
+       <span class="mi">0</span><span class="o">:</span> <span class="n">ldc</span>           <span class="err">#</span><span class="mi">30</span>                 <span class="c1">// String world</span>
+       <span class="mi">2</span><span class="o">:</span> <span class="n">areturn</span>
+
+  <span class="kd">public</span> <span class="nf">JavapScalaSpec</span><span class="o">();</span>
+    <span class="nl">Code:</span>
+       <span class="mi">0</span><span class="o">:</span> <span class="n">aload_0</span>
+       <span class="mi">1</span><span class="o">:</span> <span class="n">invokespecial</span> <span class="err">#</span><span class="mi">34</span>                 <span class="c1">// Method java/lang/Object."&lt;init&gt;":()V</span>
+       <span class="mi">4</span><span class="o">:</span> <span class="k">return</span>
+<span class="o">}</span>
+<span class="c1">//javap -c JavapScalaSpec$ </span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">JavapScalaSpec</span><span class="err">$</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">JavapScalaSpec</span><span class="err">$</span> <span class="no">MODULE</span><span class="err">$</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="o">{};</span>
+    <span class="nl">Code:</span>
+       <span class="mi">0</span><span class="o">:</span> <span class="k">new</span>           <span class="err">#</span><span class="mi">2</span>                  <span class="c1">// class JavapScalaSpec$</span>
+       <span class="mi">3</span><span class="o">:</span> <span class="n">invokespecial</span> <span class="err">#</span><span class="mi">15</span>                 <span class="c1">// Method "&lt;init&gt;":()V</span>
+       <span class="mi">6</span><span class="o">:</span> <span class="k">return</span>
+
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">_P_2</span><span class="o">();</span>
+    <span class="nl">Code:</span>
+       <span class="mi">0</span><span class="o">:</span> <span class="n">aload_0</span>
+       <span class="mi">1</span><span class="o">:</span> <span class="n">getfield</span>      <span class="err">#</span><span class="mi">21</span>                 <span class="c1">// Field _P_2:I</span>
+       <span class="mi">4</span><span class="o">:</span> <span class="n">ireturn</span>
+
+  <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">methodStatic</span><span class="o">();</span>
+    <span class="nl">Code:</span>
+       <span class="mi">0</span><span class="o">:</span> <span class="n">ldc</span>           <span class="err">#</span><span class="mi">25</span>                 <span class="c1">// String hello world</span>
+       <span class="mi">2</span><span class="o">:</span> <span class="n">areturn</span>
+<span class="o">}</span>
+</code></pre></div></div><h2 id="scala-静态方法实现">Scala 静态方法实现</h2><p>在 Scala 中，<code class="language-plaintext highlighter-rouge">JavapScalaSpec</code>自己伴生对象中的方法就是静态方法，编译后保存在<code class="language-plaintext highlighter-rouge">JavapScalaSpec$.class</code>中。 如反编译<code class="language-plaintext highlighter-rouge">JavapScalaSpec.class</code>所显示，<code class="language-plaintext highlighter-rouge">JavapScalaSpec.class</code>中的<code class="language-plaintext highlighter-rouge">methodStatic</code>本质是通过持有<code class="language-plaintext highlighter-rouge">JavapScalaSpec$</code>的静态字<code class="language-plaintext highlighter-rouge">MODULE$</code>（这个字段是<code class="language-plaintext highlighter-rouge">JavapScalaSpec$</code>的引用）调用<code class="language-plaintext highlighter-rouge">JavapScalaSpec$</code>的<code class="language-plaintext highlighter-rouge">methodStatic</code>方法（这个方法是没有<code class="language-plaintext highlighter-rouge">static</code>修饰的，说明它就是一个简单的实例方法），<code class="language-plaintext highlighter-rouge">JavapScalaSpec.class</code>并没有静态方法本身的实现。 静态字段 _P_2 同样类似，但是需要注意的是，<code class="language-plaintext highlighter-rouge">JavapScalaSpec</code>伴生对象的字段虽然是起到了Java静态字段的作用，实际在字节码中却是一个静态方法，且静态方法本质是去调用<code class="language-plaintext highlighter-rouge">JavapScalaSpec$</code>的实例方法 _P_2。</p><p>心细的人应该想到了，其实Java在调用Scala代码时，就是这样使用的：</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">_P_3</span> <span class="o">=</span> <span class="nc">JavapScalaSpec</span><span class="o">.</span><span class="na">_P_2</span><span class="o">();</span> 
+<span class="c1">// 这里，_P_2 虽然是 JavapScalaSpec 伴生对象的字段</span>
+<span class="c1">// 但是 Java 使用时 JavapScalaSpec 就是当做方法的，所以 Java 调用 Scala 代码有时候感觉怪怪的，而 Scala 调用Java 代码 就没有这些问题了。</span>
+<span class="c1">// 这是因为 Scala 在编译期间经常通过合成类的方式来实现兼容 Java 或实现 Scala 的特殊功能。</span>
+</code></pre></div></div><p>从字节码中也可以看到，调用方式是使用了<code class="language-plaintext highlighter-rouge">invokevirtual</code>指令：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MODULE$:LJavapScalaSpec$;
+       3: invokevirtual #18                 // Method JavapScalaSpec$.methodStatic:()Ljava/
+</code></pre></div></div><h2 id="jvm-方法调用指令">JVM 方法调用指令</h2><p>从字节码层面来看，Java 中的所有方法调用，最终无外乎转换为如下几条调用指令：</p><table><thead><tr><th>指令</th><th>说明</th></tr></thead><tbody><tr><td>invokestatic</td><td>调用静态方法</td></tr><tr><td>invokespecial</td><td>调用实例构造器<init>方法，私有方法和父类方法</init></td></tr><tr><td>invokevirtual</td><td>调用所有的虚方法</td></tr><tr><td>invokeinterface</td><td>调用接口方法，会在运行时再确定一个实现此接口的对象</td></tr><tr><td>invokedynamic</td><td>调用动态方法。JDK 7引入的，主要是为了支持动态语言的方法调用</td></tr></tbody></table><p>JVM提供了上述5条方法调用指令，所以不妨从字节码层面来一窥Java多态机制的执行过程。</p><p><strong>虚方法和非虚方法</strong></p><p>上述5条方法调用指令中的<code class="language-plaintext highlighter-rouge">invokevirtual</code> 负责调用所有的虚方法。那么什么是虚方法？什么是非虚方法呢？ 从Java语言层面来看，<code class="language-plaintext highlighter-rouge">static</code>，<code class="language-plaintext highlighter-rouge">private</code>，<code class="language-plaintext highlighter-rouge">final</code>修饰的方法，父类方法以及实例构造器，这些方法称为非虚方法。与之相反，其他所有的方法称为虚方法。字节码指令层面来讲，<code class="language-plaintext highlighter-rouge">invokestatic</code>和<code class="language-plaintext highlighter-rouge">invokespecial</code>调用的方法都是非虚方法。 然后<code class="language-plaintext highlighter-rouge">invokevirtual</code>指令刚好是 Java 实现动态多分配（多态）的指令。</p><p><strong>Java中多态机制的实现过程</strong></p><p><code class="language-plaintext highlighter-rouge">invokevirtual</code>指令的运行时解析过程大致分为如下几个步骤：</p><ol><li>找到操作数栈顶的第一个元素所指向的对象的实际类型，记作 C</li><li>如果在类型 C 中找到常量中的描述符和简单名称都相符的方法，则进行访问权限校验，如果通过则返回这个方法的直接引用，查找过程结束；如果不通过，则返回<code class="language-plaintext highlighter-rouge">java.lang.IllegalAccessError</code>异常</li><li>否则，按照继承关系从下往上依次对 C 的各个父类进行第2步的搜索和验证过程</li><li>如果始终没找到合适的方法，则抛出<code class="language-plaintext highlighter-rouge">java.lang.AbstractMethodError</code>异常</li></ol><p>正是由于<code class="language-plaintext highlighter-rouge">invokevirtual</code>指令是这样的一个执行过程，所以这就解释了为什么Java语言里面实现多态需要如下三个条件：</p><ul><li>父类引用指向子类对象</li><li>有继承的存在</li><li>子类重写父类方法</li></ul><ol><li>由于父类引用指向子类对象，所以JVM会去首先去查找该子类对象对应的类型。</li><li>又由于有继承的存在，所以子类的方法不可能比父类少，这就保证了，只要该引用变量能调用的方法，子类中一定存在。所以第二步一定能在子类的类型中查找到调用的方法。</li><li>方法找到后就可以执行了，至于方法执行后能不能产生不同的效果（多态），得看子类是否重写了这个方法。所以要想产生多态，子类得重写父类方法。（以上所说的方法均是指的虚方法）</li></ol><h2 id="使用本地变量表">使用本地变量表</h2><p><code class="language-plaintext highlighter-rouge">javap -l</code></p><p>这里仅以Java代码为例，Scala类似，为例看到本地变量表，我们新增一个有参的方法：</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">String</span> <span class="nf">method3</span><span class="o">(</span><span class="nc">String</span> <span class="n">hello</span><span class="o">,</span> <span class="nc">String</span> <span class="n">world</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">hello</span> <span class="o">+</span> <span class="n">world</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div><p>反编译字节码文件：</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//javap -l JavapJavaSpec  </span>
+<span class="nc">Compiled</span> <span class="n">from</span> <span class="s">"JavapJavaSpec.java"</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">JavapJavaSpec</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">_P_2</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">_P_3</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nf">JavapJavaSpec</span><span class="o">();</span>
+    <span class="nl">LineNumberTable:</span>
+      <span class="n">line</span> <span class="mi">5</span><span class="o">:</span> <span class="mi">0</span>
+    <span class="nl">LocalVariableTable:</span>
+      <span class="nc">Start</span>  <span class="nc">Length</span>  <span class="nc">Slot</span>  <span class="nc">Name</span>   <span class="nc">Signature</span>
+          <span class="mi">0</span>       <span class="mi">5</span>     <span class="mi">0</span>  <span class="k">this</span>   <span class="nc">LJavapJavaSpec</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">method1</span><span class="o">();</span>
+    <span class="nl">LineNumberTable:</span>
+      <span class="n">line</span> <span class="mi">12</span><span class="o">:</span> <span class="mi">0</span>
+    <span class="nl">LocalVariableTable:</span>
+      <span class="nc">Start</span>  <span class="nc">Length</span>  <span class="nc">Slot</span>  <span class="nc">Name</span>   <span class="nc">Signature</span>
+          <span class="mi">0</span>       <span class="mi">3</span>     <span class="mi">0</span>  <span class="k">this</span>   <span class="nc">LJavapJavaSpec</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">method2</span><span class="o">();</span>
+    <span class="nl">LineNumberTable:</span>
+      <span class="n">line</span> <span class="mi">16</span><span class="o">:</span> <span class="mi">0</span>
+    <span class="nl">LocalVariableTable:</span>
+      <span class="nc">Start</span>  <span class="nc">Length</span>  <span class="nc">Slot</span>  <span class="nc">Name</span>   <span class="nc">Signature</span>
+          <span class="mi">0</span>       <span class="mi">3</span>     <span class="mi">0</span>  <span class="k">this</span>   <span class="nc">LJavapJavaSpec</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">methodStatic</span><span class="o">();</span>
+    <span class="nl">LineNumberTable:</span>
+      <span class="n">line</span> <span class="mi">20</span><span class="o">:</span> <span class="mi">0</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">method3</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">);</span>
+    <span class="nl">LineNumberTable:</span>
+      <span class="n">line</span> <span class="mi">24</span><span class="o">:</span> <span class="mi">0</span>
+    <span class="nl">LocalVariableTable:</span>
+      <span class="nc">Start</span>  <span class="nc">Length</span>  <span class="nc">Slot</span>  <span class="nc">Name</span>   <span class="nc">Signature</span>
+          <span class="mi">0</span>       <span class="mi">2</span>     <span class="mi">0</span> <span class="n">hello</span>   <span class="nc">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="nc">String</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">method3</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">,</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">);</span>
+    <span class="nl">LineNumberTable:</span>
+      <span class="n">line</span> <span class="mi">28</span><span class="o">:</span> <span class="mi">0</span>
+    <span class="nl">LocalVariableTable:</span>
+      <span class="nc">Start</span>  <span class="nc">Length</span>  <span class="nc">Slot</span>  <span class="nc">Name</span>   <span class="nc">Signature</span>
+          <span class="mi">0</span>      <span class="mi">19</span>     <span class="mi">0</span> <span class="n">hello</span>   <span class="nc">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="nc">String</span><span class="o">;</span>
+          <span class="mi">0</span>      <span class="mi">19</span>     <span class="mi">1</span> <span class="n">world</span>   <span class="nc">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="nc">String</span><span class="o">;</span>
+
+  <span class="kd">static</span> <span class="o">{};</span>
+    <span class="nl">LineNumberTable:</span>
+      <span class="n">line</span> <span class="mi">9</span><span class="o">:</span> <span class="mi">0</span>
+<span class="o">}</span>
+</code></pre></div></div><p>可以看到<code class="language-plaintext highlighter-rouge">LineNumberTable</code>属性表存放方法的行号信息，<code class="language-plaintext highlighter-rouge">LocalVariableTable</code>属性表中存放方法的局部变量信息。 <code class="language-plaintext highlighter-rouge">method3</code>方法的参数名称是存在<code class="language-plaintext highlighter-rouge">LocalVariableTable</code>中的。这里就引入一个问题，<code class="language-plaintext highlighter-rouge">LocalVariableTable</code>有什么用呢？运行时如何获取类的方法的形参名字呢？</p><p>其实这种方法在写框架的时候经常使用，比如 Spring的<a href="https://github.com/spring-projects/spring-framework/blob/4.3.x/spring-core/src/main/java/org/springframework/core/LocalVariableTableParameterNameDiscoverer.java">LocalVariableTableParameterNameDiscoverer</a>。</p><p>如果是 Java 8 以上，则通过编译器参数<code class="language-plaintext highlighter-rouge">javac -parameters</code>与反射就能实现：使用<code class="language-plaintext highlighter-rouge">Parameter</code>对象的<code class="language-plaintext highlighter-rouge">getName</code>方法。但是如果不是Java 8以上，就要借助字节码框架了。Spring 中使用的是 ASM。</p><p>源码中有一段注释：Uses ObjectWeb’s ASM library for analyzing class files.</p><h2 id="asm-框架执行流程">ASM 框架执行流程</h2><p>ASM提供了两组API，Core和Tree：</p><ul><li>Core是基于访问者模式来操作类的</li><li>Tree是基于树节点来操作类的</li></ul><p>下文使用的也是ASM的CoreAPI。</p><p>ASM内部采用访问者模式将<code class="language-plaintext highlighter-rouge">.class</code>类文件的内容从头到尾扫描一遍，每次扫描到类文件相应的内容时，都会调用<code class="language-plaintext highlighter-rouge">ClassVisitor</code>内部相应的方法。比如：</p><ul><li>扫描到类文件时，会回调<code class="language-plaintext highlighter-rouge">ClassVisitor</code>的<code class="language-plaintext highlighter-rouge">visit()</code>方法；</li><li>扫描到类注解时，会回调<code class="language-plaintext highlighter-rouge">ClassVisitor</code>的<code class="language-plaintext highlighter-rouge">visitAnnotation()</code>方法；</li><li>扫描到类成员时，会回调<code class="language-plaintext highlighter-rouge">ClassVisitor</code>的<code class="language-plaintext highlighter-rouge">visitField()</code>方法；</li><li>扫描到类方法时，会回调<code class="language-plaintext highlighter-rouge">ClassVisitor</code>的<code class="language-plaintext highlighter-rouge">visitMethod()</code>方法。</li></ul><p>扫描到相应结构内容时，会回调相应方法，该方法会返回一个对应的字节码操作对象（比如，<code class="language-plaintext highlighter-rouge">visitMethod()</code>返回<code class="language-plaintext highlighter-rouge">MethodVisitor</code>实例）。 通过修改这个对象，就可以修改class文件相应结构部分内容，最后将这个<code class="language-plaintext highlighter-rouge">ClassVisitor</code>字节码内容覆盖原来<code class="language-plaintext highlighter-rouge">.class</code>文件就实现了类文件的代码切入。</p><p>ASM中提供一个<code class="language-plaintext highlighter-rouge">ClassReader</code>类，这个类可以直接由字节数组或者class文件间接的获得字节码数据。它会调用<code class="language-plaintext highlighter-rouge">accept()</code>方法，接受一个实现了抽象类<code class="language-plaintext highlighter-rouge">ClassVisitor</code>的对象实例作为参数，然后依次调用<code class="language-plaintext highlighter-rouge">ClassVisitor</code>的各个方法。字节码空间上的偏移被转成各种visitXXX方法。 使用者只需要在对应的的方法上进行需求操作即可，无需考虑字节偏移。这个过程中<code class="language-plaintext highlighter-rouge">ClassReader</code>可以看作是一个事件生产者，<code class="language-plaintext highlighter-rouge">ClassWriter</code>继承自<code class="language-plaintext highlighter-rouge">ClassVisitor</code>抽象类，负责将对象化的class文件内容重构成一个二进制格式的class字节码文件，<code class="language-plaintext highlighter-rouge">ClassWriter</code>可以看作是一个事件的消费者。</p><blockquote><p>asm-commons包中提供了一个类<code class="language-plaintext highlighter-rouge">AdviceAdapter</code>，使用该类可以更加方便的让我们在方法前后注入代码，因为其提供了方法<code class="language-plaintext highlighter-rouge">onMethodEnter()</code>和<code class="language-plaintext highlighter-rouge">onMethodExit()</code>。</p></blockquote><h2 id="使用-classreader-获取私有字段">使用 ClassReader 获取私有字段</h2><p>基于上面的，ASM 确实可以用于获取方法的参数名称（重写<code class="language-plaintext highlighter-rouge">MethodVisitor</code>的<code class="language-plaintext highlighter-rouge">visitLocalVariable</code>方法)，但是无法获取接口的方法的名称（其实是抽象方法都无法获取）。 为了测试，我们为<code class="language-plaintext highlighter-rouge">JavapJavaSpec</code>新增一个抽象方法来看看为什么：</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="nc">String</span> <span class="nf">method4</span><span class="o">(</span><span class="nc">String</span> <span class="n">hello</span><span class="o">,</span> <span class="nc">String</span> <span class="n">world</span><span class="o">);</span>
+</code></pre></div></div><p>我们再次反编译字节码文件：</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Compiled</span> <span class="n">from</span> <span class="s">"JavapJavaSpec.java"</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">JavapJavaSpec</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">_P_2</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">_P_3</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nf">JavapJavaSpec</span><span class="o">();</span>
+    <span class="nl">LineNumberTable:</span>
+      <span class="n">line</span> <span class="mi">5</span><span class="o">:</span> <span class="mi">0</span>
+    <span class="nl">LocalVariableTable:</span>
+      <span class="nc">Start</span>  <span class="nc">Length</span>  <span class="nc">Slot</span>  <span class="nc">Name</span>   <span class="nc">Signature</span>
+          <span class="mi">0</span>       <span class="mi">5</span>     <span class="mi">0</span>  <span class="k">this</span>   <span class="nc">LJavapJavaSpec</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">method1</span><span class="o">();</span>
+    <span class="nl">LineNumberTable:</span>
+      <span class="n">line</span> <span class="mi">12</span><span class="o">:</span> <span class="mi">0</span>
+    <span class="nl">LocalVariableTable:</span>
+      <span class="nc">Start</span>  <span class="nc">Length</span>  <span class="nc">Slot</span>  <span class="nc">Name</span>   <span class="nc">Signature</span>
+          <span class="mi">0</span>       <span class="mi">3</span>     <span class="mi">0</span>  <span class="k">this</span>   <span class="nc">LJavapJavaSpec</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">method2</span><span class="o">();</span>
+    <span class="nl">LineNumberTable:</span>
+      <span class="n">line</span> <span class="mi">16</span><span class="o">:</span> <span class="mi">0</span>
+    <span class="nl">LocalVariableTable:</span>
+      <span class="nc">Start</span>  <span class="nc">Length</span>  <span class="nc">Slot</span>  <span class="nc">Name</span>   <span class="nc">Signature</span>
+          <span class="mi">0</span>       <span class="mi">3</span>     <span class="mi">0</span>  <span class="k">this</span>   <span class="nc">LJavapJavaSpec</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">methodStatic</span><span class="o">();</span>
+    <span class="nl">LineNumberTable:</span>
+      <span class="n">line</span> <span class="mi">20</span><span class="o">:</span> <span class="mi">0</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">method3</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">);</span>
+    <span class="nl">LineNumberTable:</span>
+      <span class="n">line</span> <span class="mi">24</span><span class="o">:</span> <span class="mi">0</span>
+    <span class="nl">LocalVariableTable:</span>
+      <span class="nc">Start</span>  <span class="nc">Length</span>  <span class="nc">Slot</span>  <span class="nc">Name</span>   <span class="nc">Signature</span>
+          <span class="mi">0</span>       <span class="mi">2</span>     <span class="mi">0</span> <span class="n">hello</span>   <span class="nc">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="nc">String</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">method3</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">,</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">);</span>
+    <span class="nl">LineNumberTable:</span>
+      <span class="n">line</span> <span class="mi">28</span><span class="o">:</span> <span class="mi">0</span>
+    <span class="nl">LocalVariableTable:</span>
+      <span class="nc">Start</span>  <span class="nc">Length</span>  <span class="nc">Slot</span>  <span class="nc">Name</span>   <span class="nc">Signature</span>
+          <span class="mi">0</span>      <span class="mi">19</span>     <span class="mi">0</span> <span class="n">hello</span>   <span class="nc">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="nc">String</span><span class="o">;</span>
+          <span class="mi">0</span>      <span class="mi">19</span>     <span class="mi">1</span> <span class="n">world</span>   <span class="nc">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="nc">String</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span> <span class="nf">method4</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">,</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span><span class="o">);</span>
+
+  <span class="kd">static</span> <span class="o">{};</span>
+    <span class="nl">LineNumberTable:</span>
+      <span class="n">line</span> <span class="mi">9</span><span class="o">:</span> <span class="mi">0</span>
+<span class="o">}</span>
+</code></pre></div></div><p>看看<code class="language-plaintext highlighter-rouge">method4</code>方法，现在就比较清楚了，既然方法参数是通过本地变量表<code class="language-plaintext highlighter-rouge">LocalVariableTable</code>来获取，那么抽象方法都没有<code class="language-plaintext highlighter-rouge">LocalVariableTable</code>属性了，自然就不可能获取本地变量表了。</p><p>此时我们还想获取怎么办？同样类似mybatis那样做，为<code class="language-plaintext highlighter-rouge">@Param</code>注解的参数提供一个值，显示保存参数名，这样也能解决获取的参数名都是<code class="language-plaintext highlighter-rouge">var0</code>这种。</p><p>下面我们只讨论基于事件的ASM API，它使用了访问者设计模式，提供了读写字节码的功能：<code class="language-plaintext highlighter-rouge">ClassReader</code>和<code class="language-plaintext highlighter-rouge">ClassWriter</code>。</p><p>我们使用<code class="language-plaintext highlighter-rouge">ClassReader</code>读取<code class="language-plaintext highlighter-rouge">ActiveUsersQueryRequest</code>类的静态内部类的私有字段：</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ActiveUsersQueryRequest</span> <span class="kd">implements</span> <span class="nc">GraphQLOperationRequest</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">GraphQLOperation</span> <span class="no">OPERATION_TYPE</span> <span class="o">=</span> <span class="nc">GraphQLOperation</span><span class="o">.</span><span class="na">QUERY</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">OPERATION_NAME</span> <span class="o">=</span> <span class="s">"activeUsers"</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">input</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedHashMap</span><span class="o">&lt;&gt;();</span>
+
+    <span class="kd">public</span> <span class="nf">ActiveUsersQueryRequest</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTimeRange</span><span class="o">(</span><span class="nc">String</span> <span class="n">timeRange</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">input</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"timeRange"</span><span class="o">,</span> <span class="n">timeRange</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setOffset</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">offset</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">input</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"offset"</span><span class="o">,</span> <span class="n">offset</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setLimit</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">limit</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">input</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"limit"</span><span class="o">,</span> <span class="n">limit</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">GraphQLOperation</span> <span class="nf">getOperationType</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="no">OPERATION_TYPE</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getOperationName</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="no">OPERATION_NAME</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="nf">getInput</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">input</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Objects</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="o">{</span>
+        <span class="c1">// 使用ASM获取这些字段</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">timeRange</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">Integer</span> <span class="n">offset</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">Integer</span> <span class="n">limit</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">Builder</span><span class="o">()</span> <span class="o">{</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Builder</span> <span class="nf">setTimeRange</span><span class="o">(</span><span class="nc">String</span> <span class="n">timeRange</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">timeRange</span> <span class="o">=</span> <span class="n">timeRange</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Builder</span> <span class="nf">setOffset</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">offset</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">offset</span> <span class="o">=</span> <span class="n">offset</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Builder</span> <span class="nf">setLimit</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">limit</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">limit</span> <span class="o">=</span> <span class="n">limit</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+
+        <span class="kd">public</span> <span class="nc">ActiveUsersQueryRequest</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">ActiveUsersQueryRequest</span> <span class="n">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ActiveUsersQueryRequest</span><span class="o">();</span>
+            <span class="n">obj</span><span class="o">.</span><span class="na">setTimeRange</span><span class="o">(</span><span class="n">timeRange</span><span class="o">);</span>
+            <span class="n">obj</span><span class="o">.</span><span class="na">setOffset</span><span class="o">(</span><span class="n">offset</span><span class="o">);</span>
+            <span class="n">obj</span><span class="o">.</span><span class="na">setLimit</span><span class="o">(</span><span class="n">limit</span><span class="o">);</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">;</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><p>下面是实现逻辑，使用Scala编写：</p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">def</span> <span class="nf">getRequestBuilderFields</span><span class="o">(</span><span class="n">clazz</span><span class="k">:</span> <span class="kt">Class</span><span class="o">[</span><span class="k">_</span><span class="o">])</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="c1">// 获取外部类 ActiveUsersQueryRequest 的全类名</span>
+    <span class="k">val</span> <span class="nv">cr</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ClassReader</span><span class="o">(</span><span class="nv">clazz</span><span class="o">.</span><span class="py">getName</span><span class="o">)</span>
+    <span class="k">val</span> <span class="nv">innerClass</span> <span class="k">=</span> <span class="nc">ListBuffer</span><span class="o">[</span><span class="kt">String</span><span class="o">]()</span>
+    <span class="k">val</span> <span class="nv">innerClassFields</span> <span class="k">=</span> <span class="nc">ListBuffer</span><span class="o">[</span><span class="kt">String</span><span class="o">]()</span>
+    <span class="c1">// 传入 类 访问者对象，描述如何访问类字节码</span>
+    <span class="nv">cr</span><span class="o">.</span><span class="py">accept</span><span class="o">(</span><span class="k">new</span> <span class="nc">ClassVisitor</span><span class="o">(</span><span class="nv">Opcodes</span><span class="o">.</span><span class="py">ASM8</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">override</span> <span class="k">def</span> <span class="nf">visitInnerClass</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">outerName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">innerName</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">access</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+          <span class="c1">// 重新 visitInnerClass 方法，表示我们需要访问 clazz 的内部类</span>
+          <span class="c1">// 因为全类名是 / 分割，所以我们需要替换为 . ，然后我们比较外部类名，然后保存内部类的全类名。</span>
+        <span class="k">val</span> <span class="nv">outName</span> <span class="k">=</span> <span class="nv">outerName</span><span class="o">.</span><span class="py">replace</span><span class="o">(</span><span class="nv">File</span><span class="o">.</span><span class="py">separator</span><span class="o">,</span> <span class="s">"."</span><span class="o">)</span>
+        <span class="nf">if</span> <span class="o">(</span><span class="nv">clazz</span><span class="o">.</span><span class="py">getName</span> <span class="o">==</span> <span class="n">outName</span><span class="o">)</span> <span class="o">{</span>
+          <span class="nv">innerClass</span><span class="o">.</span><span class="py">append</span><span class="o">(</span><span class="n">name</span><span class="o">)</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">},</span> <span class="mi">0</span><span class="o">)</span>
+    <span class="c1">// 获取内部类后，我们继续访问内部类 Builder</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="nv">innerClass</span><span class="o">.</span><span class="py">nonEmpty</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">val</span> <span class="nv">cr</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ClassReader</span><span class="o">(</span><span class="nv">innerClass</span><span class="o">.</span><span class="py">head</span><span class="o">)</span>
+      <span class="nv">cr</span><span class="o">.</span><span class="py">accept</span><span class="o">(</span><span class="k">new</span> <span class="nc">ClassVisitor</span><span class="o">(</span><span class="nv">Opcodes</span><span class="o">.</span><span class="py">ASM8</span><span class="o">)</span> <span class="o">{</span>
+          <span class="c1">// 实现 visitField 访问字段</span>
+        <span class="k">override</span> <span class="k">def</span> <span class="nf">visitField</span><span class="o">(</span><span class="n">access</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">descriptor</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">signature</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">value</span><span class="k">:</span> <span class="kt">Any</span><span class="o">)</span><span class="k">:</span> <span class="kt">FieldVisitor</span> <span class="o">=</span> <span class="o">{</span>
+            <span class="c1">// 无任何多余操作，只保存所有字段。</span>
+          <span class="nv">innerClassFields</span><span class="o">.</span><span class="py">append</span><span class="o">(</span><span class="n">name</span><span class="o">)</span>
+          <span class="nv">super</span><span class="o">.</span><span class="py">visitField</span><span class="o">(</span><span class="n">access</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">descriptor</span><span class="o">,</span> <span class="n">signature</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span>
+        <span class="o">}</span>
+      <span class="o">},</span> <span class="mi">0</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="c1">// 返回 Builder 类的所有字段</span>
+    <span class="n">innerClassFields</span>
+
+  <span class="o">}</span>
+</code></pre></div></div><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://jxnu-liguobin.github.io" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-javap%E5%92%8CASM.html" target="_blank">https://jxnu-liguobin.github.io/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-javap%E5%92%8CASM.html</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-javap%E5%92', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://jxnu-liguobin.github.io/assets/search_data.json?v=1617164835', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://jxnu-liguobin.github.io/" title="首页" target="">首页</a></li><li> <a href="https://jxnu-liguobin.github.io/categories/" title="分类" target="">分类</a></li><li> <a href="https://jxnu-liguobin.github.io/wiki/" title="维基" target="">维基</a></li><li> <a href="https://jxnu-liguobin.github.io/links/" title="链接" target="">链接</a></li><li> <a href="https://jxnu-liguobin.github.io/about/" title="关于" target="">关于</a></li><li><a href="https://jxnu-liguobin.github.io/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>

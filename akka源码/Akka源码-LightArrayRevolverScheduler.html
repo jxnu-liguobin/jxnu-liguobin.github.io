@@ -1,0 +1,408 @@
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>LightArrayRevolverScheduler &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://jxnu-liguobin.github.io/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-LightArrayRevolverScheduler.html"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://jxnu-liguobin.github.io/feed.xml"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/favicon.ico"><meta property="og:title" content="LightArrayRevolverScheduler"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content="```scala/* Copyright (C) 2009-2019 Lightbend Inc. https://www.lightbend.com */"><meta name="og:description" content="```scala/* Copyright (C) 2009-2019 Lightbend Inc. https://www.lightbend.com */"><meta property="og:url" content="https://jxnu-liguobin.github.io/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-LightArrayRevolverScheduler.html"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2020-02-09"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://jxnu-liguobin.github.io/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://jxnu-liguobin.github.io/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://jxnu-liguobin.github.io/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://jxnu-liguobin.github.io/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://jxnu-liguobin.github.io/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://jxnu-liguobin.github.io/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="LightArrayRevol"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">LightArrayRevolverScheduler</h1><div class="collection-info"> <span class="meta-info"> <span class="octicon octicon-calendar"></span> 2020/02/09 </span> <span class="meta-info"> <span class="octicon octicon-file-directory"></span> <a href="https://jxnu-liguobin.github.io/categories/#Akka源码" title="Akka源码">Akka源码</a> </span> <span class="meta-info"> <span class="octicon octicon-clock"></span> 共 11082 字，约 32 分钟 </span></div></div></div><div class="column one-fourth mobile-hidden"><div class="collection-title"></div></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+ * Copyright (C) 2009-2019 Lightbend Inc. &lt;https://www.lightbend.com&gt;
+ */</span>
+
+<span class="k">package</span> <span class="nn">akka.actor</span>
+
+<span class="k">import</span> <span class="nn">java.io.Closeable</span>
+<span class="k">import</span> <span class="nn">java.util.concurrent.ThreadFactory</span>
+<span class="k">import</span> <span class="nn">java.util.concurrent.atomic.</span><span class="o">{</span> <span class="nc">AtomicLong</span><span class="o">,</span> <span class="nc">AtomicReference</span> <span class="o">}</span>
+<span class="k">import</span> <span class="nn">scala.annotation.tailrec</span>
+<span class="k">import</span> <span class="nn">scala.collection.immutable</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.</span><span class="o">{</span> <span class="nc">Await</span><span class="o">,</span> <span class="nc">ExecutionContext</span><span class="o">,</span> <span class="nc">Future</span><span class="o">,</span> <span class="nc">Promise</span> <span class="o">}</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.duration._</span>
+<span class="k">import</span> <span class="nn">scala.util.control.NonFatal</span>
+<span class="k">import</span> <span class="nn">com.typesafe.config.Config</span>
+<span class="k">import</span> <span class="nn">akka.event.LoggingAdapter</span>
+<span class="k">import</span> <span class="nn">akka.util.Helpers</span>
+<span class="k">import</span> <span class="nn">akka.util.Unsafe.</span><span class="o">{</span> <span class="n">instance</span> <span class="k">=&gt;</span> <span class="n">unsafe</span> <span class="o">}</span>
+<span class="k">import</span> <span class="nn">akka.dispatch.AbstractNodeQueue</span>
+
+<span class="c1">//本类是Akka actor 2.5.23 默认定时器实现，感兴趣可以看看整理的一个PPT https://github.com/jxnu-liguobin/scala-examples/blob/master/scala-other/src/main/scala/io/github/dreamylost/timer/TimingWheels.ppt</span>
+<span class="c1">//此调度程序的实现基于诸如Netty的HashedWheelTimer之类的由桶组成的旋转轮，它以固定的滴答速度前进，将在当前存储桶中找到的任务分派到各自的任务ExecutionContexts（线程池）</span>
+<span class="c1">//任务保存在TaskHolders中，取消后，它们将取消对实际任务的引用，仅在下次轮子到达该存储桶时才清理该外壳</span>
+<span class="c1">//这样就可以使用一个简单的链接列表来将TaskHolders链接到轮子</span>
+<span class="c1">//值得注意的是，该调度程序在调度单发任务时不会获得当前时间戳，而是始终将任务延迟四舍五入为TickDuration的整数倍</span>
+<span class="c1">//这意味着任务安排的时间可能比计划的要晚一滴答（轮子的一个桶的位置），如果 now() + delay &lt;= nextTick，表示已经完成</span>
+<span class="k">class</span> <span class="nc">LightArrayRevolverScheduler</span><span class="o">(</span><span class="n">config</span><span class="k">:</span> <span class="kt">Config</span><span class="o">,</span> <span class="n">log</span><span class="k">:</span> <span class="kt">LoggingAdapter</span><span class="o">,</span> <span class="n">threadFactory</span><span class="k">:</span> <span class="kt">ThreadFactory</span><span class="o">)</span>
+    <span class="k">extends</span> <span class="nc">Scheduler</span>
+    <span class="k">with</span> <span class="nc">Closeable</span> <span class="o">{</span>
+
+  <span class="k">import</span> <span class="nn">Helpers.Requiring</span>
+  <span class="k">import</span> <span class="nn">Helpers.ConfigOps</span>
+
+  <span class="k">val</span> <span class="nv">WheelSize</span> <span class="k">=</span>
+    <span class="n">config</span>
+      <span class="o">.</span><span class="py">getInt</span><span class="o">(</span><span class="s">"akka.scheduler.ticks-per-wheel"</span><span class="o">)</span>
+      <span class="c1">//默认512，必须是2的幂次</span>
+      <span class="c1">//理解为轮子（类似时钟的刻度盘）上有512个刻度</span>
+      <span class="o">.</span><span class="py">requiring</span><span class="o">(</span><span class="n">ticks</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="n">ticks</span> <span class="o">&amp;</span> <span class="o">(</span><span class="n">ticks</span> <span class="o">-</span> <span class="mi">1</span><span class="o">))</span> <span class="o">==</span> <span class="mi">0</span><span class="o">,</span> <span class="s">"ticks-per-wheel must be a power of 2"</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nv">TickDuration</span> <span class="k">=</span>
+    <span class="n">config</span>
+    <span class="c1">//轮上每次移动1个刻度的延迟，这个值影响精度。windows上默认10ms，且最小是1ms</span>
+    <span class="c1">//停止定时器可能需要1个滴答，这个值可能影响到关闭actor的时间</span>
+      <span class="o">.</span><span class="py">getMillisDuration</span><span class="o">(</span><span class="s">"akka.scheduler.tick-duration"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">requiring</span><span class="o">(</span>
+        <span class="k">_</span> <span class="o">&gt;=</span> <span class="mf">10.</span><span class="n">millis</span> <span class="o">||</span> <span class="o">!</span><span class="nv">Helpers</span><span class="o">.</span><span class="py">isWindows</span><span class="o">,</span>
+        <span class="s">"minimum supported akka.scheduler.tick-duration on Windows is 10ms"</span><span class="o">)</span>
+      <span class="o">.</span><span class="py">requiring</span><span class="o">(</span><span class="k">_</span> <span class="o">&gt;=</span> <span class="mf">1.</span><span class="n">millis</span><span class="o">,</span> <span class="s">"minimum supported akka.scheduler.tick-duration is 1ms"</span><span class="o">)</span>
+      <span class="c1">//当关闭调度程序时，通常会有一个线程需要停止，而此超时决定了等待多长时间</span>
+      <span class="c1">//在超时的情况下，actor系统的关闭将继续进行，而不运行可能仍在排队的任务</span>
+      <span class="c1">//这个时间默认是5ms</span>
+  <span class="k">val</span> <span class="nv">ShutdownTimeout</span> <span class="k">=</span> <span class="nv">config</span><span class="o">.</span><span class="py">getMillisDuration</span><span class="o">(</span><span class="s">"akka.scheduler.shutdown-timeout"</span><span class="o">)</span>
+
+  <span class="k">import</span> <span class="nn">LightArrayRevolverScheduler._</span>
+ 
+  <span class="c1">//远离零值，向上舍入数字</span>
+  <span class="k">private</span> <span class="k">def</span> <span class="nf">roundUp</span><span class="o">(</span><span class="n">d</span><span class="k">:</span> <span class="kt">FiniteDuration</span><span class="o">)</span><span class="k">:</span> <span class="kt">FiniteDuration</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">dn</span> <span class="k">=</span> <span class="nv">d</span><span class="o">.</span><span class="py">toNanos</span>
+    <span class="k">val</span> <span class="nv">r</span> <span class="k">=</span> <span class="o">((</span><span class="n">dn</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="n">tickNanos</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">*</span> <span class="n">tickNanos</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="n">r</span> <span class="o">!=</span> <span class="n">dn</span> <span class="o">&amp;&amp;</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">dn</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="nv">r</span><span class="o">.</span><span class="py">nanos</span> <span class="k">else</span> <span class="n">d</span>
+  <span class="o">}</span>
+
+  <span class="c1">//当前纳米时间戳，时钟实现是可替换的（用于测试），其实现必须返回单调递增的纳秒序列</span>
+  <span class="k">protected</span> <span class="k">def</span> <span class="nf">clock</span><span class="o">()</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">=</span> <span class="nv">System</span><span class="o">.</span><span class="py">nanoTime</span>
+
+  <span class="c1">//可替换用于测试</span>
+  <span class="k">protected</span> <span class="k">def</span> <span class="nf">startTick</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
+
+  <span class="c1">//可重写用于测试</span>
+  <span class="k">protected</span> <span class="k">def</span> <span class="nf">getShutdownTimeout</span><span class="k">:</span> <span class="kt">FiniteDuration</span> <span class="o">=</span> <span class="nc">ShutdownTimeout</span>
+
+  <span class="c1">//可重写用于测试</span>
+  <span class="k">protected</span> <span class="k">def</span> <span class="nf">waitNanos</span><span class="o">(</span><span class="n">nanos</span><span class="k">:</span> <span class="kt">Long</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="c1">// see http://www.javamex.com/tutorials/threads/sleep_issues.shtml 解释了这里为什么需要这么做</span>
+    <span class="k">val</span> <span class="nv">sleepMs</span> <span class="k">=</span> <span class="nf">if</span> <span class="o">(</span><span class="nv">Helpers</span><span class="o">.</span><span class="py">isWindows</span><span class="o">)</span> <span class="o">(</span><span class="n">nanos</span> <span class="o">+</span> <span class="mi">4999999</span><span class="o">)</span> <span class="o">/</span> <span class="mi">10000000</span> <span class="o">*</span> <span class="mi">10</span> <span class="nf">else</span> <span class="o">(</span><span class="n">nanos</span> <span class="o">+</span> <span class="mi">999999</span><span class="o">)</span> <span class="o">/</span> <span class="mi">1000000</span>
+    <span class="k">try</span> <span class="nv">Thread</span><span class="o">.</span><span class="py">sleep</span><span class="o">(</span><span class="n">sleepMs</span><span class="o">)</span>
+    <span class="k">catch</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="k">_:</span> <span class="kt">InterruptedException</span> <span class="o">=&gt;</span> <span class="nv">Thread</span><span class="o">.</span><span class="py">currentThread</span><span class="o">().</span><span class="py">interrupt</span><span class="o">()</span> <span class="c1">// we got woken up</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="c1">//固定延迟的调度任务</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">scheduleWithFixedDelay</span><span class="o">(</span><span class="n">initialDelay</span><span class="k">:</span> <span class="kt">FiniteDuration</span><span class="o">,</span> <span class="n">delay</span><span class="k">:</span> <span class="kt">FiniteDuration</span><span class="o">)(</span><span class="n">runnable</span><span class="k">:</span> <span class="kt">Runnable</span><span class="o">)(</span>
+      <span class="k">implicit</span> <span class="n">executor</span><span class="k">:</span> <span class="kt">ExecutionContext</span><span class="o">)</span><span class="k">:</span> <span class="kt">Cancellable</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="c1">//验证延迟的最大值</span>
+    <span class="nf">checkMaxDelay</span><span class="o">(</span><span class="nf">roundUp</span><span class="o">(</span><span class="n">delay</span><span class="o">).</span><span class="py">toNanos</span><span class="o">)</span>
+    <span class="nv">super</span><span class="o">.</span><span class="py">scheduleWithFixedDelay</span><span class="o">(</span><span class="n">initialDelay</span><span class="o">,</span> <span class="n">delay</span><span class="o">)(</span><span class="n">runnable</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">schedule</span><span class="o">(</span><span class="n">initialDelay</span><span class="k">:</span> <span class="kt">FiniteDuration</span><span class="o">,</span> <span class="n">delay</span><span class="k">:</span> <span class="kt">FiniteDuration</span><span class="o">,</span> <span class="n">runnable</span><span class="k">:</span> <span class="kt">Runnable</span><span class="o">)(</span>
+      <span class="k">implicit</span> <span class="n">executor</span><span class="k">:</span> <span class="kt">ExecutionContext</span><span class="o">)</span><span class="k">:</span> <span class="kt">Cancellable</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="nf">checkMaxDelay</span><span class="o">(</span><span class="nf">roundUp</span><span class="o">(</span><span class="n">delay</span><span class="o">).</span><span class="py">toNanos</span><span class="o">)</span>
+    <span class="k">try</span> <span class="k">new</span> <span class="nc">AtomicReference</span><span class="o">[</span><span class="kt">Cancellable</span><span class="o">](</span><span class="nc">InitialRepeatMarker</span><span class="o">)</span> <span class="k">with</span> <span class="nc">Cancellable</span> <span class="o">{</span> <span class="n">self</span> <span class="k">=&gt;</span>
+    <span class="c1">//原子性的初始化操作</span>
+      <span class="nf">compareAndSet</span><span class="o">(</span>
+        <span class="nc">InitialRepeatMarker</span><span class="o">,</span>
+        <span class="nf">schedule</span><span class="o">(</span>
+          <span class="n">executor</span><span class="o">,</span>
+          <span class="c1">//原子性的计算任务的开始时间</span>
+          <span class="k">new</span> <span class="nc">AtomicLong</span><span class="o">(</span><span class="nf">clock</span><span class="o">()</span> <span class="o">+</span> <span class="nv">initialDelay</span><span class="o">.</span><span class="py">toNanos</span><span class="o">)</span> <span class="k">with</span> <span class="nc">Runnable</span> <span class="o">{</span>
+            <span class="k">override</span> <span class="k">def</span> <span class="nf">run</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+              <span class="k">try</span> <span class="o">{</span>
+                <span class="nv">runnable</span><span class="o">.</span><span class="py">run</span><span class="o">()</span>
+                <span class="c1">//原子性的给当前AtomicLong增加delay值，并计算与当前时间的间隔</span>
+                <span class="k">val</span> <span class="nv">driftNanos</span> <span class="k">=</span> <span class="nf">clock</span><span class="o">()</span> <span class="o">-</span> <span class="nf">getAndAdd</span><span class="o">(</span><span class="nv">delay</span><span class="o">.</span><span class="py">toNanos</span><span class="o">)</span>
+                <span class="nf">if</span> <span class="o">(</span><span class="nv">self</span><span class="o">.</span><span class="py">get</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+                <span class="c1">//还没结束，继续调度，更新延迟时间，本实现默认使用的是纳秒的时间戳，最小精度是1纳米</span>
+                  <span class="nf">swap</span><span class="o">(</span><span class="nf">schedule</span><span class="o">(</span><span class="n">executor</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span> <span class="nv">Duration</span><span class="o">.</span><span class="py">fromNanos</span><span class="o">(</span><span class="nv">Math</span><span class="o">.</span><span class="py">max</span><span class="o">(</span><span class="nv">delay</span><span class="o">.</span><span class="py">toNanos</span> <span class="o">-</span> <span class="n">driftNanos</span><span class="o">,</span> <span class="mi">1</span><span class="o">))))</span>
+              <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+                <span class="k">case</span> <span class="k">_:</span> <span class="kt">SchedulerException</span> <span class="o">=&gt;</span> <span class="c1">//忽略排队失败或终止的目标actor</span>
+              <span class="o">}</span>
+            <span class="o">}</span>
+          <span class="o">},</span>
+          <span class="nf">roundUp</span><span class="o">(</span><span class="n">initialDelay</span><span class="o">)))</span><span class="c1">//远离0，向数字舍入，值可能会变大</span>
+
+      <span class="nd">@tailrec</span> <span class="k">private</span> <span class="k">def</span> <span class="nf">swap</span><span class="o">(</span><span class="n">c</span><span class="k">:</span> <span class="kt">Cancellable</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="n">get</span> <span class="k">match</span> <span class="o">{</span>
+            <span class="c1">//更新，直到c都被关闭了</span>
+            <span class="c1">//cancel方法会取消此可取消项，如果成功，则返回true。如果此可取消的已被（同时）取消，则此方法将返回false，尽管isCancelled将返回true。</span>
+          <span class="k">case</span> <span class="kc">null</span> <span class="k">=&gt;</span> <span class="nf">if</span> <span class="o">(</span><span class="n">c</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="nv">c</span><span class="o">.</span><span class="py">cancel</span><span class="o">()</span>
+          <span class="c1">//cas预期更新失败，交换c</span>
+          <span class="k">case</span> <span class="n">old</span>  <span class="k">=&gt;</span> <span class="nf">if</span> <span class="o">(!</span><span class="nf">compareAndSet</span><span class="o">(</span><span class="n">old</span><span class="o">,</span> <span class="n">c</span><span class="o">))</span> <span class="nf">swap</span><span class="o">(</span><span class="n">c</span><span class="o">)</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+
+      <span class="nd">@tailrec</span> <span class="k">final</span> <span class="k">def</span> <span class="nf">cancel</span><span class="o">()</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="n">get</span> <span class="k">match</span> <span class="o">{</span>
+          <span class="k">case</span> <span class="kc">null</span> <span class="k">=&gt;</span> <span class="kc">false</span>
+          <span class="k">case</span> <span class="n">c</span> <span class="k">=&gt;</span>
+            <span class="c1">//可取消的，使用cas更新</span>
+            <span class="nf">if</span> <span class="o">(</span><span class="nv">c</span><span class="o">.</span><span class="py">cancel</span><span class="o">())</span> <span class="nf">compareAndSet</span><span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="k">else</span> <span class="nf">compareAndSet</span><span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="kc">null</span><span class="o">)</span> <span class="o">||</span> <span class="nf">cancel</span><span class="o">()</span><span class="c1">//不可取消的，尝试调用cancel取消</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+
+      <span class="k">override</span> <span class="k">def</span> <span class="nf">isCancelled</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">get</span> <span class="o">==</span> <span class="kc">null</span><span class="c1">//AtomicReference get为空时表示可以取消</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="n">cause</span> <span class="k">@</span> <span class="nc">SchedulerException</span><span class="o">(</span><span class="n">msg</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">IllegalStateException</span><span class="o">(</span><span class="n">msg</span><span class="o">,</span> <span class="n">cause</span><span class="o">)</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="c1">//将Runnable延迟执行一次，属于单发任务，是直接调用内部方法schedule</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">scheduleOnce</span><span class="o">(</span><span class="n">delay</span><span class="k">:</span> <span class="kt">FiniteDuration</span><span class="o">,</span> <span class="n">runnable</span><span class="k">:</span> <span class="kt">Runnable</span><span class="o">)(</span>
+      <span class="k">implicit</span> <span class="n">executor</span><span class="k">:</span> <span class="kt">ExecutionContext</span><span class="o">)</span><span class="k">:</span> <span class="kt">Cancellable</span> <span class="o">=</span>
+    <span class="k">try</span> <span class="nf">schedule</span><span class="o">(</span><span class="n">executor</span><span class="o">,</span> <span class="n">runnable</span><span class="o">,</span> <span class="nf">roundUp</span><span class="o">(</span><span class="n">delay</span><span class="o">))</span>
+    <span class="k">catch</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="n">cause</span> <span class="k">@</span> <span class="nc">SchedulerException</span><span class="o">(</span><span class="n">msg</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">IllegalStateException</span><span class="o">(</span><span class="n">msg</span><span class="o">,</span> <span class="n">cause</span><span class="o">)</span>
+    <span class="o">}</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">close</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+
+    <span class="k">def</span> <span class="nf">runTask</span><span class="o">(</span><span class="n">task</span><span class="k">:</span> <span class="kt">Runnable</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="k">try</span> <span class="nv">task</span><span class="o">.</span><span class="py">run</span><span class="o">()</span>
+      <span class="k">catch</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="n">e</span><span class="k">:</span> <span class="kt">InterruptedException</span> <span class="o">=&gt;</span> <span class="k">throw</span> <span class="n">e</span>
+        <span class="k">case</span> <span class="k">_:</span> <span class="kt">SchedulerException</span>   <span class="o">=&gt;</span> <span class="c1">//忽略终止的actor</span>
+        <span class="c1">//执行定时器任务时发生非致命的异常</span>
+        <span class="k">case</span> <span class="nc">NonFatal</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>             <span class="k">=&gt;</span> <span class="nv">log</span><span class="o">.</span><span class="py">error</span><span class="o">(</span><span class="n">e</span><span class="o">,</span> <span class="s">"exception while executing timer task"</span><span class="o">)</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="nv">Await</span><span class="o">.</span><span class="py">result</span><span class="o">(</span><span class="nf">stop</span><span class="o">(),</span> <span class="n">getShutdownTimeout</span><span class="o">).</span><span class="py">foreach</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="n">task</span><span class="k">:</span> <span class="kt">Scheduler.TaskRunOnClose</span> <span class="o">=&gt;</span>
+        <span class="nf">runTask</span><span class="o">(</span><span class="n">task</span><span class="o">)</span>
+      <span class="k">case</span> <span class="n">holder</span><span class="k">:</span> <span class="kt">TaskHolder</span> <span class="o">=&gt;</span> <span class="c1">// don't run</span>
+        <span class="nv">holder</span><span class="o">.</span><span class="py">task</span> <span class="k">match</span> <span class="o">{</span>
+          <span class="k">case</span> <span class="n">task</span><span class="k">:</span> <span class="kt">Scheduler.TaskRunOnClose</span> <span class="o">=&gt;</span>
+            <span class="nf">runTask</span><span class="o">(</span><span class="n">task</span><span class="o">)</span>
+          <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="c1">// don't run</span>
+        <span class="o">}</span>
+      <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="c1">// don't run</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="c1">//这个调度器的最大支持的任务频率，即在Hz中重复任务执行之间的最小时间间隔的倒数</span>
+  <span class="k">override</span> <span class="k">val</span> <span class="nv">maxFrequency</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">1.</span><span class="n">second</span> <span class="o">/</span> <span class="nc">TickDuration</span>
+
+  <span class="cm">/*
+   * 下面是实际的定时器实现
+   */</span>
+  <span class="k">private</span> <span class="k">val</span> <span class="nv">start</span> <span class="k">=</span> <span class="nf">clock</span><span class="o">()</span>
+  <span class="k">private</span> <span class="k">val</span> <span class="nv">tickNanos</span> <span class="k">=</span> <span class="nv">TickDuration</span><span class="o">.</span><span class="py">toNanos</span>
+  <span class="k">private</span> <span class="k">val</span> <span class="nv">wheelMask</span> <span class="k">=</span> <span class="nc">WheelSize</span> <span class="o">-</span> <span class="mi">1</span>
+  <span class="k">private</span> <span class="k">val</span> <span class="nv">queue</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">TaskQueue</span>
+
+  <span class="k">private</span> <span class="k">def</span> <span class="nf">schedule</span><span class="o">(</span><span class="n">ec</span><span class="k">:</span> <span class="kt">ExecutionContext</span><span class="o">,</span> <span class="n">r</span><span class="k">:</span> <span class="kt">Runnable</span><span class="o">,</span> <span class="n">delay</span><span class="k">:</span> <span class="kt">FiniteDuration</span><span class="o">)</span><span class="k">:</span> <span class="kt">TimerTask</span> <span class="o">=</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="n">delay</span> <span class="o">&lt;=</span> <span class="nv">Duration</span><span class="o">.</span><span class="py">Zero</span><span class="o">)</span> <span class="o">{</span>
+     <span class="c1">//计时器关闭后无法排队</span>
+      <span class="nf">if</span> <span class="o">(</span><span class="nv">stopped</span><span class="o">.</span><span class="py">get</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="k">throw</span> <span class="nc">SchedulerException</span><span class="o">(</span><span class="s">"cannot enqueue after timer shutdown"</span><span class="o">)</span>
+      <span class="nv">ec</span><span class="o">.</span><span class="py">execute</span><span class="o">(</span><span class="n">r</span><span class="o">)</span>
+      <span class="nc">NotCancellable</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="nv">stopped</span><span class="o">.</span><span class="py">get</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//计时器关闭后无法排队</span>
+      <span class="k">throw</span> <span class="nc">SchedulerException</span><span class="o">(</span><span class="s">"cannot enqueue after timer shutdown"</span><span class="o">)</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="k">val</span> <span class="nv">delayNanos</span> <span class="k">=</span> <span class="nv">delay</span><span class="o">.</span><span class="py">toNanos</span>
+      <span class="nf">checkMaxDelay</span><span class="o">(</span><span class="n">delayNanos</span><span class="o">)</span>
+      <span class="c1">//计算这个任务需要的滴答数量（指针需要走多少步）</span>
+      <span class="k">val</span> <span class="nv">ticks</span> <span class="k">=</span> <span class="o">(</span><span class="n">delayNanos</span> <span class="o">/</span> <span class="n">tickNanos</span><span class="o">).</span><span class="py">toInt</span>
+      <span class="c1">//任务入队</span>
+      <span class="k">val</span> <span class="nv">task</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">TaskHolder</span><span class="o">(</span><span class="n">r</span><span class="o">,</span> <span class="n">ticks</span><span class="o">,</span> <span class="n">ec</span><span class="o">)</span>
+      <span class="nv">queue</span><span class="o">.</span><span class="py">add</span><span class="o">(</span><span class="n">task</span><span class="o">)</span>
+      <span class="nf">if</span> <span class="o">(</span><span class="nv">stopped</span><span class="o">.</span><span class="py">get</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nv">task</span><span class="o">.</span><span class="py">cancel</span><span class="o">())</span>
+      <span class="c1">//计时器关闭后无法排队</span>
+        <span class="k">throw</span> <span class="nc">SchedulerException</span><span class="o">(</span><span class="s">"cannot enqueue after timer shutdown"</span><span class="o">)</span>
+      <span class="n">task</span>
+    <span class="o">}</span>
+
+  <span class="k">private</span> <span class="k">def</span> <span class="nf">checkMaxDelay</span><span class="o">(</span><span class="n">delayNanos</span><span class="k">:</span> <span class="kt">Long</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span>
+    <span class="c1">//延迟/滴答的值不能大于MaxValue</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="n">delayNanos</span> <span class="o">/</span> <span class="n">tickNanos</span> <span class="o">&gt;</span> <span class="nv">Int</span><span class="o">.</span><span class="py">MaxValue</span><span class="o">)</span>
+      <span class="c1">//由于舍入，错误消息中有1秒的误差</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nc">IllegalArgumentException</span><span class="o">(</span>
+        <span class="n">s</span><span class="s">"Task scheduled with [${delayNanos.nanos.toSeconds}] seconds delay, "</span> <span class="o">+</span>
+        <span class="n">s</span><span class="s">"which is too far in future, maximum delay is [${(tickNanos * Int.MaxValue).nanos.toSeconds - 1}] seconds"</span><span class="o">)</span>
+
+  <span class="k">private</span> <span class="k">val</span> <span class="nv">stopped</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">AtomicReference</span><span class="o">[</span><span class="kt">Promise</span><span class="o">[</span><span class="kt">immutable.Seq</span><span class="o">[</span><span class="kt">TimerTask</span><span class="o">]]]</span>
+  <span class="c1">//关闭，使用超时</span>
+  <span class="k">private</span> <span class="k">def</span> <span class="nf">stop</span><span class="o">()</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">immutable.Seq</span><span class="o">[</span><span class="kt">TimerTask</span><span class="o">]]</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">p</span> <span class="k">=</span> <span class="nc">Promise</span><span class="o">[</span><span class="kt">immutable.Seq</span><span class="o">[</span><span class="kt">TimerTask</span><span class="o">]]()</span>
+    <span class="c1">//http://hg.openjdk.java.net/jdk7/jdk7/hotspot/file/9b0ca45cd756/src/share/vm/prims/unsafe.cpp</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="nv">stopped</span><span class="o">.</span><span class="py">compareAndSet</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="n">p</span><span class="o">))</span> <span class="o">{</span><span class="c1">//期望为null，失败为false</span>
+    <span class="c1">//中断定时器线程以使其更快地关闭是不好的，因为它可能正在执行计划的任务，这可能对被中断的响应不好。相反，我们只需再等待一个滴答就可以完成。</span>
+      <span class="nv">p</span><span class="o">.</span><span class="py">future</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="nv">Future</span><span class="o">.</span><span class="py">successful</span><span class="o">(</span><span class="nc">Nil</span><span class="o">)</span><span class="c1">//Future.successful(Nil)</span>
+  <span class="o">}</span>
+
+  <span class="c1">//定时任务的主线程</span>
+  <span class="nd">@volatile</span> <span class="k">private</span> <span class="k">var</span> <span class="n">timerThread</span><span class="k">:</span> <span class="kt">Thread</span> <span class="o">=</span> <span class="nv">threadFactory</span><span class="o">.</span><span class="py">newThread</span><span class="o">(</span><span class="k">new</span> <span class="nc">Runnable</span> <span class="o">{</span>
+    
+    <span class="k">var</span> <span class="n">tick</span> <span class="k">=</span> <span class="n">startTick</span>
+    <span class="k">var</span> <span class="n">totalTick</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">=</span> <span class="n">tick</span> <span class="c1">//不环绕（不会因为轮子满一周而被重置）的滴答数，用于计算睡眠时间</span>
+    <span class="k">val</span> <span class="nv">wheel</span> <span class="k">=</span> <span class="nv">Array</span><span class="o">.</span><span class="py">fill</span><span class="o">(</span><span class="nc">WheelSize</span><span class="o">)(</span><span class="k">new</span> <span class="nc">TaskQueue</span><span class="o">)</span><span class="c1">//将轮子中的所有桶都初始化为TaskQueue队列</span>
+
+    <span class="k">private</span> <span class="k">def</span> <span class="nf">clearAll</span><span class="o">()</span><span class="k">:</span> <span class="kt">immutable.Seq</span><span class="o">[</span><span class="kt">TimerTask</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+      <span class="nd">@tailrec</span> <span class="k">def</span> <span class="nf">collect</span><span class="o">(</span><span class="n">q</span><span class="k">:</span> <span class="kt">TaskQueue</span><span class="o">,</span> <span class="n">acc</span><span class="k">:</span> <span class="kt">Vector</span><span class="o">[</span><span class="kt">TimerTask</span><span class="o">])</span><span class="k">:</span> <span class="kt">Vector</span><span class="o">[</span><span class="kt">TimerTask</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+        <span class="nv">q</span><span class="o">.</span><span class="py">poll</span><span class="o">()</span> <span class="k">match</span> <span class="o">{</span>
+          <span class="k">case</span> <span class="kc">null</span> <span class="k">=&gt;</span> <span class="n">acc</span>
+          <span class="k">case</span> <span class="n">x</span>    <span class="k">=&gt;</span> <span class="nf">collect</span><span class="o">(</span><span class="n">q</span><span class="o">,</span> <span class="n">acc</span> <span class="o">:+</span> <span class="n">x</span><span class="o">)</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+      <span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="nc">WheelSize</span><span class="o">).</span><span class="py">flatMap</span><span class="o">(</span><span class="n">i</span> <span class="k">=&gt;</span> <span class="nf">collect</span><span class="o">(</span><span class="nf">wheel</span><span class="o">(</span><span class="n">i</span><span class="o">),</span> <span class="nv">Vector</span><span class="o">.</span><span class="py">empty</span><span class="o">))</span> <span class="o">++</span> <span class="nf">collect</span><span class="o">(</span><span class="n">queue</span><span class="o">,</span> <span class="nv">Vector</span><span class="o">.</span><span class="py">empty</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="nd">@tailrec</span>
+    <span class="k">private</span> <span class="k">def</span> <span class="nf">checkQueue</span><span class="o">(</span><span class="n">time</span><span class="k">:</span> <span class="kt">Long</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="nv">queue</span><span class="o">.</span><span class="py">pollNode</span><span class="o">()</span> <span class="k">match</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="kc">null</span> <span class="k">=&gt;</span> <span class="o">()</span>
+      <span class="k">case</span> <span class="n">node</span> <span class="k">=&gt;</span>
+        <span class="nv">node</span><span class="o">.</span><span class="py">value</span><span class="o">.</span><span class="py">ticks</span> <span class="k">match</span> <span class="o">{</span>
+          <span class="c1">//到时间了，开始执行，value是TaskHolder类型的</span>
+          <span class="k">case</span> <span class="mi">0</span> <span class="k">=&gt;</span> <span class="nv">node</span><span class="o">.</span><span class="py">value</span><span class="o">.</span><span class="py">executeTask</span><span class="o">()</span>
+          <span class="k">case</span> <span class="n">ticks</span> <span class="k">=&gt;</span>
+            <span class="c1">//ticks是延迟时间，除以每个滴答的延迟，得到总的步数&amp;后得到桶中的位置，与总共开始的步数tick相减得到偏移步数</span>
+            <span class="k">val</span> <span class="nv">futureTick</span> <span class="k">=</span> <span class="o">((</span>
+              <span class="n">time</span> <span class="o">-</span> <span class="n">start</span> <span class="o">+</span> <span class="c1">//计算自定时器启动以来的纳秒数</span>
+              <span class="o">(</span><span class="n">ticks</span> <span class="o">*</span> <span class="n">tickNanos</span><span class="o">)</span> <span class="o">+</span> <span class="c1">// 添加所需延迟</span>
+              <span class="n">tickNanos</span> <span class="o">-</span> <span class="mi">1</span> <span class="c1">// 四舍五入</span>
+            <span class="o">)</span> <span class="o">/</span> <span class="n">tickNanos</span><span class="o">).</span><span class="py">toInt</span> <span class="c1">//并转换为槽号（此处计算出的是步数，&amp;wheelMask后得到是槽号或桶的位置）</span>
+            <span class="c1">//桶中队列里面的任务的偏移量</span>
+            <span class="k">val</span> <span class="nv">offset</span> <span class="k">=</span> <span class="n">futureTick</span> <span class="o">-</span> <span class="n">tick</span>
+            <span class="c1">//得到在桶上的刻度</span>
+            <span class="k">val</span> <span class="nv">bucket</span> <span class="k">=</span> <span class="n">futureTick</span> <span class="o">&amp;</span> <span class="n">wheelMask</span>
+            <span class="c1">//还有offset步才能开始执行</span>
+            <span class="nv">node</span><span class="o">.</span><span class="py">value</span><span class="o">.</span><span class="py">ticks</span> <span class="k">=</span> <span class="n">offset</span>
+            <span class="c1">//没有能执行，重新入队</span>
+            <span class="nf">wheel</span><span class="o">(</span><span class="n">bucket</span><span class="o">).</span><span class="py">addNode</span><span class="o">(</span><span class="n">node</span><span class="o">)</span>
+        <span class="o">}</span>
+        <span class="nf">checkQueue</span><span class="o">(</span><span class="n">time</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="k">override</span> <span class="k">final</span> <span class="k">def</span> <span class="nf">run</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span>
+      <span class="k">try</span> <span class="nf">nextTick</span><span class="o">()</span>
+      <span class="k">catch</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="n">t</span><span class="k">:</span> <span class="kt">Throwable</span> <span class="o">=&gt;</span>
+          <span class="nv">log</span><span class="o">.</span><span class="py">error</span><span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="s">"exception on LARS’ timer thread"</span><span class="o">)</span>
+          <span class="nv">stopped</span><span class="o">.</span><span class="py">get</span> <span class="k">match</span> <span class="o">{</span>
+            <span class="k">case</span> <span class="kc">null</span> <span class="k">=&gt;</span>
+              <span class="k">val</span> <span class="nv">thread</span> <span class="k">=</span> <span class="nv">threadFactory</span><span class="o">.</span><span class="py">newThread</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+              <span class="nv">log</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="s">"starting new LARS thread"</span><span class="o">)</span>
+              <span class="k">try</span> <span class="nv">thread</span><span class="o">.</span><span class="py">start</span><span class="o">()</span>
+              <span class="k">catch</span> <span class="o">{</span>
+                <span class="k">case</span> <span class="n">e</span><span class="k">:</span> <span class="kt">Throwable</span> <span class="o">=&gt;</span>
+                  <span class="nv">log</span><span class="o">.</span><span class="py">error</span><span class="o">(</span><span class="n">e</span><span class="o">,</span> <span class="s">"LARS cannot start new thread, ship’s going down!"</span><span class="o">)</span>
+                  <span class="nv">stopped</span><span class="o">.</span><span class="py">set</span><span class="o">(</span><span class="nv">Promise</span><span class="o">.</span><span class="py">successful</span><span class="o">(</span><span class="nc">Nil</span><span class="o">))</span>
+                  <span class="nf">clearAll</span><span class="o">()</span>
+              <span class="o">}</span>
+              <span class="c1">//当工作线程发生异常退出时重新根据当前任务创建新的工作线程</span>
+              <span class="n">timerThread</span> <span class="k">=</span> <span class="n">thread</span>
+            <span class="k">case</span> <span class="n">p</span> <span class="k">=&gt;</span>
+              <span class="c1">//不为空时表面已经stop过，填充promise success，"取消"所有任务</span>
+              <span class="c1">//p为Promise.successful(Nil))时，比较成功,来自stop方法返回的promise</span>
+              <span class="nf">assert</span><span class="o">(</span><span class="nv">stopped</span><span class="o">.</span><span class="py">compareAndSet</span><span class="o">(</span><span class="n">p</span><span class="o">,</span> <span class="nv">Promise</span><span class="o">.</span><span class="py">successful</span><span class="o">(</span><span class="nc">Nil</span><span class="o">)),</span> <span class="s">"Stop signal violated in LARS"</span><span class="o">)</span>
+              <span class="nv">p</span><span class="o">.</span><span class="py">success</span><span class="o">(</span><span class="nf">clearAll</span><span class="o">())</span>
+          <span class="o">}</span>
+          <span class="k">throw</span> <span class="n">t</span>
+      <span class="o">}</span>
+
+    <span class="nd">@tailrec</span> <span class="k">final</span> <span class="k">def</span> <span class="nf">nextTick</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="k">val</span> <span class="nv">time</span> <span class="k">=</span> <span class="nf">clock</span><span class="o">()</span>
+      <span class="c1">//开始时间+总的步数*每步延迟 - 实例化定时器时的时钟时间 = 需要睡眠的时间</span>
+      <span class="k">val</span> <span class="nv">sleepTime</span> <span class="k">=</span> <span class="n">start</span> <span class="o">+</span> <span class="o">(</span><span class="n">totalTick</span> <span class="o">*</span> <span class="n">tickNanos</span><span class="o">)</span> <span class="o">-</span> <span class="n">time</span>
+      <span class="nf">if</span> <span class="o">(</span><span class="n">sleepTime</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//小睡前检查队列</span>
+        <span class="nf">checkQueue</span><span class="o">(</span><span class="n">time</span><span class="o">)</span>
+        <span class="nf">waitNanos</span><span class="o">(</span><span class="n">sleepTime</span><span class="o">)</span>
+      <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">//求得开始的刻度在轮子上桶中的位置</span>
+        <span class="k">val</span> <span class="nv">bucket</span> <span class="k">=</span> <span class="n">tick</span> <span class="o">&amp;</span> <span class="n">wheelMask</span>
+        <span class="c1">//获得本刻度上对应的任务队列</span>
+        <span class="k">val</span> <span class="nv">tasks</span> <span class="k">=</span> <span class="nf">wheel</span><span class="o">(</span><span class="n">bucket</span><span class="o">)</span>
+        <span class="k">val</span> <span class="nv">putBack</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">TaskQueue</span>
+        <span class="c1">//执行轮子上的桶</span>
+        <span class="nd">@tailrec</span> <span class="k">def</span> <span class="nf">executeBucket</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="nv">tasks</span><span class="o">.</span><span class="py">pollNode</span><span class="o">()</span> <span class="k">match</span> <span class="o">{</span>
+          <span class="k">case</span> <span class="kc">null</span> <span class="k">=&gt;</span> <span class="o">()</span>
+          <span class="k">case</span> <span class="n">node</span> <span class="k">=&gt;</span>
+            <span class="k">val</span> <span class="nv">task</span> <span class="k">=</span> <span class="nv">node</span><span class="o">.</span><span class="py">value</span>
+            <span class="nf">if</span> <span class="o">(!</span><span class="nv">task</span><span class="o">.</span><span class="py">isCancelled</span><span class="o">)</span> <span class="o">{</span>
+              <span class="nf">if</span> <span class="o">(</span><span class="nv">task</span><span class="o">.</span><span class="py">ticks</span> <span class="o">&gt;=</span> <span class="nc">WheelSize</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nv">task</span><span class="o">.</span><span class="py">ticks</span> <span class="o">-=</span> <span class="nc">WheelSize</span><span class="c1">//如果需要滴答的次数大于轮子的大小，说明还需要转圈，暂不执行该桶中的队列中的任务</span>
+                <span class="nv">putBack</span><span class="o">.</span><span class="py">addNode</span><span class="o">(</span><span class="n">node</span><span class="o">)</span><span class="c1">//需要重新入任务队列的任务</span>
+              <span class="o">}</span> <span class="k">else</span> <span class="nv">task</span><span class="o">.</span><span class="py">executeTask</span><span class="o">()</span><span class="c1">//执行队列中的任务</span>
+            <span class="o">}</span>
+            <span class="nf">executeBucket</span><span class="o">()</span><span class="c1">//递归调用自己判断桶上是否有任务达到执行时间</span>
+        <span class="o">}</span>
+        <span class="nf">executeBucket</span><span class="o">()</span>
+        <span class="c1">//更新本刻度对应的任务队列（队列中的TaskTimer会随着时间的流逝变少）</span>
+        <span class="nf">wheel</span><span class="o">(</span><span class="n">bucket</span><span class="o">)</span> <span class="k">=</span> <span class="n">putBack</span>
+        <span class="c1">//刻度加1（轮子上的指针走了一步）</span>
+        <span class="n">tick</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">totalTick</span> <span class="o">+=</span> <span class="mi">1</span><span class="c1">//总的刻度数加1</span>
+      <span class="o">}</span>
+      <span class="nv">stopped</span><span class="o">.</span><span class="py">get</span> <span class="k">match</span> <span class="o">{</span>
+         <span class="c1">//没有被关闭，指针继续走</span>
+        <span class="k">case</span> <span class="kc">null</span> <span class="k">=&gt;</span> <span class="nf">nextTick</span><span class="o">()</span>
+        <span class="k">case</span> <span class="n">p</span> <span class="k">=&gt;</span>
+        <span class="c1">//已经关闭了，清空任务</span>
+        <span class="c1">//p为Promise.successful(Nil))时，比较成功</span>
+          <span class="nf">assert</span><span class="o">(</span><span class="nv">stopped</span><span class="o">.</span><span class="py">compareAndSet</span><span class="o">(</span><span class="n">p</span><span class="o">,</span> <span class="nv">Promise</span><span class="o">.</span><span class="py">successful</span><span class="o">(</span><span class="nc">Nil</span><span class="o">)),</span> <span class="s">"Stop signal violated in LARS"</span><span class="o">)</span>
+          <span class="nv">p</span><span class="o">.</span><span class="py">success</span><span class="o">(</span><span class="nf">clearAll</span><span class="o">())</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">})</span>
+  <span class="c1">//启动工作线程</span>
+  <span class="nv">timerThread</span><span class="o">.</span><span class="py">start</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="c1">//内部api</span>
+<span class="k">object</span> <span class="nc">LightArrayRevolverScheduler</span> <span class="o">{</span>
+ 
+  <span class="c1">//使用TaskHolder包装了task</span>
+  <span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">val</span> <span class="nv">taskOffset</span> <span class="k">=</span> <span class="nv">unsafe</span><span class="o">.</span><span class="py">objectFieldOffset</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">TaskHolder</span><span class="o">].</span><span class="py">getDeclaredField</span><span class="o">(</span><span class="s">"task"</span><span class="o">))</span>
+  
+  <span class="c1">//基于Dmitriy Vyukov的非侵入式MPSC队列的无锁MPSC链接队列实现</span>
+  <span class="c1">//http://www.1024cores.net/home/lock-free-algorithms/queues/non-intrusive-mpsc-node-based-queue</span>
+  <span class="c1">//如果在队列不再很空但入队的元素尚不可见的情况下允许此队列返回null，则该队列可以是无等待的（即在peekNode和pollNode中没有旋转循环）。但是，这会破坏actor schedule</span>
+  <span class="k">private</span> <span class="k">class</span> <span class="nc">TaskQueue</span> <span class="k">extends</span> <span class="nc">AbstractNodeQueue</span><span class="o">[</span><span class="kt">TaskHolder</span><span class="o">]</span>
+
+  <span class="k">protected</span><span class="o">[</span><span class="kt">actor</span><span class="o">]</span> <span class="k">trait</span> <span class="nc">TimerTask</span> <span class="k">extends</span> <span class="nc">Runnable</span> <span class="k">with</span> <span class="nc">Cancellable</span>
+
+  <span class="k">protected</span><span class="o">[</span><span class="kt">actor</span><span class="o">]</span> <span class="k">class</span> <span class="nc">TaskHolder</span><span class="o">(</span><span class="nd">@volatile</span> <span class="k">var</span> <span class="n">task</span><span class="k">:</span> <span class="kt">Runnable</span><span class="o">,</span> <span class="k">var</span> <span class="n">ticks</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">executionContext</span><span class="k">:</span> <span class="kt">ExecutionContext</span><span class="o">)</span>
+      <span class="k">extends</span> <span class="nc">TimerTask</span> <span class="o">{</span>
+ 
+    <span class="c1">//提取任务</span>
+    <span class="nd">@tailrec</span>
+    <span class="k">private</span> <span class="k">final</span> <span class="k">def</span> <span class="nf">extractTask</span><span class="o">(</span><span class="n">replaceWith</span><span class="k">:</span> <span class="kt">Runnable</span><span class="o">)</span><span class="k">:</span> <span class="kt">Runnable</span> <span class="o">=</span>
+      <span class="n">task</span> <span class="k">match</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="n">t</span> <span class="k">@</span> <span class="o">(</span><span class="nc">ExecutedTask</span> <span class="o">|</span> <span class="nc">CancelledTask</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">t</span>
+        <span class="k">case</span> <span class="n">x</span>                                  <span class="k">=&gt;</span> <span class="nf">if</span> <span class="o">(</span><span class="nv">unsafe</span><span class="o">.</span><span class="py">compareAndSwapObject</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">taskOffset</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">replaceWith</span><span class="o">))</span> <span class="n">x</span> <span class="k">else</span> <span class="nf">extractTask</span><span class="o">(</span><span class="n">replaceWith</span><span class="o">)</span>
+      <span class="o">}</span>
+
+    <span class="k">private</span><span class="o">[</span><span class="kt">akka</span><span class="o">]</span> <span class="k">final</span> <span class="k">def</span> <span class="nf">executeTask</span><span class="o">()</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">extractTask</span><span class="o">(</span><span class="nc">ExecutedTask</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="nc">ExecutedTask</span> <span class="o">|</span> <span class="nc">CancelledTask</span> <span class="k">=&gt;</span> <span class="kc">false</span>
+      <span class="k">case</span> <span class="n">other</span> <span class="k">=&gt;</span>
+        <span class="k">try</span> <span class="o">{</span>
+          <span class="nv">executionContext</span><span class="o">.</span><span class="py">execute</span><span class="o">(</span><span class="n">other</span><span class="o">)</span>
+          <span class="kc">true</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+          <span class="k">case</span> <span class="k">_:</span> <span class="kt">InterruptedException</span> <span class="o">=&gt;</span> <span class="nv">Thread</span><span class="o">.</span><span class="py">currentThread</span><span class="o">().</span><span class="py">interrupt</span><span class="o">();</span> <span class="kc">false</span>
+          <span class="k">case</span> <span class="nc">NonFatal</span><span class="o">(</span><span class="n">e</span><span class="o">)</span>             <span class="k">=&gt;</span> <span class="nv">executionContext</span><span class="o">.</span><span class="py">reportFailure</span><span class="o">(</span><span class="n">e</span><span class="o">);</span> <span class="kc">false</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">//仅应在直接执行中调用，入close方法调用时</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">run</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="nf">extractTask</span><span class="o">(</span><span class="nc">ExecutedTask</span><span class="o">).</span><span class="py">run</span><span class="o">()</span>
+
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">cancel</span><span class="o">()</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">extractTask</span><span class="o">(</span><span class="nc">CancelledTask</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="nc">ExecutedTask</span> <span class="o">|</span> <span class="nc">CancelledTask</span> <span class="k">=&gt;</span> <span class="kc">false</span>
+      <span class="k">case</span> <span class="k">_</span>                            <span class="k">=&gt;</span> <span class="kc">true</span>
+    <span class="o">}</span>
+
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">isCancelled</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="n">task</span> <span class="n">eq</span> <span class="nc">CancelledTask</span>
+  <span class="o">}</span>
+
+  <span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">val</span> <span class="nv">CancelledTask</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Runnable</span> <span class="o">{</span> <span class="k">def</span> <span class="nf">run</span> <span class="k">=</span> <span class="o">()</span> <span class="o">}</span>
+  <span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">val</span> <span class="nv">ExecutedTask</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Runnable</span> <span class="o">{</span> <span class="k">def</span> <span class="nf">run</span> <span class="k">=</span> <span class="o">()</span> <span class="o">}</span>
+
+  <span class="k">private</span> <span class="k">val</span> <span class="nv">NotCancellable</span><span class="k">:</span> <span class="kt">TimerTask</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TimerTask</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="nf">cancel</span><span class="o">()</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="k">def</span> <span class="nf">isCancelled</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">()</span>
+  <span class="o">}</span>
+ 
+  <span class="c1">//初始重复标记</span>
+  <span class="k">private</span> <span class="k">val</span> <span class="nv">InitialRepeatMarker</span><span class="k">:</span> <span class="kt">Cancellable</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cancellable</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="nf">cancel</span><span class="o">()</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="k">def</span> <span class="nf">isCancelled</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">false</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://jxnu-liguobin.github.io" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://jxnu-liguobin.github.io/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-LightArrayRevolverScheduler.html" target="_blank">https://jxnu-liguobin.github.io/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-LightArrayRevolverScheduler.html</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-Lig', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://jxnu-liguobin.github.io/assets/search_data.json?v=1617164834', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://jxnu-liguobin.github.io/" title="首页" target="">首页</a></li><li> <a href="https://jxnu-liguobin.github.io/categories/" title="分类" target="">分类</a></li><li> <a href="https://jxnu-liguobin.github.io/wiki/" title="维基" target="">维基</a></li><li> <a href="https://jxnu-liguobin.github.io/links/" title="链接" target="">链接</a></li><li> <a href="https://jxnu-liguobin.github.io/about/" title="关于" target="">关于</a></li><li><a href="https://jxnu-liguobin.github.io/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>

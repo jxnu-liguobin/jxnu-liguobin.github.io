@@ -1,0 +1,1300 @@
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>LinkedList &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-LinkedList.html"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://jxnu-liguobin.github.io/feed.xml"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/favicon.ico"><meta property="og:title" content="LinkedList"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content="```javapackage java.util;"><meta name="og:description" content="```javapackage java.util;"><meta property="og:url" content="https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-LinkedList.html"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2018-08-12"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://jxnu-liguobin.github.io/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://jxnu-liguobin.github.io/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://jxnu-liguobin.github.io/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://jxnu-liguobin.github.io/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://jxnu-liguobin.github.io/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://jxnu-liguobin.github.io/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="LinkedList"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">LinkedList</h1><div class="collection-info"> <span class="meta-info"> <span class="octicon octicon-calendar"></span> 2018/08/12 </span> <span class="meta-info"> <span class="octicon octicon-file-directory"></span> <a href="https://jxnu-liguobin.github.io/categories/#Java源码" title="Java源码">Java源码</a> </span> <span class="meta-info"> <span class="octicon octicon-clock"></span> 共 21770 字，约 63 分钟 </span></div></div></div><div class="column one-fourth mobile-hidden"><div class="collection-title"></div></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">java.util</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.function.Consumer</span><span class="o">;</span>
+
+<span class="cm">/**
+ * LinkedList是List和Deque接口的双向链表的实现。实现了所有可选List操作，并允许包括null值。
+ * LinkedList既然是通过双向链表去实现的，那么它可以被当作堆栈、队列或双端队列进行操作。并且其顺序访问非常高效，而随机访问效率比较低。
+ * 内部方法，注释会描述为节点的操作(如删除第一个节点)，公开的方法会描述为元素的操作(如删除第一个元素) 注意，此实现不是同步的。
+ * 如果多个线程同时访问一个LinkedList实例，而其中至少一个线程从结构上修改了列表，那么它必须保持外部同步。
+ * LinkedList不是线程安全的，如果在多线程中使用（修改），需要在外部作同步处理。 这通常是通过同步那些用来封装列表的对象来实现的。
+ * 但如果没有这样的对象存在，则该列表需要运用Collections.synchronizedList来进行“包装”，为了避免对列表进行突发的非同步操作，
+ * 该方法最好是在创建列表对象时完成。
+ */</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LinkedList</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span>
+        <span class="kd">extends</span> <span class="nc">AbstractSequentialList</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span>
+        <span class="kd">implements</span> <span class="nc">List</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;,</span> <span class="nc">Deque</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;,</span> <span class="nc">Cloneable</span><span class="o">,</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">Serializable</span> <span class="o">{</span>
+    <span class="cm">/**
+	 * 元素数量
+	 */</span>
+    <span class="kd">transient</span> <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+    <span class="cm">/**
+	 * 首结点引用
+	 */</span>
+    <span class="kd">transient</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">first</span><span class="o">;</span>
+
+    <span class="cm">/**
+	 * 尾节点引用
+	 */</span>
+    <span class="kd">transient</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">last</span><span class="o">;</span>
+
+    <span class="cm">/**
+	 * 无参构造方法
+	 */</span>
+    <span class="kd">public</span> <span class="nf">LinkedList</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 通过一个集合初始化LinkedList，元素顺序有这个集合的迭代器返回顺序决定
+	 * 
+	 * @param c
+	 *            其元素将被放入此列表中的集合
+	 * @throws NullPointerException
+	 *             如果指定的集合是空的
+	 */</span>
+    <span class="kd">public</span> <span class="nf">LinkedList</span><span class="o">(</span><span class="nc">Collection</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="no">E</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 调用无参构造函数</span>
+        <span class="k">this</span><span class="o">();</span>
+        <span class="c1">// 添加集合中所有的元素</span>
+        <span class="n">addAll</span><span class="o">(</span><span class="n">c</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 头插入，即将节点值为e的节点设置为链表首节点，内部使用
+	 */</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">linkFirst</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 获取当前首结点引用</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span>
+        <span class="c1">// 构建一个prev值为null,节点值为e,next值为f的新节点newNode</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">&lt;&gt;(</span><span class="kc">null</span><span class="o">,</span> <span class="n">e</span><span class="o">,</span> <span class="n">f</span><span class="o">);</span>
+        <span class="c1">// 将newNode作为首节点</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="c1">// 如果原首节点为null，即原链表为null，则链表尾节点也设置为newNode</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">f</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="k">else</span>                <span class="c1">// 否则，原首节点的prev设置为newNode</span>
+            <span class="n">f</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="n">size</span><span class="o">++;</span>             <span class="c1">// 长度+1</span>
+        <span class="n">modCount</span><span class="o">++;</span>         <span class="c1">// 修改次数+1</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 尾插入，即将节点值为e的节点设置为链表的尾节点
+	 */</span>
+    <span class="kt">void</span> <span class="nf">linkLast</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 获取当前尾结点引用</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">l</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span>
+        <span class="c1">// 构建一个prev值为l,节点值为e,next值为null的新节点newNode</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">&lt;&gt;(</span><span class="n">l</span><span class="o">,</span> <span class="n">e</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="c1">// 将newNode作为尾节点</span>
+        <span class="n">last</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="c1">// 如果原尾节点为null，即原链表为null，则链表首节点也设置为newNode</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">l</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="k">else</span>    <span class="c1">// 否则，原尾节点的next设置为newNode</span>
+            <span class="n">l</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="n">size</span><span class="o">++;</span>
+        <span class="n">modCount</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 中间插入，在非空节点succ之前插入节点值e
+	 */</span>
+    <span class="kt">void</span> <span class="nf">linkBefore</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">,</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">succ</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// assert succ != null;</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">pred</span> <span class="o">=</span> <span class="n">succ</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+        <span class="c1">// 构建一个prev值为succ.prev,节点值为e,next值为succ的新节点newNode</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">&lt;&gt;(</span><span class="n">pred</span><span class="o">,</span> <span class="n">e</span><span class="o">,</span> <span class="n">succ</span><span class="o">);</span>
+        <span class="c1">// 设置newNode为succ的前节点</span>
+        <span class="n">succ</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="c1">// 如果succ.prev为null，即如果succ为首节点，则将newNode设置为首节点</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">pred</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="k">else</span>        <span class="c1">// 如果succ不是首节点</span>
+            <span class="n">pred</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+        <span class="n">size</span><span class="o">++;</span>
+        <span class="n">modCount</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 删除首结点，返回存储的元素，内部使用
+	 */</span>
+    <span class="kd">private</span> <span class="no">E</span> <span class="nf">unlinkFirst</span><span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">f</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 获取首结点存储的元素</span>
+        <span class="kd">final</span> <span class="no">E</span> <span class="n">element</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+        <span class="c1">// 获取首结点的后继结点</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">next</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="c1">// 删除首结点</span>
+        <span class="n">f</span><span class="o">.</span><span class="na">item</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">f</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// 便于垃圾回收期清理</span>
+        <span class="c1">// 原来首结点的后继结点设为首结点</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+        <span class="c1">// 如果原来首结点的后继结点为空，则尾结点设为null</span>
+        <span class="c1">// 否则，原来首结点的后继结点的前驱结点设为null</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">next</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">else</span>
+            <span class="n">next</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">size</span><span class="o">--;</span>
+        <span class="n">modCount</span><span class="o">++;</span>
+        <span class="c1">// 返回原来首结点存储的元素</span>
+        <span class="k">return</span> <span class="n">element</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 删除尾结点，返回存储的元素，内部使用
+	 */</span>
+    <span class="kd">private</span> <span class="no">E</span> <span class="nf">unlinkLast</span><span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">l</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 获取尾结点存储的元素</span>
+        <span class="kd">final</span> <span class="no">E</span> <span class="n">element</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+        <span class="c1">// 获取尾结点的前驱结点</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">prev</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+        <span class="c1">// 删除尾结点</span>
+        <span class="n">l</span><span class="o">.</span><span class="na">item</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">l</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// help GC</span>
+        <span class="c1">// 原来尾结点的前驱结点设为尾结点</span>
+        <span class="n">last</span> <span class="o">=</span> <span class="n">prev</span><span class="o">;</span>
+        <span class="c1">// 如果原来尾结点的前驱结点为空，则首结点设为null</span>
+        <span class="c1">// 否则，原来尾结点的前驱结点的后继结点设为null</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">prev</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">else</span>
+            <span class="n">prev</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">size</span><span class="o">--;</span>
+        <span class="n">modCount</span><span class="o">++;</span>
+        <span class="c1">// 返回原来尾结点存储的元素</span>
+        <span class="k">return</span> <span class="n">element</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 删除指定非空结点，返回存储的元素
+	 */</span>
+    <span class="no">E</span> <span class="nf">unlink</span><span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 获取指定非空结点存储的元素</span>
+        <span class="kd">final</span> <span class="no">E</span> <span class="n">element</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+        <span class="c1">// 获取指定非空结点的后继结点</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">next</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="c1">// 获取指定非空结点的前驱结点</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">prev</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+
+        <span class="cm">/**
+		 * 如果指定非空结点的前驱结点为空，则指定非空结点的后继结点设为首结点 否则，指定非空结点的后继结点设为指定非空结点的前驱结点的后继结点，
+		 * 指定非空结点的前驱结点设为null
+		 */</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">prev</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">prev</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+            <span class="n">x</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="cm">/**
+		 * 如果指定非空结点的后继结点为空，则指定非空结点的前驱结点设为尾结点 否则，指定非空结点的前驱结点设为指定非空结点的后继结点的前驱结点，
+		 * 指定非空结点的后继结点设为null
+		 */</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">next</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="n">prev</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">next</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">prev</span><span class="o">;</span>
+            <span class="n">x</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 指定非空结点存储的元素设为null</span>
+        <span class="n">x</span><span class="o">.</span><span class="na">item</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">size</span><span class="o">--;</span>
+        <span class="n">modCount</span><span class="o">++;</span>
+        <span class="c1">// 返回指定非空结点存储的元素</span>
+        <span class="k">return</span> <span class="n">element</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 获取首结点存储的元素
+	 * 
+	 * @return 首结点存储的元素
+	 * @throws NoSuchElementException
+	 *             如果链表为空
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">getFirst</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 获取首结点引用</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span>
+        <span class="c1">// 如果首结点为空，则抛出无该元素异常</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">f</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">NoSuchElementException</span><span class="o">();</span>
+        <span class="c1">// 返回首结点存储的元素</span>
+        <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 获取尾结点存储的元素
+	 * 
+	 * @return 尾结点存储的元素
+	 * @throws NoSuchElementException
+	 *             如果链表为空
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">getLast</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 获取尾结点引用</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">l</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span>
+        <span class="c1">// 如果尾结点为空，则抛出无该元素异常</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">l</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">NoSuchElementException</span><span class="o">();</span>
+        <span class="c1">// 返回尾结点存储的元素</span>
+        <span class="k">return</span> <span class="n">l</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 删除首结点，返回存储的元素
+	 * 
+	 * @return 首结点存储的元素
+	 * @throws NoSuchElementException
+	 *             如果链表为空
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">removeFirst</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 获取首结点引用</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span>
+        <span class="c1">// 如果首结点为空，则抛出无该元素异常</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">f</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">NoSuchElementException</span><span class="o">();</span>
+        <span class="c1">// 删除首结点，返回存储的元素</span>
+        <span class="k">return</span> <span class="nf">unlinkFirst</span><span class="o">(</span><span class="n">f</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 删除尾结点，返回存储的元素
+	 * 
+	 * @return 尾结点存储的元素
+	 * @throws NoSuchElementException
+	 *             如果链表为空
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">removeLast</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 获取尾结点引用</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">l</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span>
+        <span class="c1">// 如果尾结点为空，则抛出无该元素异常</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">l</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">NoSuchElementException</span><span class="o">();</span>
+        <span class="c1">// 删除尾结点，返回存储的元素</span>
+        <span class="k">return</span> <span class="nf">unlinkLast</span><span class="o">(</span><span class="n">l</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 头部插入指定元素
+	 * 
+	 * @param e
+	 *            要添加的元素
+	 */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addFirst</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 通过头插法来插入指定元素</span>
+        <span class="n">linkFirst</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 尾部插入指定元素，该方法等价于add()
+	 * 
+	 * @param e
+	 *            the element to add
+	 */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addLast</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">linkLast</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 判断是否包含指定元素
+	 * 
+	 * @param o
+	 *            判断链表是否包含的元素
+	 * @return {@code true} 如果链表包含指定的元素
+	 */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">contains</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 返回指定元素的索引位置，不存在就返回-1，然后比较返回bool值</span>
+        <span class="k">return</span> <span class="nf">indexOf</span><span class="o">(</span><span class="n">o</span><span class="o">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 获取元素数量
+	 * 
+	 * @return 元素数量
+	 */</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">size</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">size</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 插入指定元素，返回操作结果,默认添加到末尾作为最后一个元素
+	 * 
+	 * @param e
+	 *            要添加到此链表中的元素
+	 * @return {@code true} (as specified by {@link Collection#add})
+	 */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">add</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 通过尾插法来插入指定元素</span>
+        <span class="n">linkLast</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 删除指定元素，默认从first节点开始，删除第一次出现的那个元素
+	 * 
+	 * @param o
+	 *            要从该列表中删除的元素（如果存在）
+	 * @return {@code true} 如果这个列表包含指定的元素
+	 */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">remove</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 会根据是否为null分开处理。若值不是null，会用到对象的equals()方法</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">o</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 遍历链表，查找到指定元素后删除该结点，返回true</span>
+            <span class="k">for</span> <span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">next</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">item</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">unlink</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">next</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">item</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">unlink</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="c1">// 查找失败</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 将集合插入到链表尾部，即开始索引位置为size
+	 * 
+	 * @param c
+	 *            包含要添加到此链表中的元素的集合
+	 * @return {@code true} 如果该链表因添加而改变
+	 * @throws NullPointerException
+	 *             如果指定的集合是空的
+	 */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">addAll</span><span class="o">(</span><span class="nc">Collection</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="no">E</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">addAll</span><span class="o">(</span><span class="n">size</span><span class="o">,</span> <span class="n">c</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 将集合从指定位置开始插入
+	 * 
+	 * @param index
+	 *            在哪个索引处前插入指定集合中的第一个元素
+	 * @param c
+	 *            包含要添加到此链表中的元素的集合
+	 * @return {@code true} 如果该链表因添加而改变
+	 * @throws IndexOutOfBoundsException
+	 *             {@inheritDoc}
+	 * @throws NullPointerException
+	 *             如果指定的集合是空的
+	 */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">addAll</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="nc">Collection</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="no">E</span><span class="o">&gt;</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 检查索引是否正确（0&lt;=index&lt;=size）</span>
+        <span class="n">checkPositionIndex</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+        <span class="c1">// 得到元素数组</span>
+        <span class="nc">Object</span><span class="o">[]</span> <span class="n">a</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">toArray</span><span class="o">();</span>
+        <span class="c1">// 得到元素个数</span>
+        <span class="kt">int</span> <span class="n">numNew</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+        <span class="c1">// 若没有元素要添加，直接返回false</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">numNew</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="c1">// succ指向当前需要插入节点的位置，pred指向其前一个节点</span>
+        <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">pred</span><span class="o">,</span> <span class="n">succ</span><span class="o">;</span>
+        <span class="c1">// 如果是在末尾开始添加，当前节点后一个节点初始化为null，前一个节点为尾节点</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">==</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">succ</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>    <span class="c1">// 如果不是从末尾开始添加，当前位置的节点为指定位置的节点，前一个节点为要添加的节点的前一个节点</span>
+            <span class="n">succ</span> <span class="o">=</span> <span class="n">node</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="n">succ</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="c1">// 遍历数组并添加到列表中</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Object</span> <span class="n">o</span> <span class="o">:</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"unchecked"</span><span class="o">)</span> <span class="no">E</span> <span class="n">e</span> <span class="o">=</span> <span class="o">(</span><span class="no">E</span><span class="o">)</span> <span class="n">o</span><span class="o">;</span>
+            <span class="c1">// 将元素值e，前继节点pred“封装”为一个新节点newNode</span>
+            <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">&lt;&gt;(</span><span class="n">pred</span><span class="o">,</span> <span class="n">e</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+            <span class="c1">// 如果原链表为null，则新插入的节点作为链表首节点</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">pred</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                <span class="n">first</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+            <span class="k">else</span>
+                <span class="n">pred</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>    <span class="c1">// 如果存在前节点，前节点会向后指向新加的节点</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span> <span class="c1">// pred指针向后移动，指向下一个需插入节点位置的前一个节点</span>
+        <span class="o">}</span>
+        <span class="c1">// 如果是从最后开始添加的，则最后添加的节点成为尾节点</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">succ</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="n">pred</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">pred</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">succ</span><span class="o">;</span>   <span class="c1">// 如果不是从最后开始添加的，则最后添加的节点向后指向之前得到的后续第一个节点</span>
+            <span class="n">succ</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">pred</span><span class="o">;</span>   <span class="c1">// 当前，后续的第一个节点也应改为向前指向最后一个添加的节点</span>
+        <span class="o">}</span>
+
+        <span class="n">size</span> <span class="o">+=</span> <span class="n">numNew</span><span class="o">;</span>
+        <span class="n">modCount</span><span class="o">++;</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 删除所有元素
+	 */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">clear</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 遍历链表，删除所有结点,方便gc回收垃圾</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">next</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="n">x</span><span class="o">.</span><span class="na">item</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="n">x</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="n">x</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="c1">// 首尾结点置空</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="n">last</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="c1">// 元素数量置0</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">modCount</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+
+    <span class="c1">// 位置访问操作</span>
+
+    <span class="cm">/**
+	 * 获取指定位置的元素
+	 * 
+	 * @param index
+	 *            要返回的元素的索引
+	 * @return 该链表中指定位置的元素
+	 * @throws IndexOutOfBoundsException
+	 *             {@inheritDoc}
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 判断指定位置是否合法</span>
+        <span class="n">checkElementIndex</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+        <span class="c1">// 返回指定位置的元素</span>
+        <span class="k">return</span> <span class="nf">node</span><span class="o">(</span><span class="n">index</span><span class="o">).</span><span class="na">item</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 修改指定位置的元素，返回之前元素
+	 * 
+	 * @param index
+	 *            要替换的元素的索引
+	 * @param element
+	 *            要存储在指定位置的元素
+	 * @return 之前在指定位置的元素
+	 * @throws IndexOutOfBoundsException
+	 *             {@inheritDoc}
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">set</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="no">E</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 判断指定位置是否合法</span>
+        <span class="n">checkElementIndex</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+        <span class="c1">// 获取指定位置的结点</span>
+        <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">node</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+        <span class="c1">// 获取该结点存储的元素</span>
+        <span class="no">E</span> <span class="n">oldVal</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+        <span class="c1">// 修改该结点存储的元素</span>
+        <span class="n">x</span><span class="o">.</span><span class="na">item</span> <span class="o">=</span> <span class="n">element</span><span class="o">;</span>
+        <span class="c1">// 返回该结点存储的之前的元素</span>
+        <span class="k">return</span> <span class="n">oldVal</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 在指定位置前插入指定元素
+	 * 头插法
+	 * @param index
+	 *            指定元素将被插入的索引
+	 * @param element
+	 *            要插入的元素
+	 * @throws IndexOutOfBoundsException
+	 *             {@inheritDoc}
+	 */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="no">E</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 判断指定位置是否合法</span>
+        <span class="n">checkPositionIndex</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+        <span class="c1">// 如果指定位置在尾部，则通过尾插法来插入指定元素</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">==</span> <span class="n">size</span><span class="o">)</span>
+            <span class="n">linkLast</span><span class="o">(</span><span class="n">element</span><span class="o">);</span>
+        <span class="k">else</span>        <span class="c1">// 如果指定位置不是尾部，则添加到指定位置前</span>
+            <span class="n">linkBefore</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="n">node</span><span class="o">(</span><span class="n">index</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 删除指定位置的元素，返回之前元素
+	 * 
+	 * @param index
+	 *            要删除的元素的索引
+	 * @return 之前在指定位置的元素
+	 * @throws IndexOutOfBoundsException
+	 *             {@inheritDoc}
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">remove</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 判断指定位置是否合法</span>
+        <span class="n">checkElementIndex</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+        <span class="c1">// 删除指定位置的结点，返回之前元素</span>
+        <span class="k">return</span> <span class="nf">unlink</span><span class="o">(</span><span class="n">node</span><span class="o">(</span><span class="n">index</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 判断指定位置是否合法
+	 */</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isElementIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 判断迭代器遍历时或插入元素时指定位置是否合法
+	 */</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">isPositionIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">index</span> <span class="o">&lt;=</span> <span class="n">size</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 获取越界异常信息
+	 */</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="nf">outOfBoundsMsg</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"Index: "</span> <span class="o">+</span> <span class="n">index</span> <span class="o">+</span> <span class="s">", Size: "</span> <span class="o">+</span> <span class="n">size</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 判断指定位置是否合法
+	 * 
+	 * @param index
+	 */</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">checkElementIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">isElementIndex</span><span class="o">(</span><span class="n">index</span><span class="o">))</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IndexOutOfBoundsException</span><span class="o">(</span><span class="n">outOfBoundsMsg</span><span class="o">(</span><span class="n">index</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 判断指定位置是否合法
+	 * 
+	 * @param index
+	 */</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">checkPositionIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">isPositionIndex</span><span class="o">(</span><span class="n">index</span><span class="o">))</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IndexOutOfBoundsException</span><span class="o">(</span><span class="n">outOfBoundsMsg</span><span class="o">(</span><span class="n">index</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 获取指定下标的结点，index从0开始
+	 */</span>
+    <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="nf">node</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 如果指定下标&lt;一半元素数量，则从首结点开始遍历</span>
+        <span class="c1">// 否则，从尾结点开始遍历</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="o">(</span><span class="n">size</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="o">))</span> <span class="o">{</span>
+            <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">index</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="k">return</span> <span class="n">x</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">index</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+            <span class="k">return</span> <span class="n">x</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 查询操作</span>
+
+    <span class="cm">/**
+	 * 获取顺序下首次出现指定元素的位置 如果返回结果是-1，则表示不存在该元素
+	 * 同样是根据是否为null进行区分
+	 * @param o
+	 *            要查找的元素
+	 * @return the index of the first occurrence of the specified element in
+	 *         this list, or -1 if this list does not contain the element
+	 */</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">indexOf</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">o</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 遍历链表，顺序查找指定元素</span>
+            <span class="k">for</span> <span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">next</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">item</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                    <span class="k">return</span> <span class="n">index</span><span class="o">;</span>
+                <span class="n">index</span><span class="o">++;</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">next</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">item</span><span class="o">))</span>
+                    <span class="k">return</span> <span class="n">index</span><span class="o">;</span>
+                <span class="n">index</span><span class="o">++;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 获取逆序下首次出现指定元素的位置 如果返回结果是-1，则表示不存在该元素
+	 * 
+	 * @param o
+	 *            要查找的元素
+	 * @return the index of the last occurrence of the specified element in this
+	 *         list, or -1 if this list does not contain the element
+	 */</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">lastIndexOf</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">size</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">o</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 遍历链表，逆序查找指定元素</span>
+            <span class="k">for</span> <span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">prev</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">index</span><span class="o">--;</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">item</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                    <span class="k">return</span> <span class="n">index</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">prev</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">index</span><span class="o">--;</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">item</span><span class="o">))</span>
+                    <span class="k">return</span> <span class="n">index</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 队列操作</span>
+
+    <span class="cm">/**
+	 * 出队（从前端），获得第一个元素，不存在会返回null，不会删除元素（节点） 获取首元素
+	 * 
+	 * @return the head of this list, or {@code null} 如果链表为空
+	 * @since 1.5
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">peek</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span>
+        <span class="c1">// 如果首结点为空，则返回null</span>
+        <span class="c1">// 否则，返回首结点存储的元素</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">f</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="n">f</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 出队（从前端），不删除元素，若为null会抛出异常而不是返回null 获取首元素
+	 * 
+	 * @return the head of this list
+	 * @throws NoSuchElementException
+	 *             如果链表为空
+	 * @since 1.5
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">element</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 返回首结点存储的元素</span>
+        <span class="k">return</span> <span class="nf">getFirst</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 出队（从前端），如果不存在会返回null，存在的话会返回值并移除这个元素（节点） 获取并删除首元素
+	 * 
+	 * @return the head of this list, or {@code null} 如果链表为空
+	 * @since 1.5
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">poll</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 获取首结点引用</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span>
+        <span class="c1">// 如果首结点为空，则返回null</span>
+        <span class="c1">// 否则，删除首结点，返回首结点存储的元素</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">f</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="n">unlinkFirst</span><span class="o">(</span><span class="n">f</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 出队（从前端），如果不存在会抛出异常而不是返回null，存在的话会返回值并移除这个元素（节点） 获取并删除首元素
+	 * 
+	 * @return the head of this list
+	 * @throws NoSuchElementException
+	 *             如果链表为空
+	 * @since 1.5
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">remove</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 删除首结点，返回首结点存储的元素</span>
+        <span class="k">return</span> <span class="nf">removeFirst</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 入队（从后端），始终返回true
+	 * 
+	 * 链表不会溢出
+	 * @param e
+	 *            the element to add
+	 * @return {@code true} (as specified by {@link Queue#offer})
+	 * @since 1.5
+	 */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">offer</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 通过尾插法插入指定元素，返回操作结果</span>
+        <span class="k">return</span> <span class="nf">add</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 双端队列操作</span>
+
+    <span class="cm">/**
+	 * 入队（从前端），始终返回true
+	 * 
+	 * @param e
+	 *            要插入的元素
+	 * @return {@code true} (as specified by {@link Deque#offerFirst})
+	 * @since 1.6
+	 */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">offerFirst</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 通过头插法来插入指定元素</span>
+        <span class="n">addFirst</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 入队（从后端），始终返回true
+	 * 
+	 * @param e
+	 *            要插入的元素
+	 * @return {@code true} (as specified by {@link Deque#offerLast})
+	 * @since 1.6
+	 */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">offerLast</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 通过尾插法来插入指定元素</span>
+        <span class="n">addLast</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 出队（从前端），获得第一个元素，不存在会返回null，不会删除元素（节点）
+	 * 
+	 * @return the first element of this list, or {@code null} 如果链表为空
+	 * @since 1.6
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">peekFirst</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 获取首结点引用</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span>
+        <span class="c1">// 如果首结点为空，则返回null</span>
+        <span class="c1">// 否则，返回首结点存储的元素</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">f</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="n">f</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 出队（从后端），获得最后一个元素，不存在会返回null，不会删除元素（节点）
+	 * 
+	 * @return the last element of this list, or {@code null} 如果链表为空
+	 * @since 1.6
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">peekLast</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 获取尾结点引用</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">l</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span>
+        <span class="c1">// 如果尾结点为空，则返回null</span>
+        <span class="c1">// 否则，返回尾结点存储的元素</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">l</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="n">l</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 出队（从前端），获得第一个元素，不存在会返回null，会删除元素（节点）
+	 * 
+	 * @return the first element of this list, or {@code null} if this list is
+	 *         empty
+	 * @since 1.6
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">pollFirst</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 获取首结点引用</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span>
+        <span class="c1">// 如果首结点为空，则返回null</span>
+        <span class="c1">// 否则，删除首结点，返回首结点存储的元素</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">f</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="n">unlinkFirst</span><span class="o">(</span><span class="n">f</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 出队（从后端），获得最后一个元素，不存在会返回null，会删除元素（节点）
+	 * 
+	 * @return the last element of this list, or {@code null} if this list is
+	 *         empty
+	 * @since 1.6
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">pollLast</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 获取尾结点引用</span>
+        <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">l</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span>
+        <span class="c1">// 如果尾结点为空，则返回null</span>
+        <span class="c1">// 否则，删除尾结点，返回尾结点存储的元素</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">l</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="n">unlinkLast</span><span class="o">(</span><span class="n">l</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 入栈，从前面添加
+	 * 
+	 * @param e
+	 *            the element to push
+	 * @since 1.6
+	 */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">push</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 通过头插法来插入指定元素</span>
+        <span class="n">addFirst</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 出栈，返回栈顶元素，从前面移除（会删除）
+	 * 
+	 * @return the element at the front of this list (which is the top of the
+	 *         stack represented by this list)
+	 * @throws NoSuchElementException
+	 *             如果链表为空
+	 * @since 1.6
+	 */</span>
+    <span class="kd">public</span> <span class="no">E</span> <span class="nf">pop</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 删除首结点，返回首结点存储的元素</span>
+        <span class="k">return</span> <span class="nf">removeFirst</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 删除顺序下首次出现的指定元素，返回操作结果
+	 * 
+	 * @param o
+	 *            要从该列表中删除的元素（如果存在）
+	 * @return {@code true} 如果链表包含指定的元素
+	 * @since 1.6
+	 */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">removeFirstOccurrence</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 删除顺序下首次出现的指定元素对应的结点，返回操作结果</span>
+        <span class="k">return</span> <span class="nf">remove</span><span class="o">(</span><span class="n">o</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 删除逆序下首次出现的指定元素，返回操作结果
+	 * 
+	 * @param o
+	 *            要从该列表中删除的元素（如果存在）
+	 * @return {@code true} 如果链表包含指定的元素
+	 * @since 1.6
+	 */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">removeLastOccurrence</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 由于LinkedList中允许存放null，因此下面通过两种情况来分别处理</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">o</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 遍历链表，从尾结点开始查找指定元素</span>
+            <span class="c1">// 如果查找成功，删除该结点，返回true</span>
+            <span class="k">for</span> <span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">prev</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">item</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">unlink</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">prev</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">item</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">unlink</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="c1">// 查找失败</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * Returns a list-iterator of the elements in this list (in proper
+	 * sequence), starting at the specified position in the list. Obeys the
+	 * general contract of {@code List.listIterator(int)}.
+	 * &lt;p&gt;
+	 * &lt;p&gt;
+	 * The list-iterator is &lt;i&gt;fail-fast&lt;/i&gt;: if the list is structurally
+	 * modified at any time after the Iterator is created, in any way except
+	 * through the list-iterator's own {@code remove} or {@code add} methods,
+	 * the list-iterator will throw a {@code ConcurrentModificationException}.
+	 * Thus, in the face of concurrent modification, the iterator fails quickly
+	 * and cleanly, rather than risking arbitrary, non-deterministic behavior at
+	 * an undetermined time in the future.
+	 * 
+	 * @param index
+	 *            index of the first element to be returned from the
+	 *            list-iterator (by a call to {@code next})
+	 * @return a ListIterator of the elements in this list (in proper sequence),
+	 *         starting at the specified position in the list
+	 * @throws IndexOutOfBoundsException
+	 *             {@inheritDoc}
+	 * @see List#listIterator(int)
+	 */</span>
+    <span class="kd">public</span> <span class="nc">ListIterator</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="nf">listIterator</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">checkPositionIndex</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ListItr</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">ListItr</span> <span class="kd">implements</span> <span class="nc">ListIterator</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">lastReturned</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">next</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="n">nextIndex</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="n">expectedModCount</span> <span class="o">=</span> <span class="n">modCount</span><span class="o">;</span>
+
+        <span class="nc">ListItr</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// assert isPositionIndex(index);</span>
+            <span class="n">next</span> <span class="o">=</span> <span class="o">(</span><span class="n">index</span> <span class="o">==</span> <span class="n">size</span><span class="o">)</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="n">node</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+            <span class="n">nextIndex</span> <span class="o">=</span> <span class="n">index</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">nextIndex</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="no">E</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">checkForComodification</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">hasNext</span><span class="o">())</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">NoSuchElementException</span><span class="o">();</span>
+
+            <span class="n">lastReturned</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+            <span class="n">next</span> <span class="o">=</span> <span class="n">next</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="n">nextIndex</span><span class="o">++;</span>
+            <span class="k">return</span> <span class="n">lastReturned</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasPrevious</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">nextIndex</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="no">E</span> <span class="nf">previous</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">checkForComodification</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">hasPrevious</span><span class="o">())</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">NoSuchElementException</span><span class="o">();</span>
+
+            <span class="n">lastReturned</span> <span class="o">=</span> <span class="n">next</span> <span class="o">=</span> <span class="o">(</span><span class="n">next</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="n">last</span> <span class="o">:</span> <span class="n">next</span><span class="o">.</span><span class="na">prev</span><span class="o">;</span>
+            <span class="n">nextIndex</span><span class="o">--;</span>
+            <span class="k">return</span> <span class="n">lastReturned</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">nextIndex</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">nextIndex</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">previousIndex</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">nextIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">remove</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">checkForComodification</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">lastReturned</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">();</span>
+
+            <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">lastNext</span> <span class="o">=</span> <span class="n">lastReturned</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="n">unlink</span><span class="o">(</span><span class="n">lastReturned</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">next</span> <span class="o">==</span> <span class="n">lastReturned</span><span class="o">)</span>
+                <span class="n">next</span> <span class="o">=</span> <span class="n">lastNext</span><span class="o">;</span>
+            <span class="k">else</span>
+                <span class="n">nextIndex</span><span class="o">--;</span>
+            <span class="n">lastReturned</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="n">expectedModCount</span><span class="o">++;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">set</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">lastReturned</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">();</span>
+            <span class="n">checkForComodification</span><span class="o">();</span>
+            <span class="n">lastReturned</span><span class="o">.</span><span class="na">item</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="no">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">checkForComodification</span><span class="o">();</span>
+            <span class="n">lastReturned</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">next</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                <span class="n">linkLast</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+            <span class="k">else</span>
+                <span class="nf">linkBefore</span><span class="o">(</span><span class="n">e</span><span class="o">,</span> <span class="n">next</span><span class="o">);</span>
+            <span class="n">nextIndex</span><span class="o">++;</span>
+            <span class="n">expectedModCount</span><span class="o">++;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">forEachRemaining</span><span class="o">(</span><span class="nc">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="no">E</span><span class="o">&gt;</span> <span class="n">action</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Objects</span><span class="o">.</span><span class="na">requireNonNull</span><span class="o">(</span><span class="n">action</span><span class="o">);</span>
+            <span class="k">while</span> <span class="o">(</span><span class="n">modCount</span> <span class="o">==</span> <span class="n">expectedModCount</span> <span class="o">&amp;&amp;</span> <span class="n">nextIndex</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">action</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">next</span><span class="o">.</span><span class="na">item</span><span class="o">);</span>
+                <span class="n">lastReturned</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+                <span class="n">next</span> <span class="o">=</span> <span class="n">next</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+                <span class="n">nextIndex</span><span class="o">++;</span>
+            <span class="o">}</span>
+            <span class="n">checkForComodification</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="kd">final</span> <span class="kt">void</span> <span class="nf">checkForComodification</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">modCount</span> <span class="o">!=</span> <span class="n">expectedModCount</span><span class="o">)</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">ConcurrentModificationException</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 节点的数据结构，包含前后节点的引用和当前节点
+	 * 
+	 * @param &lt;E&gt;
+	 */</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="c1">// 存储的元素</span>
+        <span class="no">E</span> <span class="n">item</span><span class="o">;</span>
+        <span class="c1">// 后继结点</span>
+        <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">next</span><span class="o">;</span>
+        <span class="c1">// 前驱结点</span>
+        <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">prev</span><span class="o">;</span>
+
+        <span class="c1">// 前驱结点、存储的元素和后继结点作为参数的构造方法</span>
+        <span class="nc">Node</span><span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">prev</span><span class="o">,</span> <span class="no">E</span> <span class="n">element</span><span class="o">,</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">next</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">item</span> <span class="o">=</span> <span class="n">element</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">prev</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 返回迭代器
+	 * 
+	 * @since 1.6
+	 */</span>
+    <span class="kd">public</span> <span class="nc">Iterator</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="nf">descendingIterator</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">DescendingIterator</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 因为采用链表实现，所以迭代器很简单
+	 */</span>
+    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">DescendingIterator</span> <span class="kd">implements</span> <span class="nc">Iterator</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">ListItr</span> <span class="n">itr</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ListItr</span><span class="o">(</span><span class="n">size</span><span class="o">());</span>
+
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">itr</span><span class="o">.</span><span class="na">hasPrevious</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="no">E</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">itr</span><span class="o">.</span><span class="na">previous</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">remove</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">itr</span><span class="o">.</span><span class="na">remove</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 父类克隆方法
+	 */</span>
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"unchecked"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">LinkedList</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="nf">superClone</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="o">(</span><span class="nc">LinkedList</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;)</span> <span class="kd">super</span><span class="o">.</span><span class="na">clone</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">CloneNotSupportedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">InternalError</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 克隆，浅拷贝
+	 * 
+	 * 浅拷贝时，若存储的是对象的引用，拷贝时，对象本身的改变将表现到副本中，而深拷贝不会。
+	 * @return a shallow copy of this {@code LinkedList} instance
+	 */</span>
+    <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">clone</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">LinkedList</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">clone</span> <span class="o">=</span> <span class="n">superClone</span><span class="o">();</span>
+
+        <span class="c1">// 链表初始化</span>
+        <span class="n">clone</span><span class="o">.</span><span class="na">first</span> <span class="o">=</span> <span class="n">clone</span><span class="o">.</span><span class="na">last</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">clone</span><span class="o">.</span><span class="na">size</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">clone</span><span class="o">.</span><span class="na">modCount</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+        <span class="c1">// 插入结点</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">next</span><span class="o">)</span>
+            <span class="n">clone</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">item</span><span class="o">);</span>
+        <span class="c1">// 返回克隆后的对象引用</span>
+        <span class="k">return</span> <span class="n">clone</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 返回新的数组，数组含有列表中所有元素
+	 */</span>
+    <span class="kd">public</span> <span class="nc">Object</span><span class="o">[]</span> <span class="nf">toArray</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">Object</span><span class="o">[]</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Object</span><span class="o">[</span><span class="n">size</span><span class="o">];</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">next</span><span class="o">)</span>
+            <span class="n">result</span><span class="o">[</span><span class="n">i</span><span class="o">++]</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * Returns an array containing all of the elements in this list in proper
+	 * sequence (from first to last element); the runtime type of the returned
+	 * array is that of the specified array. If the list fits in the specified
+	 * array, it is returned therein. Otherwise, a new array is allocated with
+	 * the runtime type of the specified array and the size of this list.
+	 * &lt;p&gt;
+	 * &lt;p&gt;
+	 * If the list fits in the specified array with room to spare (i.e., the
+	 * array has more elements than the list), the element in the array
+	 * immediately following the end of the list is set to {@code null}. (This
+	 * is useful in determining the length of the list &lt;i&gt;only&lt;/i&gt; if the
+	 * caller knows that the list does not contain any null elements.)
+	 * &lt;p&gt;
+	 * &lt;p&gt;
+	 * Like the {@link #toArray()} method, this method acts as bridge between
+	 * array-based and collection-based APIs. Further, this method allows
+	 * precise control over the runtime type of the output array, and may, under
+	 * certain circumstances, be used to save allocation costs.
+	 * &lt;p&gt;
+	 * &lt;p&gt;
+	 * Suppose {@code x} is a list known to contain only strings. The following
+	 * code can be used to dump the list into a newly allocated array of
+	 * {@code String}:
+	 * &lt;p&gt;
+	 * 
+	 * &lt;pre&gt;
+	 *     String[] y = x.toArray(new String[0]);
+	 * &lt;/pre&gt;
+	 * 
+	 * &lt;p&gt;
+	 * Note that {@code toArray(new Object[0])} is identical in function to
+	 * {@code toArray()}.
+	 * 
+	 * @param a
+	 *            the array into which the elements of the list are to be
+	 *            stored, if it is big enough; otherwise, a new array of the
+	 *            same runtime type is allocated for this purpose.
+	 * @return an array containing the elements of the list
+	 * @throws ArrayStoreException
+	 *             if the runtime type of the specified array is not a supertype
+	 *             of the runtime type of every element in this list
+	 * @throws NullPointerException
+	 *             if the specified array is null
+	 */</span>
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"unchecked"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="no">T</span><span class="o">[]</span> <span class="nf">toArray</span><span class="o">(</span><span class="no">T</span><span class="o">[]</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">length</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">)</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="o">(</span><span class="no">T</span><span class="o">[])</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">reflect</span><span class="o">.</span><span class="na">Array</span><span class="o">.</span><span class="na">newInstance</span><span class="o">(</span>
+                    <span class="n">a</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getComponentType</span><span class="o">(),</span> <span class="n">size</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="nc">Object</span><span class="o">[]</span> <span class="n">result</span> <span class="o">=</span> <span class="n">a</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">next</span><span class="o">)</span>
+            <span class="n">result</span><span class="o">[</span><span class="n">i</span><span class="o">++]</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="n">size</span><span class="o">)</span>
+            <span class="n">a</span><span class="o">[</span><span class="n">size</span><span class="o">]</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+        <span class="k">return</span> <span class="n">a</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">876323262645176354L</span><span class="o">;</span>
+
+    <span class="cm">/**
+	 * 序列化
+	 */</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">writeObject</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">ObjectOutputStream</span> <span class="n">s</span><span class="o">)</span>
+            <span class="kd">throws</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">IOException</span> <span class="o">{</span>
+        <span class="c1">// 默认序列化</span>
+        <span class="n">s</span><span class="o">.</span><span class="na">defaultWriteObject</span><span class="o">();</span>
+
+        <span class="c1">// 写入元素数量</span>
+        <span class="n">s</span><span class="o">.</span><span class="na">writeInt</span><span class="o">(</span><span class="n">size</span><span class="o">);</span>
+
+        <span class="c1">// 遍历链表，写入所有元素</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">next</span><span class="o">)</span>
+            <span class="n">s</span><span class="o">.</span><span class="na">writeObject</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">item</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * 反序列化
+	 */</span>
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"unchecked"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">readObject</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">ObjectInputStream</span> <span class="n">s</span><span class="o">)</span>
+            <span class="kd">throws</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">IOException</span><span class="o">,</span> <span class="nc">ClassNotFoundException</span> <span class="o">{</span>
+        <span class="c1">// 默认反序列化</span>
+        <span class="n">s</span><span class="o">.</span><span class="na">defaultReadObject</span><span class="o">();</span>
+
+        <span class="c1">// 读取元素数量</span>
+        <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">readInt</span><span class="o">();</span>
+
+        <span class="c1">// 遍历链表，读取所有元素并尾部插入</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+            <span class="n">linkLast</span><span class="o">((</span><span class="no">E</span><span class="o">)</span> <span class="n">s</span><span class="o">.</span><span class="na">readObject</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * Creates a &lt;em&gt;&lt;a href="Spliterator.html#binding"&gt;late-binding&lt;/a&gt;&lt;/em&gt;
+	 * and &lt;em&gt;fail-fast&lt;/em&gt; {@link Spliterator} over the elements in this
+	 * list.
+	 * &lt;p&gt;
+	 * &lt;p&gt;
+	 * The {@code Spliterator} reports {@link Spliterator#SIZED} and
+	 * {@link Spliterator#ORDERED}. Overriding implementations should document
+	 * the reporting of additional characteristic values.
+	 * 
+	 * @return a {@code Spliterator} over the elements in this list
+	 * @implNote The {@code Spliterator} additionally reports
+	 *           {@link Spliterator#SUBSIZED} and implements {@code trySplit} to
+	 *           permit limited parallelism..
+	 * @since 1.8
+	 */</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Spliterator</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="nf">spliterator</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">LLSpliterator</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;(</span><span class="k">this</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+	 * A customized variant of Spliterators.IteratorSpliterator
+	 */</span>
+    <span class="kd">static</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">LLSpliterator</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="nc">Spliterator</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">BATCH_UNIT</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">10</span><span class="o">;</span>  <span class="c1">// batch array size increment</span>
+        <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">MAX_BATCH</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">25</span><span class="o">;</span>  <span class="c1">// max batch array size;</span>
+        <span class="kd">final</span> <span class="nc">LinkedList</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">;</span> <span class="c1">// null OK unless traversed</span>
+        <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">current</span><span class="o">;</span>      <span class="c1">// current node; null until initialized</span>
+        <span class="kt">int</span> <span class="n">est</span><span class="o">;</span>              <span class="c1">// size estimate; -1 until first needed</span>
+        <span class="kt">int</span> <span class="n">expectedModCount</span><span class="o">;</span> <span class="c1">// initialized when est set</span>
+        <span class="kt">int</span> <span class="n">batch</span><span class="o">;</span>            <span class="c1">// batch size for splits</span>
+
+        <span class="nc">LLSpliterator</span><span class="o">(</span><span class="nc">LinkedList</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="kt">int</span> <span class="n">est</span><span class="o">,</span> <span class="kt">int</span> <span class="n">expectedModCount</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">list</span> <span class="o">=</span> <span class="n">list</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">est</span> <span class="o">=</span> <span class="n">est</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">expectedModCount</span> <span class="o">=</span> <span class="n">expectedModCount</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">final</span> <span class="kt">int</span> <span class="nf">getEst</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">s</span><span class="o">;</span> <span class="c1">// force initialization</span>
+            <span class="kd">final</span> <span class="nc">LinkedList</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">lst</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">((</span><span class="n">s</span> <span class="o">=</span> <span class="n">est</span><span class="o">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">((</span><span class="n">lst</span> <span class="o">=</span> <span class="n">list</span><span class="o">)</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">est</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+                <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">expectedModCount</span> <span class="o">=</span> <span class="n">lst</span><span class="o">.</span><span class="na">modCount</span><span class="o">;</span>
+                    <span class="n">current</span> <span class="o">=</span> <span class="n">lst</span><span class="o">.</span><span class="na">first</span><span class="o">;</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">est</span> <span class="o">=</span> <span class="n">lst</span><span class="o">.</span><span class="na">size</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">s</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">long</span> <span class="nf">estimateSize</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="o">(</span><span class="kt">long</span><span class="o">)</span> <span class="n">getEst</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Spliterator</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="nf">trySplit</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">;</span>
+            <span class="kt">int</span> <span class="n">s</span> <span class="o">=</span> <span class="n">getEst</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">s</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">p</span> <span class="o">=</span> <span class="n">current</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">batch</span> <span class="o">+</span> <span class="no">BATCH_UNIT</span><span class="o">;</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="n">s</span><span class="o">)</span>
+                    <span class="n">n</span> <span class="o">=</span> <span class="n">s</span><span class="o">;</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="no">MAX_BATCH</span><span class="o">)</span>
+                    <span class="n">n</span> <span class="o">=</span> <span class="no">MAX_BATCH</span><span class="o">;</span>
+                <span class="nc">Object</span><span class="o">[]</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Object</span><span class="o">[</span><span class="n">n</span><span class="o">];</span>
+                <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+                <span class="k">do</span> <span class="o">{</span>
+                    <span class="n">a</span><span class="o">[</span><span class="n">j</span><span class="o">++]</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">while</span> <span class="o">((</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">next</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">);</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">p</span><span class="o">;</span>
+                <span class="n">batch</span> <span class="o">=</span> <span class="n">j</span><span class="o">;</span>
+                <span class="n">est</span> <span class="o">=</span> <span class="n">s</span> <span class="o">-</span> <span class="n">j</span><span class="o">;</span>
+                <span class="k">return</span> <span class="nc">Spliterators</span><span class="o">.</span><span class="na">spliterator</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">j</span><span class="o">,</span> <span class="nc">Spliterator</span><span class="o">.</span><span class="na">ORDERED</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">forEachRemaining</span><span class="o">(</span><span class="nc">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="no">E</span><span class="o">&gt;</span> <span class="n">action</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">;</span>
+            <span class="kt">int</span> <span class="n">n</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">action</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">NullPointerException</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">getEst</span><span class="o">())</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">p</span> <span class="o">=</span> <span class="n">current</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                <span class="n">est</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+                <span class="k">do</span> <span class="o">{</span>
+                    <span class="no">E</span> <span class="n">e</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+                    <span class="n">action</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">while</span> <span class="o">(</span><span class="n">p</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">--</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">modCount</span> <span class="o">!=</span> <span class="n">expectedModCount</span><span class="o">)</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">ConcurrentModificationException</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">tryAdvance</span><span class="o">(</span><span class="nc">Consumer</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="no">E</span><span class="o">&gt;</span> <span class="n">action</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Node</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">action</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">NullPointerException</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">getEst</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">p</span> <span class="o">=</span> <span class="n">current</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="o">--</span><span class="n">est</span><span class="o">;</span>
+                <span class="no">E</span> <span class="n">e</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">item</span><span class="o">;</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+                <span class="n">action</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">modCount</span> <span class="o">!=</span> <span class="n">expectedModCount</span><span class="o">)</span>
+                    <span class="k">throw</span> <span class="k">new</span> <span class="nf">ConcurrentModificationException</span><span class="o">();</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">characteristics</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nc">Spliterator</span><span class="o">.</span><span class="na">ORDERED</span> <span class="o">|</span> <span class="nc">Spliterator</span><span class="o">.</span><span class="na">SIZED</span> <span class="o">|</span> <span class="nc">Spliterator</span><span class="o">.</span><span class="na">SUBSIZED</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://jxnu-liguobin.github.io" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-LinkedList.html" target="_blank">https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-LinkedList.html</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-Lin', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://jxnu-liguobin.github.io/assets/search_data.json?v=1617164832', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://jxnu-liguobin.github.io/" title="首页" target="">首页</a></li><li> <a href="https://jxnu-liguobin.github.io/categories/" title="分类" target="">分类</a></li><li> <a href="https://jxnu-liguobin.github.io/wiki/" title="维基" target="">维基</a></li><li> <a href="https://jxnu-liguobin.github.io/links/" title="链接" target="">链接</a></li><li> <a href="https://jxnu-liguobin.github.io/about/" title="关于" target="">关于</a></li><li><a href="https://jxnu-liguobin.github.io/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>

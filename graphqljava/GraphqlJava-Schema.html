@@ -1,0 +1,303 @@
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>Schema &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-Schema.html"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://jxnu-liguobin.github.io/feed.xml"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/favicon.ico"><meta property="og:title" content="Schema"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content=""><meta name="og:description" content=""><meta property="og:url" content="https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-Schema.html"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2020-04-02"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://jxnu-liguobin.github.io/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://jxnu-liguobin.github.io/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://jxnu-liguobin.github.io/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://jxnu-liguobin.github.io/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://jxnu-liguobin.github.io/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://jxnu-liguobin.github.io/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="Schema"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">Schema</h1><div class="collection-info"> <span class="meta-info"> <span class="octicon octicon-calendar"></span> 2020/04/02 </span> <span class="meta-info"> <span class="octicon octicon-file-directory"></span> <a href="https://jxnu-liguobin.github.io/categories/#GraphqlJava" title="GraphqlJava">GraphqlJava</a> </span> <span class="meta-info"> <span class="octicon octicon-clock"></span> 共 9297 字，约 27 分钟 </span></div></div></div><div class="column one-fourth mobile-hidden"><div class="collection-title"></div></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><ul id="markdown-toc"><li><a href="#creating-a-schema" id="markdown-toc-creating-a-schema">Creating a schema</a></li><li><a href="#datafetcher-and-typeresolver" id="markdown-toc-datafetcher-and-typeresolver">DataFetcher and TypeResolver</a></li><li><a href="#creating-a-schema-using-the-sdl" id="markdown-toc-creating-a-schema-using-the-sdl">Creating a schema using the SDL</a></li><li><a href="#creating-a-schema-programmatically" id="markdown-toc-creating-a-schema-programmatically">Creating a schema programmatically</a></li><li><a href="#types" id="markdown-toc-types">Types</a><ul><li><a href="#scalar" id="markdown-toc-scalar">Scalar</a></li><li><a href="#object" id="markdown-toc-object">Object</a></li><li><a href="#interface" id="markdown-toc-interface">Interface</a></li><li><a href="#union" id="markdown-toc-union">Union</a></li><li><a href="#enum" id="markdown-toc-enum">Enum</a></li><li><a href="#objectinputtype" id="markdown-toc-objectinputtype">ObjectInputType</a></li><li><a href="#type-references-recursive-types" id="markdown-toc-type-references-recursive-types">Type References (recursive types)</a></li></ul></li><li><a href="#modularising-the-schema-sdl" id="markdown-toc-modularising-the-schema-sdl">Modularising the Schema SDL</a></li><li><a href="#subscription-support" id="markdown-toc-subscription-support">Subscription Support</a></li></ul><h1 id="creating-a-schema">Creating a schema</h1><p>定义数据模型</p><p>GraphQL API具有一个schema，该schema定义了可以查询或突变的每个字段以及这些字段的类型。</p><p>graphql-java提供了两种不同的方式来定义schema：以编程方式使用Java代码或通过特殊的graphql dsl（称为SDL）。</p><p>如果不确定要使用哪种方式，我们建议使用SDL。</p><p>SDL 示例</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="n">Foo</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">bar</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div><p>Java 示例</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">GraphQLObjectType</span> <span class="n">fooType</span> <span class="o">=</span> <span class="n">newObject</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"Foo"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">field</span><span class="o">(</span><span class="n">newFieldDefinition</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"bar"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="nc">GraphQLString</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div></div><h1 id="datafetcher-and-typeresolver">DataFetcher and TypeResolver</h1><p>定义数据读取器和类型解析器</p><p>DataFetcher提供字段的数据（如果是突变的话，并更改某些内容）。</p><p>GraphQL定义了两种请求类型，查询query和突变mutation（突变包含新增、删除、修改）。</p><p>每个字段定义都有一个DataFetcher。如果未配置，则使用PropertyDataFetcher，这是一个默认的读取器。 PropertyDataFetcher从Map和Java Bean获取数据。因此，当字段名称与Map关键字或源Object的属性名称匹配时，就不需要DataFetcher。</p><p>TypeResolver帮助graphql-java决定具体值属于哪种类型。Interface和Union类型需要此功能。</p><p>例如，假设您有一个名为MagicUserType的Interface，该接口可解析回一系列名为Wizard，Witch和Necromancer的Java类。类型解析器负责检查运行时对象，并确定应使用什么GraphqlObjectType来表示该对象，从而决定要调用哪些数据读取程序和字段。</p><p>一个常见的实现如下</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">TypeResolver</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">GraphQLObjectType</span> <span class="nf">getType</span><span class="o">(</span><span class="nc">TypeResolutionEnvironment</span> <span class="n">env</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Object</span> <span class="n">javaObject</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="na">getObject</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">javaObject</span> <span class="k">instanceof</span> <span class="nc">Wizard</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">env</span><span class="o">.</span><span class="na">getSchema</span><span class="o">().</span><span class="na">getObjectType</span><span class="o">(</span><span class="s">"WizardType"</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">javaObject</span> <span class="k">instanceof</span> <span class="nc">Witch</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">env</span><span class="o">.</span><span class="na">getSchema</span><span class="o">().</span><span class="na">getObjectType</span><span class="o">(</span><span class="s">"WitchType"</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">env</span><span class="o">.</span><span class="na">getSchema</span><span class="o">().</span><span class="na">getObjectType</span><span class="o">(</span><span class="s">"NecromancerType"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">};</span>
+</code></pre></div></div><h1 id="creating-a-schema-using-the-sdl">Creating a schema using the SDL</h1><p>通过SDL定义架构时，在创建可执行schema时，需要提供所需的DataFetcher和TypeResolver。</p><p>下面以名为starWarsSchema.graphqls的静态schema文件为例</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">schema</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">query</span><span class="p">:</span><span class="w"> </span><span class="n">QueryType</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">type</span><span class="w"> </span><span class="n">QueryType</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="c"># !表示不可为空，否则报错</span><span class="w">
+    </span><span class="n">hero</span><span class="p">(</span><span class="n">episode</span><span class="p">:</span><span class="w"> </span><span class="n">Episode</span><span class="p">):</span><span class="w"> </span><span class="n">Character</span><span class="w">
+    </span><span class="n">human</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Human</span><span class="w">
+    </span><span class="n">droid</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!):</span><span class="w"> </span><span class="n">Droid</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+
+</span><span class="k">enum</span><span class="w"> </span><span class="n">Episode</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">NEWHOPE</span><span class="w">
+    </span><span class="n">EMPIRE</span><span class="w">
+    </span><span class="n">JEDI</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">interface</span><span class="w"> </span><span class="n">Character</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+    </span><span class="c"># []表示返回一个列表</span><span class="w">
+    </span><span class="n">friends</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Character</span><span class="p">]</span><span class="w">
+    </span><span class="n">appearsIn</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Episode</span><span class="p">]!</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">type</span><span class="w"> </span><span class="n">Human</span><span class="w"> </span><span class="k">implements</span><span class="w"> </span><span class="n">Character</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+    </span><span class="n">friends</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Character</span><span class="p">]</span><span class="w">
+    </span><span class="n">appearsIn</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Episode</span><span class="p">]!</span><span class="w">
+    </span><span class="n">homePlanet</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">type</span><span class="w"> </span><span class="n">Droid</span><span class="w"> </span><span class="k">implements</span><span class="w"> </span><span class="n">Character</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+    </span><span class="n">friends</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Character</span><span class="p">]</span><span class="w">
+    </span><span class="n">appearsIn</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Episode</span><span class="p">]!</span><span class="w">
+    </span><span class="n">primaryFunction</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div><p>如上使用静态schema定义的文件starWarsSchema.graphqls，包含字段和类型定义，但是您需要运行时织入才能使其成为真正的可执行schema。</p><p>运行时连接包含DataFetcher，TypeResolvers和自定义Scalar，它们是制作完全可执行的schema所必需的。</p><p>您可以使用以下建造者模式将其连接在一起</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">RuntimeWiring</span> <span class="nf">buildRuntimeWiring</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">RuntimeWiring</span><span class="o">.</span><span class="na">newRuntimeWiring</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">scalar</span><span class="o">(</span><span class="nc">CustomScalar</span><span class="o">)</span>
+            <span class="c1">//数据读取器</span>
+            <span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="s">"QueryType"</span><span class="o">,</span> <span class="n">typeWiring</span> <span class="o">-&gt;</span> <span class="n">typeWiring</span>
+                    <span class="o">.</span><span class="na">dataFetcher</span><span class="o">(</span><span class="s">"hero"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">StaticDataFetcher</span><span class="o">(</span><span class="nc">StarWarsData</span><span class="o">.</span><span class="na">getArtoo</span><span class="o">()))</span>
+                    <span class="o">.</span><span class="na">dataFetcher</span><span class="o">(</span><span class="s">"human"</span><span class="o">,</span> <span class="nc">StarWarsData</span><span class="o">.</span><span class="na">getHumanDataFetcher</span><span class="o">())</span>
+                    <span class="o">.</span><span class="na">dataFetcher</span><span class="o">(</span><span class="s">"droid"</span><span class="o">,</span> <span class="nc">StarWarsData</span><span class="o">.</span><span class="na">getDroidDataFetcher</span><span class="o">())</span>
+            <span class="o">)</span>
+            <span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="s">"Human"</span><span class="o">,</span> <span class="n">typeWiring</span> <span class="o">-&gt;</span> <span class="n">typeWiring</span>
+                    <span class="o">.</span><span class="na">dataFetcher</span><span class="o">(</span><span class="s">"friends"</span><span class="o">,</span> <span class="nc">StarWarsData</span><span class="o">.</span><span class="na">getFriendsDataFetcher</span><span class="o">())</span>
+            <span class="o">)</span>
+            <span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="s">"Droid"</span><span class="o">,</span> <span class="n">typeWiring</span> <span class="o">-&gt;</span> <span class="n">typeWiring</span>
+                    <span class="o">.</span><span class="na">dataFetcher</span><span class="o">(</span><span class="s">"friends"</span><span class="o">,</span> <span class="nc">StarWarsData</span><span class="o">.</span><span class="na">getFriendsDataFetcher</span><span class="o">())</span>
+            <span class="o">)</span>
+            <span class="c1">//类型解析器</span>
+            <span class="o">.</span><span class="na">type</span><span class="o">(</span>
+                    <span class="n">newTypeWiring</span><span class="o">(</span><span class="s">"Character"</span><span class="o">)</span>
+                            <span class="o">.</span><span class="na">typeResolver</span><span class="o">(</span><span class="nc">StarWarsData</span><span class="o">.</span><span class="na">getCharacterTypeResolver</span><span class="o">())</span>
+                            <span class="o">.</span><span class="na">build</span><span class="o">()</span>
+            <span class="o">)</span>
+            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div><p>最后，您可以通过连接静态schema和运行时织入对象（RuntimeWiring），生成可执行schema，如本示例所示</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">SchemaParser</span> <span class="n">schemaParser</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SchemaParser</span><span class="o">();</span>
+<span class="nc">SchemaGenerator</span> <span class="n">schemaGenerator</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SchemaGenerator</span><span class="o">();</span>
+
+<span class="nc">File</span> <span class="n">schemaFile</span> <span class="o">=</span> <span class="n">loadSchema</span><span class="o">(</span><span class="s">"starWarsSchema.graphqls"</span><span class="o">);</span>
+
+<span class="nc">TypeDefinitionRegistry</span> <span class="n">typeRegistry</span> <span class="o">=</span> <span class="n">schemaParser</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">schemaFile</span><span class="o">);</span>
+<span class="nc">RuntimeWiring</span> <span class="n">wiring</span> <span class="o">=</span> <span class="n">buildRuntimeWiring</span><span class="o">();</span>
+<span class="nc">GraphQLSchema</span> <span class="n">graphQLSchema</span> <span class="o">=</span> <span class="n">schemaGenerator</span><span class="o">.</span><span class="na">makeExecutableSchema</span><span class="o">(</span><span class="n">typeRegistry</span><span class="o">,</span> <span class="n">wiring</span><span class="o">);</span>
+</code></pre></div></div><p>除了上面显示的建造器风格外，还可以使用WiringFactory接口来连接TypeResolver和DataFetcher。由于可以检查SDL定义以确定要连接的内容，因此可以进行更动态的运行时连接。例如，您可以查看SDL指令或SDL定义的其他方面，以帮助您确定要创建的运行时。</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">RuntimeWiring</span> <span class="nf">buildDynamicRuntimeWiring</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">WiringFactory</span> <span class="n">dynamicWiringFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">WiringFactory</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">providesTypeResolver</span><span class="o">(</span><span class="nc">TypeDefinitionRegistry</span> <span class="n">registry</span><span class="o">,</span> <span class="nc">InterfaceTypeDefinition</span> <span class="n">definition</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nf">getDirective</span><span class="o">(</span><span class="n">definition</span><span class="o">,</span><span class="s">"specialMarker"</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">providesTypeResolver</span><span class="o">(</span><span class="nc">TypeDefinitionRegistry</span> <span class="n">registry</span><span class="o">,</span> <span class="nc">UnionTypeDefinition</span> <span class="n">definition</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nf">getDirective</span><span class="o">(</span><span class="n">definition</span><span class="o">,</span><span class="s">"specialMarker"</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">TypeResolver</span> <span class="nf">getTypeResolver</span><span class="o">(</span><span class="nc">TypeDefinitionRegistry</span> <span class="n">registry</span><span class="o">,</span> <span class="nc">InterfaceTypeDefinition</span> <span class="n">definition</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Directive</span> <span class="n">directive</span>  <span class="o">=</span> <span class="n">getDirective</span><span class="o">(</span><span class="n">definition</span><span class="o">,</span><span class="s">"specialMarker"</span><span class="o">);</span>
+            <span class="k">return</span> <span class="nf">createTypeResolver</span><span class="o">(</span><span class="n">definition</span><span class="o">,</span><span class="n">directive</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">TypeResolver</span> <span class="nf">getTypeResolver</span><span class="o">(</span><span class="nc">TypeDefinitionRegistry</span> <span class="n">registry</span><span class="o">,</span> <span class="nc">UnionTypeDefinition</span> <span class="n">definition</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Directive</span> <span class="n">directive</span>  <span class="o">=</span> <span class="n">getDirective</span><span class="o">(</span><span class="n">definition</span><span class="o">,</span><span class="s">"specialMarker"</span><span class="o">);</span>
+            <span class="k">return</span> <span class="nf">createTypeResolver</span><span class="o">(</span><span class="n">definition</span><span class="o">,</span><span class="n">directive</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">providesDataFetcher</span><span class="o">(</span><span class="nc">TypeDefinitionRegistry</span> <span class="n">registry</span><span class="o">,</span> <span class="nc">FieldDefinition</span> <span class="n">definition</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nf">getDirective</span><span class="o">(</span><span class="n">definition</span><span class="o">,</span><span class="s">"dataFetcher"</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="nc">DataFetcher</span> <span class="nf">getDataFetcher</span><span class="o">(</span><span class="nc">TypeDefinitionRegistry</span> <span class="n">registry</span><span class="o">,</span> <span class="nc">FieldDefinition</span> <span class="n">definition</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Directive</span> <span class="n">directive</span> <span class="o">=</span> <span class="n">getDirective</span><span class="o">(</span><span class="n">definition</span><span class="o">,</span> <span class="s">"dataFetcher"</span><span class="o">);</span>
+            <span class="k">return</span> <span class="nf">createDataFetcher</span><span class="o">(</span><span class="n">definition</span><span class="o">,</span><span class="n">directive</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">};</span>
+    <span class="k">return</span> <span class="nc">RuntimeWiring</span><span class="o">.</span><span class="na">newRuntimeWiring</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">wiringFactory</span><span class="o">(</span><span class="n">dynamicWiringFactory</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div><h1 id="creating-a-schema-programmatically">Creating a schema programmatically</h1><p>以编程方式创建schema时，将在类型创建时提供DataFetcher和TypeResolver</p><p>Java示例如下</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DataFetcher</span><span class="o">&lt;</span><span class="nc">Foo</span><span class="o">&gt;</span> <span class="n">fooDataFetcher</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DataFetcher</span><span class="o">&lt;</span><span class="nc">Foo</span><span class="o">&gt;()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Foo</span> <span class="nf">get</span><span class="o">(</span><span class="nc">DataFetchingEnvironment</span> <span class="n">environment</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// environment.getSource() is the value of the surrounding</span>
+        <span class="c1">// object. In this case described by objectType</span>
+        <span class="nc">Foo</span> <span class="n">value</span> <span class="o">=</span> <span class="n">perhapsFromDatabase</span><span class="o">();</span> <span class="c1">// Perhaps getting from a DB or whatever</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">};</span>
+
+<span class="nc">GraphQLObjectType</span> <span class="n">objectType</span> <span class="o">=</span> <span class="n">newObject</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"ObjectType"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">field</span><span class="o">(</span><span class="n">newFieldDefinition</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"foo"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="nc">GraphQLString</span><span class="o">)</span>
+        <span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="nc">GraphQLCodeRegistry</span> <span class="n">codeRegistry</span> <span class="o">=</span> <span class="n">newCodeRegistry</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">dataFetcher</span><span class="o">(</span>
+                <span class="n">coordinates</span><span class="o">(</span><span class="s">"ObjectType"</span><span class="o">,</span> <span class="s">"foo"</span><span class="o">),</span>
+                <span class="n">fooDataFetcher</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+</code></pre></div></div><h1 id="types">Types</h1><p>GraphQL类型系统支持以下类型</p><ul><li>Scalar</li><li>Object</li><li>Interface</li><li>Union</li><li>InputObject</li><li>Enum</li></ul><h2 id="scalar">Scalar</h2><p>graphql-java支持以下标量</p><p>标准graphql标量</p><ul><li>*GraphQLString</li><li>*GraphQLBoolean</li><li>*GraphQLInt</li><li>*GraphQLFloat</li><li>*GraphQLID</li></ul><p>扩展graphql-java标量</p><ul><li>GraphQLLong</li><li>GraphQLShort</li><li>GraphQLByte</li><li>GraphQLFloat</li><li>GraphQLBigDecimal</li><li>GraphQLBigInteger</li></ul><p><strong>请注意，客户可能无法理解扩展标量范围的语义。例如，将Java Long（最大值2^63-1）映射到JavaScript Number（最大值2^53-1）对您来说可能有问题。</strong></p><h2 id="object">Object</h2><p>SDL 示例</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="n">SimpsonCharacter</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+    </span><span class="n">mainCharacter</span><span class="p">:</span><span class="w"> </span><span class="nb">Boolean</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div><p>Java 示例</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">GraphQLObjectType</span> <span class="n">simpsonCharacter</span> <span class="o">=</span> <span class="n">newObject</span><span class="o">()</span>
+<span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"SimpsonCharacter"</span><span class="o">)</span>
+<span class="o">.</span><span class="na">description</span><span class="o">(</span><span class="s">"A Simpson character"</span><span class="o">)</span>
+<span class="o">.</span><span class="na">field</span><span class="o">(</span><span class="n">newFieldDefinition</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"name"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">description</span><span class="o">(</span><span class="s">"The name of the character."</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="nc">GraphQLString</span><span class="o">))</span>
+<span class="o">.</span><span class="na">field</span><span class="o">(</span><span class="n">newFieldDefinition</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"mainCharacter"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">description</span><span class="o">(</span><span class="s">"One of the main Simpson characters?"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="nc">GraphQLBoolean</span><span class="o">))</span>
+<span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div></div><h2 id="interface">Interface</h2><p>接口是类型的抽象定义。</p><p>SDL 示例</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">interface</span><span class="w"> </span><span class="n">ComicCharacter</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="err">;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div><p>Java 示例</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">GraphQLInterfaceType</span> <span class="n">comicCharacter</span> <span class="o">=</span> <span class="n">newInterface</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"ComicCharacter"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">description</span><span class="o">(</span><span class="s">"An abstract comic character."</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">field</span><span class="o">(</span><span class="n">newFieldDefinition</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"name"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">description</span><span class="o">(</span><span class="s">"The name of the character."</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="nc">GraphQLString</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div></div><h2 id="union">Union</h2><p>SDL 示例</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="n">Cat</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="err">;</span><span class="w">
+    </span><span class="n">lives</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="err">;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">type</span><span class="w"> </span><span class="n">Dog</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="err">;</span><span class="w">
+    </span><span class="n">bonesOwned</span><span class="p">:</span><span class="w"> </span><span class="n">int</span><span class="err">;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">union</span><span class="w"> </span><span class="n">Pet</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Cat</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="n">Dog</span><span class="w">
+</span></code></pre></div></div><p>Java 示例</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">TypeResolver</span> <span class="n">typeResolver</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TypeResolver</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">GraphQLObjectType</span> <span class="nf">getType</span><span class="o">(</span><span class="nc">TypeResolutionEnvironment</span> <span class="n">env</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">env</span><span class="o">.</span><span class="na">getObject</span><span class="o">()</span> <span class="k">instanceof</span> <span class="nc">Cat</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nc">CatType</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">env</span><span class="o">.</span><span class="na">getObject</span><span class="o">()</span> <span class="k">instanceof</span> <span class="nc">Dog</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nc">DogType</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">};</span>
+<span class="nc">GraphQLUnionType</span> <span class="nc">PetType</span> <span class="o">=</span> <span class="n">newUnionType</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"Pet"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">possibleType</span><span class="o">(</span><span class="nc">CatType</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">possibleType</span><span class="o">(</span><span class="nc">DogType</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="nc">GraphQLCodeRegistry</span> <span class="n">codeRegistry</span> <span class="o">=</span> <span class="n">newCodeRegistry</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">typeResolver</span><span class="o">(</span><span class="s">"Pet"</span><span class="o">,</span> <span class="n">typeResolver</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div></div><h2 id="enum">Enum</h2><p>SDL 示例</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">enum</span><span class="w"> </span><span class="n">Color</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">RED</span><span class="w">
+    </span><span class="n">GREEN</span><span class="w">
+    </span><span class="n">BLUE</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div><p>Java 示例</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">GraphQLEnumType</span> <span class="n">colorEnum</span> <span class="o">=</span> <span class="n">newEnum</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"Color"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">description</span><span class="o">(</span><span class="s">"Supported colors."</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">value</span><span class="o">(</span><span class="s">"RED"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">value</span><span class="o">(</span><span class="s">"GREEN"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">value</span><span class="o">(</span><span class="s">"BLUE"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div></div><h2 id="objectinputtype">ObjectInputType</h2><p>SDL 示例</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">input</span><span class="w"> </span><span class="n">Character</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div><p>当使用graphql做突变操作时就需要input。（类似restful中定义request body） Java 示例</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">GraphQLInputObjectType</span> <span class="n">inputObjectType</span> <span class="o">=</span> <span class="n">newInputObject</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"inputObjectType"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">field</span><span class="o">(</span><span class="n">newInputObjectField</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"field"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="nc">GraphQLString</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div></div><h2 id="type-references-recursive-types">Type References (recursive types)</h2><p>GraphQL支持递归类型：例如，一个Person可以包含相同类型的朋友列表。</p><p>为了能够声明这种类型，graphql-java具有GraphQLTypeReference类。</p><p>创建schema时，GraphQLTypeReference将替换为实际类型对象。</p><p>示例如下</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">GraphQLObjectType</span> <span class="n">person</span> <span class="o">=</span> <span class="n">newObject</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"Person"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">field</span><span class="o">(</span><span class="n">newFieldDefinition</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"friends"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="nc">GraphQLList</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="nc">GraphQLTypeReference</span><span class="o">.</span><span class="na">typeRef</span><span class="o">(</span><span class="s">"Person"</span><span class="o">))))</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div></div><p>通过SDL声明schema时，不需要为递归类型进行特殊处理，因为它可以为您检测到并自动完成。</p><h1 id="modularising-the-schema-sdl">Modularising the Schema SDL</h1><p>拥有一个大的schema文件并不总是可行的。您可以使用两种技术对模式进行模块化。</p><p>第一种技术是将多个Schema SDL文件合并到一个逻辑单元中。在下面的情况下，在生成模式之前，已将schema拆分为多个文件并合并在一起。</p><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">SchemaParser</span> <span class="n">schemaParser</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SchemaParser</span><span class="o">();</span>
+<span class="nc">SchemaGenerator</span> <span class="n">schemaGenerator</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SchemaGenerator</span><span class="o">();</span>
+
+<span class="nc">File</span> <span class="n">schemaFile1</span> <span class="o">=</span> <span class="n">loadSchema</span><span class="o">(</span><span class="s">"starWarsSchemaPart1.graphqls"</span><span class="o">);</span>
+<span class="nc">File</span> <span class="n">schemaFile2</span> <span class="o">=</span> <span class="n">loadSchema</span><span class="o">(</span><span class="s">"starWarsSchemaPart2.graphqls"</span><span class="o">);</span>
+<span class="nc">File</span> <span class="n">schemaFile3</span> <span class="o">=</span> <span class="n">loadSchema</span><span class="o">(</span><span class="s">"starWarsSchemaPart3.graphqls"</span><span class="o">);</span>
+
+<span class="nc">TypeDefinitionRegistry</span> <span class="n">typeRegistry</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TypeDefinitionRegistry</span><span class="o">();</span>
+
+<span class="c1">//合并</span>
+<span class="n">typeRegistry</span><span class="o">.</span><span class="na">merge</span><span class="o">(</span><span class="n">schemaParser</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">schemaFile1</span><span class="o">));</span>
+<span class="n">typeRegistry</span><span class="o">.</span><span class="na">merge</span><span class="o">(</span><span class="n">schemaParser</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">schemaFile2</span><span class="o">));</span>
+<span class="n">typeRegistry</span><span class="o">.</span><span class="na">merge</span><span class="o">(</span><span class="n">schemaParser</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">schemaFile3</span><span class="o">));</span>
+
+<span class="nc">GraphQLSchema</span> <span class="n">graphQLSchema</span> <span class="o">=</span> <span class="n">schemaGenerator</span><span class="o">.</span><span class="na">makeExecutableSchema</span><span class="o">(</span><span class="n">typeRegistry</span><span class="o">,</span> <span class="n">buildRuntimeWiring</span><span class="o">());</span>
+</code></pre></div></div><p>Graphql SDL类型系统具有用于将schema模块化的另一种方法。您可以使用type extensions将其他字段和接口添加到类型。</p><p>假设您在一个schema文件中有这样的类型定义</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="n">Human</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div><p>系统的另一部分可以扩展此类型以为其添加更多形状。</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">extend</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="n">Human</span><span class="w"> </span><span class="k">implements</span><span class="w"> </span><span class="n">Character</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+    </span><span class="n">friends</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Character</span><span class="p">]</span><span class="w">
+    </span><span class="n">appearsIn</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Episode</span><span class="p">]!</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div><p>您可以根据需要选择任意数量的扩展名。它们将按照遇到的顺序组合在一起。重复的字段将合并为一个（但是不允许将字段重新定义为新类型）。</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">extend</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="n">Human</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">homePlanet</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div><p>有了所有这些类型扩展后，Human类型现在在运行时看起来像这样。</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="n">Human</span><span class="w"> </span><span class="k">implements</span><span class="w"> </span><span class="n">Character</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+    </span><span class="n">friends</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Character</span><span class="p">]</span><span class="w">
+    </span><span class="n">appearsIn</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Episode</span><span class="p">]!</span><span class="w">
+    </span><span class="n">homePlanet</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div><p>这在最高层尤其有用。您可以使用扩展类型向顶层schema“query”添加新字段。团队可以贡献“sections”来提供总的graphql查询。</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">schema</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">query</span><span class="p">:</span><span class="w"> </span><span class="n">CombinedQueryFromMultipleTeams</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">type</span><span class="w"> </span><span class="n">CombinedQueryFromMultipleTeams</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">createdTimestamp</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c"># maybe the invoicing system team puts in this set of attributes</span><span class="w">
+</span><span class="k">extend</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="n">CombinedQueryFromMultipleTeams</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">invoicing</span><span class="p">:</span><span class="w"> </span><span class="n">Invoicing</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c"># and the billing system team puts in this set of attributes</span><span class="w">
+</span><span class="k">extend</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="n">CombinedQueryFromMultipleTeams</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">billing</span><span class="p">:</span><span class="w"> </span><span class="n">Billing</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c"># and so and so forth</span><span class="w">
+</span><span class="k">extend</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="n">CombinedQueryFromMultipleTeams</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">auditing</span><span class="p">:</span><span class="w"> </span><span class="n">Auditing</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div><h1 id="subscription-support">Subscription Support</h1><p>订阅使您可以执行查询，并且只要该查询的支持对象发生更改，就会发送更新。</p><div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">subscription</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="c"># normal graphql query</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://jxnu-liguobin.github.io" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-Schema.html" target="_blank">https://jxnu-liguobin.github.io/graphqljava/GraphqlJava-Schema.html</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/graphqljava/GraphqlJava-Schema.html', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://jxnu-liguobin.github.io/assets/search_data.json?v=1617164835', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://jxnu-liguobin.github.io/" title="首页" target="">首页</a></li><li> <a href="https://jxnu-liguobin.github.io/categories/" title="分类" target="">分类</a></li><li> <a href="https://jxnu-liguobin.github.io/wiki/" title="维基" target="">维基</a></li><li> <a href="https://jxnu-liguobin.github.io/links/" title="链接" target="">链接</a></li><li> <a href="https://jxnu-liguobin.github.io/about/" title="关于" target="">关于</a></li><li><a href="https://jxnu-liguobin.github.io/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>

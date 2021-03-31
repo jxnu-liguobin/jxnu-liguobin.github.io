@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>Akka中的定时器 &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Akka%E4%B8%AD%E7%9A%84%E5%AE%9A%E6%97%B6%E5%99%A8.html"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://jxnu-liguobin.github.io/feed.xml"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/favicon.ico"><meta property="og:title" content="Akka中的定时器"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content=""><meta name="og:description" content=""><meta property="og:url" content="https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Akka%E4%B8%AD%E7%9A%84%E5%AE%9A%E6%97%B6%E5%99%A8.html"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2020-02-05"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://jxnu-liguobin.github.io/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://jxnu-liguobin.github.io/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://jxnu-liguobin.github.io/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://jxnu-liguobin.github.io/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://jxnu-liguobin.github.io/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://jxnu-liguobin.github.io/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="Akka中的定时器"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">Akka中的定时器</h1><div class="collection-info"> <span class="meta-info"> <span class="octicon octicon-calendar"></span> 2020/02/05 </span> <span class="meta-info"> <span class="octicon octicon-file-directory"></span> <a href="https://jxnu-liguobin.github.io/categories/#AkkaActor" title="AkkaActor">AkkaActor</a> </span> <span class="meta-info"> <span class="octicon octicon-clock"></span> 共 5018 字，约 15 分钟 </span></div></div></div><div class="column one-fourth mobile-hidden"><div class="collection-title"></div></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><ul id="markdown-toc"><li><a href="#基本使用" id="markdown-toc-基本使用">基本使用</a><ul><li><a href="#实现timer特质" id="markdown-toc-实现timer特质">实现Timer特质</a></li><li><a href="#使用actorsystem的scheduler" id="markdown-toc-使用actorsystem的scheduler">使用ActorSystem的Scheduler</a></li><li><a href="#使用akka-quartz-scheduler" id="markdown-toc-使用akka-quartz-scheduler">使用akka-quartz-scheduler</a></li></ul></li></ul><h1 id="基本使用">基本使用</h1><p>在Akka中，想实现定时调度有多种方法，分别是使用ActorSystem的scheduler、继承Timers特质并使用其TimerScheduler实例或使用第三方库<a href="https://github.com/enragedginger/akka-quartz-scheduler">akka-quartz-scheduler</a>等。</p><blockquote><p>依赖 “com.typesafe.akka” %% “akka-actor” % “2.5.23”</p></blockquote><h2 id="实现timer特质">实现Timer特质</h2><p>这是一个完整的例子，copy自官网</p><p><a href="https://dreamylost.cn/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96-%E4%B8%89%E7%A7%8D%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8.html">定时器比较</a></p><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="nn">io.github.dreamylost.timer</span>
+
+<span class="k">import</span> <span class="nn">akka.actor.</span><span class="o">{</span> <span class="nc">Actor</span><span class="o">,</span> <span class="nc">ActorSystem</span><span class="o">,</span> <span class="nc">Props</span><span class="o">,</span> <span class="nc">Timers</span> <span class="o">}</span>
+
+<span class="k">import</span> <span class="nn">scala.concurrent.duration._</span>
+
+<span class="cm">/**
+ * actor自己处理定时
+ *
+ * @see https://doc.akka.io/docs/akka/current/actors.html#actors-timers
+ * @author 梦境迷离
+ * @since 2020-01-30
+ * @version v1.0
+ */</span>
+<span class="k">object</span> <span class="nc">TimerTest</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+
+  <span class="k">object</span> <span class="nc">MyActor</span> <span class="o">{</span>
+
+    <span class="k">case</span> <span class="k">object</span> <span class="nc">TickKey</span>
+
+    <span class="k">case</span> <span class="k">object</span> <span class="nc">FirstTick</span>
+
+    <span class="k">case</span> <span class="k">object</span> <span class="nc">Tick</span>
+
+  <span class="o">}</span>
+
+  <span class="k">class</span> <span class="nc">MyActor</span> <span class="k">extends</span> <span class="nc">Actor</span> <span class="k">with</span> <span class="nc">Timers</span> <span class="o">{</span>
+
+    <span class="k">import</span> <span class="nn">MyActor._</span>
+
+    <span class="c1">//启动计时器，在之后将“msg”发送一次给自己</span>
+    <span class="nv">timers</span><span class="o">.</span><span class="py">startSingleTimer</span><span class="o">(</span><span class="nc">TickKey</span><span class="o">,</span> <span class="nc">FirstTick</span><span class="o">,</span> <span class="mf">500.</span><span class="n">millis</span><span class="o">)</span>
+
+    <span class="c1">//TimerScheduler它不是线程安全的</span>
+    <span class="k">def</span> <span class="nf">receive</span> <span class="k">=</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="nc">FirstTick</span> <span class="k">=&gt;</span>
+        <span class="c1">// 2.6 startTimerWithFixedDelay</span>
+        <span class="nf">println</span><span class="o">(</span><span class="n">s</span><span class="s">"=======${System.currentTimeMillis()}========"</span><span class="o">)</span>
+        <span class="c1">//timer 定时发送的消息 延迟</span>
+        <span class="nv">timers</span><span class="o">.</span><span class="py">startPeriodicTimer</span><span class="o">(</span><span class="nc">TickKey</span><span class="o">,</span> <span class="nc">FirstTick</span><span class="o">,</span> <span class="mf">1.</span><span class="n">second</span><span class="o">)</span>
+      <span class="k">case</span> <span class="nc">Tick</span> <span class="k">=&gt;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">import</span> <span class="nn">MyActor._</span>
+    <span class="k">val</span> <span class="nv">s</span> <span class="k">=</span> <span class="nc">ActorSystem</span><span class="o">(</span><span class="s">"testtimer"</span><span class="o">)</span>
+    <span class="k">val</span> <span class="nv">actor</span> <span class="k">=</span> <span class="nv">s</span><span class="o">.</span><span class="py">actorOf</span><span class="o">(</span><span class="nc">Props</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">MyActor</span><span class="o">]))</span>
+    <span class="n">actor</span> <span class="o">!</span> <span class="nc">FirstTick</span>
+
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div><p>Actor中为其自身安排定期任务或发送单个消息时，使用。</p><ul><li>更加方便安全，生命周期与当前actor相关，actor重启或停止时，定时任务将取消</li><li>TimerScheduler是非线程安全，不允许其他actor使用</li></ul><h2 id="使用actorsystem的scheduler">使用ActorSystem的Scheduler</h2><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="nn">io.github.dreamylost.timer</span>
+
+<span class="k">import</span> <span class="nn">akka.actor.</span><span class="o">{</span> <span class="nc">Actor</span><span class="o">,</span> <span class="nc">ActorSystem</span><span class="o">,</span> <span class="nc">Props</span> <span class="o">}</span>
+
+<span class="k">import</span> <span class="nn">scala.concurrent.duration._</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.Implicits.global</span>
+
+<span class="cm">/**
+ *
+ * @author liguobin@growingio.com
+ * @version 1.0,2020/2/4
+ */</span>
+<span class="k">object</span> <span class="nc">ScheduleTest</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+
+  <span class="k">val</span> <span class="nv">Tick</span> <span class="k">=</span> <span class="s">"tick"</span>
+
+  <span class="k">class</span> <span class="nc">TickActor</span> <span class="k">extends</span> <span class="nc">Actor</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="nf">receive</span> <span class="k">=</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="nc">Tick</span> <span class="k">=&gt;</span> <span class="nf">println</span><span class="o">(</span><span class="nv">System</span><span class="o">.</span><span class="py">currentTimeMillis</span><span class="o">())</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="k">val</span> <span class="nv">system</span> <span class="k">=</span> <span class="nc">ActorSystem</span><span class="o">()</span>
+
+  <span class="k">val</span> <span class="nv">tickActor</span> <span class="k">=</span> <span class="nv">system</span><span class="o">.</span><span class="py">actorOf</span><span class="o">(</span><span class="nc">Props</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">TickActor</span><span class="o">]))</span>
+
+  <span class="k">val</span> <span class="nv">cancellable</span> <span class="k">=</span> <span class="nv">system</span><span class="o">.</span><span class="py">scheduler</span><span class="o">.</span><span class="py">schedule</span><span class="o">(</span><span class="nv">Duration</span><span class="o">.</span><span class="py">Zero</span><span class="o">,</span> <span class="mf">500.</span><span class="n">milliseconds</span><span class="o">,</span> <span class="n">tickActor</span><span class="o">,</span> <span class="nc">Tick</span><span class="o">)</span>
+
+  <span class="c1">//取消</span>
+  <span class="c1">//  cancellable.cancel()</span>
+<span class="o">}</span>
+</code></pre></div></div><blockquote><p>当ActorSystem终止时，将执行所有计划的任务，即任务可能在超时之前执行。</p></blockquote><ul><li>固定延迟 后续执行之间的延迟将始终（至少）为给定延迟。使用scheduleWithFixedDelay。</li><li>固定速率 随时间推移的执行频率将达到给定的时间间隔。使用scheduleAtFixedRate。</li></ul><p>如果不确定要使用哪一个，则应选择scheduleWithFixedDelay。</p><ul><li>对于固定延迟，如果执行时间较长或调度由于某种原因而延迟的时间超过指定时间，则它将无法补偿任务或消息之间的延迟。</li><li>对于固定速率，如果先前的任务执行时间过长，它将补偿后续任务的延迟。例如，如果给定的时间interval是1000毫秒，而一个任务需要200毫秒来执行，则下一个任务将安排在800毫秒后运行。 在这种情况下，实际执行间隔将与传递给scheduleAtFixedRate方法的间隔不同（scheduleAtFixedRate和scheduleWithFixedDelay是2.6的方法名称）</li><li>如果任务的执行时间比的时间长interval，则后续任务将在前一个任务完成后立即开始（不会有重复执行）</li><li>固定速率执行适用于对绝对时间敏感的重复活动或执行固定数量执行的总时间很重要的定期活动，例如倒计时定时器，它十秒钟每秒滴答一次。</li><li>scheduleAtFixedRate长时间的垃圾回收暂停后，可能会导致计划的任务或消息突发，这在最坏的情况下可能会导致不希望的系统负载。scheduleWithFixedDelay通常是首选。</li></ul><h2 id="使用akka-quartz-scheduler">使用akka-quartz-scheduler</h2><p>前面两种均为高吞吐量而设计，在精确性上以及长任务上有妥协，默认最长是八个月（Int max值）左右。且由于使用了Hashed Wheel Timer，所以精度上也有不足。因此，对于需要高精度触发或长期调度的程序，则不应该选择Akka自带的定时调度功能。</p><p>第三方框架quartz是一个更加复杂强大的任务调度框架，akka中的使用如下</p><blockquote><p>依赖 “com.enragedginger” %% “akka-quartz-scheduler” % “1.8.1-akka-2.5.x”</p></blockquote><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="nn">io.github.dreamylost.quartz</span>
+
+<span class="k">import</span> <span class="nn">akka.actor.</span><span class="o">{</span> <span class="nc">Actor</span><span class="o">,</span> <span class="nc">ActorSystem</span><span class="o">,</span> <span class="nc">Props</span> <span class="o">}</span>
+<span class="k">import</span> <span class="nn">com.typesafe.akka.extension.quartz.QuartzSchedulerExtension</span>
+
+<span class="cm">/**
+ * akka quartz 拓展的更完善的定时处理
+ *
+ * @see https://github.com/enragedginger/akka-quartz-scheduler
+ * @author 梦境迷离
+ * @since 2020-01-30
+ * @version v1.0
+ */</span>
+<span class="k">object</span> <span class="nc">QuartzSchedulerActor</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+
+  <span class="k">case</span> <span class="k">object</span> <span class="nc">Tick</span>
+
+  <span class="k">val</span> <span class="nv">system</span> <span class="k">=</span> <span class="nc">ActorSystem</span><span class="o">(</span><span class="s">"user-system"</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nv">cleaner</span> <span class="k">=</span> <span class="nv">system</span><span class="o">.</span><span class="py">actorOf</span><span class="o">(</span><span class="nc">Props</span><span class="o">[</span><span class="kt">CleanupActor</span><span class="o">])</span>
+  <span class="k">val</span> <span class="nv">scheduler</span> <span class="k">=</span> <span class="nc">QuartzSchedulerExtension</span><span class="o">(</span><span class="n">system</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nv">s</span> <span class="k">=</span> <span class="nc">QuartzSchedulerExtension</span><span class="o">(</span><span class="n">system</span><span class="o">).</span><span class="py">schedule</span><span class="o">(</span><span class="s">"Every30Seconds"</span><span class="o">,</span> <span class="n">cleaner</span><span class="o">,</span> <span class="nc">Tick</span><span class="o">)</span>
+  <span class="nf">println</span><span class="o">(</span><span class="n">s</span><span class="o">)</span>
+
+  <span class="c1">//配置文件在application.conf</span>
+  <span class="k">class</span> <span class="nc">CleanupActor</span> <span class="k">extends</span> <span class="nc">Actor</span> <span class="o">{</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">receive</span><span class="k">:</span> <span class="kt">Receive</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="nc">Tick</span> <span class="k">=&gt;</span>
+        <span class="nf">println</span><span class="o">(</span><span class="s">"tick ..."</span><span class="o">)</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div><p>application.conf</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>akka {
+  quartz {
+    schedules {
+      Every30Seconds {
+        description = "A cron job that fires off every 30 seconds"
+        expression = "*/30 * * ? * *" #每30秒触发一次
+        # calendar = "OnlyBusinessHours" #排除了从上午8点到下午6点之间触发的触发器
+      }
+    }
+  }
+}
+
+</code></pre></div></div><p>查看默认的定时器的实现，在Akka actor源码中，查看reference.conf（以Akka 2.5.23为例）</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>... 
+scheduler {
+    # The LightArrayRevolverScheduler is used as the default scheduler in the
+    # system. It does not execute the scheduled tasks on exact time, but on every
+    # tick, it will run everything that is (over)due. You can increase or decrease
+    # the accuracy of the execution timing by specifying smaller or larger tick
+    # duration. If you are scheduling a lot of tasks you should consider increasing
+    # the ticks per wheel.
+    # Note that it might take up to 1 tick to stop the Timer, so setting the
+    # tick-duration to a high value will make shutting down the actor system
+    # take longer.
+    tick-duration = 10ms
+
+    # The timer uses a circular wheel of buckets to store the timer tasks.
+    # This should be set such that the majority of scheduled timeouts (for high
+    # scheduling frequency) will be shorter than one rotation of the wheel
+    # (ticks-per-wheel * ticks-duration)
+    # THIS MUST BE A POWER OF TWO!
+    ticks-per-wheel = 512
+
+    # This setting selects the timer implementation which shall be loaded at
+    # system start-up.
+    # The class given here must implement the akka.actor.Scheduler interface
+    # and offer a public constructor which takes three arguments:
+    #  1) com.typesafe.config.Config
+    #  2) akka.event.LoggingAdapter
+    #  3) java.util.concurrent.ThreadFactory
+    implementation = akka.actor.LightArrayRevolverScheduler
+
+    # When shutting down the scheduler, there will typically be a thread which
+    # needs to be stopped, and this timeout determines how long to wait for
+    # that to happen. In case of timeout the shutdown of the actor system will
+    # proceed without running possibly still enqueued tasks.
+    shutdown-timeout = 5s
+  }
+... 
+</code></pre></div></div><p>该配置中对使用场景也做了简单的说明。可以看到字段implementation即是定时器的具体实现。目前默认的是LightArrayRevolverScheduler。 该类与Netty的HashedWheelTimer相似，都是基于一种叫哈希轮的数据结构实现的定时任务调度算法。 感兴趣可以看看整理的一个PPT <a href="https://github.com/jxnu-liguobin/scala-examples/blob/master/scala-other/src/main/scala/io/github/dreamylost/timer/TimingWheels.ppt">定时轮</a></p><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://jxnu-liguobin.github.io" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Akka%E4%B8%AD%E7%9A%84%E5%AE%9A%E6%97%B6%E5%99%A8.html" target="_blank">https://jxnu-liguobin.github.io/akkaactor/AkkaActor-Akka%E4%B8%AD%E7%9A%84%E5%AE%9A%E6%97%B6%E5%99%A8.html</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/akkaactor/AkkaActor-Akka%E4%B8%AD%E7%9A%84%E5%AE%', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://jxnu-liguobin.github.io/assets/search_data.json?v=1617164834', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://jxnu-liguobin.github.io/" title="首页" target="">首页</a></li><li> <a href="https://jxnu-liguobin.github.io/categories/" title="分类" target="">分类</a></li><li> <a href="https://jxnu-liguobin.github.io/wiki/" title="维基" target="">维基</a></li><li> <a href="https://jxnu-liguobin.github.io/links/" title="链接" target="">链接</a></li><li> <a href="https://jxnu-liguobin.github.io/about/" title="关于" target="">关于</a></li><li><a href="https://jxnu-liguobin.github.io/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>

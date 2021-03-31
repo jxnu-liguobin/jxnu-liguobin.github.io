@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>Runtime &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-Runtime.html"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://jxnu-liguobin.github.io/feed.xml"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/favicon.ico"><meta property="og:title" content="Runtime"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content="```javapackage java.lang;"><meta name="og:description" content="```javapackage java.lang;"><meta property="og:url" content="https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-Runtime.html"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2018-08-12"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://jxnu-liguobin.github.io/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://jxnu-liguobin.github.io/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://jxnu-liguobin.github.io/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://jxnu-liguobin.github.io/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://jxnu-liguobin.github.io/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://jxnu-liguobin.github.io/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="Runtime"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">Runtime</h1><div class="collection-info"> <span class="meta-info"> <span class="octicon octicon-calendar"></span> 2018/08/12 </span> <span class="meta-info"> <span class="octicon octicon-file-directory"></span> <a href="https://jxnu-liguobin.github.io/categories/#Java源码" title="Java源码">Java源码</a> </span> <span class="meta-info"> <span class="octicon octicon-clock"></span> 共 6193 字，约 18 分钟 </span></div></div></div><div class="column one-fourth mobile-hidden"><div class="collection-title"></div></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">java.lang</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">sun.reflect.CallerSensitive</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">sun.reflect.Reflection</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.io.File</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.OutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.StringTokenizer</span><span class="o">;</span>
+
+<span class="cm">/**
+ * Runtime类，里面可以获得应用运行时的一些状态（主要包括使用的内存和cpu个数）和在应用运行时执行一些操作（程序退出、执行gc、
+ * 设置退出时的钩子函数）。
+ * 用到了单例模式：确保一个类最多只有一个实例，并提供一个全局访问点。
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Runtime</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">Runtime</span> <span class="n">currentRuntime</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Runtime</span><span class="o">();</span>
+
+    <span class="cm">/**
+     * 应用了设计模式中的单例模式饿汉式(线程安全)
+     * 返回与当前应用程序相关的java运行时对象。
+     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Runtime</span> <span class="nf">getRuntime</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">currentRuntime</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 私有构造函数，单例模式的条件，返回与当前应用程序相关的java运行时对象,不支持new的Runtime
+     */</span>
+    <span class="kd">private</span> <span class="nf">Runtime</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 通过启动虚拟机的关闭序列，终止当前正在运行的 Java 虚拟机。此方法从不正常返回。可以将变量作为一个状态码；根据惯例，
+     * 非零的状态码表示非正常终止。
+     * 虚拟机的关闭序列包含两个阶段。在第一个阶段中，会以某种未指定的顺序启动所有已注册的关闭钩子(hook)（如果有的话），
+     * 并且允许它们同时运行直至结束。
+     * 在第二个阶段中，如果已启用退出终结，则运行所有未调用的终结方法。一旦完成这个阶段，虚拟机就会暂停。
+     * 如果在虚拟机已开始其关闭序列后才调用此方法，那么若正在运行关闭钩子，则将无限期地阻断此方法。
+     * 如果已经运行完关闭钩子，并且已启用退出终结 (on-exitfinalization)，那么此方法将利用给定的状态码（如果状态码是非零值）暂停虚拟机；
+     * 否则将无限期地阻断虚拟机。
+     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">exit</span><span class="o">(</span><span class="kt">int</span> <span class="n">status</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">SecurityManager</span> <span class="n">security</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">getSecurityManager</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">security</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">security</span><span class="o">.</span><span class="na">checkExit</span><span class="o">(</span><span class="n">status</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="nc">Shutdown</span><span class="o">.</span><span class="na">exit</span><span class="o">(</span><span class="n">status</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 注册新的虚拟机来关闭钩子。
+     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addShutdownHook</span><span class="o">(</span><span class="nc">Thread</span> <span class="n">hook</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">SecurityManager</span> <span class="n">sm</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">getSecurityManager</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">sm</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">sm</span><span class="o">.</span><span class="na">checkPermission</span><span class="o">(</span><span class="k">new</span> <span class="nc">RuntimePermission</span><span class="o">(</span><span class="s">"shutdownHooks"</span><span class="o">));</span>
+        <span class="o">}</span>
+        <span class="nc">ApplicationShutdownHooks</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">hook</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 取消注册某个先前已注册的虚拟机关闭钩子。
+     * 如果指定的钩子先前已注册并且成功地取消注册，则返回 true，其他情况返回 false。
+     */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">removeShutdownHook</span><span class="o">(</span><span class="nc">Thread</span> <span class="n">hook</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">SecurityManager</span> <span class="n">sm</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">getSecurityManager</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">sm</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">sm</span><span class="o">.</span><span class="na">checkPermission</span><span class="o">(</span><span class="k">new</span> <span class="nc">RuntimePermission</span><span class="o">(</span><span class="s">"shutdownHooks"</span><span class="o">));</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="nc">ApplicationShutdownHooks</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">hook</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 强行终止目前正在运行的 Java 虚拟机。此方法从不正常返回。
+     * 应小心使用此方法。与 exit方法不同，此方法不会启动关闭钩子，并且如果已启用退出终结，此方法也不会运行未调用的终结方法。
+     * 如果已经发起关闭序列，那么此方法不会等待所有正在运行的关闭钩子或终结方法完成其工作。
+     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">halt</span><span class="o">(</span><span class="kt">int</span> <span class="n">status</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">SecurityManager</span> <span class="n">sm</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">getSecurityManager</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">sm</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">sm</span><span class="o">.</span><span class="na">checkExit</span><span class="o">(</span><span class="n">status</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="nc">Shutdown</span><span class="o">.</span><span class="na">halt</span><span class="o">(</span><span class="n">status</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 在退出时启用或禁用终结；这样做可指定拥有未被自动调用终结方法的所有对象的终结方法，并将在退出 Java 运行时前运行此终结方法。
+     * 默认情况下，禁用退出终结。
+     * 如果有安全管理器，则首先使用 0 作为变量来调用其 checkExit 方法，以确保允许退出。这可能会导致 SecurityException。
+     */</span>
+    <span class="nd">@Deprecated</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">runFinalizersOnExit</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">SecurityManager</span> <span class="n">security</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">getSecurityManager</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">security</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="n">security</span><span class="o">.</span><span class="na">checkExit</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SecurityException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">SecurityException</span><span class="o">(</span><span class="s">"runFinalizersOnExit"</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="nc">Shutdown</span><span class="o">.</span><span class="na">setRunFinalizersOnExit</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 在单独的进程中执行指定的字符串命令。
+     * 对于 exec(command) 形式的调用而言，其行为与调用 exec(command, null, null) 完全相同。
+     */</span>
+    <span class="kd">public</span> <span class="nc">Process</span> <span class="nf">exec</span><span class="o">(</span><span class="nc">String</span> <span class="n">command</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">exec</span><span class="o">(</span><span class="n">command</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 在指定环境的单独进程中执行指定的字符串命令。
+     * 对于 exec(command, envp) 形式的调用而言，其行为与调用 exec(command, envp, null) 完全相同。
+     */</span>
+    <span class="kd">public</span> <span class="nc">Process</span> <span class="nf">exec</span><span class="o">(</span><span class="nc">String</span> <span class="n">command</span><span class="o">,</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">envp</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">exec</span><span class="o">(</span><span class="n">command</span><span class="o">,</span> <span class="n">envp</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 在有指定环境和工作目录的独立进程中执行指定的字符串命令。
+     * 对于 exec(command, envp, dir) 形式的调用而言，其行为与调用 exec(cmdarray, envp, dir) 完全相同，
+     * 其中 cmdarray 是 command 中所有标记的数组。
+     * 更准确地说，可以使用通过调用 new StringTokenizer(command) 创建的 StringTokenizer 将 command 字符串拆解成标记，
+     * 调用时不对字符类别做进一步的修改。
+     * 然后将标记生成器所生成的标记以相同的顺序放入新的字符串数组 cmdarray 中。
+     */</span>
+    <span class="kd">public</span> <span class="nc">Process</span> <span class="nf">exec</span><span class="o">(</span><span class="nc">String</span> <span class="n">command</span><span class="o">,</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">envp</span><span class="o">,</span> <span class="nc">File</span> <span class="n">dir</span><span class="o">)</span>
+            <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">command</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"Empty command"</span><span class="o">);</span>
+
+        <span class="nc">StringTokenizer</span> <span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringTokenizer</span><span class="o">(</span><span class="n">command</span><span class="o">);</span>
+        <span class="nc">String</span><span class="o">[]</span> <span class="n">cmdarray</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">String</span><span class="o">[</span><span class="n">st</span><span class="o">.</span><span class="na">countTokens</span><span class="o">()];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">st</span><span class="o">.</span><span class="na">hasMoreTokens</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span>
+            <span class="n">cmdarray</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="na">nextToken</span><span class="o">();</span>
+        <span class="k">return</span> <span class="nf">exec</span><span class="o">(</span><span class="n">cmdarray</span><span class="o">,</span> <span class="n">envp</span><span class="o">,</span> <span class="n">dir</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 在单独的进程中执行指定命令和变量。
+     * 对于 exec(cmdarray) 形式的调用而言，其行为与调用 exec(cmdarray, null, null) 完全相同。
+     */</span>
+    <span class="kd">public</span> <span class="nc">Process</span> <span class="nf">exec</span><span class="o">(</span><span class="nc">String</span> <span class="n">cmdarray</span><span class="o">[])</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">exec</span><span class="o">(</span><span class="n">cmdarray</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 在指定环境的独立进程中执行指定命令和变量。
+     * 对于 exec(cmdarray, envp) 形式的调用而言，其行为与调用 exec(cmdarray, envp, null) 完全相同。
+     */</span>
+    <span class="kd">public</span> <span class="nc">Process</span> <span class="nf">exec</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">cmdarray</span><span class="o">,</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">envp</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">exec</span><span class="o">(</span><span class="n">cmdarray</span><span class="o">,</span> <span class="n">envp</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+    <span class="o">}</span>
+
+
+    <span class="cm">/**
+     * 在指定环境和工作目录的独立进程中执行指定的命令和变量。
+     * 给定的字符串数组 cmdarray 表示一个命令行标记，字符串数组 envp 则表示“环境”变量设置，此方法会创建一个新进程，而指定的命令就在这个进程中执行。
+     * 此方法检查 cmdarray 是否是一条有效的操作系统命令。哪些命令有效取决于系统，但是该命令至少必须有一个非 null 字符串的非空列表。
+     */</span>
+    <span class="kd">public</span> <span class="nc">Process</span> <span class="nf">exec</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">cmdarray</span><span class="o">,</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">envp</span><span class="o">,</span> <span class="nc">File</span> <span class="n">dir</span><span class="o">)</span>
+            <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ProcessBuilder</span><span class="o">(</span><span class="n">cmdarray</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">environment</span><span class="o">(</span><span class="n">envp</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">directory</span><span class="o">(</span><span class="n">dir</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">start</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 向 Java 虚拟机返回可用处理器的数目。
+     * 该值在特定的虚拟机调用期间可能发生更改。因此，对可用处理器数目很敏感的应用程序应该不定期地轮询该属性，并相应地调整其资源用法。
+     * 虚拟机可用的最大处理器数目；从不小于 1
+     */</span>
+    <span class="kd">public</span> <span class="kd">native</span> <span class="kt">int</span> <span class="nf">availableProcessors</span><span class="o">();</span>
+
+    <span class="cm">/**
+     * 返回 Java 虚拟机中的空闲内存量。调用 gc 方法可能导致 freeMemory 返回值的增加。
+     */</span>
+    <span class="kd">public</span> <span class="kd">native</span> <span class="kt">long</span> <span class="nf">freeMemory</span><span class="o">();</span>
+
+    <span class="cm">/**
+     * 返回 Java 虚拟机中的内存总量。此方法返回的值可能随时间的推移而变化，这取决于主机环境。
+     */</span>
+    <span class="kd">public</span> <span class="kd">native</span> <span class="kt">long</span> <span class="nf">totalMemory</span><span class="o">();</span>
+
+    <span class="cm">/**
+     * 返回 Java 虚拟机试图使用的最大内存量。如果内存本身没有限制，则返回值 Long.MAX_VALUE。
+     */</span>
+    <span class="kd">public</span> <span class="kd">native</span> <span class="kt">long</span> <span class="nf">maxMemory</span><span class="o">();</span>
+
+    <span class="cm">/**
+     * 运行垃圾回收器。调用此方法意味着 Java 虚拟机做了一些努力来回收未用对象，以便能够快速地重用这些对象当前占用的内存。
+     * 当控制从方法调用中返回时，虚拟机已经尽最大努力回收了所有丢弃的对象。
+     * 垃圾回收机制主要有两类：引用计数收集器  跟踪收集器
+     */</span>
+    <span class="kd">public</span> <span class="kd">native</span> <span class="kt">void</span> <span class="nf">gc</span><span class="o">();</span>
+
+    <span class="cm">/* Wormhole for calling java.lang.ref.Finalizer.runFinalization */</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">native</span> <span class="kt">void</span> <span class="nf">runFinalization0</span><span class="o">();</span>
+
+    <span class="cm">/**
+     * 运行挂起 finalization 的所有对象的终止方法。
+     * 调用此方法意味着 Java 虚拟机做了一些努力运行已被丢弃对象的 finalize 方法，
+     * 但是这些对象的 finalize 方法还没有运行。当控制从方法调用中返回时，Java 虚拟机已经尽最大努力去完成所有未执行的终止方法。
+     * 如果不显式调用 runFinalization 方法，则 Java 虚拟机会根据需要在单独的线程中自动执行此终止过程。
+     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">runFinalization</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">runFinalization0</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 启用／禁用指令跟踪。
+     */</span>
+    <span class="kd">public</span> <span class="kd">native</span> <span class="kt">void</span> <span class="nf">traceInstructions</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">on</span><span class="o">);</span>
+
+    <span class="cm">/**
+     * 启用／禁用方法调用跟踪。
+     */</span>
+    <span class="kd">public</span> <span class="kd">native</span> <span class="kt">void</span> <span class="nf">traceMethodCalls</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">on</span><span class="o">);</span>
+
+    <span class="cm">/**
+     * 加载具有指定动态库。
+     */</span>
+    <span class="nd">@CallerSensitive</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">load</span><span class="o">(</span><span class="nc">String</span> <span class="n">filename</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">load0</span><span class="o">(</span><span class="nc">Reflection</span><span class="o">.</span><span class="na">getCallerClass</span><span class="o">(),</span> <span class="n">filename</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">load0</span><span class="o">(</span><span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">fromClass</span><span class="o">,</span> <span class="nc">String</span> <span class="n">filename</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">SecurityManager</span> <span class="n">security</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">getSecurityManager</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">security</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">security</span><span class="o">.</span><span class="na">checkLink</span><span class="o">(</span><span class="n">filename</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(!(</span><span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">filename</span><span class="o">).</span><span class="na">isAbsolute</span><span class="o">()))</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnsatisfiedLinkError</span><span class="o">(</span>
+                    <span class="s">"Expecting an absolute path of the library: "</span> <span class="o">+</span> <span class="n">filename</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="nc">ClassLoader</span><span class="o">.</span><span class="na">loadLibrary</span><span class="o">(</span><span class="n">fromClass</span><span class="o">,</span> <span class="n">filename</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 加载具有指定动态库。
+     */</span>
+    <span class="nd">@CallerSensitive</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">loadLibrary</span><span class="o">(</span><span class="nc">String</span> <span class="n">libname</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">loadLibrary0</span><span class="o">(</span><span class="nc">Reflection</span><span class="o">.</span><span class="na">getCallerClass</span><span class="o">(),</span> <span class="n">libname</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">loadLibrary0</span><span class="o">(</span><span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">fromClass</span><span class="o">,</span> <span class="nc">String</span> <span class="n">libname</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">SecurityManager</span> <span class="n">security</span> <span class="o">=</span> <span class="nc">System</span><span class="o">.</span><span class="na">getSecurityManager</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">security</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">security</span><span class="o">.</span><span class="na">checkLink</span><span class="o">(</span><span class="n">libname</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">libname</span><span class="o">.</span><span class="na">indexOf</span><span class="o">((</span><span class="kt">int</span><span class="o">)</span> <span class="nc">File</span><span class="o">.</span><span class="na">separatorChar</span><span class="o">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnsatisfiedLinkError</span><span class="o">(</span>
+                    <span class="s">"Directory separator should not appear in library name: "</span> <span class="o">+</span> <span class="n">libname</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="nc">ClassLoader</span><span class="o">.</span><span class="na">loadLibrary</span><span class="o">(</span><span class="n">fromClass</span><span class="o">,</span> <span class="n">libname</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 创建输入流的本地化版本。此方法获取 InputStream，并返回除本地化外其他所有方面都和变量等效的 InputStream，
+     * 这些方面包括：作为本地字符集中的字符从流中被读取，并将它们从本地字符集自动转换为 Unicode。
+     */</span>
+    <span class="nd">@Deprecated</span>
+    <span class="kd">public</span> <span class="nc">InputStream</span> <span class="nf">getLocalizedInputStream</span><span class="o">(</span><span class="nc">InputStream</span> <span class="n">in</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">in</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 创建输出流的本地化版本。此方法获取 OutputStream，并返回除本地化外其他所有方面都和变量等效的 OutputStream，
+     * 这些方面包括：作为 Unicode 字符被写入流中，并被自动转换为本地字符集。
+     * 如果参数已经是本地流，则可作为结果返回。
+     */</span>
+    <span class="nd">@Deprecated</span>
+    <span class="kd">public</span> <span class="nc">OutputStream</span> <span class="nf">getLocalizedOutputStream</span><span class="o">(</span><span class="nc">OutputStream</span> <span class="n">out</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">out</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://jxnu-liguobin.github.io" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-Runtime.html" target="_blank">https://jxnu-liguobin.github.io/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-Runtime.html</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/java%E6%BA%90%E7%A0%81/Java%E6%BA%90%E7%A0%81-Run', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://jxnu-liguobin.github.io/assets/search_data.json?v=1617164832', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://jxnu-liguobin.github.io/" title="首页" target="">首页</a></li><li> <a href="https://jxnu-liguobin.github.io/categories/" title="分类" target="">分类</a></li><li> <a href="https://jxnu-liguobin.github.io/wiki/" title="维基" target="">维基</a></li><li> <a href="https://jxnu-liguobin.github.io/links/" title="链接" target="">链接</a></li><li> <a href="https://jxnu-liguobin.github.io/about/" title="关于" target="">关于</a></li><li><a href="https://jxnu-liguobin.github.io/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>

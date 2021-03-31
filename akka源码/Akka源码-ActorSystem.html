@@ -1,0 +1,1051 @@
+<!DOCTYPE html><html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /><title>ActorSystem &mdash; 梦境迷离</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/primer-css/css/primer.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/collection.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/repo-card.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/sections/repo-list.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/components/boxed-group.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/common.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/globals/responsive.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/css/posts/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/octicons/octicons/octicons.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist/github.css"><link rel="canonical" href="https://jxnu-liguobin.github.io/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-ActorSystem.html"><link rel="alternate" type="application/atom+xml" title="梦境迷离" href="https://jxnu-liguobin.github.io/feed.xml"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/favicon.ico"><meta property="og:title" content="ActorSystem"><meta name="keywords" content="梦境迷离, jxnu-liguobin"><meta name="og:keywords" content="梦境迷离, jxnu-liguobin"><meta name="description" content="```scala/* Copyright (C) 2009-2019 Lightbend Inc. https://www.lightbend.com*/"><meta name="og:description" content="```scala/* Copyright (C) 2009-2019 Lightbend Inc. https://www.lightbend.com*/"><meta property="og:url" content="https://jxnu-liguobin.github.io/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-ActorSystem.html"><meta property="og:site_name" content="梦境迷离"><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN" /><meta property="article:published_time" content="2020-02-28"> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/jquery/dist/jquery.min.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery-ui.js"></script> <script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/main.js"></script></head><body class="" data-mz=""><header class="site-header"><div class="container"><h1><a href="https://jxnu-liguobin.github.io/" title="梦境迷离"><span class="octicon octicon-mark-github"></span> 梦境迷离</a></h1><button class="collapsed mobile-visible" type="button" onclick="toggleMenu();"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button><nav class="site-header-nav" role="navigation"> <a href="https://jxnu-liguobin.github.io/" class=" site-header-nav-item" target="" title="首页">首页</a> <a href="https://jxnu-liguobin.github.io/categories/" class=" site-header-nav-item" target="" title="分类">分类</a> <a href="https://jxnu-liguobin.github.io/wiki/" class=" site-header-nav-item" target="" title="维基">维基</a> <a href="https://jxnu-liguobin.github.io/links/" class=" site-header-nav-item" target="" title="链接">链接</a> <a href="https://jxnu-liguobin.github.io/about/" class=" site-header-nav-item" target="" title="关于">关于</a></nav></div></header><section class="collection-head small geopattern" data-pattern-id="ActorSystem"><div class="container"><div class="columns"><div class="column three-fourths"><div class="collection-title"><h1 class="collection-header">ActorSystem</h1><div class="collection-info"> <span class="meta-info"> <span class="octicon octicon-calendar"></span> 2020/02/28 </span> <span class="meta-info"> <span class="octicon octicon-file-directory"></span> <a href="https://jxnu-liguobin.github.io/categories/#Akka源码" title="Akka源码">Akka源码</a> </span> <span class="meta-info"> <span class="octicon octicon-clock"></span> 共 29956 字，约 86 分钟 </span></div></div></div><div class="column one-fourth mobile-hidden"><div class="collection-title"></div></div></div></div></section><section class="container content"><div class="columns"><div class="column three-fourths" ><article class="article-content markdown-body"><div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+* Copyright (C) 2009-2019 Lightbend Inc. &lt;https://www.lightbend.com&gt;
+*/</span>
+
+<span class="k">package</span> <span class="nn">akka.actor</span>
+
+<span class="k">import</span> <span class="nn">java.io.Closeable</span>
+<span class="k">import</span> <span class="nn">java.util.concurrent._</span>
+<span class="k">import</span> <span class="nn">java.util.concurrent.atomic.AtomicReference</span>
+<span class="k">import</span> <span class="nn">java.util.Optional</span>
+
+<span class="k">import</span> <span class="nn">akka.actor.dungeon.ChildrenContainer</span>
+<span class="k">import</span> <span class="nn">akka.actor.setup.</span><span class="o">{</span> <span class="nc">ActorSystemSetup</span><span class="o">,</span> <span class="nc">Setup</span> <span class="o">}</span>
+<span class="k">import</span> <span class="nn">akka.annotation.InternalApi</span>
+<span class="k">import</span> <span class="nn">akka.dispatch._</span>
+<span class="k">import</span> <span class="nn">akka.event._</span>
+<span class="k">import</span> <span class="nn">akka.japi.Util.immutableSeq</span>
+<span class="k">import</span> <span class="nn">akka.util._</span>
+<span class="k">import</span> <span class="nn">akka.util.Helpers.toRootLowerCase</span>
+<span class="k">import</span> <span class="nn">com.typesafe.config.</span><span class="o">{</span> <span class="nc">Config</span><span class="o">,</span> <span class="nc">ConfigFactory</span> <span class="o">}</span>
+
+<span class="k">import</span> <span class="nn">scala.annotation.tailrec</span>
+<span class="k">import</span> <span class="nn">scala.collection.immutable</span>
+<span class="k">import</span> <span class="nn">scala.compat.java8.FutureConverters</span>
+<span class="k">import</span> <span class="nn">scala.compat.java8.OptionConverters._</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.</span><span class="o">{</span> <span class="nc">ExecutionContext</span><span class="o">,</span> <span class="nc">ExecutionContextExecutor</span><span class="o">,</span> <span class="nc">Future</span><span class="o">,</span> <span class="nc">Promise</span> <span class="o">}</span>
+<span class="k">import</span> <span class="nn">scala.util.</span><span class="o">{</span> <span class="nc">Failure</span><span class="o">,</span> <span class="nc">Success</span><span class="o">,</span> <span class="nc">Try</span> <span class="o">}</span>
+<span class="k">import</span> <span class="nn">scala.util.control.</span><span class="o">{</span> <span class="nc">ControlThrowable</span><span class="o">,</span> <span class="nc">NonFatal</span> <span class="o">}</span>
+
+<span class="c1">//引导程序配置</span>
+<span class="k">object</span> <span class="nc">BootstrapSetup</span> <span class="o">{</span>
+
+  <span class="cm">/**
+   * Scala API: Scala API：使用默认值构造引导程序设置
+   * 请注意，将其传递给actor系统与根本不传递任何[[BootstrapSetup]]相同
+   * 您可以使用BootstrapSetup的各种“with”方法，返回的实例派生一个具有不同于默认值的值的实例
+   */</span>
+  <span class="k">def</span> <span class="nf">apply</span><span class="o">()</span><span class="k">:</span> <span class="kt">BootstrapSetup</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">new</span> <span class="nc">BootstrapSetup</span><span class="o">()</span>
+  <span class="o">}</span>
+
+  <span class="cm">/**
+   * Scala API: 创建启动actor系统所需的引导程序设置
+   *
+   * @see [[BootstrapSetup]] 类加载器、配置、默认的线程池
+   */</span>
+  <span class="k">def</span> <span class="nf">apply</span><span class="o">(</span><span class="n">classLoader</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">ClassLoader</span><span class="o">],</span> <span class="n">config</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Config</span><span class="o">],</span> <span class="n">defaultExecutionContext</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">ExecutionContext</span><span class="o">])</span><span class="k">:</span> <span class="kt">BootstrapSetup</span> <span class="o">=</span>
+    <span class="k">new</span> <span class="nc">BootstrapSetup</span><span class="o">(</span><span class="n">classLoader</span><span class="o">,</span> <span class="n">config</span><span class="o">,</span> <span class="n">defaultExecutionContext</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * Scala API: 保留默认的类加载器和默认的执行上下文，但使用自定义的配置
+   */</span>
+  <span class="k">def</span> <span class="nf">apply</span><span class="o">(</span><span class="n">config</span><span class="k">:</span> <span class="kt">Config</span><span class="o">)</span><span class="k">:</span> <span class="kt">BootstrapSetup</span> <span class="o">=</span> <span class="nf">apply</span><span class="o">(</span><span class="nc">None</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(</span><span class="n">config</span><span class="o">),</span> <span class="nc">None</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * Java API: 同上，给Java用，Scala使用apply构造，Java使用静态方法
+   *
+   * @see [[BootstrapSetup]] for description of the properties
+   */</span>
+  <span class="k">def</span> <span class="nf">create</span><span class="o">(</span><span class="n">classLoader</span><span class="k">:</span> <span class="kt">Optional</span><span class="o">[</span><span class="kt">ClassLoader</span><span class="o">],</span> <span class="n">config</span><span class="k">:</span> <span class="kt">Optional</span><span class="o">[</span><span class="kt">Config</span><span class="o">],</span> <span class="n">defaultExecutionContext</span><span class="k">:</span> <span class="kt">Optional</span><span class="o">[</span><span class="kt">ExecutionContext</span><span class="o">])</span><span class="k">:</span> <span class="kt">BootstrapSetup</span> <span class="o">=</span>
+    <span class="nf">apply</span><span class="o">(</span><span class="nv">classLoader</span><span class="o">.</span><span class="py">asScala</span><span class="o">,</span> <span class="nv">config</span><span class="o">.</span><span class="py">asScala</span><span class="o">,</span> <span class="nv">defaultExecutionContext</span><span class="o">.</span><span class="py">asScala</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * Java  API: 同上，给Java用，Scala使用apply构造，Java使用静态方法
+   */</span>
+  <span class="k">def</span> <span class="nf">create</span><span class="o">(</span><span class="n">config</span><span class="k">:</span> <span class="kt">Config</span><span class="o">)</span><span class="k">:</span> <span class="kt">BootstrapSetup</span> <span class="o">=</span> <span class="nf">apply</span><span class="o">(</span><span class="n">config</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * Java API: 同上，给Java用，Scala使用apply构造，Java使用静态方法
+   */</span>
+  <span class="k">def</span> <span class="nf">create</span><span class="o">()</span><span class="k">:</span> <span class="kt">BootstrapSetup</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">new</span> <span class="nc">BootstrapSetup</span><span class="o">()</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+
+<span class="c1">//选择器，唯一描述符 目前只有下面三种，构造函数私有</span>
+<span class="k">abstract</span> <span class="k">class</span> <span class="nc">ProviderSelection</span> <span class="nf">private</span><span class="o">(</span><span class="k">private</span><span class="o">[</span><span class="kt">akka</span><span class="o">]</span> <span class="k">val</span> <span class="nv">identifier</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">ProviderSelection</span> <span class="o">{</span>
+
+  <span class="c1">//Akka支持本地、远程和集群使用选择器(一种类似文件路径又比较特殊的URL，具有层级关系)</span>
+  <span class="k">case</span> <span class="k">object</span> <span class="nc">Local</span> <span class="k">extends</span> <span class="nc">ProviderSelection</span><span class="o">(</span><span class="s">"local"</span><span class="o">)</span>
+
+  <span class="k">case</span> <span class="k">object</span> <span class="nc">Remote</span> <span class="k">extends</span> <span class="nc">ProviderSelection</span><span class="o">(</span><span class="s">"remote"</span><span class="o">)</span>
+
+  <span class="k">case</span> <span class="k">object</span> <span class="nc">Cluster</span> <span class="k">extends</span> <span class="nc">ProviderSelection</span><span class="o">(</span><span class="s">"cluster"</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * JAVA API
+   */</span>
+  <span class="k">def</span> <span class="nf">local</span><span class="o">()</span><span class="k">:</span> <span class="kt">ProviderSelection</span> <span class="o">=</span> <span class="nc">Local</span>
+
+  <span class="cm">/**
+   * JAVA API
+   */</span>
+  <span class="k">def</span> <span class="nf">remote</span><span class="o">()</span><span class="k">:</span> <span class="kt">ProviderSelection</span> <span class="o">=</span> <span class="nc">Remote</span>
+
+  <span class="cm">/**
+   * JAVA API
+   */</span>
+  <span class="k">def</span> <span class="nf">cluster</span><span class="o">()</span><span class="k">:</span> <span class="kt">ProviderSelection</span> <span class="o">=</span> <span class="nc">Cluster</span>
+
+<span class="o">}</span>
+
+<span class="cm">/**
+ * 使用[[Bootstrap Setup]]构造函数中的工厂之一创建的actor系统的核心引导程序设置是内部 API
+ *
+ * @param classLoader             如果未提供ClassLoader，它将通过首先检查当前线程的getContextClassLoader来获取当前的ClassLoader，
+ *                                然后尝试遍历堆栈以查找调用方的类加载器，然后退回到与ActorSystem类关联的ClassLoader
+ * @param config                  用于actor系统的配置 如果未提供配置，则将从ClassLoader获取默认参考配置
+ * @param defaultExecutionContext 如果定义，ExecutionContext将用作此ActorSystem中的默认执行线程池
+ *                                如果未提供ExecutionContext，则系统将回退到在“akka.actor.default-dispatcher.default-executor.fallback”下配置的执行线程池
+ * @param actorRefProvider        覆盖config中的akka.actor.provider设置，可以是local(默认)，remote或cluster 它也可以是提供者的完全限定的类名
+ */</span>
+<span class="k">final</span> <span class="k">class</span> <span class="nc">BootstrapSetup</span> <span class="nf">private</span><span class="o">(</span>
+  <span class="k">val</span> <span class="nv">classLoader</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">ClassLoader</span><span class="o">]</span> <span class="k">=</span> <span class="nc">None</span><span class="o">,</span>
+  <span class="k">val</span> <span class="nv">config</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Config</span><span class="o">]</span> <span class="k">=</span> <span class="nc">None</span><span class="o">,</span>
+  <span class="k">val</span> <span class="nv">defaultExecutionContext</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">ExecutionContext</span><span class="o">]</span> <span class="k">=</span> <span class="nc">None</span><span class="o">,</span>
+  <span class="k">val</span> <span class="nv">actorRefProvider</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">ProviderSelection</span><span class="o">]</span> <span class="k">=</span> <span class="nc">None</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Setup</span> <span class="o">{</span>
+  <span class="c1">//修复默认配置会返回一个新的实例</span>
+  <span class="k">def</span> <span class="nf">withClassloader</span><span class="o">(</span><span class="n">classLoader</span><span class="k">:</span> <span class="kt">ClassLoader</span><span class="o">)</span><span class="k">:</span> <span class="kt">BootstrapSetup</span> <span class="o">=</span>
+    <span class="k">new</span> <span class="nc">BootstrapSetup</span><span class="o">(</span><span class="nc">Some</span><span class="o">(</span><span class="n">classLoader</span><span class="o">),</span> <span class="n">config</span><span class="o">,</span> <span class="n">defaultExecutionContext</span><span class="o">,</span> <span class="n">actorRefProvider</span><span class="o">)</span>
+
+  <span class="k">def</span> <span class="nf">withConfig</span><span class="o">(</span><span class="n">config</span><span class="k">:</span> <span class="kt">Config</span><span class="o">)</span><span class="k">:</span> <span class="kt">BootstrapSetup</span> <span class="o">=</span>
+    <span class="k">new</span> <span class="nc">BootstrapSetup</span><span class="o">(</span><span class="n">classLoader</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(</span><span class="n">config</span><span class="o">),</span> <span class="n">defaultExecutionContext</span><span class="o">,</span> <span class="n">actorRefProvider</span><span class="o">)</span>
+
+  <span class="k">def</span> <span class="nf">withDefaultExecutionContext</span><span class="o">(</span><span class="n">executionContext</span><span class="k">:</span> <span class="kt">ExecutionContext</span><span class="o">)</span><span class="k">:</span> <span class="kt">BootstrapSetup</span> <span class="o">=</span>
+    <span class="k">new</span> <span class="nc">BootstrapSetup</span><span class="o">(</span><span class="n">classLoader</span><span class="o">,</span> <span class="n">config</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(</span><span class="n">executionContext</span><span class="o">),</span> <span class="n">actorRefProvider</span><span class="o">)</span>
+
+  <span class="c1">//使用远程或集群时指定选择器提供者本地不推荐使用，因为选择器遍历actor树会对性能有影响</span>
+  <span class="k">def</span> <span class="nf">withActorRefProvider</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">ProviderSelection</span><span class="o">)</span><span class="k">:</span> <span class="kt">BootstrapSetup</span> <span class="o">=</span>
+    <span class="k">new</span> <span class="nc">BootstrapSetup</span><span class="o">(</span><span class="n">classLoader</span><span class="o">,</span> <span class="n">config</span><span class="o">,</span> <span class="n">defaultExecutionContext</span><span class="o">,</span> <span class="nc">Some</span><span class="o">(</span><span class="n">name</span><span class="o">))</span>
+
+<span class="o">}</span>
+
+<span class="c1">//actor系统的单例对象，用来对外暴露构建ActorSystem实例的接口</span>
+<span class="k">object</span> <span class="nc">ActorSystem</span> <span class="o">{</span>
+
+  <span class="c1">//获取当前akka的版本</span>
+  <span class="k">val</span> <span class="nv">Version</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="nv">akka</span><span class="o">.</span><span class="py">Version</span><span class="o">.</span><span class="py">current</span> <span class="c1">// generated file</span>
+
+  <span class="c1">//获取操作系统的环境  windows linux unix</span>
+  <span class="k">val</span> <span class="nv">EnvHome</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nv">System</span><span class="o">.</span><span class="py">getenv</span><span class="o">(</span><span class="s">"AKKA_HOME"</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="kc">null</span> <span class="o">|</span> <span class="s">""</span> <span class="o">|</span> <span class="s">"."</span> <span class="k">⇒</span> <span class="nc">None</span>
+    <span class="k">case</span> <span class="n">value</span> <span class="k">⇒</span> <span class="nc">Some</span><span class="o">(</span><span class="n">value</span><span class="o">)</span>
+  <span class="o">}</span>
+  <span class="c1">//获取系统中名字为akka.home的属性值</span>
+  <span class="k">val</span> <span class="nv">SystemHome</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nv">System</span><span class="o">.</span><span class="py">getProperty</span><span class="o">(</span><span class="s">"akka.home"</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="kc">null</span> <span class="o">|</span> <span class="s">""</span> <span class="k">⇒</span> <span class="nc">None</span>
+    <span class="k">case</span> <span class="n">value</span> <span class="k">⇒</span> <span class="nc">Some</span><span class="o">(</span><span class="n">value</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="c1">//若没有配置SystemHome则使用EnvHome</span>
+  <span class="k">val</span> <span class="nv">GlobalHome</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">SystemHome</span> <span class="n">orElse</span> <span class="nc">EnvHome</span>
+
+  <span class="cm">/**
+   * 创建一个名称为“default”的新ActorSystem，通过首先检查当前线程的getContextClassLoader来获取当前的ClassLoader，
+   * 然后尝试遍历堆栈以查找调用方的类加载器，然后退回到与ActorSystem类关联的ClassLoader 然后，它使用ClassLoader加载默认的参考配置
+   */</span>
+  <span class="k">def</span> <span class="nf">create</span><span class="o">()</span><span class="k">:</span> <span class="kt">ActorSystem</span> <span class="o">=</span> <span class="nf">apply</span><span class="o">()</span>
+
+  <span class="cm">/**
+   * 同上，但名字由使用者指定
+   */</span>
+  <span class="k">def</span> <span class="nf">create</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorSystem</span> <span class="o">=</span> <span class="nf">apply</span><span class="o">(</span><span class="n">name</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * Java API: 使用指定的名称和设置创建一个新的actor系统，核心actor系统设置在[[BootstrapSetup]]中定义的
+   */</span>
+  <span class="k">def</span> <span class="nf">create</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">setups</span><span class="k">:</span> <span class="kt">ActorSystemSetup</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorSystem</span> <span class="o">=</span> <span class="nf">apply</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">setups</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * Java API: 同上，内部调用Scala接口
+   * def apply(settings: Setup*): ActorSystemSetup = new ActorSystemSetup(settings.map(s ⇒ s.getClass → s).toMap)
+   */</span>
+  <span class="k">def</span> <span class="nf">create</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">bootstrapSetup</span><span class="k">:</span> <span class="kt">BootstrapSetup</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorSystem</span> <span class="o">=</span>
+    <span class="nf">create</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="nv">ActorSystemSetup</span><span class="o">.</span><span class="py">create</span><span class="o">(</span><span class="n">bootstrapSetup</span><span class="o">))</span>
+
+  <span class="cm">/**
+   * 使用配置config来创建一个名为name的actor系统
+   */</span>
+  <span class="k">def</span> <span class="nf">create</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">config</span><span class="k">:</span> <span class="kt">Config</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorSystem</span> <span class="o">=</span> <span class="nf">apply</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">config</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 同上，需要传入类加载器
+   */</span>
+  <span class="k">def</span> <span class="nf">create</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">config</span><span class="k">:</span> <span class="kt">Config</span><span class="o">,</span> <span class="n">classLoader</span><span class="k">:</span> <span class="kt">ClassLoader</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorSystem</span> <span class="o">=</span> <span class="nf">apply</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">config</span><span class="o">,</span> <span class="n">classLoader</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 请注意，给定的ExecutionContext将由已配置executor =“ default-executor”的所有调度程序使用，
+   * 包括那些尚未定义executor设置的调度程序，因此回退至默认值“default-dispatcher.executor”的
+   *
+   */</span>
+  <span class="k">def</span> <span class="nf">create</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">config</span><span class="k">:</span> <span class="kt">Config</span><span class="o">,</span> <span class="n">classLoader</span><span class="k">:</span> <span class="kt">ClassLoader</span><span class="o">,</span> <span class="n">defaultExecutionContext</span><span class="k">:</span> <span class="kt">ExecutionContext</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorSystem</span> <span class="o">=</span> <span class="nf">apply</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="nc">Option</span><span class="o">(</span><span class="n">config</span><span class="o">),</span> <span class="nc">Option</span><span class="o">(</span><span class="n">classLoader</span><span class="o">),</span> <span class="nc">Option</span><span class="o">(</span><span class="n">defaultExecutionContext</span><span class="o">))</span>
+
+  <span class="cm">/**
+   * Scala API: 同create，Scala使用 val system = ActorSystem() 创建单例对象的实例
+   */</span>
+  <span class="k">def</span> <span class="nf">apply</span><span class="o">()</span><span class="k">:</span> <span class="kt">ActorSystem</span> <span class="o">=</span> <span class="nf">apply</span><span class="o">(</span><span class="s">"default"</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * Scala API: 同create
+   */</span>
+  <span class="k">def</span> <span class="nf">apply</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorSystem</span> <span class="o">=</span> <span class="nf">apply</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="nc">None</span><span class="o">,</span> <span class="nc">None</span><span class="o">,</span> <span class="nc">None</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * Scala API: 同create
+   */</span>
+  <span class="k">def</span> <span class="nf">apply</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">setup</span><span class="k">:</span> <span class="kt">ActorSystemSetup</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorSystem</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="c1">//获取引导程序配置</span>
+    <span class="k">val</span> <span class="nv">bootstrapSettings</span> <span class="k">=</span> <span class="nv">setup</span><span class="o">.</span><span class="py">get</span><span class="o">[</span><span class="kt">BootstrapSetup</span><span class="o">]</span>
+    <span class="c1">//从引导程序配置中获取类加载器，否则查找，底层查找顺序如下(如上classLoader参数的解释)</span>
+    <span class="c1">//Option(Thread.currentThread.getContextClassLoader) orElse</span>
+    <span class="c1">//(Reflect.getCallerClass map findCaller) getOrElse getClass.getClassLoader</span>
+    <span class="k">val</span> <span class="nv">cl</span> <span class="k">=</span> <span class="nv">bootstrapSettings</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">classLoader</span><span class="o">).</span><span class="py">getOrElse</span><span class="o">(</span><span class="nf">findClassLoader</span><span class="o">())</span>
+    <span class="c1">//从引导程序配置中获取配置，否则使用ConfigFactory加载指定的类加载下的默认配置("reference.conf")</span>
+    <span class="k">val</span> <span class="nv">appConfig</span> <span class="k">=</span> <span class="nv">bootstrapSettings</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">config</span><span class="o">).</span><span class="py">getOrElse</span><span class="o">(</span><span class="nv">ConfigFactory</span><span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">cl</span><span class="o">))</span>
+    <span class="c1">//从引导程序配置中获取默认的执行线程池</span>
+    <span class="k">val</span> <span class="nv">defaultEC</span> <span class="k">=</span> <span class="nv">bootstrapSettings</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">defaultExecutionContext</span><span class="o">)</span>
+    <span class="c1">//actorSystem的具体实现</span>
+    <span class="k">new</span> <span class="nc">ActorSystemImpl</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">appConfig</span><span class="o">,</span> <span class="n">cl</span><span class="o">,</span> <span class="n">defaultEC</span><span class="o">,</span> <span class="nc">None</span><span class="o">,</span> <span class="n">setup</span><span class="o">).</span><span class="py">start</span><span class="o">()</span>
+  <span class="o">}</span>
+
+  <span class="cm">/**
+   * Scala API: 同上apply，参数不同
+   */</span>
+  <span class="k">def</span> <span class="nf">apply</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">bootstrapSetup</span><span class="k">:</span> <span class="kt">BootstrapSetup</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorSystem</span> <span class="o">=</span>
+    <span class="nf">create</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="nv">ActorSystemSetup</span><span class="o">.</span><span class="py">create</span><span class="o">(</span><span class="n">bootstrapSetup</span><span class="o">))</span>
+
+  <span class="cm">/**
+   * Scala API: 同上apply，参数不同
+   */</span>
+  <span class="k">def</span> <span class="nf">apply</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">config</span><span class="k">:</span> <span class="kt">Config</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorSystem</span> <span class="o">=</span> <span class="nf">apply</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="nc">Option</span><span class="o">(</span><span class="n">config</span><span class="o">),</span> <span class="nc">None</span><span class="o">,</span> <span class="nc">None</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * Scala API: 同上apply，参数不同
+   */</span>
+  <span class="k">def</span> <span class="nf">apply</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">config</span><span class="k">:</span> <span class="kt">Config</span><span class="o">,</span> <span class="n">classLoader</span><span class="k">:</span> <span class="kt">ClassLoader</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorSystem</span> <span class="o">=</span> <span class="nf">apply</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="nc">Option</span><span class="o">(</span><span class="n">config</span><span class="o">),</span> <span class="nc">Option</span><span class="o">(</span><span class="n">classLoader</span><span class="o">),</span> <span class="nc">None</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * Scala API: 同上apply，参数不同
+   */</span>
+  <span class="k">def</span> <span class="nf">apply</span><span class="o">(</span>
+    <span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+    <span class="n">config</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Config</span><span class="o">]</span> <span class="k">=</span> <span class="nc">None</span><span class="o">,</span>
+    <span class="n">classLoader</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">ClassLoader</span><span class="o">]</span> <span class="k">=</span> <span class="nc">None</span><span class="o">,</span>
+    <span class="n">defaultExecutionContext</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">ExecutionContext</span><span class="o">]</span> <span class="k">=</span> <span class="nc">None</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorSystem</span> <span class="o">=</span>
+    <span class="nf">apply</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="nc">ActorSystemSetup</span><span class="o">(</span><span class="nc">BootstrapSetup</span><span class="o">(</span><span class="n">classLoader</span><span class="o">,</span> <span class="n">config</span><span class="o">,</span> <span class="n">defaultExecutionContext</span><span class="o">)))</span>
+
+  <span class="cm">/**
+   * 设置是ActorSystem的总体设置，还可以方便地访问Config对象(The Typesafe Config Library API)
+   */</span>
+  <span class="k">class</span> <span class="nc">Settings</span><span class="o">(</span><span class="n">classLoader</span><span class="k">:</span> <span class="kt">ClassLoader</span><span class="o">,</span> <span class="n">cfg</span><span class="k">:</span> <span class="kt">Config</span><span class="o">,</span> <span class="k">final</span> <span class="k">val</span> <span class="nv">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="k">val</span> <span class="nv">setup</span><span class="k">:</span> <span class="kt">ActorSystemSetup</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="k">def</span> <span class="nf">this</span><span class="o">(</span><span class="n">classLoader</span><span class="k">:</span> <span class="kt">ClassLoader</span><span class="o">,</span> <span class="n">cfg</span><span class="k">:</span> <span class="kt">Config</span><span class="o">,</span> <span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="nf">this</span><span class="o">(</span><span class="n">classLoader</span><span class="o">,</span> <span class="n">cfg</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="nc">ActorSystemSetup</span><span class="o">())</span>
+
+    <span class="cm">/**
+     * actor系统配置的后备配置
+     */</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">config</span><span class="k">:</span> <span class="kt">Config</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="c1">//检查配置</span>
+      <span class="k">val</span> <span class="nv">config</span> <span class="k">=</span> <span class="nv">cfg</span><span class="o">.</span><span class="py">withFallback</span><span class="o">(</span><span class="nv">ConfigFactory</span><span class="o">.</span><span class="py">defaultReference</span><span class="o">(</span><span class="n">classLoader</span><span class="o">))</span>
+      <span class="nv">config</span><span class="o">.</span><span class="py">checkValid</span><span class="o">(</span><span class="nv">ConfigFactory</span><span class="o">.</span><span class="py">defaultReference</span><span class="o">(</span><span class="n">classLoader</span><span class="o">),</span> <span class="s">"akka"</span><span class="o">)</span>
+      <span class="n">config</span>
+    <span class="o">}</span>
+
+    <span class="c1">//获取当前akka的版本，和当前使用的是哪中actor(本地、远程、集群)</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">ConfigVersion</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="nf">getString</span><span class="o">(</span><span class="s">"akka.version"</span><span class="o">)</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">ProviderClass</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span>
+      <span class="nv">setup</span><span class="o">.</span><span class="py">get</span><span class="o">[</span><span class="kt">BootstrapSetup</span><span class="o">]</span>
+        <span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">actorRefProvider</span><span class="o">).</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">identifier</span><span class="o">)</span>
+        <span class="o">.</span><span class="py">getOrElse</span><span class="o">(</span><span class="nf">getString</span><span class="o">(</span><span class="s">"akka.actor.provider"</span><span class="o">))</span> <span class="k">match</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="s">"local"</span> <span class="k">⇒</span> <span class="n">classOf</span><span class="o">[</span><span class="kt">LocalActorRefProvider</span><span class="o">].</span><span class="py">getName</span>
+        <span class="c1">//这两个类不能被类引用，因为它们可能不在类路径中(需要额外的依赖，非基础actor系统所需)</span>
+        <span class="k">case</span> <span class="s">"remote"</span> <span class="k">⇒</span> <span class="s">"akka.remote.RemoteActorRefProvider"</span>
+        <span class="k">case</span> <span class="s">"cluster"</span> <span class="k">⇒</span> <span class="s">"akka.cluster.ClusterActorRefProvider"</span>
+        <span class="k">case</span> <span class="n">fqcn</span> <span class="k">⇒</span> <span class="n">fqcn</span>
+      <span class="o">}</span>
+    <span class="c1">//以下配置在akka-actor reference.conf，默认值可能已经更改</span>
+    <span class="c1">//获取当前配置监护人策略，指/user路径下的监护</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">SupervisorStrategyClass</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="nf">getString</span><span class="o">(</span><span class="s">"akka.actor.guardian-supervisor-strategy"</span><span class="o">)</span>
+    <span class="c1">//创建超时，指ActorSystem.actorOf的超时</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">CreationTimeout</span><span class="k">:</span> <span class="kt">Timeout</span> <span class="o">=</span> <span class="nc">Timeout</span><span class="o">(</span><span class="nv">config</span><span class="o">.</span><span class="py">getMillisDuration</span><span class="o">(</span><span class="s">"akka.actor.creation-timeout"</span><span class="o">))</span>
+    <span class="c1">//向正在启动的顶级actor发送操作的超时 仅当将绑定信箱或CallingThreadDispatcher用于顶级actor时，这才有意义</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">UnstartedPushTimeout</span><span class="k">:</span> <span class="kt">Timeout</span> <span class="o">=</span> <span class="nc">Timeout</span><span class="o">(</span><span class="nv">config</span><span class="o">.</span><span class="py">getMillisDuration</span><span class="o">(</span><span class="s">"akka.actor.unstarted-push-timeout"</span><span class="o">))</span>
+    <span class="c1">//是否允许Java序列化，默认on，以后可能为off不推荐用</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">AllowJavaSerialization</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">getBoolean</span><span class="o">(</span><span class="s">"akka.actor.allow-java-serialization"</span><span class="o">)</span>
+    <span class="c1">//是否允许启用其他序列化绑定，用于兼容</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">EnableAdditionalSerializationBindings</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span>
+      <span class="o">!</span><span class="nc">AllowJavaSerialization</span> <span class="o">||</span> <span class="nf">getBoolean</span><span class="o">(</span><span class="s">"akka.actor.enable-additional-serialization-bindings"</span><span class="o">)</span>
+    <span class="c1">//是否序列化所有消息  序列化和反序列化(非原始)消息以确保不变性，这仅用于测试默认off</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">SerializeAllMessages</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">getBoolean</span><span class="o">(</span><span class="s">"akka.actor.serialize-messages"</span><span class="o">)</span>
+    <span class="c1">//对创建者进行序列化和反序列化(在Props中)以确保可以通过网络发送它们，这仅用于测试 标记为deploy.scope == LocalScope的纯本地部署免于验证默认off</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">SerializeAllCreators</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">getBoolean</span><span class="o">(</span><span class="s">"akka.actor.serialize-creators"</span><span class="o">)</span>
+    <span class="c1">//日志等级 OFF, ERROR, WARNING, INFO, DEBUG 可选</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">LogLevel</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="nf">getString</span><span class="o">(</span><span class="s">"akka.loglevel"</span><span class="o">)</span>
+    <span class="c1">//控制台的日志等级</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">StdoutLogLevel</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="nf">getString</span><span class="o">(</span><span class="s">"akka.stdout-loglevel"</span><span class="o">)</span>
+    <span class="c1">//日志实现，可多个，在引导时注册，默认akka.event.Logging$DefaultLogger</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">Loggers</span><span class="k">:</span> <span class="kt">immutable.Seq</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nf">immutableSeq</span><span class="o">(</span><span class="nf">getStringList</span><span class="o">(</span><span class="s">"akka.loggers"</span><span class="o">))</span>
+    <span class="c1">//默认的日志调度器</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">LoggersDispatcher</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="nf">getString</span><span class="o">(</span><span class="s">"akka.loggers-dispatcher"</span><span class="o">)</span>
+    <span class="c1">//日志的过滤器 过滤LoggingAdapter在将日志事件发布到eventStream之前使用的日志事件，默认akka.event.DefaultLoggingFilter</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">LoggingFilter</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="nf">getString</span><span class="o">(</span><span class="s">"akka.logging-filter"</span><span class="o">)</span>
+    <span class="c1">//日志启动超时大小 日志是在ActorSystem启动期间同步创建和注册的，并且由于它们是actor，因此此超时用于限制等待时间，默认5s</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">LoggerStartTimeout</span><span class="k">:</span> <span class="kt">Timeout</span> <span class="o">=</span> <span class="nc">Timeout</span><span class="o">(</span><span class="nv">config</span><span class="o">.</span><span class="py">getMillisDuration</span><span class="o">(</span><span class="s">"akka.logger-startup-timeout"</span><span class="o">))</span>
+    <span class="c1">//启动actor系统时，将完整的配置记录在INFO级别这在不确定使用哪种配置时很有用默认off</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">LogConfigOnStart</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nv">config</span><span class="o">.</span><span class="py">getBoolean</span><span class="o">(</span><span class="s">"akka.log-config-on-start"</span><span class="o">)</span>
+    <span class="c1">//将被记录的死信个数，以info级别记录，默认10</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">LogDeadLetters</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="nf">toRootLowerCase</span><span class="o">(</span><span class="nv">config</span><span class="o">.</span><span class="py">getString</span><span class="o">(</span><span class="s">"akka.log-dead-letters"</span><span class="o">))</span> <span class="k">match</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="s">"off"</span> <span class="o">|</span> <span class="s">"false"</span> <span class="k">⇒</span> <span class="mi">0</span>
+      <span class="k">case</span> <span class="s">"on"</span> <span class="o">|</span> <span class="s">"true"</span> <span class="k">⇒</span> <span class="nv">Int</span><span class="o">.</span><span class="py">MaxValue</span>
+      <span class="k">case</span> <span class="k">_</span> <span class="k">⇒</span> <span class="nv">config</span><span class="o">.</span><span class="py">getInt</span><span class="o">(</span><span class="s">"akka.log-dead-letters"</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="c1">//在actor系统关闭时，关闭对死信的记录</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">LogDeadLettersDuringShutdown</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nv">config</span><span class="o">.</span><span class="py">getBoolean</span><span class="o">(</span><span class="s">"akka.log-dead-letters-during-shutdown"</span><span class="o">)</span>
+
+    <span class="c1">//该功能以DEBUG级别记录任何收到的消息(这里的记录是在开启debug后会打印出来)</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">AddLoggingReceive</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">getBoolean</span><span class="o">(</span><span class="s">"akka.actor.debug.receive"</span><span class="o">)</span>
+    <span class="c1">//记录所有消息，包括Kill, PoisonPill</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">DebugAutoReceive</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">getBoolean</span><span class="o">(</span><span class="s">"akka.actor.debug.autoreceive"</span><span class="o">)</span>
+    <span class="c1">//记录actor生命周期的更改</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">DebugLifecycle</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">getBoolean</span><span class="o">(</span><span class="s">"akka.actor.debug.lifecycle"</span><span class="o">)</span>
+    <span class="c1">//启用所有LoggingFSM的调试日志，包括events, transitions and timers</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">FsmDebugEvent</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">getBoolean</span><span class="o">(</span><span class="s">"akka.actor.debug.fsm"</span><span class="o">)</span>
+    <span class="c1">//记录eventStream上的订阅的更改</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">DebugEventStream</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">getBoolean</span><span class="o">(</span><span class="s">"akka.actor.debug.event-stream"</span><span class="o">)</span>
+    <span class="c1">//记录为处理的消息(与死信不同)</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">DebugUnhandledMessage</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">getBoolean</span><span class="o">(</span><span class="s">"akka.actor.debug.unhandled"</span><span class="o">)</span>
+    <span class="c1">//启用错误配置的路由器的WARN日志记录</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">DebugRouterMisconfiguration</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">getBoolean</span><span class="o">(</span><span class="s">"akka.actor.debug.router-misconfiguration"</span><span class="o">)</span>
+
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">Home</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nv">config</span><span class="o">.</span><span class="py">getString</span><span class="o">(</span><span class="s">"akka.home"</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="s">""</span> <span class="k">⇒</span> <span class="nc">None</span>
+      <span class="k">case</span> <span class="n">x</span> <span class="k">⇒</span> <span class="nc">Some</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="c1">//定时器的具体实现类</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">SchedulerClass</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="nf">getString</span><span class="o">(</span><span class="s">"akka.scheduler.implementation"</span><span class="o">)</span>
+    <span class="c1">//此ActorSystem创建的线程是否应为守护程序</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">Daemonicity</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">getBoolean</span><span class="o">(</span><span class="s">"akka.daemonic"</span><span class="o">)</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">JvmExitOnFatalError</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">getBoolean</span><span class="o">(</span><span class="s">"akka.jvm-exit-on-fatal-error"</span><span class="o">)</span>
+    <span class="c1">//JVM shutdown, System.exit(-1), in case of a fatal error,such as OutOfMemoryError</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">JvmShutdownHooks</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">getBoolean</span><span class="o">(</span><span class="s">"akka.jvm-shutdown-hooks"</span><span class="o">)</span>
+    <span class="c1">//一致性hash路由器的每个节点的虚拟节点的数量，这里感觉是每个节点之间的虚拟节点数</span>
+    <span class="k">final</span> <span class="k">val</span> <span class="nv">DefaultVirtualNodesFactor</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="nf">getInt</span><span class="o">(</span><span class="s">"akka.actor.deployment.default.virtual-nodes-factor"</span><span class="o">)</span>
+
+    <span class="nf">if</span> <span class="o">(</span><span class="nc">ConfigVersion</span> <span class="o">!=</span> <span class="nc">Version</span><span class="o">)</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nv">akka</span><span class="o">.</span><span class="py">ConfigurationException</span><span class="o">(</span><span class="s">"Akka JAR version ["</span> <span class="o">+</span> <span class="nc">Version</span> <span class="o">+</span> <span class="s">"] does not match the provided config version ["</span> <span class="o">+</span> <span class="nc">ConfigVersion</span> <span class="o">+</span> <span class="s">"]"</span><span class="o">)</span>
+
+    <span class="cm">/**
+     * Returns the String representation of the Config that this Settings is backed by
+     */</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="nf">toString</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="nv">config</span><span class="o">.</span><span class="py">root</span><span class="o">.</span><span class="py">render</span>
+
+  <span class="o">}</span>
+
+  <span class="k">private</span><span class="o">[</span><span class="kt">akka</span><span class="o">]</span> <span class="k">def</span> <span class="nf">findClassLoader</span><span class="o">()</span><span class="k">:</span> <span class="kt">ClassLoader</span> <span class="o">=</span> <span class="nv">Reflect</span><span class="o">.</span><span class="py">findClassLoader</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * 此类不打算由用户代码扩展 如果你想实际使用自己的Akka，最好考虑扩展[[akka.actor.ExtendedActorSystem]]
+ *
+ */</span>
+<span class="k">abstract</span> <span class="k">class</span> <span class="nc">ActorSystem</span> <span class="k">extends</span> <span class="nc">ActorRefFactory</span> <span class="o">{</span>
+
+  <span class="k">import</span> <span class="nn">ActorSystem._</span>
+
+  <span class="cm">/**
+   * actor系统的名称，用以区分同一jvm或类加载器下的不同的actor系统
+   */</span>
+  <span class="k">def</span> <span class="nf">name</span><span class="k">:</span> <span class="kt">String</span>
+
+  <span class="cm">/**
+   * 从提供的配置中提取核心设置
+   */</span>
+  <span class="k">def</span> <span class="nf">settings</span><span class="k">:</span> <span class="kt">Settings</span>
+
+  <span class="cm">/**
+   * 日志配置
+   */</span>
+  <span class="k">def</span> <span class="nf">logConfiguration</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span>
+
+  <span class="cm">/**
+   * 在应用程序守护程序下面构造一个路径，以与[[ActorSystem＃actorSelection]]一起使用
+   */</span>
+  <span class="k">def</span> <span class="nf">/</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorPath</span>
+
+  <span class="cm">/**
+   * Java API: 同/
+   */</span>
+  <span class="k">def</span> <span class="nf">child</span><span class="o">(</span><span class="n">child</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorPath</span> <span class="o">=</span> <span class="o">/(</span><span class="n">child</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 同上
+   */</span>
+  <span class="k">def</span> <span class="nf">/</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">Iterable</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">ActorPath</span>
+
+  <span class="cm">/**
+   * Java API: 递归创建，会附加所有孩子actor的名称
+   */</span>
+  <span class="k">def</span> <span class="nf">descendant</span><span class="o">(</span><span class="n">names</span><span class="k">:</span> <span class="kt">java.lang.Iterable</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">ActorPath</span> <span class="o">=</span> <span class="o">/(</span><span class="nf">immutableSeq</span><span class="o">(</span><span class="n">names</span><span class="o">))</span>
+
+  <span class="cm">/**
+   * 自该时间起的启动时间(以毫秒为单位)
+   */</span>
+  <span class="k">val</span> <span class="nv">startTime</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">=</span> <span class="nv">System</span><span class="o">.</span><span class="py">currentTimeMillis</span>
+
+  <span class="cm">/**
+   * 该actor系统的正常运行时间(以秒为单位)
+   */</span>
+  <span class="k">def</span> <span class="nf">uptime</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">=</span> <span class="o">(</span><span class="nv">System</span><span class="o">.</span><span class="py">currentTimeMillis</span> <span class="o">-</span> <span class="n">startTime</span><span class="o">)</span> <span class="o">/</span> <span class="mi">1000</span>
+
+  <span class="cm">/**
+   * 这个actor系统的主事件总线，例如用于日志
+   */</span>
+  <span class="k">def</span> <span class="nf">eventStream</span><span class="k">:</span> <span class="kt">EventStream</span>
+
+  <span class="cm">/**
+   * Java API: 同上
+   */</span>
+  <span class="k">def</span> <span class="nf">getEventStream</span><span class="k">:</span> <span class="kt">EventStream</span> <span class="o">=</span> <span class="n">eventStream</span>
+
+  <span class="cm">/**
+   * 方便的日志记录适配器，用于[[ActorSystem＃eventStream]]
+   */</span>
+  <span class="k">def</span> <span class="nf">log</span><span class="k">:</span> <span class="kt">LoggingAdapter</span>
+
+  <span class="cm">/**
+   * Actor引用，将消息发送给已停止或不存在的actor时会将消息重新路由到该引用 尽力而为地交付给此actor，因此不能严格保证
+   */</span>
+  <span class="k">def</span> <span class="nf">deadLetters</span><span class="k">:</span> <span class="kt">ActorRef</span>
+
+  <span class="c1">//#scheduler</span>
+  <span class="cm">/**
+   * 轻型调度程序，用于在将来某个截止日期之后运行异步任务 不是很精确，但是很廉价
+   */</span>
+  <span class="k">def</span> <span class="nf">scheduler</span><span class="k">:</span> <span class="kt">Scheduler</span>
+
+  <span class="c1">//#scheduler</span>
+
+  <span class="cm">/**
+   * Java API: 同上
+   */</span>
+  <span class="k">def</span> <span class="nf">getScheduler</span><span class="k">:</span> <span class="kt">Scheduler</span> <span class="o">=</span> <span class="n">scheduler</span>
+
+  <span class="cm">/**
+   * 用于查找已配置的调度程序的Helper对象
+   */</span>
+  <span class="k">def</span> <span class="nf">dispatchers</span><span class="k">:</span> <span class="kt">Dispatchers</span>
+
+  <span class="cm">/**
+   * 默认的调度器
+   **/</span>
+  <span class="k">implicit</span> <span class="k">def</span> <span class="nf">dispatcher</span><span class="k">:</span> <span class="kt">ExecutionContextExecutor</span>
+
+  <span class="cm">/**
+   * Java API: 同上
+   */</span>
+  <span class="k">def</span> <span class="nf">getDispatcher</span><span class="k">:</span> <span class="kt">ExecutionContextExecutor</span> <span class="o">=</span> <span class="n">dispatcher</span>
+
+  <span class="cm">/**
+   * 查找配置的信箱类型的帮助对象
+   */</span>
+  <span class="k">def</span> <span class="nf">mailboxes</span><span class="k">:</span> <span class="kt">Mailboxes</span>
+
+  <span class="cm">/**
+   * 注册一个代码块(回调)，以便在[actor system.terminate()]]发出并且此actor系统中的所有actor都已停止后运行
+   * 通过多次调用此方法，可以注册多个代码块回调将按与注册相反的顺序依次运行，即先运行最后注册的回调
+   * 请注意，在完成所有已注册的回调之前，ActorSystem不会终止
+   *
+   * 如果系统已终止或终止已启动，则抛出RejectedExecutionException
+   *
+   * Scala API
+   */</span>
+  <span class="k">def</span> <span class="nf">registerOnTermination</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="n">code</span><span class="k">:</span> <span class="k">⇒</span> <span class="kt">T</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span>
+
+  <span class="cm">/**
+   * Java API: 注册的是Runnable任务
+   */</span>
+  <span class="k">def</span> <span class="nf">registerOnTermination</span><span class="o">(</span><span class="n">code</span><span class="k">:</span> <span class="kt">Runnable</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span>
+
+  <span class="cm">/**
+   * 终止此actor系统这将停止守护者actor，而守护者(监护者)actor又将递归地停止其所有子actor，系统守护者(日志记录参与者所在的位置)，然后执行所有注册的终止处理程序
+   * 注意不要使用此actor系统的“dispatcher”在返回的future完成时安排任何操作，因为它在future完成之前已经关闭
+   */</span>
+  <span class="k">def</span> <span class="nf">terminate</span><span class="o">()</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Terminated</span><span class="o">]</span>
+
+  <span class="cm">/**
+   * 返回在ActorSystem终止并执行终止挂钩后将完成的未来如果您使用[[registerOnTermination]]注册了任何回调，
+   * 则在完成所有注册的回调之前，此方法返回的Future将不会完成
+   * 注意不要在这个actor系统的“dispatcher”上安排任何操作，因为它在将来完成之前已经被关闭
+   */</span>
+  <span class="k">def</span> <span class="nf">whenTerminated</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Terminated</span><span class="o">]</span>
+
+  <span class="cm">/**
+   * 返回一个CompletionStage，它将在ActorSystem终止并执行终止挂钩后完成如果您使用[[registerOnTermination]]注册了任何回调，
+   * 则在完成所有注册的回调之前，此方法返回的CompletionStage将不会完成
+   * 注意不要在这个actor系统的“dispatcher”上安排任何操作，因为它在将来完成之前已经被关闭
+   */</span>
+  <span class="k">def</span> <span class="nf">getWhenTerminated</span><span class="k">:</span> <span class="kt">CompletionStage</span><span class="o">[</span><span class="kt">Terminated</span><span class="o">]</span>
+
+  <span class="cm">/**
+   * 注册提供的扩展并创建其负载(payload)，如果此扩展尚未注册，则此方法具有putIfAbsent语义，如果正在从另一个执行线程注册，则此方法可能会阻塞，等待负载的初始化
+   */</span>
+  <span class="k">def</span> <span class="nf">registerExtension</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Extension</span><span class="o">](</span><span class="n">ext</span><span class="k">:</span> <span class="kt">ExtensionId</span><span class="o">[</span><span class="kt">T</span><span class="o">])</span><span class="k">:</span> <span class="kt">T</span>
+
+  <span class="cm">/**
+   * 返回与提供的扩展关联的有效负载，如果未注册，则引发IllegalStateException如果正在从另一个执行线程注册，则此方法可能会阻塞，等待负载的初始化
+   */</span>
+  <span class="k">def</span> <span class="nf">extension</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Extension</span><span class="o">](</span><span class="n">ext</span><span class="k">:</span> <span class="kt">ExtensionId</span><span class="o">[</span><span class="kt">T</span><span class="o">])</span><span class="k">:</span> <span class="kt">T</span>
+
+  <span class="cm">/**
+   * 返回指定的扩展是否已注册，如果正在从另一个执行线程注册，则此方法可能会阻塞，等待负载的初始化
+   */</span>
+  <span class="k">def</span> <span class="nf">hasExtension</span><span class="o">(</span><span class="n">ext</span><span class="k">:</span> <span class="kt">ExtensionId</span><span class="o">[</span><span class="k">_</span> <span class="k">&lt;:</span> <span class="kt">Extension</span><span class="o">])</span><span class="k">:</span> <span class="kt">Boolean</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * 拓展ActorSystem
+ */</span>
+<span class="k">abstract</span> <span class="k">class</span> <span class="nc">ExtendedActorSystem</span> <span class="k">extends</span> <span class="nc">ActorSystem</span> <span class="o">{</span>
+
+  <span class="cm">/**
+   * The ActorRefProvider is the only entity which creates all actor references within this actor system.
+   */</span>
+  <span class="k">def</span> <span class="nf">provider</span><span class="k">:</span> <span class="kt">ActorRefProvider</span>
+
+  <span class="cm">/**
+   * The top-level supervisor of all actors created using system.actorOf(...).
+   */</span>
+  <span class="k">def</span> <span class="nf">guardian</span><span class="k">:</span> <span class="kt">InternalActorRef</span>
+
+  <span class="cm">/**
+   * The top-level supervisor of all system-internal services like logging.
+   */</span>
+  <span class="k">def</span> <span class="nf">systemGuardian</span><span class="k">:</span> <span class="kt">InternalActorRef</span>
+
+  <span class="cm">/**
+   * Create an actor in the "/system" namespace. This actor will be shut down
+   * during system.terminate only after all user actors have terminated.
+   */</span>
+  <span class="k">def</span> <span class="nf">systemActorOf</span><span class="o">(</span><span class="n">props</span><span class="k">:</span> <span class="kt">Props</span><span class="o">,</span> <span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorRef</span>
+
+  <span class="cm">/**
+   * A ThreadFactory that can be used if the transport needs to create any Threads
+   */</span>
+  <span class="k">def</span> <span class="nf">threadFactory</span><span class="k">:</span> <span class="kt">ThreadFactory</span>
+
+  <span class="cm">/**
+   * ClassLoader wrapper which is used for reflective accesses internally. This is set
+   * to use the context class loader, if one is set, or the class loader which
+   * loaded the ActorSystem implementation. The context class loader is also
+   * set on all threads created by the ActorSystem, if one was set during
+   * creation.
+   */</span>
+  <span class="k">def</span> <span class="nf">dynamicAccess</span><span class="k">:</span> <span class="kt">DynamicAccess</span>
+
+  <span class="cm">/**
+   * Filter of log events that is used by the LoggingAdapter before
+   * publishing log events to the eventStream
+   */</span>
+  <span class="k">def</span> <span class="nf">logFilter</span><span class="k">:</span> <span class="kt">LoggingFilter</span>
+
+  <span class="cm">/**
+   * For debugging: traverse actor hierarchy and make string representation.
+   * Careful, this may OOM on large actor systems, and it is only meant for
+   * helping debugging in case something already went terminally wrong.
+   */</span>
+  <span class="k">private</span><span class="o">[</span><span class="kt">akka</span><span class="o">]</span> <span class="k">def</span> <span class="nf">printTree</span><span class="k">:</span> <span class="kt">String</span>
+
+<span class="o">}</span>
+
+<span class="cm">/**
+ * ActorSystem内部具体实现
+ */</span>
+<span class="nd">@InternalApi</span>
+<span class="k">private</span><span class="o">[</span><span class="kt">akka</span><span class="o">]</span> <span class="k">class</span> <span class="nc">ActorSystemImpl</span><span class="o">(</span>
+  <span class="k">val</span> <span class="nv">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">applicationConfig</span><span class="k">:</span> <span class="kt">Config</span><span class="o">,</span>
+  <span class="n">classLoader</span><span class="k">:</span> <span class="kt">ClassLoader</span><span class="o">,</span>
+  <span class="n">defaultExecutionContext</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">ExecutionContext</span><span class="o">],</span>
+  <span class="k">val</span> <span class="nv">guardianProps</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Props</span><span class="o">],</span> <span class="c1">//构造actor实例的配方</span>
+  <span class="n">setup</span><span class="k">:</span> <span class="kt">ActorSystemSetup</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">ExtendedActorSystem</span> <span class="o">{</span>
+
+  <span class="c1">//验证ActorSystem名字的有效性</span>
+  <span class="nf">if</span> <span class="o">(!</span><span class="nv">name</span><span class="o">.</span><span class="py">matches</span><span class="o">(</span><span class="s">"""^[a-zA-Z0-9][a-zA-Z0-9-_]*$"""</span><span class="o">))</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nc">IllegalArgumentException</span><span class="o">(</span>
+      <span class="s">"invalid ActorSystem name ["</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span>
+        <span class="s">"], must contain only word characters (i.e. [a-zA-Z0-9] plus non-leading '-' or '_')"</span><span class="o">)</span>
+
+  <span class="k">import</span> <span class="nn">ActorSystem._</span>
+
+  <span class="c1">//死信日志监听器 actor</span>
+  <span class="nd">@volatile</span> <span class="k">private</span> <span class="k">var</span> <span class="n">logDeadLetterListener</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">ActorRef</span><span class="o">]</span> <span class="k">=</span> <span class="nc">None</span>
+  <span class="c1">//配置</span>
+  <span class="k">final</span> <span class="k">val</span> <span class="nv">settings</span><span class="k">:</span> <span class="kt">Settings</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Settings</span><span class="o">(</span><span class="n">classLoader</span><span class="o">,</span> <span class="n">applicationConfig</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">setup</span><span class="o">)</span>
+
+  <span class="c1">//处理未捕获的异常</span>
+  <span class="k">protected</span> <span class="k">def</span> <span class="nf">uncaughtExceptionHandler</span><span class="k">:</span> <span class="kt">Thread.UncaughtExceptionHandler</span> <span class="o">=</span>
+    <span class="k">new</span> <span class="nv">Thread</span><span class="o">.</span><span class="py">UncaughtExceptionHandler</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">def</span> <span class="nf">uncaughtException</span><span class="o">(</span><span class="n">thread</span><span class="k">:</span> <span class="kt">Thread</span><span class="o">,</span> <span class="n">cause</span><span class="k">:</span> <span class="kt">Throwable</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="n">cause</span> <span class="k">match</span> <span class="o">{</span>
+          <span class="c1">//非致命异常</span>
+          <span class="k">case</span> <span class="nc">NonFatal</span><span class="o">(</span><span class="k">_</span><span class="o">)</span> <span class="o">|</span> <span class="k">_:</span> <span class="kt">InterruptedException</span> <span class="kt">|</span> <span class="k">_</span><span class="kt">:</span> <span class="kt">NotImplementedError</span> <span class="kt">|</span> <span class="k">_</span><span class="kt">:</span> <span class="kt">ControlThrowable</span> <span class="k">⇒</span> <span class="kt">log.error</span><span class="o">(</span><span class="kt">cause</span><span class="o">,</span> <span class="err">"</span><span class="kt">Uncaught</span> <span class="kt">error</span> <span class="kt">from</span> <span class="kt">thread</span> <span class="o">[{}]</span><span class="s">", thread.getName)
+          case _ ⇒
+            //致命异常 结束
+            if (cause.isInstanceOf[IncompatibleClassChangeError] &amp;&amp; cause.getMessage.startsWith("</span><span class="n">akka</span><span class="s">"))
+              System.err.println(
+                s"""</span><span class="nc">Detected</span> <span class="n">$</span><span class="o">{</span><span class="nv">cause</span><span class="o">.</span><span class="py">getClass</span><span class="o">.</span><span class="py">getName</span><span class="o">}</span> <span class="n">error</span><span class="o">,</span> <span class="n">which</span> <span class="nc">MAY</span> <span class="n">be</span> <span class="n">caused</span> <span class="n">by</span> <span class="n">incompatible</span> <span class="nc">Akka</span> <span class="n">versions</span> <span class="n">on</span> <span class="n">the</span> <span class="n">classpath</span><span class="o">.</span>
+                   <span class="o">|</span> <span class="nc">Please</span> <span class="n">note</span> <span class="n">that</span> <span class="n">a</span> <span class="n">given</span> <span class="nc">Akka</span> <span class="n">version</span> <span class="nc">MUST</span> <span class="n">be</span> <span class="n">the</span> <span class="n">same</span> <span class="n">across</span> <span class="n">all</span> <span class="n">modules</span> <span class="n">of</span> <span class="nc">Akka</span> <span class="n">that</span> <span class="n">you</span> <span class="n">are</span> <span class="n">using</span><span class="o">,</span>
+                   <span class="o">|</span> <span class="nv">e</span><span class="o">.</span><span class="py">g</span><span class="o">.</span> <span class="k">if</span> <span class="n">you</span> <span class="n">use</span> <span class="n">akka</span><span class="o">-</span><span class="n">actor</span> <span class="o">[</span><span class="kt">$</span><span class="o">{</span><span class="kt">akka.Version.current</span><span class="o">}</span> <span class="o">(</span><span class="kt">resolved</span> <span class="kt">from</span> <span class="kt">current</span> <span class="kt">classpath</span><span class="o">)]</span> <span class="n">all</span> <span class="n">other</span> <span class="n">core</span>
+                   <span class="o">|</span> <span class="nc">Akka</span> <span class="n">modules</span> <span class="nc">MUST</span> <span class="n">be</span> <span class="n">of</span> <span class="n">the</span> <span class="n">same</span> <span class="n">version</span><span class="o">.</span> <span class="nc">External</span> <span class="n">projects</span> <span class="n">like</span> <span class="nc">Alpakka</span><span class="o">,</span> <span class="nc">Persistence</span> <span class="n">plugins</span> <span class="n">or</span> <span class="nc">Akka</span>
+                   <span class="o">|</span> <span class="nc">HTTP</span> <span class="n">etc</span><span class="o">.</span> <span class="n">have</span> <span class="n">their</span> <span class="n">own</span> <span class="n">version</span> <span class="n">numbers</span> <span class="o">-</span> <span class="n">please</span> <span class="n">make</span> <span class="n">sure</span> <span class="n">you</span><span class="ss">'re</span> <span class="n">using</span> <span class="n">a</span> <span class="n">compatible</span> <span class="n">set</span> <span class="n">of</span> <span class="n">libraries</span><span class="o">.</span>
+                  <span class="s">""".stripMargin.replaceAll("</span><span class="o">[</span><span class="kt">\r\n</span><span class="o">]</span><span class="s">", ""))
+
+            if (settings.JvmExitOnFatalError)
+              try logFatalError("</span><span class="n">shutting</span> <span class="n">down</span> <span class="nc">JVM</span> <span class="n">since</span> <span class="ss">'akka</span><span class="o">.</span><span class="py">jvm</span><span class="o">-</span><span class="n">exit</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">fatal</span><span class="o">-</span><span class="n">error</span><span class="o">'</span> <span class="n">is</span> <span class="n">enabled</span> <span class="k">for</span><span class="s">", cause, thread)
+              finally System.exit(-1)
+            else
+              try logFatalError("</span><span class="n">shutting</span> <span class="n">down</span><span class="s">", cause, thread)
+              finally terminate()
+        }
+      }
+
+      //内联函数，记录致命异常
+      @inline
+      private def logFatalError(message: String, cause: Throwable, thread: Thread): Unit = {
+        // First log to stderr as this has the best chance to get through in an 'emergency panic' situation:
+        import System.err
+        err.print("</span><span class="nc">Uncaught</span> <span class="n">error</span> <span class="n">from</span> <span class="n">thread</span> <span class="o">[</span><span class="err">"</span><span class="o">)</span>
+        <span class="nv">err</span><span class="o">.</span><span class="py">print</span><span class="o">(</span><span class="nv">thread</span><span class="o">.</span><span class="py">getName</span><span class="o">)</span>
+        <span class="nv">err</span><span class="o">.</span><span class="py">print</span><span class="o">(</span><span class="s">"]: "</span><span class="o">)</span>
+        <span class="nv">err</span><span class="o">.</span><span class="py">print</span><span class="o">(</span><span class="nv">cause</span><span class="o">.</span><span class="py">getMessage</span><span class="o">)</span>
+        <span class="nv">err</span><span class="o">.</span><span class="py">print</span><span class="o">(</span><span class="s">", "</span><span class="o">)</span>
+        <span class="nv">err</span><span class="o">.</span><span class="py">print</span><span class="o">(</span><span class="n">message</span><span class="o">)</span>
+        <span class="nv">err</span><span class="o">.</span><span class="py">print</span><span class="o">(</span><span class="s">" ActorSystem["</span><span class="o">)</span>
+        <span class="nv">err</span><span class="o">.</span><span class="py">print</span><span class="o">(</span><span class="n">name</span><span class="o">)</span>
+        <span class="nv">err</span><span class="o">.</span><span class="py">println</span><span class="o">(</span><span class="s">"]"</span><span class="o">)</span>
+        <span class="nv">System</span><span class="o">.</span><span class="py">err</span><span class="o">.</span><span class="py">flush</span><span class="o">()</span>
+        <span class="nv">cause</span><span class="o">.</span><span class="py">printStackTrace</span><span class="o">(</span><span class="nv">System</span><span class="o">.</span><span class="py">err</span><span class="o">)</span>
+        <span class="nv">System</span><span class="o">.</span><span class="py">err</span><span class="o">.</span><span class="py">flush</span><span class="o">()</span>
+
+        <span class="c1">// Also log using the normal infrastructure - hope for the best:</span>
+        <span class="nv">markerLogging</span><span class="o">.</span><span class="py">error</span><span class="o">(</span><span class="nv">LogMarker</span><span class="o">.</span><span class="py">Security</span><span class="o">,</span> <span class="n">cause</span><span class="o">,</span> <span class="s">"Uncaught error from thread [{}]: "</span> <span class="o">+</span> <span class="nv">cause</span><span class="o">.</span><span class="py">getMessage</span> <span class="o">+</span> <span class="s">", "</span> <span class="o">+</span> <span class="n">message</span> <span class="o">+</span> <span class="s">" ActorSystem[{}]"</span><span class="o">,</span> <span class="nv">thread</span><span class="o">.</span><span class="py">getName</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+
+  <span class="c1">//可监控的线程池</span>
+  <span class="k">final</span> <span class="k">val</span> <span class="nv">threadFactory</span><span class="k">:</span> <span class="kt">MonitorableThreadFactory</span> <span class="o">=</span>
+    <span class="nc">MonitorableThreadFactory</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="nv">settings</span><span class="o">.</span><span class="py">Daemonicity</span><span class="o">,</span> <span class="nc">Option</span><span class="o">(</span><span class="n">classLoader</span><span class="o">),</span> <span class="n">uncaughtExceptionHandler</span><span class="o">)</span>
+
+  <span class="cm">/**
+   * 这是一个扩展点：通过重写此方法，子类可以控制参与者系统的所有反射活动
+   */</span>
+  <span class="k">protected</span> <span class="k">def</span> <span class="nf">createDynamicAccess</span><span class="o">()</span><span class="k">:</span> <span class="kt">DynamicAccess</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ReflectiveDynamicAccess</span><span class="o">(</span><span class="n">classLoader</span><span class="o">)</span>
+
+  <span class="k">private</span> <span class="k">val</span> <span class="nv">_pm</span><span class="k">:</span> <span class="kt">DynamicAccess</span> <span class="o">=</span> <span class="nf">createDynamicAccess</span><span class="o">()</span>
+
+  <span class="k">def</span> <span class="nf">dynamicAccess</span><span class="k">:</span> <span class="kt">DynamicAccess</span> <span class="o">=</span> <span class="nc">_pm</span>
+
+  <span class="c1">//在INFO级别记录消息</span>
+  <span class="k">def</span> <span class="nf">logConfiguration</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="nv">log</span><span class="o">.</span><span class="py">info</span><span class="o">(</span><span class="nv">settings</span><span class="o">.</span><span class="py">toString</span><span class="o">)</span>
+
+  <span class="c1">//本实例作为系统实现</span>
+  <span class="k">protected</span> <span class="k">def</span> <span class="nf">systemImpl</span><span class="k">:</span> <span class="kt">ActorSystemImpl</span> <span class="o">=</span> <span class="k">this</span>
+
+  <span class="c1">//在系统监护人(/system)下构建actor(系统监护人和ActorSystem是不同的东西，这里的ActorSystem实例实际上是在/user下的，而不是/system，具体参考actor系统的监护)</span>
+  <span class="c1">//https://dreamylost.cn/akka/Akka-Actor%E7%9A%84%E7%9B%91%E7%9D%A3%E4%B8%8E%E7%9B%91%E6%8E%A7.html</span>
+  <span class="k">def</span> <span class="nf">systemActorOf</span><span class="o">(</span><span class="n">props</span><span class="k">:</span> <span class="kt">Props</span><span class="o">,</span> <span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorRef</span> <span class="o">=</span> <span class="nv">systemGuardian</span><span class="o">.</span><span class="py">underlying</span><span class="o">.</span><span class="py">attachChild</span><span class="o">(</span><span class="n">props</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">systemService</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+
+  <span class="c1">//在用户监护人(/user)下创建actor</span>
+  <span class="k">def</span> <span class="nf">actorOf</span><span class="o">(</span><span class="n">props</span><span class="k">:</span> <span class="kt">Props</span><span class="o">,</span> <span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorRef</span> <span class="o">=</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="nv">guardianProps</span><span class="o">.</span><span class="py">isEmpty</span><span class="o">)</span> <span class="nv">guardian</span><span class="o">.</span><span class="py">underlying</span><span class="o">.</span><span class="py">attachChild</span><span class="o">(</span><span class="n">props</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">systemService</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+    <span class="k">else</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">UnsupportedOperationException</span><span class="o">(</span>
+      <span class="c1">//无法在带有自定义用户监护人的ActorSystem上从外部创建顶级参与者</span>
+      <span class="n">s</span><span class="s">"cannot create top-level actor [$name] from the outside on ActorSystem with custom user guardian"</span><span class="o">)</span>
+
+  <span class="c1">//同时，但使用默认的随机名，具体实现在Children中如下：</span>
+  <span class="c1">//val num = Unsafe.instance.getAndAddLong(this, AbstractActorCell.nextNameOffset, 1)</span>
+  <span class="c1">//Helpers.base64(num)</span>
+  <span class="k">def</span> <span class="nf">actorOf</span><span class="o">(</span><span class="n">props</span><span class="k">:</span> <span class="kt">Props</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorRef</span> <span class="o">=</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="nv">guardianProps</span><span class="o">.</span><span class="py">isEmpty</span><span class="o">)</span> <span class="nv">guardian</span><span class="o">.</span><span class="py">underlying</span><span class="o">.</span><span class="py">attachChild</span><span class="o">(</span><span class="n">props</span><span class="o">,</span> <span class="n">systemService</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+    <span class="k">else</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">UnsupportedOperationException</span><span class="o">(</span><span class="s">"cannot create top-level actor from the outside on ActorSystem with custom user guardian"</span><span class="o">)</span>
+
+  <span class="c1">//关闭，递归关闭孩子节点，关闭是异步的</span>
+  <span class="k">def</span> <span class="nf">stop</span><span class="o">(</span><span class="n">actor</span><span class="k">:</span> <span class="kt">ActorRef</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">path</span> <span class="k">=</span> <span class="nv">actor</span><span class="o">.</span><span class="py">path</span>
+    <span class="k">val</span> <span class="nv">guard</span> <span class="k">=</span> <span class="nv">guardian</span><span class="o">.</span><span class="py">path</span>
+    <span class="k">val</span> <span class="nv">sys</span> <span class="k">=</span> <span class="nv">systemGuardian</span><span class="o">.</span><span class="py">path</span>
+    <span class="nv">path</span><span class="o">.</span><span class="py">parent</span> <span class="k">match</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="n">`guard`</span> <span class="k">⇒</span> <span class="n">guardian</span> <span class="o">!</span> <span class="nc">StopChild</span><span class="o">(</span><span class="n">actor</span><span class="o">)</span>
+      <span class="k">case</span> <span class="n">`sys`</span> <span class="k">⇒</span> <span class="n">systemGuardian</span> <span class="o">!</span> <span class="nc">StopChild</span><span class="o">(</span><span class="n">actor</span><span class="o">)</span>
+      <span class="k">case</span> <span class="k">_</span> <span class="k">⇒</span> <span class="nv">actor</span><span class="o">.</span><span class="py">asInstanceOf</span><span class="o">[</span><span class="kt">InternalActorRef</span><span class="o">].</span><span class="py">stop</span><span class="o">()</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="k">import</span> <span class="nn">settings._</span>
+
+  <span class="c1">// 这提供了基本的日志记录(到stdout)，直到在下面调用.start()为止</span>
+  <span class="k">val</span> <span class="nv">eventStream</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">EventStream</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="nc">DebugEventStream</span><span class="o">)</span>
+  <span class="nv">eventStream</span><span class="o">.</span><span class="py">startStdoutLogger</span><span class="o">(</span><span class="n">settings</span><span class="o">)</span>
+
+  <span class="k">val</span> <span class="nv">logFilter</span><span class="k">:</span> <span class="kt">LoggingFilter</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">arguments</span> <span class="k">=</span> <span class="nc">Vector</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">Settings</span><span class="o">]</span> <span class="o">→</span> <span class="n">settings</span><span class="o">,</span> <span class="n">classOf</span><span class="o">[</span><span class="kt">EventStream</span><span class="o">]</span> <span class="o">→</span> <span class="n">eventStream</span><span class="o">)</span>
+    <span class="nv">dynamicAccess</span><span class="o">.</span><span class="py">createInstanceFor</span><span class="o">[</span><span class="kt">LoggingFilter</span><span class="o">](</span><span class="nc">LoggingFilter</span><span class="o">,</span> <span class="n">arguments</span><span class="o">).</span><span class="py">get</span>
+  <span class="o">}</span>
+
+  <span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">val</span> <span class="nv">markerLogging</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MarkerLoggingAdapter</span><span class="o">(</span><span class="n">eventStream</span><span class="o">,</span> <span class="nv">getClass</span><span class="o">.</span><span class="py">getName</span> <span class="o">+</span> <span class="s">"("</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">")"</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="py">getClass</span><span class="o">,</span> <span class="n">logFilter</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nv">log</span><span class="k">:</span> <span class="kt">LoggingAdapter</span> <span class="o">=</span> <span class="n">markerLogging</span>
+
+  <span class="k">val</span> <span class="nv">scheduler</span><span class="k">:</span> <span class="kt">Scheduler</span> <span class="o">=</span> <span class="nf">createScheduler</span><span class="o">()</span>
+
+  <span class="k">val</span> <span class="nv">provider</span><span class="k">:</span> <span class="kt">ActorRefProvider</span> <span class="o">=</span> <span class="k">try</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">arguments</span> <span class="k">=</span> <span class="nc">Vector</span><span class="o">(</span>
+      <span class="n">classOf</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="o">→</span> <span class="n">name</span><span class="o">,</span>
+      <span class="n">classOf</span><span class="o">[</span><span class="kt">Settings</span><span class="o">]</span> <span class="o">→</span> <span class="n">settings</span><span class="o">,</span>
+      <span class="n">classOf</span><span class="o">[</span><span class="kt">EventStream</span><span class="o">]</span> <span class="o">→</span> <span class="n">eventStream</span><span class="o">,</span>
+      <span class="n">classOf</span><span class="o">[</span><span class="kt">DynamicAccess</span><span class="o">]</span> <span class="o">→</span> <span class="n">dynamicAccess</span><span class="o">)</span>
+
+    <span class="nv">dynamicAccess</span><span class="o">.</span><span class="py">createInstanceFor</span><span class="o">[</span><span class="kt">ActorRefProvider</span><span class="o">](</span><span class="nc">ProviderClass</span><span class="o">,</span> <span class="n">arguments</span><span class="o">).</span><span class="py">get</span>
+  <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nc">NonFatal</span><span class="o">(</span><span class="n">e</span><span class="o">)</span> <span class="k">⇒</span>
+      <span class="nc">Try</span><span class="o">(</span><span class="nf">stopScheduler</span><span class="o">())</span>
+      <span class="k">throw</span> <span class="n">e</span>
+  <span class="o">}</span>
+
+  <span class="c1">//死信引用</span>
+  <span class="k">def</span> <span class="nf">deadLetters</span><span class="k">:</span> <span class="kt">ActorRef</span> <span class="o">=</span> <span class="nv">provider</span><span class="o">.</span><span class="py">deadLetters</span>
+
+  <span class="c1">//信箱</span>
+  <span class="k">val</span> <span class="nv">mailboxes</span><span class="k">:</span> <span class="kt">Mailboxes</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Mailboxes</span><span class="o">(</span><span class="n">settings</span><span class="o">,</span> <span class="n">eventStream</span><span class="o">,</span> <span class="n">dynamicAccess</span><span class="o">,</span> <span class="n">deadLetters</span><span class="o">)</span>
+
+  <span class="c1">//调度程序</span>
+  <span class="k">val</span> <span class="nv">dispatchers</span><span class="k">:</span> <span class="kt">Dispatchers</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Dispatchers</span><span class="o">(</span><span class="n">settings</span><span class="o">,</span> <span class="nc">DefaultDispatcherPrerequisites</span><span class="o">(</span>
+    <span class="n">threadFactory</span><span class="o">,</span> <span class="n">eventStream</span><span class="o">,</span> <span class="n">scheduler</span><span class="o">,</span> <span class="n">dynamicAccess</span><span class="o">,</span> <span class="n">settings</span><span class="o">,</span> <span class="n">mailboxes</span><span class="o">,</span> <span class="n">defaultExecutionContext</span><span class="o">))</span>
+
+  <span class="k">val</span> <span class="nv">dispatcher</span><span class="k">:</span> <span class="kt">ExecutionContextExecutor</span> <span class="o">=</span> <span class="nv">dispatchers</span><span class="o">.</span><span class="py">defaultGlobalDispatcher</span>
+
+  <span class="k">val</span> <span class="nv">internalCallingThreadExecutionContext</span><span class="k">:</span> <span class="kt">ExecutionContext</span> <span class="o">=</span>
+    <span class="nv">dynamicAccess</span><span class="o">.</span><span class="py">getObjectFor</span><span class="o">[</span><span class="kt">ExecutionContext</span><span class="o">](</span><span class="s">"scala.concurrent.Future$InternalCallbackExecutor$"</span><span class="o">).</span><span class="py">getOrElse</span><span class="o">(</span>
+      <span class="k">new</span> <span class="nc">ExecutionContext</span> <span class="k">with</span> <span class="nc">BatchingExecutor</span> <span class="o">{</span>
+        <span class="k">override</span> <span class="k">protected</span> <span class="k">def</span> <span class="nf">unbatchedExecute</span><span class="o">(</span><span class="n">r</span><span class="k">:</span> <span class="kt">Runnable</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="nv">r</span><span class="o">.</span><span class="py">run</span><span class="o">()</span>
+
+        <span class="k">override</span> <span class="k">protected</span> <span class="k">def</span> <span class="nf">resubmitOnBlock</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">false</span> <span class="c1">// Since we execute inline, no gain in resubmitting</span>
+        <span class="k">override</span> <span class="k">def</span> <span class="nf">reportFailure</span><span class="o">(</span><span class="n">t</span><span class="k">:</span> <span class="kt">Throwable</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">dispatcher</span> <span class="n">reportFailure</span> <span class="n">t</span>
+      <span class="o">})</span>
+
+  <span class="c1">//关闭actor系统的回调</span>
+  <span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">final</span> <span class="k">val</span> <span class="nv">terminationCallbacks</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">TerminationCallbacks</span><span class="o">(</span><span class="nv">provider</span><span class="o">.</span><span class="py">terminationFuture</span><span class="o">)(</span><span class="n">dispatcher</span><span class="o">)</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">whenTerminated</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Terminated</span><span class="o">]</span> <span class="k">=</span> <span class="nv">terminationCallbacks</span><span class="o">.</span><span class="py">terminationFuture</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">getWhenTerminated</span><span class="k">:</span> <span class="kt">CompletionStage</span><span class="o">[</span><span class="kt">Terminated</span><span class="o">]</span> <span class="k">=</span> <span class="nv">FutureConverters</span><span class="o">.</span><span class="py">toJava</span><span class="o">(</span><span class="n">whenTerminated</span><span class="o">)</span>
+
+  <span class="c1">//查找actor系统的顶级守护者(/root监护者)</span>
+  <span class="k">def</span> <span class="nf">lookupRoot</span><span class="k">:</span> <span class="kt">InternalActorRef</span> <span class="o">=</span> <span class="nv">provider</span><span class="o">.</span><span class="py">rootGuardian</span>
+
+  <span class="c1">//用户actor顶级的守护者(/user)</span>
+  <span class="k">def</span> <span class="nf">guardian</span><span class="k">:</span> <span class="kt">LocalActorRef</span> <span class="o">=</span> <span class="nv">provider</span><span class="o">.</span><span class="py">guardian</span>
+
+  <span class="c1">//系统actor的顶级守护者(/system)</span>
+  <span class="k">def</span> <span class="nf">systemGuardian</span><span class="k">:</span> <span class="kt">LocalActorRef</span> <span class="o">=</span> <span class="nv">provider</span><span class="o">.</span><span class="py">systemGuardian</span>
+
+  <span class="c1">//在/user下查询指定actor名称的actor的路径</span>
+  <span class="k">def</span> <span class="nf">/</span><span class="o">(</span><span class="n">actorName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">ActorPath</span> <span class="o">=</span> <span class="nv">guardian</span><span class="o">.</span><span class="py">path</span> <span class="o">/</span> <span class="n">actorName</span>
+
+  <span class="k">def</span> <span class="nf">/</span><span class="o">(</span><span class="n">path</span><span class="k">:</span> <span class="kt">Iterable</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">ActorPath</span> <span class="o">=</span> <span class="nv">guardian</span><span class="o">.</span><span class="py">path</span> <span class="o">/</span> <span class="n">path</span>
+
+  <span class="c1">//检查版本用</span>
+  <span class="k">private</span> <span class="k">def</span> <span class="nf">allModules</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span>
+    <span class="s">"akka-actor"</span><span class="o">,</span>
+    <span class="s">"akka-actor-testkit-typed"</span><span class="o">,</span>
+    <span class="s">"akka-actor-typed"</span><span class="o">,</span>
+    <span class="s">"akka-agent"</span><span class="o">,</span>
+    <span class="s">"akka-camel"</span><span class="o">,</span>
+    <span class="s">"akka-cluster"</span><span class="o">,</span>
+    <span class="s">"akka-cluster-metrics"</span><span class="o">,</span>
+    <span class="s">"akka-cluster-sharding"</span><span class="o">,</span>
+    <span class="s">"akka-cluster-sharding-typed"</span><span class="o">,</span>
+    <span class="s">"akka-cluster-tools"</span><span class="o">,</span>
+    <span class="s">"akka-cluster-typed"</span><span class="o">,</span>
+    <span class="s">"akka-discovery"</span><span class="o">,</span>
+    <span class="s">"akka-distributed-data"</span><span class="o">,</span>
+    <span class="s">"akka-multi-node-testkit"</span><span class="o">,</span>
+    <span class="s">"akka-osgi"</span><span class="o">,</span>
+    <span class="s">"akka-persistence"</span><span class="o">,</span>
+    <span class="s">"akka-persistence-query"</span><span class="o">,</span>
+    <span class="s">"akka-persistence-shared"</span><span class="o">,</span>
+    <span class="s">"akka-persistence-typed"</span><span class="o">,</span>
+    <span class="s">"akka-protobuf"</span><span class="o">,</span>
+    <span class="s">"akka-remote"</span><span class="o">,</span>
+    <span class="s">"akka-slf4j"</span><span class="o">,</span>
+    <span class="s">"akka-stream"</span><span class="o">,</span>
+    <span class="s">"akka-stream-testkit"</span><span class="o">,</span>
+    <span class="s">"akka-stream-typed"</span><span class="o">)</span>
+
+  <span class="nd">@volatile</span> <span class="k">private</span> <span class="k">var</span> <span class="nc">_initialized</span> <span class="k">=</span> <span class="kc">false</span>
+
+  <span class="cm">/**
+   * 断言ActorSystem已完全初始化
+   */</span>
+  <span class="k">def</span> <span class="nf">assertInitialized</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span>
+    <span class="nf">if</span> <span class="o">(!</span><span class="nc">_initialized</span><span class="o">)</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nc">IllegalStateException</span><span class="o">(</span>
+        <span class="s">"The calling code expected that the ActorSystem was initialized but it wasn't yet. "</span> <span class="o">+</span>
+          <span class="s">"This is probably a bug in the ActorSystem initialization sequence often related to initialization of extensions. "</span> <span class="o">+</span>
+          <span class="s">"Please report at https://github.com/akka/akka/issues."</span>
+      <span class="o">)</span>
+
+  <span class="c1">//启动，注册关闭回调任务，验证模块的版本，对事件系统，拓展和日志系统进行初始化</span>
+  <span class="k">private</span> <span class="k">lazy</span> <span class="k">val</span> <span class="nv">_start</span><span class="k">:</span> <span class="kt">this.</span><span class="k">type</span> <span class="o">=</span> <span class="k">try</span> <span class="o">{</span>
+
+    <span class="nf">registerOnTermination</span><span class="o">(</span><span class="nf">stopScheduler</span><span class="o">())</span>
+    <span class="c1">// the provider is expected to start default loggers, LocalActorRefProvider does this</span>
+    <span class="nv">provider</span><span class="o">.</span><span class="py">init</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+    <span class="c1">// at this point it should be initialized "enough" for most extensions that we might want to guard against otherwise</span>
+    <span class="nc">_initialized</span> <span class="k">=</span> <span class="kc">true</span>
+
+    <span class="c1">//配置死信个数时开启死信监听器，使用systemActorOf在system/节点上添加子actor</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="nv">settings</span><span class="o">.</span><span class="py">LogDeadLetters</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span>
+      <span class="n">logDeadLetterListener</span> <span class="k">=</span> <span class="nc">Some</span><span class="o">(</span><span class="nf">systemActorOf</span><span class="o">(</span><span class="nc">Props</span><span class="o">[</span><span class="kt">DeadLetterListener</span><span class="o">],</span> <span class="s">"deadLetterListener"</span><span class="o">))</span>
+    <span class="c1">//必须在actor系统“就绪”后调用，Starts system actor that takes care of unsubscribing subscribers that have terminated.</span>
+    <span class="nv">eventStream</span><span class="o">.</span><span class="py">startUnsubscriber</span><span class="o">()</span>
+    <span class="nc">ManifestInfo</span><span class="o">(</span><span class="k">this</span><span class="o">).</span><span class="py">checkSameVersion</span><span class="o">(</span><span class="s">"Akka"</span><span class="o">,</span> <span class="n">allModules</span><span class="o">,</span> <span class="n">logWarning</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="c1">//加载所有拓展</span>
+    <span class="nf">loadExtensions</span><span class="o">()</span>
+    <span class="nf">if</span> <span class="o">(</span><span class="nc">LogConfigOnStart</span><span class="o">)</span> <span class="nf">logConfiguration</span><span class="o">()</span>
+    <span class="k">this</span>
+  <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nc">NonFatal</span><span class="o">(</span><span class="n">e</span><span class="o">)</span> <span class="k">⇒</span>
+      <span class="k">try</span> <span class="nf">terminate</span><span class="o">()</span> <span class="k">catch</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="nc">NonFatal</span><span class="o">(</span><span class="k">_</span><span class="o">)</span> <span class="k">⇒</span> <span class="nc">Try</span><span class="o">(</span><span class="nf">stopScheduler</span><span class="o">())</span>
+      <span class="o">}</span>
+      <span class="k">throw</span> <span class="n">e</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="nf">start</span><span class="o">()</span><span class="k">:</span> <span class="kt">this.</span><span class="k">type</span> <span class="o">=</span> <span class="nc">_start</span>
+
+  <span class="c1">//注册runnable任务，在关闭时执行回退 与下面不同的是，这个是传入处理任务的函数而不是Runnable对象</span>
+  <span class="k">def</span> <span class="nf">registerOnTermination</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="n">code</span><span class="k">:</span> <span class="k">⇒</span> <span class="kt">T</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="nf">registerOnTermination</span><span class="o">(</span><span class="k">new</span> <span class="nc">Runnable</span> <span class="o">{</span>
+      <span class="k">def</span> <span class="nf">run</span> <span class="k">=</span> <span class="n">code</span>
+    <span class="o">})</span>
+  <span class="o">}</span>
+
+  <span class="c1">//注册runnable任务，在关闭时执行回退</span>
+  <span class="k">def</span> <span class="nf">registerOnTermination</span><span class="o">(</span><span class="n">code</span><span class="k">:</span> <span class="kt">Runnable</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="nv">terminationCallbacks</span><span class="o">.</span><span class="py">add</span><span class="o">(</span><span class="n">code</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">terminate</span><span class="o">()</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Terminated</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="c1">//在actor系统关闭时，不需要对死信记录则将死信监听器全部关闭</span>
+    <span class="nf">if</span> <span class="o">(!</span><span class="nv">settings</span><span class="o">.</span><span class="py">LogDeadLettersDuringShutdown</span><span class="o">)</span> <span class="n">logDeadLetterListener</span> <span class="n">foreach</span> <span class="n">stop</span>
+    <span class="c1">//关闭监护人actor，ActorSystem</span>
+    <span class="nv">guardian</span><span class="o">.</span><span class="py">stop</span><span class="o">()</span>
+    <span class="n">whenTerminated</span> <span class="c1">//获取terminationCallbacks的Future</span>
+  <span class="o">}</span>
+
+  <span class="nd">@volatile</span> <span class="k">var</span> <span class="n">aborting</span> <span class="k">=</span> <span class="kc">false</span>
+
+  <span class="cm">/**
+   * 这种关闭试图关闭系统并释放资源比普通关机更强大例如，它不会等待远程部署的子角色终止，然后终止其父角色
+   */</span>
+  <span class="k">def</span> <span class="nf">abort</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="n">aborting</span> <span class="k">=</span> <span class="kc">true</span>
+    <span class="nf">terminate</span><span class="o">()</span>
+  <span class="o">}</span>
+
+  <span class="c1">//#create-scheduler</span>
+  <span class="cm">/**
+   * Create the scheduler service. This one needs one special behavior: if
+   * Closeable, it MUST execute all outstanding tasks upon .close() in order
+   * to properly shutdown all dispatchers.
+   *
+   * Furthermore, this timer service MUST throw IllegalStateException if it
+   * cannot schedule a task. Once scheduled, the task MUST be executed. If
+   * executed upon close(), the task may execute before its timeout.
+   */</span>
+  <span class="k">protected</span> <span class="k">def</span> <span class="nf">createScheduler</span><span class="o">()</span><span class="k">:</span> <span class="kt">Scheduler</span> <span class="o">=</span>
+    <span class="nv">dynamicAccess</span><span class="o">.</span><span class="py">createInstanceFor</span><span class="o">[</span><span class="kt">Scheduler</span><span class="o">](</span><span class="nv">settings</span><span class="o">.</span><span class="py">SchedulerClass</span><span class="o">,</span> <span class="nv">immutable</span><span class="o">.</span><span class="py">Seq</span><span class="o">(</span>
+      <span class="n">classOf</span><span class="o">[</span><span class="kt">Config</span><span class="o">]</span> <span class="o">→</span> <span class="nv">settings</span><span class="o">.</span><span class="py">config</span><span class="o">,</span>
+      <span class="n">classOf</span><span class="o">[</span><span class="kt">LoggingAdapter</span><span class="o">]</span> <span class="o">→</span> <span class="n">log</span><span class="o">,</span>
+      <span class="n">classOf</span><span class="o">[</span><span class="kt">ThreadFactory</span><span class="o">]</span> <span class="o">→</span> <span class="nv">threadFactory</span><span class="o">.</span><span class="py">withName</span><span class="o">(</span><span class="nv">threadFactory</span><span class="o">.</span><span class="py">name</span> <span class="o">+</span> <span class="s">"-scheduler"</span><span class="o">))).</span><span class="py">get</span>
+
+  <span class="c1">//#create-scheduler</span>
+
+  <span class="cm">/*
+   * This is called after the last actor has signaled its termination, i.e.
+   * after the last dispatcher has had its chance to schedule its shutdown
+   * action.
+   */</span>
+  <span class="k">protected</span> <span class="k">def</span> <span class="nf">stopScheduler</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="n">scheduler</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="n">x</span><span class="k">:</span> <span class="kt">Closeable</span> <span class="k">⇒</span> <span class="kt">x.close</span><span class="o">()</span>
+    <span class="kt">case</span> <span class="k">_</span> <span class="k">⇒</span>
+  <span class="o">}</span>
+
+  <span class="k">private</span> <span class="k">val</span> <span class="nv">extensions</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ConcurrentHashMap</span><span class="o">[</span><span class="kt">ExtensionId</span><span class="o">[</span><span class="k">_</span><span class="o">]</span>, <span class="kt">AnyRef</span><span class="o">]</span>
+
+  <span class="cm">/**
+   * 返回注册到指定扩展的任何扩展；如果未注册，则返回null
+   */</span>
+  <span class="nd">@tailrec</span>
+  <span class="k">private</span> <span class="k">def</span> <span class="nf">findExtension</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Extension</span><span class="o">](</span><span class="n">ext</span><span class="k">:</span> <span class="kt">ExtensionId</span><span class="o">[</span><span class="kt">T</span><span class="o">])</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=</span> <span class="nv">extensions</span><span class="o">.</span><span class="py">get</span><span class="o">(</span><span class="n">ext</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="n">c</span><span class="k">:</span> <span class="kt">CountDownLatch</span> <span class="k">⇒</span>
+      <span class="kt">c.await</span><span class="o">();</span> <span class="nf">findExtension</span><span class="o">(</span><span class="n">ext</span><span class="o">)</span> <span class="c1">//正在注册，等待完成并重试</span>
+    <span class="k">case</span> <span class="n">t</span><span class="k">:</span> <span class="kt">Throwable</span> <span class="k">⇒</span> <span class="kt">throw</span> <span class="kt">t</span> <span class="c1">//初始化失败，再次抛出相同的</span>
+    <span class="k">case</span> <span class="n">other</span> <span class="k">⇒</span>
+      <span class="nv">other</span><span class="o">.</span><span class="py">asInstanceOf</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="c1">//可以是T或null，在这种情况下，我们将null返回为T</span>
+  <span class="o">}</span>
+
+  <span class="cm">/**
+   * 注册拓展
+   */</span>
+  <span class="nd">@tailrec</span>
+  <span class="k">final</span> <span class="k">def</span> <span class="nf">registerExtension</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Extension</span><span class="o">](</span><span class="n">ext</span><span class="k">:</span> <span class="kt">ExtensionId</span><span class="o">[</span><span class="kt">T</span><span class="o">])</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="nf">findExtension</span><span class="o">(</span><span class="n">ext</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="kc">null</span> <span class="k">⇒</span> <span class="c1">//不存在，开始注册</span>
+        <span class="k">val</span> <span class="nv">inProcessOfRegistration</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">CountDownLatch</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+        <span class="nv">extensions</span><span class="o">.</span><span class="py">putIfAbsent</span><span class="o">(</span><span class="n">ext</span><span class="o">,</span> <span class="n">inProcessOfRegistration</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span> <span class="c1">//表示正在进行注册的信号</span>
+          <span class="k">case</span> <span class="kc">null</span> <span class="k">⇒</span> <span class="k">try</span> <span class="o">{</span> <span class="c1">// 信号已成功发送</span>
+            <span class="nv">ext</span><span class="o">.</span><span class="py">createExtension</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span> <span class="c1">// 创建并初始化扩展</span>
+              <span class="k">case</span> <span class="kc">null</span> <span class="k">⇒</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">IllegalStateException</span><span class="o">(</span><span class="n">s</span><span class="s">"Extension instance created as 'null' for extension [$ext]"</span><span class="o">)</span>
+              <span class="k">case</span> <span class="n">instance</span> <span class="k">⇒</span>
+                <span class="nv">extensions</span><span class="o">.</span><span class="py">replace</span><span class="o">(</span><span class="n">ext</span><span class="o">,</span> <span class="n">inProcessOfRegistration</span><span class="o">,</span> <span class="n">instance</span><span class="o">)</span> <span class="c1">//用初始化的扩展名替换inProcess信号</span>
+                <span class="n">instance</span> <span class="c1">//Profit!</span>
+            <span class="o">}</span>
+          <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+            <span class="k">case</span> <span class="n">t</span><span class="k">:</span> <span class="kt">Throwable</span> <span class="k">⇒</span>
+              <span class="kt">extensions.replace</span><span class="o">(</span><span class="kt">ext</span><span class="o">,</span> <span class="kt">inProcessOfRegistration</span><span class="o">,</span> <span class="n">t</span><span class="o">)</span> <span class="c1">//移除inProcess信号</span>
+              <span class="k">throw</span> <span class="n">t</span> <span class="c1">//升级 向上抛出异常</span>
+          <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+            <span class="nv">inProcessOfRegistration</span><span class="o">.</span><span class="py">countDown</span> <span class="c1">//始终将inProcess信号通知监听器</span>
+          <span class="o">}</span>
+          <span class="k">case</span> <span class="k">_</span> <span class="k">⇒</span> <span class="nf">registerExtension</span><span class="o">(</span><span class="n">ext</span><span class="o">)</span> <span class="c1">//其他人正在注册此扩展，请重试</span>
+        <span class="o">}</span>
+      <span class="k">case</span> <span class="n">existing</span> <span class="k">⇒</span> <span class="nv">existing</span><span class="o">.</span><span class="py">asInstanceOf</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="c1">//获取拓展</span>
+  <span class="k">def</span> <span class="nf">extension</span><span class="o">[</span><span class="kt">T</span> <span class="k">&lt;:</span> <span class="kt">Extension</span><span class="o">](</span><span class="n">ext</span><span class="k">:</span> <span class="kt">ExtensionId</span><span class="o">[</span><span class="kt">T</span><span class="o">])</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=</span> <span class="nf">findExtension</span><span class="o">(</span><span class="n">ext</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="kc">null</span> <span class="k">⇒</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">IllegalArgumentException</span><span class="o">(</span><span class="n">s</span><span class="s">"Trying to get non-registered extension [$ext]"</span><span class="o">)</span>
+    <span class="k">case</span> <span class="n">some</span> <span class="k">⇒</span> <span class="nv">some</span><span class="o">.</span><span class="py">asInstanceOf</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="nf">hasExtension</span><span class="o">(</span><span class="n">ext</span><span class="k">:</span> <span class="kt">ExtensionId</span><span class="o">[</span><span class="k">_</span> <span class="k">&lt;:</span> <span class="kt">Extension</span><span class="o">])</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="nf">findExtension</span><span class="o">(</span><span class="n">ext</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span>
+
+  <span class="c1">//加载拓展</span>
+  <span class="k">private</span> <span class="k">def</span> <span class="nf">loadExtensions</span><span class="o">()</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="cm">/**
+     * 加载扩展失败时引发异常(向后兼容需要)
+     */</span>
+    <span class="k">def</span> <span class="nf">loadExtensions</span><span class="o">(</span><span class="n">key</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">throwOnLoadFail</span><span class="k">:</span> <span class="kt">Boolean</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="nf">immutableSeq</span><span class="o">(</span><span class="nv">settings</span><span class="o">.</span><span class="py">config</span><span class="o">.</span><span class="py">getStringList</span><span class="o">(</span><span class="n">key</span><span class="o">))</span> <span class="n">foreach</span> <span class="o">{</span> <span class="n">fqcn</span> <span class="k">⇒</span>
+        <span class="nv">dynamicAccess</span><span class="o">.</span><span class="py">getObjectFor</span><span class="o">[</span><span class="kt">AnyRef</span><span class="o">](</span><span class="n">fqcn</span><span class="o">)</span> <span class="n">recoverWith</span> <span class="o">{</span> <span class="k">case</span> <span class="k">_</span> <span class="k">⇒</span> <span class="nv">dynamicAccess</span><span class="o">.</span><span class="py">createInstanceFor</span><span class="o">[</span><span class="kt">AnyRef</span><span class="o">](</span><span class="n">fqcn</span><span class="o">,</span> <span class="nc">Nil</span><span class="o">)</span> <span class="o">}</span> <span class="k">match</span> <span class="o">{</span>
+          <span class="k">case</span> <span class="nc">Success</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">ExtensionIdProvider</span><span class="o">)</span> <span class="k">⇒</span> <span class="nf">registerExtension</span><span class="o">(</span><span class="nv">p</span><span class="o">.</span><span class="py">lookup</span><span class="o">())</span>
+          <span class="k">case</span> <span class="nc">Success</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">ExtensionId</span><span class="o">[</span><span class="k">_</span><span class="o">])</span> <span class="k">⇒</span> <span class="nf">registerExtension</span><span class="o">(</span><span class="n">p</span><span class="o">)</span>
+          <span class="k">case</span> <span class="nc">Success</span><span class="o">(</span><span class="k">_</span><span class="o">)</span> <span class="k">⇒</span>
+            <span class="nf">if</span> <span class="o">(!</span><span class="n">throwOnLoadFail</span><span class="o">)</span> <span class="nv">log</span><span class="o">.</span><span class="py">error</span><span class="o">(</span><span class="s">"[{}] is not an 'ExtensionIdProvider' or 'ExtensionId', skipping..."</span><span class="o">,</span> <span class="n">fqcn</span><span class="o">)</span>
+            <span class="k">else</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">RuntimeException</span><span class="o">(</span><span class="n">s</span><span class="s">"[$fqcn] is not an 'ExtensionIdProvider' or 'ExtensionId'"</span><span class="o">)</span>
+          <span class="k">case</span> <span class="nc">Failure</span><span class="o">(</span><span class="n">problem</span><span class="o">)</span> <span class="k">⇒</span>
+            <span class="nf">if</span> <span class="o">(!</span><span class="n">throwOnLoadFail</span><span class="o">)</span> <span class="nv">log</span><span class="o">.</span><span class="py">error</span><span class="o">(</span><span class="n">problem</span><span class="o">,</span> <span class="s">"While trying to load extension [{}], skipping..."</span><span class="o">,</span> <span class="n">fqcn</span><span class="o">)</span>
+            <span class="k">else</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">RuntimeException</span><span class="o">(</span><span class="n">s</span><span class="s">"While trying to load extension [$fqcn]"</span><span class="o">,</span> <span class="n">problem</span><span class="o">)</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">//列出应在actor系统启动时加载的扩展的(Full Qualified Class Name)</span>
+    <span class="c1">//库扩展是在启动时加载的常规扩展，并且</span>
+    <span class="c1">//可供第三方库作者在类路径上显示扩展时启用自动加载</span>
+    <span class="nf">loadExtensions</span><span class="o">(</span><span class="s">"akka.library-extensions"</span><span class="o">,</span> <span class="n">throwOnLoadFail</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="c1">//列出应在actor系统启动时加载的扩展的FQCN</span>
+    <span class="nf">loadExtensions</span><span class="o">(</span><span class="s">"akka.extensions"</span><span class="o">,</span> <span class="n">throwOnLoadFail</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">toString</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="nv">lookupRoot</span><span class="o">.</span><span class="py">path</span><span class="o">.</span><span class="py">root</span><span class="o">.</span><span class="py">address</span><span class="o">.</span><span class="py">toString</span>
+
+  <span class="c1">//打印actor树</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="nf">printTree</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="nf">printNode</span><span class="o">(</span><span class="n">node</span><span class="k">:</span> <span class="kt">ActorRef</span><span class="o">,</span> <span class="n">indent</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="n">node</span> <span class="k">match</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="n">wc</span><span class="k">:</span> <span class="kt">ActorRefWithCell</span> <span class="k">⇒</span>
+          <span class="kt">val</span> <span class="kt">cell</span> <span class="o">=</span> <span class="nv">wc</span><span class="o">.</span><span class="py">underlying</span>
+          <span class="o">(</span><span class="nf">if</span> <span class="o">(</span><span class="nv">indent</span><span class="o">.</span><span class="py">isEmpty</span><span class="o">)</span> <span class="s">"-&gt; "</span> <span class="k">else</span> <span class="nv">indent</span><span class="o">.</span><span class="py">dropRight</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="s">"⌊-&gt; "</span><span class="o">)</span> <span class="o">+</span>
+            <span class="nv">node</span><span class="o">.</span><span class="py">path</span><span class="o">.</span><span class="py">name</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="nv">Logging</span><span class="o">.</span><span class="py">simpleName</span><span class="o">(</span><span class="n">node</span><span class="o">)</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span>
+            <span class="o">(</span><span class="n">cell</span> <span class="k">match</span> <span class="o">{</span>
+              <span class="k">case</span> <span class="n">real</span><span class="k">:</span> <span class="kt">ActorCell</span> <span class="k">⇒</span> <span class="kt">if</span> <span class="o">(</span><span class="kt">real.actor</span> <span class="kt">ne</span> <span class="kt">null</span><span class="o">)</span> <span class="kt">real.actor.getClass</span> <span class="kt">else</span> <span class="err">"</span><span class="kt">null</span><span class="err">"</span>
+              <span class="kt">case</span> <span class="k">_</span> <span class="k">⇒</span> <span class="kt">Logging.simpleName</span><span class="o">(</span><span class="kt">cell</span><span class="o">)</span>
+            <span class="o">})</span> <span class="o">+</span>
+            <span class="o">(</span><span class="n">cell</span> <span class="k">match</span> <span class="o">{</span>
+              <span class="k">case</span> <span class="n">real</span><span class="k">:</span> <span class="kt">ActorCell</span> <span class="k">⇒</span> <span class="err">"</span> <span class="kt">status</span><span class="o">=</span><span class="s">" + real.mailbox.currentStatus
+              case _ ⇒ ""
+            }) +
+            "</span> <span class="s">" + (cell.childrenRefs match {
+            case ChildrenContainer.TerminatingChildrenContainer(_, toDie, reason) ⇒
+              "</span><span class="nc">Terminating</span><span class="o">(</span><span class="s">" + reason + "</span><span class="o">)</span><span class="s">" +
+                (toDie.toSeq.sorted mkString("</span><span class="o">\</span><span class="n">n</span><span class="s">" + indent + "</span>   <span class="o">|</span>    <span class="n">toDie</span><span class="k">:</span> <span class="err">"</span><span class="o">,</span> <span class="s">"\n"</span> <span class="o">+</span> <span class="n">indent</span> <span class="o">+</span> <span class="s">"   |           "</span><span class="o">,</span> <span class="s">""</span><span class="o">))</span>
+            <span class="k">case</span> <span class="n">x</span><span class="o">@(</span><span class="nv">ChildrenContainer</span><span class="o">.</span><span class="py">TerminatedChildrenContainer</span> <span class="o">|</span> <span class="nv">ChildrenContainer</span><span class="o">.</span><span class="py">EmptyChildrenContainer</span><span class="o">)</span> <span class="k">⇒</span> <span class="nv">x</span><span class="o">.</span><span class="py">toString</span>
+            <span class="k">case</span> <span class="n">n</span><span class="k">:</span> <span class="kt">ChildrenContainer.NormalChildrenContainer</span> <span class="k">⇒</span> <span class="kt">n.c.size</span> <span class="kt">+</span> <span class="err">"</span> <span class="kt">children</span><span class="err">"</span>
+            <span class="kt">case</span> <span class="kt">x</span> <span class="k">⇒</span> <span class="kt">Logging.simpleName</span><span class="o">(</span><span class="kt">x</span><span class="o">)</span>
+          <span class="o">})</span> <span class="o">+</span>
+            <span class="o">(</span><span class="nf">if</span> <span class="o">(</span><span class="nv">cell</span><span class="o">.</span><span class="py">childrenRefs</span><span class="o">.</span><span class="py">children</span><span class="o">.</span><span class="py">isEmpty</span><span class="o">)</span> <span class="s">""</span> <span class="k">else</span> <span class="s">"\n"</span><span class="o">)</span> <span class="o">+</span>
+            <span class="o">({</span>
+              <span class="k">val</span> <span class="nv">children</span> <span class="k">=</span> <span class="nv">cell</span><span class="o">.</span><span class="py">childrenRefs</span><span class="o">.</span><span class="py">children</span><span class="o">.</span><span class="py">toSeq</span><span class="o">.</span><span class="py">sorted</span>
+              <span class="k">val</span> <span class="nv">bulk</span> <span class="k">=</span> <span class="nv">children</span><span class="o">.</span><span class="py">dropRight</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span> <span class="nf">map</span> <span class="o">(</span><span class="nf">printNode</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="n">indent</span> <span class="o">+</span> <span class="s">"   |"</span><span class="o">))</span>
+              <span class="n">bulk</span> <span class="o">++</span> <span class="o">(</span><span class="nv">children</span><span class="o">.</span><span class="py">lastOption</span> <span class="nf">map</span> <span class="o">(</span><span class="nf">printNode</span><span class="o">(</span><span class="k">_</span><span class="o">,</span> <span class="n">indent</span> <span class="o">+</span> <span class="s">"    "</span><span class="o">)))</span>
+            <span class="o">}</span> <span class="nf">mkString</span> <span class="o">(</span><span class="s">"\n"</span><span class="o">))</span>
+        <span class="k">case</span> <span class="k">_</span> <span class="k">⇒</span>
+          <span class="n">indent</span> <span class="o">+</span> <span class="nv">node</span><span class="o">.</span><span class="py">path</span><span class="o">.</span><span class="py">name</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="nv">Logging</span><span class="o">.</span><span class="py">simpleName</span><span class="o">(</span><span class="n">node</span><span class="o">)</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nf">printNode</span><span class="o">(</span><span class="n">lookupRoot</span><span class="o">,</span> <span class="s">""</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="c1">//关闭时的回调实现</span>
+  <span class="k">final</span> <span class="k">class</span> <span class="nc">TerminationCallbacks</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="n">upStreamTerminated</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">T</span><span class="o">])(</span><span class="k">implicit</span> <span class="n">ec</span><span class="k">:</span> <span class="kt">ExecutionContext</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">final</span> <span class="k">val</span> <span class="nv">done</span> <span class="k">=</span> <span class="nc">Promise</span><span class="o">[</span><span class="kt">T</span><span class="o">]()</span>
+    <span class="k">private</span><span class="o">[</span><span class="kt">this</span><span class="o">]</span> <span class="k">final</span> <span class="k">val</span> <span class="nv">ref</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">AtomicReference</span><span class="o">(</span><span class="n">done</span><span class="o">)</span>
+
+    <span class="c1">//onComplete从不触发两次这样安全以避免空检查</span>
+    <span class="n">upStreamTerminated</span> <span class="n">onComplete</span> <span class="o">{</span>
+      <span class="c1">//设置为null并返回旧值</span>
+      <span class="n">t</span> <span class="k">⇒</span> <span class="nv">ref</span><span class="o">.</span><span class="py">getAndSet</span><span class="o">(</span><span class="kc">null</span><span class="o">).</span><span class="py">complete</span><span class="o">(</span><span class="n">t</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 添加将在ActorSystem终止时执行的任务注意，回调的执行顺序与插入顺序相反
+     *
+     * @param r 如果在ActorSystem终止后调用抛出RejectedExecutionException
+     */</span>
+    <span class="k">final</span> <span class="k">def</span> <span class="nf">add</span><span class="o">(</span><span class="n">r</span><span class="k">:</span> <span class="kt">Runnable</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+      <span class="nd">@tailrec</span> <span class="k">def</span> <span class="nf">addRec</span><span class="o">(</span><span class="n">r</span><span class="k">:</span> <span class="kt">Runnable</span><span class="o">,</span> <span class="n">p</span><span class="k">:</span> <span class="kt">Promise</span><span class="o">[</span><span class="kt">T</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="nv">ref</span><span class="o">.</span><span class="py">get</span> <span class="k">match</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="kc">null</span> <span class="k">⇒</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">RejectedExecutionException</span><span class="o">(</span><span class="s">"ActorSystem already terminated."</span><span class="o">)</span>
+        <span class="k">case</span> <span class="n">some</span> <span class="k">if</span> <span class="nv">ref</span><span class="o">.</span><span class="py">compareAndSet</span><span class="o">(</span><span class="n">some</span><span class="o">,</span> <span class="n">p</span><span class="o">)</span> <span class="k">⇒</span> <span class="nv">some</span><span class="o">.</span><span class="py">completeWith</span><span class="o">(</span><span class="nv">p</span><span class="o">.</span><span class="py">future</span><span class="o">.</span><span class="py">andThen</span> <span class="o">{</span> <span class="k">case</span> <span class="k">_</span> <span class="k">⇒</span> <span class="nv">r</span><span class="o">.</span><span class="py">run</span><span class="o">()</span> <span class="o">})</span>
+        <span class="k">case</span> <span class="k">_</span> <span class="k">⇒</span> <span class="nf">addRec</span><span class="o">(</span><span class="n">r</span><span class="o">,</span> <span class="n">p</span><span class="o">)</span>
+      <span class="o">}</span>
+
+      <span class="nf">addRec</span><span class="o">(</span><span class="n">r</span><span class="o">,</span> <span class="nc">Promise</span><span class="o">[</span><span class="kt">T</span><span class="o">]())</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 返回一个future，该future将在执行所有已注册的回调之后完成
+     */</span>
+    <span class="k">def</span> <span class="nf">terminationFuture</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="k">=</span> <span class="nv">done</span><span class="o">.</span><span class="py">future</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div><div style="margin-top:2em;padding:0 1.5em;border:1px solid #d3d3d3;background-color:#deebf7"><h3>文档信息</h3><ul><li>本文作者：<a href="https://jxnu-liguobin.github.io" target="_blank">梦境迷离</a></li><li>本文链接：<a href="https://jxnu-liguobin.github.io/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-ActorSystem.html" target="_blank">https://jxnu-liguobin.github.io/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-ActorSystem.html</a></li><li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">创意共享3.0许可证</a>）</li></ul></div></article><div class="share"></div><div class="comment"><div id="gitalk-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/gitalk/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script> <script> var gitalk = new Gitalk({ id: '/akka%E6%BA%90%E7%A0%81/Akka%E6%BA%90%E7%A0%81-Act', clientID: '061aadb5d449c0877d7d', clientSecret: '9aa7af7c248a7e36a07a86993e11a7acf7fbd353', repo: 'dreamylost-comments', owner: 'jxnu-liguobin', admin: ['jxnu-liguobin'], labels: ['gitment'], perPage: 50, }); gitalk.render('gitalk-container'); </script></div></div><div class="column one-fourth"><h3>Search</h3><div id="site_search"> <input style="width:96%" type="text" id="search_box" placeholder="Search"></div><ul id="search_results" style="font-size:14px;list-style-type:none;padding-top:10px;padding-left:10px;"></ul><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/simple-jekyll-search.min.js"></script> <script type="text/javascript"> SimpleJekyllSearch({ searchInput: document.getElementById('search_box'), resultsContainer: document.getElementById('search_results'), json: 'https://jxnu-liguobin.github.io/assets/search_data.json?v=1617164834', searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>', noResultsText: 'No results found', limit: 10, fuzzy: false, exclude: ['Welcome'] }) </script><h3 class="post-directory-title mobile-hidden">Table of Contents</h3><div id="post-directory-module" class="mobile-hidden"><section class="post-directory"><dl></dl></section></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/jquery.toc.js"></script></div></div></section><footer class="container"><div class="site-footer" role="contentinfo"><div class="copyright left mobile-block"> © 2019 <span title="梦境迷离">梦境迷离</span> <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" rel="nofollow" target="_blank">赣ICP备17017283号-1</a> <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a></div><ul class="site-footer-links right mobile-hidden"><li> <a href="javascript:window.scrollTo(0,0)" >TOP</a></li></ul><a href="https://github.com/jxnu-liguobin/jxnu-liguobin.github.io" target="_blank" aria-label="view source code"> <span class="mega-octicon octicon-mark-github" title="GitHub"></span> </a><ul class="site-footer-links mobile-hidden"><li> <a href="https://jxnu-liguobin.github.io/" title="首页" target="">首页</a></li><li> <a href="https://jxnu-liguobin.github.io/categories/" title="分类" target="">分类</a></li><li> <a href="https://jxnu-liguobin.github.io/wiki/" title="维基" target="">维基</a></li><li> <a href="https://jxnu-liguobin.github.io/links/" title="链接" target="">链接</a></li><li> <a href="https://jxnu-liguobin.github.io/about/" title="关于" target="">关于</a></li><li><a href="https://jxnu-liguobin.github.io/feed.xml"><span class="octicon octicon-rss" style="color:orange;"></span></a></li></ul><script async src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/vendor/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="mobile-hidden" style="margin-top:8px"> <span id="busuanzi_container_site_pv" style="display:none"> 本站访问量<span id="busuanzi_value_site_pv"></span>次 </span> <span id="busuanzi_container_site_uv" style="display:none"> / 本站访客数<span id="busuanzi_value_site_uv"></span>人 </span> <span id="busuanzi_container_page_pv" style="display:none"> / 本页访问量<span id="busuanzi_value_page_pv"></span>次 / 统计始于2019-09-20 </span></div></div></footer><div class="tools-wrapper"> <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a></div><script src="https://cdn.jsdelivr.net/gh/jxnu-liguobin/jxnu-liguobin.github.io@master/assets/js/geopattern.js"></script> <script> jQuery(document).ready(function($) { $('.geopattern').each(function(){ $(this).geopattern($(this).data('pattern-id')); }); /* hljs.initHighlightingOnLoad(); */ }); </script></body></html>
