@@ -1,7 +1,8 @@
 ---
+layout: wiki
 title: docker与k8s的常用命令
 categories:
-- 常用命令
+- 其他
 ---
 
 * 目录

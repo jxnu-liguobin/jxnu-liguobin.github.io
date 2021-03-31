@@ -1,7 +1,8 @@
 ---
+layout: wiki
 title: pgsql常用命令
 categories:
-- 常用命令
+- 其他
 ---
 
 系统默认是（CentOS或Mac）
