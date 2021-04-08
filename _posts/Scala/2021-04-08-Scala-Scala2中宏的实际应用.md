@@ -2,8 +2,8 @@
 title: Scala2中宏的实际应用
 categories:
 - Scala
-  tags: [宏编程]
-  description: 使用Scala2中的宏生成指定接口的子类的对象来减少冗余代码。
+tags: [宏编程]
+description: 使用Scala2中的宏生成指定接口的子类的对象来减少冗余代码。
 ---
 
 
