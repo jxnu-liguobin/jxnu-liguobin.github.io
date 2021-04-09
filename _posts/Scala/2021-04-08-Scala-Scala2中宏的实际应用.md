@@ -241,3 +241,7 @@ val sourceResult = GrpcGenerator.explain(args)
 
 前面我们讲到，模板本身只是一个带有占位符的字符串，这意味着修改模板将会极其容易。如果我们完全使用宏生成，岂不是每次都得改宏实现，所有需要新增或修改模板的人都要知道如何编写宏？很显然，调试宏是麻烦的（`reify`可以打印`Tree`），而编写宏也不是每个人都熟练的，这个维护成本难以估计，为了达到平衡，适当使用才是最佳的。
 还有一个问题是，直接生成crud等类，需要很多参数，这在调用宏时并不方便。而使用`Generator`既容易理解，更重要的是可以做一些预处理。
+
+具体代码在仓库：https://github.com/jxnu-liguobin/cs-summary-reflection/blob/master/scala-examples/src/main/scala/io/github/dreamylost/macro/CodeGenerator.scala
+
+去除了业务逻辑，使用了黑盒和白盒来处理两种宏实现。调用实现在test中。
