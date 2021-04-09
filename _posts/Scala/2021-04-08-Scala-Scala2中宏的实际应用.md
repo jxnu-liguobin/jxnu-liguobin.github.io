@@ -135,7 +135,7 @@ object CodeGenerateBuilder {
   }
 }
 ```
-这样我们就能自动生成`CodeGenerator`的任何子类的对象了。由于这里使用宏，我们就可以不使用`object`定义`CodeGenerator`的实现，因为宏的生成是在编译期间，且只会在调用宏时生成对象。需要注意的是，该对象的运行时的`class name`并不等于上面的宏参数传入的`className`，它的运行时类名类似为`u0022ServiceImplGenerator$u0022$1`这种，两边多了一些怪东西，暂时没有深究是啥。
+这样我们就能自动生成`CodeGenerator`的任何子类的对象了。由于这里使用宏，我们就可以不使用`object`定义`CodeGenerator`的实现，因为宏的生成是在编译期间，且只会在调用宏时生成对象。需要注意的是，该对象的运行时的`class name`并不等于上面的宏参数传入的`className`，它的运行时类名类似为`u0022ServiceImplGenerator$u0022$1`这种，两边多了一些怪东西，其实就是匿名类。
 
 因为宏是编译期间的技术，所以你不可能在定义宏的时候同时使用宏，这绝对会出现错误，幸好编译器会提示你。我们需要将宏实现放到一个独立的项目或模块，同时依赖该模块。在`build.sbt`中，需要配置`dependsOn`。
 
@@ -245,3 +245,5 @@ val sourceResult = GrpcGenerator.explain(args)
 具体代码在仓库：https://github.com/jxnu-liguobin/cs-summary-reflection/blob/master/scala-examples/src/main/scala/io/github/dreamylost/macro/CodeGenerator.scala
 
 去除了业务逻辑，使用了黑盒和白盒来处理两种宏实现。调用实现在test中。
+
+宏插值语法 https://docs.scala-lang.org/overviews/quasiquotes/syntax-summary.html
