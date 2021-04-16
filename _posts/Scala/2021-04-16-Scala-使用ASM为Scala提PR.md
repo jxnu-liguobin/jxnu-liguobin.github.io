@@ -83,7 +83,7 @@ description: 实战ASM，为Scala编译器提PR
     } // end of method initJClass
 ```
 继续看`addForwarders`方法，这个方法的注释很详细，说明了添加转发的条件。
-```
+```scala
     /* Add forwarders for all methods defined in `module` that don't conflict
      *  with methods in the companion class of `module`. A conflict arises when
      *  a method with the same name is defined both in a class and its companion object:
