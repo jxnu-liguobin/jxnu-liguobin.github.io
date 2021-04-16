@@ -11,7 +11,7 @@ description: 实战ASM，为Scala编译器提PR
 
 1.背景
 
-伴生对象（无同名类时，则为单例对象）用于实现Java静态方法，会为其生成两个class文件，文件名带\$后缀的是真正的实现，包含实例方法，文件名不带\$的是代理类，包含静态方法。
+伴生对象（无同名类时，则为单例对象）用于实现Java静态方法，会为其生成两个class文件，文件名带\$后缀的是真正的实现，包含实例方法，文件名不带\$的是代理类，包含同名静态方法。
 
 需求：将伴生对象的代理类的方法参数名写入字节码中。
 
@@ -253,3 +253,5 @@ val codeStart: Label = new Label().tap(mirrorMethod.visitLabel)
       idx + tp.size
   }
 ```
+
+https://github.com/scala/scala/pull/9561/files
