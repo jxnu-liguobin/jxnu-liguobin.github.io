@@ -1,4 +1,270 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://dreamylost.cn/feed.xml" rel="self" type="application/atom+xml" /><link href="https://dreamylost.cn/" rel="alternate" type="text/html" /><updated>2021-04-16T10:51:38+00:00</updated><id>https://dreamylost.cn/feed.xml</id><title type="html">梦境迷离</title><subtitle>梦境迷离的个人博客，公众号：ScalaCoder</subtitle><author><name>梦境迷离</name></author><entry><title type="html">使用ASM为Scala提PR</title><link href="https://dreamylost.cn/scala/Scala-%E4%BD%BF%E7%94%A8ASM%E4%B8%BAScala%E6%8F%90PR.html" rel="alternate" type="text/html" title="使用ASM为Scala提PR" /><published>2021-04-16T00:00:00+00:00</published><updated>2021-04-16T00:00:00+00:00</updated><id>https://dreamylost.cn/scala/Scala-%E4%BD%BF%E7%94%A8ASM%E4%B8%BAScala%E6%8F%90PR</id><content type="html" xml:base="https://dreamylost.cn/scala/Scala-%E4%BD%BF%E7%94%A8ASM%E4%B8%BAScala%E6%8F%90PR.html">&lt;p&gt;动态代理只知道cglib和jdk代理就可以？说明还不够卷。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://dreamylost.cn/feed.xml" rel="self" type="application/atom+xml" /><link href="https://dreamylost.cn/" rel="alternate" type="text/html" /><updated>2021-04-26T03:44:48+00:00</updated><id>https://dreamylost.cn/feed.xml</id><title type="html">梦境迷离</title><subtitle>梦境迷离的个人博客，公众号：ScalaCoder</subtitle><author><name>梦境迷离</name></author><entry><title type="html">社招面试记录</title><link href="https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E7%A4%BE%E6%8B%9B%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95.html" rel="alternate" type="text/html" title="社招面试记录" /><published>2021-04-26T00:00:00+00:00</published><updated>2021-04-26T00:00:00+00:00</updated><id>https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E7%A4%BE%E6%8B%9B%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95-</id><content type="html" xml:base="https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E7%A4%BE%E6%8B%9B%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95.html">&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#观远-一面&quot; id=&quot;markdown-toc-观远-一面&quot;&gt;观远 一面&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#美团-一面&quot; id=&quot;markdown-toc-美团-一面&quot;&gt;美团 一面&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#moka-一面&quot; id=&quot;markdown-toc-moka-一面&quot;&gt;Moka 一面&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#蚂蚁金服-花呗-一面&quot; id=&quot;markdown-toc-蚂蚁金服-花呗-一面&quot;&gt;蚂蚁金服 花呗 一面&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#陌陌-四轮&quot; id=&quot;markdown-toc-陌陌-四轮&quot;&gt;陌陌 四轮&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;观远-一面&quot;&gt;观远 一面&lt;/h2&gt;
+
+&lt;p&gt;1.map 和 flatMap的区别&lt;/p&gt;
+
+&lt;p&gt;2.java ThreadLocal&lt;/p&gt;
+
+&lt;p&gt;3.举例：内存泄漏的场景，怎么查，解决，偶发性的呢？&lt;/p&gt;
+
+&lt;p&gt;4.CPU占用率高怎么排查，&lt;/p&gt;
+
+&lt;p&gt;5.死锁(我们不用锁，用akka，聊到生命周期和消息丢失处理，异步同步&lt;/p&gt;
+
+&lt;p&gt;6.HTTP和graphql区别&lt;/p&gt;
+
+&lt;p&gt;7.scala pr的主要内容，怎么找问题和解决问题&lt;/p&gt;
+
+&lt;p&gt;8.说说case class&lt;/p&gt;
+
+&lt;p&gt;9.找工作的期望&lt;/p&gt;
+
+&lt;p&gt;10.用过play?&lt;/p&gt;
+
+&lt;p&gt;11.了解spark等大数据生态吗&lt;/p&gt;
+
+&lt;p&gt;12.有什么想问的&lt;/p&gt;
+
+&lt;p&gt;主要怼故障处理那块，答得不好，不知道结果。akka pr那块应该还可以&lt;/p&gt;
+
+&lt;p&gt;过。不算跨语言，他们主用scala，由于是大小周且是小公司就没有继续面。&lt;/p&gt;
+
+&lt;h2 id=&quot;美团-一面&quot;&gt;美团 一面&lt;/h2&gt;
+
+&lt;p&gt;1.HashMap 扩容时怎么拷贝链表 怎么转树&lt;/p&gt;
+
+&lt;p&gt;2.volatile 可见性 有序性怎么保证的&lt;/p&gt;
+
+&lt;p&gt;3.synchronize原理，entryList waitSet具体分别什么作用，啥时候进去entryList啥时候进入waitSet，锁怎么升级，升级的全部流程&lt;/p&gt;
+
+&lt;p&gt;4.new对象时整个流程是怎么样，类初始化流程和对象初始化流程是怎样的&lt;/p&gt;
+
+&lt;p&gt;5.说说类加载机制&lt;/p&gt;
+
+&lt;p&gt;6.元空间会内存溢出吗，什么时候会FULL GC，哪些可作为GC root 说出全部，本地变量可以作为gc root吗&lt;/p&gt;
+
+&lt;p&gt;7.TLAB在哪分配，解决什么问题，有什么好处&lt;/p&gt;
+
+&lt;p&gt;8.线程数怎么配置，怎么测试验证这个配置合适&lt;/p&gt;
+
+&lt;p&gt;9.线程池拒绝策略，是超过核心线程数就创建线程吗，执行任务的流程是怎样的&lt;/p&gt;
+
+&lt;p&gt;10.项目遇到的困难，CopyOnWriteArrayList原理&lt;/p&gt;
+
+&lt;p&gt;11.翻转数组中的查询&lt;/p&gt;
+
+&lt;p&gt;12.链表找环&lt;/p&gt;
+
+&lt;p&gt;挂。Java的八股文背的不行，算法有思路，但没做出来。不过美团是真的卷，问的比蚂蚁深。&lt;/p&gt;
+
+&lt;h2 id=&quot;moka-一面&quot;&gt;Moka 一面&lt;/h2&gt;
+
+&lt;p&gt;1.自我介绍，介绍技术栈，工作内容&lt;/p&gt;
+
+&lt;p&gt;2.synchronized lock区别，是否可重入&lt;/p&gt;
+
+&lt;p&gt;3.synchronized偏向锁和重量级锁&lt;/p&gt;
+
+&lt;p&gt;4.mysql有哪些存储引擎，比较一下，索引B和B+区别&lt;/p&gt;
+
+&lt;p&gt;5.redis集群怎么复制&lt;/p&gt;
+
+&lt;p&gt;6.redis是否能持久化&lt;/p&gt;
+
+&lt;p&gt;7.给的java语法是否能编译&lt;/p&gt;
+
+&lt;p&gt;8.做题，业务题，对递归结构查子节点&lt;/p&gt;
+
+&lt;p&gt;9.jvm内存分布&lt;/p&gt;
+
+&lt;p&gt;10.gc分代和算法&lt;/p&gt;
+
+&lt;p&gt;11.young gc发生时间&lt;/p&gt;
+
+&lt;p&gt;12.young gc是否stop the world&lt;/p&gt;
+
+&lt;p&gt;13.springboot bean作用域&lt;/p&gt;
+
+&lt;p&gt;14.tomcat了解吗&lt;/p&gt;
+
+&lt;p&gt;15.nio了解吗&lt;/p&gt;
+
+&lt;p&gt;16.双等号和equals区别&lt;/p&gt;
+
+&lt;p&gt;17.wait和sleep区别&lt;/p&gt;
+
+&lt;p&gt;18.synchronized是否是公平锁，为什么，什么是非公平锁&lt;/p&gt;
+
+&lt;p&gt;做题是递归+stream 有个bug， HR说面试官认为不符合预期，且题目占70%比重。我服了。&lt;/p&gt;
+
+&lt;p&gt;挂。真的卷，面试官完全不懂scala就算了，问我Java语法的八股文是干啥。&lt;/p&gt;
+
+&lt;h2 id=&quot;蚂蚁金服-花呗-一面&quot;&gt;蚂蚁金服 花呗 一面&lt;/h2&gt;
+
+&lt;p&gt;会看简历问，比其他家公司会问人，上来就说对开源项目贡献一栏目感兴趣，基本是怼开源项目。&lt;/p&gt;
+
+&lt;p&gt;1.自我介绍&lt;/p&gt;
+
+&lt;p&gt;2.工作内容和技术栈&lt;/p&gt;
+
+&lt;p&gt;3.说说开源pr的主要贡献&lt;/p&gt;
+
+&lt;p&gt;4.为什么当初学scala&lt;/p&gt;
+
+&lt;p&gt;5.聊聊scala和java语法上区别，聊到synchronized和lock区别，api和关键字区别，聊到javac和scalac编译器，java和scala字节码区别&lt;/p&gt;
+
+&lt;p&gt;6.怎么使用asm的，slot label&lt;/p&gt;
+
+&lt;p&gt;7.说说ThreadLocal&lt;/p&gt;
+
+&lt;p&gt;8.为啥不推荐用ThreadLocal&lt;/p&gt;
+
+&lt;p&gt;9.graphql-java-codegen解决了什么问题，主要做了哪些工作&lt;/p&gt;
+
+&lt;p&gt;10.了解编译原理吗&lt;/p&gt;
+
+&lt;p&gt;11.说说JMM&lt;/p&gt;
+
+&lt;p&gt;12.Happens before的理解&lt;/p&gt;
+
+&lt;p&gt;13.说说类加载&lt;/p&gt;
+
+&lt;p&gt;14.愿意来杭州吗&lt;/p&gt;
+
+&lt;p&gt;15.愿意接受挑战吗？(指基于编译器的&lt;/p&gt;
+
+&lt;p&gt;16.高并发了解吗&lt;/p&gt;
+
+&lt;p&gt;17.分布式了解吗&lt;/p&gt;
+
+&lt;p&gt;18.无埋点那个项目的难点是什么&lt;/p&gt;
+
+&lt;p&gt;19.职业规划，想转Java吗&lt;/p&gt;
+
+&lt;p&gt;过。基本都是熟悉的领域。&lt;/p&gt;
+
+&lt;h2 id=&quot;陌陌-四轮&quot;&gt;陌陌 四轮&lt;/h2&gt;
+
+&lt;p&gt;一面&lt;/p&gt;
+
+&lt;p&gt;1.项目，难点，技术栈&lt;/p&gt;
+
+&lt;p&gt;2.数据流复杂，那工程上你们如何解决？&lt;/p&gt;
+
+&lt;p&gt;3.给出一个sql，使用了哪些索引 where中第一个是主键等号判断，第二个是唯一索引的＞判断&lt;/p&gt;
+
+&lt;p&gt;4.Synchronized&lt;/p&gt;
+
+&lt;p&gt;5.MySQL 索引数据结构&lt;/p&gt;
+
+&lt;p&gt;6.Spring bean生命周期&lt;/p&gt;
+
+&lt;p&gt;7.Tcp四次挥手 画图&lt;/p&gt;
+
+&lt;p&gt;8.Spring设计模式&lt;/p&gt;
+
+&lt;p&gt;9.策略模式 画图&lt;/p&gt;
+
+&lt;p&gt;10.对象分配流程&lt;/p&gt;
+
+&lt;p&gt;11.类加载双亲能否打破&lt;/p&gt;
+
+&lt;p&gt;12.哪些垃圾收集器&lt;/p&gt;
+
+&lt;p&gt;13.Zgc 怎么着色，有哪些色（指内容？），着色流程&lt;/p&gt;
+
+&lt;p&gt;14.分代算法&lt;/p&gt;
+
+&lt;p&gt;15.链表隔壁互相对换&lt;/p&gt;
+
+&lt;p&gt;16.40亿数据 Topk&lt;/p&gt;
+
+&lt;p&gt;17.有什么想问的，问了技术栈和Java版本&lt;/p&gt;
+
+&lt;p&gt;18.Tcp滑动窗口&lt;/p&gt;
+
+&lt;p&gt;19.Redis键过期原理&lt;/p&gt;
+
+&lt;p&gt;二面&lt;/p&gt;
+
+&lt;p&gt;1.你也是师大的？哪个老师带的(工作室&lt;/p&gt;
+
+&lt;p&gt;2.为什么要找工作&lt;/p&gt;
+
+&lt;p&gt;3.谈谈java和scala，具体函数式上的区别&lt;/p&gt;
+
+&lt;p&gt;4.类加载&lt;/p&gt;
+
+&lt;p&gt;5.Java内存模型&lt;/p&gt;
+
+&lt;p&gt;6.Jdk动态代理&lt;/p&gt;
+
+&lt;p&gt;7.Scala有用线程吗？聊了下akka和actor&lt;/p&gt;
+
+&lt;p&gt;8.围绕项目提问&lt;/p&gt;
+
+&lt;p&gt;9.职业规划&lt;/p&gt;
+
+&lt;p&gt;10.微服务调用用的什么&lt;/p&gt;
+
+&lt;p&gt;11.为什么用http  https，ssl怎么握手&lt;/p&gt;
+
+&lt;p&gt;12.有什么想问的，比如加班，工作氛围&lt;/p&gt;
+
+&lt;p&gt;三面 Hr&lt;/p&gt;
+
+&lt;p&gt;常规题，角度刁钻，考察稳定性，比如老家在哪，现在住哪，会在北京待多久。
+离职原因，当前薪资，期望薪资（跨语言和业务说的比较保守），其他一些个人经历，从实习讲到现在岗位。
+以及交接时间。顺便介绍了一下绩效构成。反问环节。&lt;/p&gt;
+
+&lt;p&gt;约大bu负责人面试，应该是vp级别。以为是聊人生，没想到还是技术。&lt;/p&gt;
+
+&lt;p&gt;四面 vp&lt;/p&gt;
+
+&lt;p&gt;在商场信号不好，聊了半小时结束了，他说那我加你微信，有啥问题微信继续聊。微信问了我年龄（懵逼）&lt;/p&gt;
+
+&lt;p&gt;1.选个项目谈谈&lt;/p&gt;
+
+&lt;p&gt;2.用了多久spring&lt;/p&gt;
+
+&lt;p&gt;3.为什么用webflux&lt;/p&gt;
+
+&lt;p&gt;4.现在在面试哪些公司，你会怎么选(选效率高的，暗示他&lt;/p&gt;
+
+&lt;p&gt;5.你觉得自己的技术水平在哪个级别，比如阿里p几？&lt;/p&gt;
+
+&lt;p&gt;6.Springboot  说说applicationContext&lt;/p&gt;
+
+&lt;p&gt;7.Java ThreadLocal原理&lt;/p&gt;
+
+&lt;p&gt;8.为什么离职&lt;/p&gt;
+
+&lt;p&gt;9.想找什么样的工作&lt;/p&gt;
+
+&lt;p&gt;10.你一直在xxx工作？(才两年，实习经历没写&lt;/p&gt;
+
+&lt;p&gt;11.Mysql 间隙锁&lt;/p&gt;
+
+&lt;p&gt;12.能聊聊架构设计方面的东西么&lt;/p&gt;
+
+&lt;p&gt;13.分布式和高并发经验？&lt;/p&gt;
+
+&lt;p&gt;14.谈谈你对现在公司的看法&lt;/p&gt;
+
+&lt;p&gt;15.那些地方用了Grpc，谈谈Grpc调用流程或者Grpc解决了哪些问题&lt;/p&gt;
+
+&lt;p&gt;16.有什么想问的？&lt;/p&gt;
+
+&lt;p&gt;问，商业化的战略方向&lt;/p&gt;
+
+&lt;p&gt;凭记忆面后自己记录的，有些不记得。&lt;/p&gt;</content><author><name>梦境迷离</name></author><category term="面试" /><category term="面试" /><summary type="html">观远 一面 观远 一面</summary></entry><entry><title type="html">使用ASM为Scala提PR</title><link href="https://dreamylost.cn/scala/Scala-%E4%BD%BF%E7%94%A8ASM%E4%B8%BAScala%E6%8F%90PR.html" rel="alternate" type="text/html" title="使用ASM为Scala提PR" /><published>2021-04-16T00:00:00+00:00</published><updated>2021-04-16T00:00:00+00:00</updated><id>https://dreamylost.cn/scala/Scala-%E4%BD%BF%E7%94%A8ASM%E4%B8%BAScala%E6%8F%90PR</id><content type="html" xml:base="https://dreamylost.cn/scala/Scala-%E4%BD%BF%E7%94%A8ASM%E4%B8%BAScala%E6%8F%90PR.html">&lt;p&gt;动态代理只知道cglib和jdk代理就可以？说明还不够卷。&lt;/p&gt;
 
 &lt;p&gt;1.背景&lt;/p&gt;
 
@@ -1693,135 +1959,4 @@ OpenJDK 64-Bit Server VM (build 11.0.7+10, mixed mode)
 
 &lt;blockquote&gt;
   &lt;p&gt;如果是IDEA环境，切换JDK后，terminal需要关闭然后再打开。&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name>梦境迷离</name></author><category term="随笔" /><category term="随笔" /><summary type="html">如果已经使用pkg方式安装过了jdk（这种方式安装后直接可用，可执行 java -version ），默认会将jdk安装到系统目录，这样java_home就能直接识别出所有已经安装过的jdk，但是如果使用brew等工具，下载的是二进制/压缩包，则需要配置一些环境变量。</summary></entry><entry><title type="html">sql优化记录</title><link href="https://dreamylost.cn/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-SQL%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95.html" rel="alternate" type="text/html" title="sql优化记录" /><published>2020-11-13T00:00:00+00:00</published><updated>2020-11-13T00:00:00+00:00</updated><id>https://dreamylost.cn/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-SQL%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95</id><content type="html" xml:base="https://dreamylost.cn/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-SQL%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95.html">&lt;h1 id=&quot;背景&quot;&gt;背景&lt;/h1&gt;
-
-&lt;p&gt;postgresql拥有众多开放特性，例如&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;开放的数据类型接口，使得pg支持超级丰富的数据类型，除了传统数据库支持的类型，还支持gis，json，range，ip，isbn，图像特征值，化学，dna等等扩展的类型，用户还可以根据实际业务扩展更多的类型。&lt;/li&gt;
-  &lt;li&gt;开放的操作符接口，使得pg不仅仅支持常见的类型操作符，还支持扩展的操作符，例如 距离符，逻辑并、交、差符号，图像相似符号，几何计算符号等等扩展的符号，用户还可以根据实际业务扩展更多的操作符。&lt;/li&gt;
-  &lt;li&gt;开放的外部数据源接口，使得pg支持丰富的外部数据源，例如可以通过fdw读写mysql，redis，mongo，oracle，sqlserver，hive，www，hbase，ldap，等等只要你能想到的数据源都可以通过fdw接口读写。&lt;/li&gt;
-  &lt;li&gt;开放的语言接口，使得pg支持几乎地球上所有的编程语言作为数据库的函数、存储过程语言，例如plpython，plperl，pljava，plr，plcuda，plshell等等。用户可以通过language handler扩展pg的语言支持。&lt;/li&gt;
-  &lt;li&gt;开放的索引接口，使得pg支持非常丰富的索引方法，例如btree，hash，gin，gist，sp-gist，brin，bloom，rum，zombodb，bitmap（greenplum extend），用户可以根据不同的数据类型，以及查询的场景，选择不同的索引。&lt;/li&gt;
-  &lt;li&gt;pg内部还支持bitmapand，bitmapor的优化方法，可以合并多个索引的扫描操作，从而提升多个索引数据访问的效率。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h1 id=&quot;概述&quot;&gt;概述&lt;/h1&gt;
-
-&lt;p&gt;&lt;strong&gt;btree&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;postgresql b-tree是一种变种（high-concurrency b-tree management algorithm）。&lt;/p&gt;
-
-&lt;p&gt;btree适合所有的数据类型，支持排序，支持大于、小于、等于、大于或等于、小于或等于的搜索。索引与递归查询结合还能实现快速的稀疏检索。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;hash&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;hash索引存储的是被索引字段value的哈希值，只支持等值查询。hash索引特别适用于字段value非常长（不适合b-tree索引，因为b-tree一个page至少要存储3个entry，所以不支持特别长的value）的场景，例如很长的字符串，并且用户只需要等值搜索，建议使用hash index。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;gin&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;gin是倒排索引，存储被索引字段的value或value的元素，以及行号的list或tree。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;当需要搜索多值类型内的value时，适合多值类型，例如数组、全文检索、token。（根据不同的类型，支持相交、包含、大于、在左边、在右边等搜索）。&lt;/li&gt;
-  &lt;li&gt;当用户的数据比较稀疏时，如果要搜索某个value的值，可以适应btree_gin支持普通btree支持的类型。（支持btree的操作符）。&lt;/li&gt;
-  &lt;li&gt;当用户需要按任意列进行搜索时，gin支持多列展开单独建立索引域，同时支持内部多域索引的bitmapand，bitmapor合并，快速的返回按任意列搜索请求的数据。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;gist&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;gist是一个通用的索引接口，可以使用gist实现b-tree，r-tree等索引结构。不同的类型，支持的索引检索也各不一样。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;几何类型，支持位置搜索（包含、相交、在上下左右等），按距离排序。&lt;/li&gt;
-  &lt;li&gt;范围类型，支持位置搜索（包含、相交、在左右等）。&lt;/li&gt;
-  &lt;li&gt;ip类型，支持位置搜索（包含、相交、在左右等）。&lt;/li&gt;
-  &lt;li&gt;空间类型（postgis），支持位置搜索（包含、相交、在上下左右等），按距离排序。&lt;/li&gt;
-  &lt;li&gt;标量类型，支持按距离排序。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;sp-gist&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;sp-gist类似gist，是一个通用的索引接口，但是sp-gist使用了空间分区的方法，使得sp-gist可以更好的支持非平衡数据结构，例如quad-trees，k-d tree，radis tree。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;几何类型，支持位置搜索（包含、相交、在上下左右等），按距离排序。&lt;/li&gt;
-  &lt;li&gt;范围类型，支持位置搜索（包含、相交、在左右等）。&lt;/li&gt;
-  &lt;li&gt;ip类型，支持位置搜索（包含、相交、在左右等）。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;brin&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;brin索引是块级索引，有别于b-tree等索引，brin记录并不是以行号为单位记录索引明细，而是记录每个数据块或者每段连续的数据块的统计信息。因此brin索引空间占用特别的小，对数据写入、更新、删除的影响也很小。
-brin属于lossly索引，当被索引列的值与物理存储相关性很强时，brin索引的效果非常的好。例如时序数据，在时间或序列字段创建brin索引，进行等值、范围查询时效果很棒。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;rum&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;rum是一个索引插件，由postgrespro开源，适合全文检索，属于gin的增强版本。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;在rum索引中，存储了lexem的位置信息，所以在计算ranking时，不需要回表查询（而gin需要回表查询）。&lt;/li&gt;
-  &lt;li&gt;rum支持phrase搜索，而gin无法支持。&lt;/li&gt;
-  &lt;li&gt;在一个rum索引中，允许用户在posting tree中存储除ctid（行号）以外的字段value，例如时间戳。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;这使得rum不仅支持gin支持的全文检索，还支持计算文本的相似度值，按相似度排序等。同时支持位置匹配，例如（速度与激情，可以采用”速度” &amp;lt;2&amp;gt; “激情” 进行匹配，而gin索引则无法做到）。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;bloom&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;bloom索引接口是postgresql基于bloom filter构造的一个索引接口，属于lossy索引，可以收敛结果集（排除绝对不满足条件的结果，剩余的结果里再挑选满足条件的结果），因此需要二次check，bloom支持任意列组合的等值查询。
-bloom存储的是签名，签名越大，耗费的空间越多，但是排除更加精准，有利有弊。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;zombodb&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;zombodb是postgresql与elasticsearch结合的一个索引接口，可以直接读写es。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;bitmap&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;bitmap索引是greenplum的索引接口，类似gin倒排，只是bitmap的key是列的值，value是bit（每个bit对应一行），而不是行号list或tree。&lt;/p&gt;
-
-&lt;p&gt;当某个字段的唯一值个数在100到10万之间（超出这个范围，不建议使用bitmap）时，如果表的记录数特别多，而且变更不频繁（或者是ao表），那么很适合bitmap索引，bitmap索引可以实现快速的多个或单个value的搜索。
-因为只需要对行号的bitmap进行bit与或运算，得到最终的bitmap，从最终的bitmap映射到行进行提取。bitmap与btree一样，都支持等于，大于，小于，大于等于，小于等于的查询。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;varbitx&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;varbitx是阿里云rds的扩展包，丰富bit类型的函数接口，实际上并不是索引接口，但是在postgresql中使用varbitx可以代替bitmap索引，达到同样的效果。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;部分索引&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;postgresql允许用户创建部分索引，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;create index&lt;/code&gt;后面可以跟&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;where&lt;/code&gt;子句，限制建索引的条件。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;表达式索引&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;表达式索引也是postgresql特有的特性，例如用户的数据需要转换后查询，例如某些设备上传的地理坐标的坐标系不符合国标，需要转换为国内的空间坐标来查询。
-那么可以针对这类字段，创建表达式索引，将转换过程放到表达式中，查询时也使用表达式进行查询。&lt;/p&gt;
-
-&lt;h2 id=&quot;记录对慢查询sql的优化&quot;&gt;记录对慢查询sql的优化&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;表a只创建记录并读取，不会有任何更新操作。业务目的，基于自增&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;created_at&lt;/code&gt;均会随着时间的流逝而变大并且不可逆（人为操作除外）。
-    &lt;ul&gt;
-      &lt;li&gt;优化方案：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;order by created_at desc = order by id desc&lt;/code&gt;。主键索引比时间（块）索引快得多。&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;表b原始查询语句，套太多层，并且能大量过滤数据的时间过滤条件放在了最外层。时间是块状索引，每次过滤可以排除大量数据，应该被先使用。
-    &lt;ul&gt;
-      &lt;li&gt;优化方案：时间字段放入内部子查询&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;在某些表的索引创建时，考虑了耗空间之类。所以在时间索引等方面，选择了brin索引，查询效率不如btree。
-    &lt;ul&gt;
-      &lt;li&gt;优化方案：使用btree索引&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;查询报错示例：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user query might have needed to see row versions that must be removed&lt;/code&gt;，这是因为在查询热备库数据时，主库有更新。并且在一定时限内，有冲突的查询未能查询完毕。
-    &lt;ul&gt;
-      &lt;li&gt;优化方案：从热备库统计数据看，从19.5 以来冲突不多，并且上次数据库出问题，导致了很大一部分这个错误。故优化里可以如此设置： &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;max_standby_archive_delay = -1&lt;/code&gt;，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;max_standby_streaming_delay = -1&lt;/code&gt;。让有冲突的查询查完。（正常情况下没啥副作用，除非库挂了）&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;数据端使用sql时，没使用任何框架，没有连接池。读数据是通过&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;resultset.next&lt;/code&gt;游标。通常在数据量特别大、并且在循环里添加了业务的时候，游标读有额外开销。
-    &lt;ul&gt;
-      &lt;li&gt;优化方案：修改读取程序，在读取数据库数据后，先循环mapping成对象，然后对对象进行操作。以此缩短事务，减轻数据库压力。&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;</content><author><name>梦境迷离</name></author><category term="随笔" /><category term="随笔" /><summary type="html">背景</summary></entry></feed>
+&lt;/blockquote&gt;</content><author><name>梦境迷离</name></author><category term="随笔" /><category term="随笔" /><summary type="html">如果已经使用pkg方式安装过了jdk（这种方式安装后直接可用，可执行 java -version ），默认会将jdk安装到系统目录，这样java_home就能直接识别出所有已经安装过的jdk，但是如果使用brew等工具，下载的是二进制/压缩包，则需要配置一些环境变量。</summary></entry></feed>
