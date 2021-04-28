@@ -1,12 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://dreamylost.cn/feed.xml" rel="self" type="application/atom+xml" /><link href="https://dreamylost.cn/" rel="alternate" type="text/html" /><updated>2021-04-27T07:45:54+00:00</updated><id>https://dreamylost.cn/feed.xml</id><title type="html">梦境迷离</title><subtitle>梦境迷离的个人博客，公众号：ScalaCoder</subtitle><author><name>梦境迷离</name></author><entry><title type="html">社招面试记录</title><link href="https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%A4%BE%E6%8B%9B%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95.html" rel="alternate" type="text/html" title="社招面试记录" /><published>2021-04-26T00:00:00+00:00</published><updated>2021-04-26T00:00:00+00:00</updated><id>https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%A4%BE%E6%8B%9B%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95-</id><content type="html" xml:base="https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%A4%BE%E6%8B%9B%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95.html">&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#观远-一面&quot; id=&quot;markdown-toc-观远-一面&quot;&gt;观远 一面&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#美团-一面&quot; id=&quot;markdown-toc-美团-一面&quot;&gt;美团 一面&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#moka-一面&quot; id=&quot;markdown-toc-moka-一面&quot;&gt;Moka 一面&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#蚂蚁金服-花呗-一面&quot; id=&quot;markdown-toc-蚂蚁金服-花呗-一面&quot;&gt;蚂蚁金服 花呗 一面&lt;/a&gt;&lt;/li&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://dreamylost.cn/feed.xml" rel="self" type="application/atom+xml" /><link href="https://dreamylost.cn/" rel="alternate" type="text/html" /><updated>2021-04-28T10:18:35+00:00</updated><id>https://dreamylost.cn/feed.xml</id><title type="html">梦境迷离</title><subtitle>梦境迷离的个人博客，公众号：ScalaCoder</subtitle><author><name>梦境迷离</name></author><entry><title type="html">社招面试记录</title><link href="https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%A4%BE%E6%8B%9B%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95.html" rel="alternate" type="text/html" title="社招面试记录" /><published>2021-04-26T00:00:00+00:00</published><updated>2021-04-26T00:00:00+00:00</updated><id>https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%A4%BE%E6%8B%9B%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95-</id><content type="html" xml:base="https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%A4%BE%E6%8B%9B%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95.html">&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#观远&quot; id=&quot;markdown-toc-观远&quot;&gt;观远&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#美团&quot; id=&quot;markdown-toc-美团&quot;&gt;美团&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#moka&quot; id=&quot;markdown-toc-moka&quot;&gt;Moka&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#蚂蚁金服-花呗&quot; id=&quot;markdown-toc-蚂蚁金服-花呗&quot;&gt;蚂蚁金服 花呗&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#陌陌-四轮&quot; id=&quot;markdown-toc-陌陌-四轮&quot;&gt;陌陌 四轮&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#携程&quot; id=&quot;markdown-toc-携程&quot;&gt;携程&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;观远-一面&quot;&gt;观远 一面&lt;/h2&gt;
+&lt;h2 id=&quot;观远&quot;&gt;观远&lt;/h2&gt;
+
+&lt;p&gt;一面&lt;/p&gt;
 
 &lt;p&gt;1.map 和 flatMap的区别&lt;/p&gt;
 
@@ -36,7 +39,9 @@
 
 &lt;p&gt;过。不算跨语言，他们主用scala，由于是大小周且是小公司就没有继续面。&lt;/p&gt;
 
-&lt;h2 id=&quot;美团-一面&quot;&gt;美团 一面&lt;/h2&gt;
+&lt;h2 id=&quot;美团&quot;&gt;美团&lt;/h2&gt;
+
+&lt;p&gt;一面&lt;/p&gt;
 
 &lt;p&gt;1.HashMap 扩容时怎么拷贝链表 怎么转树&lt;/p&gt;
 
@@ -64,7 +69,9 @@
 
 &lt;p&gt;挂。Java的八股文背的不行，算法有思路，但没做出来。不过美团是真的卷，问的比蚂蚁深。&lt;/p&gt;
 
-&lt;h2 id=&quot;moka-一面&quot;&gt;Moka 一面&lt;/h2&gt;
+&lt;h2 id=&quot;moka&quot;&gt;Moka&lt;/h2&gt;
+
+&lt;p&gt;一面&lt;/p&gt;
 
 &lt;p&gt;1.自我介绍，介绍技术栈，工作内容&lt;/p&gt;
 
@@ -106,7 +113,9 @@
 
 &lt;p&gt;挂。真的卷，面试官完全不懂scala就算了，问我Java语法的八股文是干啥。&lt;/p&gt;
 
-&lt;h2 id=&quot;蚂蚁金服-花呗-一面&quot;&gt;蚂蚁金服 花呗 一面&lt;/h2&gt;
+&lt;h2 id=&quot;蚂蚁金服-花呗&quot;&gt;蚂蚁金服 花呗&lt;/h2&gt;
+
+&lt;p&gt;一面&lt;/p&gt;
 
 &lt;p&gt;会看简历问，比其他家公司会问人，上来就说对开源项目贡献一栏目感兴趣，基本是怼开源项目。&lt;/p&gt;
 
@@ -149,6 +158,26 @@
 &lt;p&gt;19.职业规划，想转Java吗&lt;/p&gt;
 
 &lt;p&gt;过。基本都是熟悉的领域。&lt;/p&gt;
+
+&lt;p&gt;二面&lt;/p&gt;
+
+&lt;p&gt;1.自我介绍 工作内容&lt;/p&gt;
+
+&lt;p&gt;2.如何处理多平台的相同用户的用户行为分析&lt;/p&gt;
+
+&lt;p&gt;3.网络分区时的一致性方案&lt;/p&gt;
+
+&lt;p&gt;4.最具有挑战的事&lt;/p&gt;
+
+&lt;p&gt;5.技术特长，倾向做什么业务或者擅长什么业务&lt;/p&gt;
+
+&lt;p&gt;6.了解代码分析？&lt;/p&gt;
+
+&lt;p&gt;7.你们产品有多少用户&lt;/p&gt;
+
+&lt;p&gt;44分钟，七点没接到电话，八点时看到自己打过去的。(约的八点15面试&lt;/p&gt;
+
+&lt;p&gt;应该挂了吧？&lt;/p&gt;
 
 &lt;h2 id=&quot;陌陌-四轮&quot;&gt;陌陌 四轮&lt;/h2&gt;
 
@@ -264,7 +293,29 @@
 
 &lt;p&gt;问，商业化的战略方向&lt;/p&gt;
 
-&lt;p&gt;凭记忆面后自己记录的，有些不记得。&lt;/p&gt;</content><author><name>梦境迷离</name></author><category term="面试" /><category term="面试" /><summary type="html">观远 一面 观远 一面</summary></entry><entry><title type="html">使用ASM为Scala提PR</title><link href="https://dreamylost.cn/scala/Scala-%E4%BD%BF%E7%94%A8ASM%E4%B8%BAScala%E6%8F%90PR.html" rel="alternate" type="text/html" title="使用ASM为Scala提PR" /><published>2021-04-16T00:00:00+00:00</published><updated>2021-04-16T00:00:00+00:00</updated><id>https://dreamylost.cn/scala/Scala-%E4%BD%BF%E7%94%A8ASM%E4%B8%BAScala%E6%8F%90PR</id><content type="html" xml:base="https://dreamylost.cn/scala/Scala-%E4%BD%BF%E7%94%A8ASM%E4%B8%BAScala%E6%8F%90PR.html">&lt;p&gt;动态代理只知道cglib和jdk代理就可以？说明还不够卷。&lt;/p&gt;
+&lt;p&gt;凭记忆面后自己记录的，有些不记得。&lt;/p&gt;
+
+&lt;h2 id=&quot;携程&quot;&gt;携程&lt;/h2&gt;
+
+&lt;p&gt;一面&lt;/p&gt;
+
+&lt;p&gt;1.自我介绍，工作内容。项目难点&lt;/p&gt;
+
+&lt;p&gt;2.谈谈sdk的性能优化&lt;/p&gt;
+
+&lt;p&gt;3.谈grpc graphql 区别&lt;/p&gt;
+
+&lt;p&gt;4.谈谈服务注册与发现&lt;/p&gt;
+
+&lt;p&gt;5.当网络分区一定存在时，如何考虑一致性、可用性 有哪些优化手段&lt;/p&gt;
+
+&lt;p&gt;6.客户端是否每次都需要获取服务节点&lt;/p&gt;
+
+&lt;p&gt;7.代码生成的心得，性能，拓展，可靠性，多语言。&lt;/p&gt;
+
+&lt;p&gt;8.有什么想问的&lt;/p&gt;
+
+&lt;p&gt;22分钟。。。应该挂了吧？&lt;/p&gt;</content><author><name>梦境迷离</name></author><category term="面试" /><category term="面试" /><summary type="html">观远 观远</summary></entry><entry><title type="html">使用ASM为Scala提PR</title><link href="https://dreamylost.cn/scala/Scala-%E4%BD%BF%E7%94%A8ASM%E4%B8%BAScala%E6%8F%90PR.html" rel="alternate" type="text/html" title="使用ASM为Scala提PR" /><published>2021-04-16T00:00:00+00:00</published><updated>2021-04-16T00:00:00+00:00</updated><id>https://dreamylost.cn/scala/Scala-%E4%BD%BF%E7%94%A8ASM%E4%B8%BAScala%E6%8F%90PR</id><content type="html" xml:base="https://dreamylost.cn/scala/Scala-%E4%BD%BF%E7%94%A8ASM%E4%B8%BAScala%E6%8F%90PR.html">&lt;p&gt;动态代理只知道cglib和jdk代理就可以？说明还不够卷。&lt;/p&gt;
 
 &lt;p&gt;1.背景&lt;/p&gt;
 
