@@ -1,0 +1,29 @@
+- name: zio/zio-redis
+  url: https://github.com/zio/zio-redis
+  descr: A ZIO-based redis client.
+  role: collaborator
+
+- name: graphql-java-codegen
+  url: https://github.com/kobylynskyi/graphql-java-codegen
+  descr: Make your GraphQL Java application schema-driven.
+  role: collaborator
+
+- name: cynic
+  url: https://github.com/obmarg/cynic
+  descr: A bring your own types GraphQL client library for Rust.
+  role: contributor
+
+- name: scala/scala
+  url: https://github.com/scala/scala
+  descr: Scala 2 compiler and standard library.
+  role: contributor
+
+- name: scala/docs.scala-lang
+  url: https://github.com/scala/docs.scala-lang
+  descr: The Scala Documentation website.
+  role: contributor
+
+- name: playcommunity/play-community
+  url: https://github.com/playcommunity/play-community
+  descr: 一个基于 Play Framework 开发的开源社区系统。
+  role: Member

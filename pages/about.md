@@ -24,6 +24,13 @@ permalink: /about/
 {% endif %}
 </ul>
 
+## 开源参与
+
+<ul>
+{% for contribution in site.data.contributions %}
+<li>{{ contribution.role }}：<a href="{{ contribution.url }}" target="_blank">{{ contribution.name }}</a>：{{ contribution.descr }} </li>
+{% endfor %}
+</ul>
 
 ## 技术栈
 
