@@ -18,9 +18,10 @@ cdn:
         enabled: true
 # 可选组件配置
 components:
-    # 分享
+    # weibo,qq,wechat,douban,qzone,linkedin,facebook,twitter
     share:
         enabled: false
+        hide-platforms: qq,facebook
     # 不蒜子访问统计
     busuanzi:
         enabled: true
@@ -31,7 +32,12 @@ components:
       limit: 5
   # 文章字数统计
     word_count:
-      enabled: true        
+      enabled: true
+  # 页面右上角，以及「关于」页面的二维码
+  # 修改图片请替换 assets/images/qrcode.jpg
+    qrcode:
+      enabled: true
+      image_alt: 梦境迷离
 # 压缩页面内容
 compress_html:
   clippings: all
