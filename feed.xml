@@ -1,4 +1,578 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://dreamylost.cn/feed.xml" rel="self" type="application/atom+xml" /><link href="https://dreamylost.cn/" rel="alternate" type="text/html" /><updated>2021-04-30T11:40:36+00:00</updated><id>https://dreamylost.cn/feed.xml</id><title type="html">梦境迷离</title><subtitle>梦境迷离的个人博客，公众号：ScalaCoder</subtitle><author><name>梦境迷离</name></author><entry><title type="html">社招面试记录</title><link href="https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%A4%BE%E6%8B%9B%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95.html" rel="alternate" type="text/html" title="社招面试记录" /><published>2021-04-26T00:00:00+00:00</published><updated>2021-04-26T00:00:00+00:00</updated><id>https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%A4%BE%E6%8B%9B%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95-</id><content type="html" xml:base="https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%A4%BE%E6%8B%9B%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95.html">&lt;ul id=&quot;markdown-toc&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://dreamylost.cn/feed.xml" rel="self" type="application/atom+xml" /><link href="https://dreamylost.cn/" rel="alternate" type="text/html" /><updated>2021-06-03T06:27:11+00:00</updated><id>https://dreamylost.cn/feed.xml</id><title type="html">梦境迷离</title><subtitle>梦境迷离的个人博客，公众号：ScalaCoder</subtitle><author><name>梦境迷离</name></author><entry><title type="html">JDBC原理&amp;amp;浅析HIVE-JDBC</title><link href="https://dreamylost.cn/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93-JDBC%E5%8E%9F%E7%90%86&%E6%B5%85%E6%9E%90HIVE-JDBC.html" rel="alternate" type="text/html" title="JDBC原理&amp;amp;浅析HIVE-JDBC" /><published>2021-06-03T00:00:00+00:00</published><updated>2021-06-03T00:00:00+00:00</updated><id>https://dreamylost.cn/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93-JDBC%E5%8E%9F%E7%90%86&amp;%E6%B5%85%E6%9E%90HIVE-JDBC</id><content type="html" xml:base="https://dreamylost.cn/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93-JDBC%E5%8E%9F%E7%90%86&amp;%E6%B5%85%E6%9E%90HIVE-JDBC.html">&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#什么是jdbc&quot; id=&quot;markdown-toc-什么是jdbc&quot;&gt;什么是JDBC？&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#jdbc的有哪些种类&quot; id=&quot;markdown-toc-jdbc的有哪些种类&quot;&gt;JDBC的有哪些种类？&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#1jdbc-odbc桥&quot; id=&quot;markdown-toc-1jdbc-odbc桥&quot;&gt;1.JDBC-ODBC桥&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#2本地api驱动&quot; id=&quot;markdown-toc-2本地api驱动&quot;&gt;2.本地API驱动&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#3网络协议驱动&quot; id=&quot;markdown-toc-3网络协议驱动&quot;&gt;3.网络协议驱动&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#4本地协议驱动&quot; id=&quot;markdown-toc-4本地协议驱动&quot;&gt;4.本地协议驱动&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#hive-jdbc-源码分析&quot; id=&quot;markdown-toc-hive-jdbc-源码分析&quot;&gt;HIVE JDBC 源码分析&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#引用&quot; id=&quot;markdown-toc-引用&quot;&gt;引用&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;什么是jdbc&quot;&gt;什么是JDBC？&lt;/h1&gt;
+
+&lt;p&gt;JDBC是Java DataBase Connectivity的缩写，它是Java程序访问数据库的标准接口。&lt;a href=&quot;https://docs.oracle.com/javase/8/docs/technotes/guides/jdbc/&quot;&gt;Java8 JDBC API&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;使用Java程序访问数据库时，Java代码并不是直接通过TCP连接去访问数据库，而是通过JDBC接口来访问，而JDBC接口则通过JDBC驱动来实现真正对数据库的访问。&lt;/p&gt;
+
+&lt;p&gt;例如，我们在Java代码中如果要访问MySQL，那么必须编写代码操作JDBC接口。注意到JDBC接口是Java标准库自带的，所以可以直接编译。而具体的JDBC驱动是由数据库厂商提供的，例如，MySQL的JDBC驱动由Oracle提供。因此，访问某个具体的数据库，我们只需要引入该厂商提供的JDBC驱动，就可以通过JDBC接口来访问，这样保证了Java程序编写的是一套数据库访问代码，却可以访问各种不同的数据库，因为他们都提供了标准的JDBC驱动：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐
+
+│  ┌───────────────┐  │
+   │   Java App    │
+│  └───────────────┘  │
+           │
+│          ▼          │
+   ┌───────────────┐
+│  │JDBC Interface │&amp;lt;─┼─── JDK
+   └───────────────┘
+│          │          │
+           ▼
+│  ┌───────────────┐  │
+   │  JDBC Driver  │&amp;lt;───── Vendor
+│  └───────────────┘  │
+           │
+└ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ┘
+           ▼
+   ┌───────────────┐
+   │   Database    │
+   └───────────────┘
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;从代码来看，Java标准库自带的JDBC接口其实就是定义了一组接口，而某个具体的JDBC驱动其实就是实现了这些接口的类：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐
+
+│  ┌───────────────┐  │
+   │   Java App    │
+│  └───────────────┘  │
+           │
+│          ▼          │
+   ┌───────────────┐
+│  │JDBC Interface │&amp;lt;─┼─── JDK
+   └───────────────┘
+│          │          │
+           ▼
+│  ┌───────────────┐  │
+   │ MySQL Driver  │&amp;lt;───── Oracle
+│  └───────────────┘  │
+           │
+└ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ┘
+           ▼
+   ┌───────────────┐
+   │     MySQL     │
+   └───────────────┘
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;实际上，一个MySQL的JDBC的驱动就是一个jar包，它本身也是纯Java编写的。我们自己编写的代码只需要引用Java标准库提供的java.sql包下面的相关接口，由此再间接地通过MySQL驱动的jar包通过网络访问MySQL服务器，所有复杂的网络通讯都被封装到JDBC驱动中，因此，Java程序本身只需要引入一个MySQL驱动的jar包就可以正常访问MySQL服务器：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐
+   ┌───────────────┐
+│  │   App.class   │  │
+   └───────────────┘
+│          │          │
+           ▼
+│  ┌───────────────┐  │
+   │  java.sql.*   │
+│  └───────────────┘  │
+           │
+│          ▼          │
+   ┌───────────────┐     TCP    ┌───────────────┐
+│  │ mysql-xxx.jar │──┼────────&amp;gt;│     MySQL     │
+   └───────────────┘            └───────────────┘
+└ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
+          JVM
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用JDBC的好处是：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;各数据库厂商使用相同的接口，Java代码不需要针对不同数据库分别开发；&lt;/li&gt;
+  &lt;li&gt;Java程序编译期仅依赖java.sql包，不依赖具体数据库的jar包；&lt;/li&gt;
+  &lt;li&gt;可随时替换底层数据库，访问数据库的Java代码基本不变。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;jdbc的有哪些种类&quot;&gt;JDBC的有哪些种类？&lt;/h1&gt;
+
+&lt;h2 id=&quot;1jdbc-odbc桥&quot;&gt;1.JDBC-ODBC桥&lt;/h2&gt;
+
+&lt;p&gt;这种类型的驱动把所有JDBC的调用传递给ODBC，再让后者调用数据库本地驱动代码（也就是数据库厂商提供的数据库操作二进制代码库，例如Oracle中的oci.dll）。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;优点
+    &lt;ul&gt;
+      &lt;li&gt;只要有对应的ODBC驱动（大部分数据库厂商都会提供），几乎可以访问所有的数据库。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;缺点
+    &lt;ul&gt;
+      &lt;li&gt;执行效率比较低，不适合大数据量访问的应用；&lt;/li&gt;
+      &lt;li&gt;由于需要客户端预装对应的ODBC驱动，不适合Internet/Intranet应用。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;2本地api驱动&quot;&gt;2.本地API驱动&lt;/h2&gt;
+
+&lt;p&gt;这种类型的驱动通过客户端加载数据库厂商提供的本地代码库（C／C++等）来访问数据库，而在驱动程序中则包含了Java代码。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;优点
+    &lt;ul&gt;
+      &lt;li&gt;速度快于第一类驱动（但仍比不上第3、第4类驱动）。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;缺点
+    &lt;ul&gt;
+      &lt;li&gt;由于需要客户端预装对应的数据库厂商代码库，仍不适合Internet/Intranet应用。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;3网络协议驱动&quot;&gt;3.网络协议驱动&lt;/h2&gt;
+
+&lt;p&gt;这种类型的驱动给客户端提供了一个网络API，客户端上的JDBC驱动程序使用套接字（Socket）来调用服务器上的中间件程序，后者再将其请求转化为所需的具体API调用。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;优点
+    &lt;ul&gt;
+      &lt;li&gt;不需要在客户端加载数据库厂商提供的代码库，单个驱动程序可以对多个数据库进行访问，可扩展性较好。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;缺点
+    &lt;ul&gt;
+      &lt;li&gt;在中间件层仍需对最终数据进行配置；&lt;/li&gt;
+      &lt;li&gt;由于多出一个中间件层，速度不如第四类驱动程序。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;4本地协议驱动&quot;&gt;4.本地协议驱动&lt;/h2&gt;
+
+&lt;p&gt;这种类型的驱动使用Socket，直接在客户端和数据库间通信。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;优点
+    &lt;ul&gt;
+      &lt;li&gt;访问速度最快；&lt;/li&gt;
+      &lt;li&gt;这是最直接、最纯粹的Java实现。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;缺点
+    &lt;ul&gt;
+      &lt;li&gt;几乎只有数据库厂商自己才能提供这种类型的JDBC驱动；&lt;/li&gt;
+      &lt;li&gt;需要针对不同的数据库使用不同的驱动程序。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;hive-jdbc-源码分析&quot;&gt;HIVE JDBC 源码分析&lt;/h1&gt;
+
+&lt;p&gt;有了上面的预备知识，看HIVE源码就容易理解了。HIVE JDBC使用第三种方式。首先，Java既然提供了标准接口，那么所有JDBC程序自然必须实现，才能保证操作数据库是透明的，先找到这个实现类：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HiveDriver&lt;/code&gt;。
+与其他JDBC相同，它实现&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;java.sql.Driver&lt;/code&gt;接口，重写了抽象方法。&lt;/p&gt;
+
+&lt;p&gt;1.第一步就是必须在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HiveDriver&lt;/code&gt;中注册自己的实例对象：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;java&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;DriverManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;registerDriver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HiveDriver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;RuntimeException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Failed to register driver&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;必须向上面那样注册自己，在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;java.sql.Driver&lt;/code&gt;的接口文档上强调了这点，这样注册后才能以下面方式加载驱动，并在接下来使用该驱动来建立连接：&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nc&quot;&gt;Class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;forName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;org.apache.hive.jdbc.HiveDriver&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;2.建立连接当然需要使用到URL，而URL必须是经过校验的，由于是HIVE的驱动，所以使用的格式是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jdbc:hive://[host[:port]]&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;cm&quot;&gt;/**
+   * Checks whether a given url is in a valid format.
+   *
+   * The current uri format is: jdbc:hive://[host[:port]]
+   *
+   * jdbc:hive:// - run in embedded mode jdbc:hive://localhost - connect to
+   * localhost default port (10000) jdbc:hive://localhost:5050 - connect to
+   * localhost port 5050
+   *
+   * TODO: - write a better regex. - decide on uri format
+   */&lt;/span&gt;
+
+  &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;acceptsURL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pattern&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;matches&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Utils&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;URL_PREFIX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;.*&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;3.校验成功返回Connection对象：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;cm&quot;&gt;/*
+   * As per JDBC 3.0 Spec (section 9.2)
+   * &quot;If the Driver implementation understands the URL, it will return a Connection object;
+   * otherwise it returns null&quot;
+   */&lt;/span&gt;
+  &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Connection&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Properties&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;acceptsURL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HiveConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HiveConnection&lt;/code&gt;类是HIVE中&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;java.sql.Connection&lt;/code&gt;接口的实现。info是连接所需的一些属性键值对。HIVE中所有可用的键在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;org.apache.hive.jdbc.Utils&lt;/code&gt;都被定义成了常量，如user，password，retries，token等等。&lt;/p&gt;
+
+&lt;p&gt;除了该方法，还有一些获取版本和信息的方法需要重写，这些是根据场景实现的，一般是从指定文件读取的，暂时可以不用太关心这些。&lt;/p&gt;
+
+&lt;p&gt;4.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HiveConnection&lt;/code&gt;对象的获取：&lt;/p&gt;
+
+&lt;p&gt;可有两种方式，第一种是通过&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DriverManager#getConnection&lt;/code&gt;获取，下面是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getConnection&lt;/code&gt;的具体内部实现：&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;c1&quot;&gt;//  Worker method called by the public getConnection() methods.&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Connection&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;java&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;util&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Properties&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;?&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;caller&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;cm&quot;&gt;/*
+         * When callerCl is null, we should check the application's
+         * (which is invoking this class indirectly)
+         * classloader, so that the JDBC driver class outside rt.jar
+         * can be loaded from here.
+         */&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;ClassLoader&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;callerCL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;caller&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;caller&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getClassLoader&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;synchronized&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;DriverManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 线程安全获取类加载器&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// synchronize loading of the correct classloader.&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;callerCL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;callerCL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Thread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;currentThread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getContextClassLoader&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;The url cannot be null&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;08001&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;DriverManager.getConnection(\&quot;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;\&quot;)&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;// Walk through the loaded registeredDrivers attempting to make a connection.&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Remember the first exception that gets raised so we can reraise it.&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reason&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;// 这里是遍历了registeredDrivers，所以前面说的必须注册就好理解了，不注册这里就拿不到了。&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;DriverInfo&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;aDriver&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;registeredDrivers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// If the caller does not have permission to load the driver then&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// skip it.&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isDriverAllowed&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aDriver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;driver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;callerCL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;    trying &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;aDriver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;driver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getClass&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+                    &lt;span class=&quot;nc&quot;&gt;Connection&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;con&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;aDriver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;driver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 看，这里同样开始使用重写的connect方法，获取Connection对象。&lt;/span&gt;
+                    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;con&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                        &lt;span class=&quot;c1&quot;&gt;// Success!&lt;/span&gt;
+                        &lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;getConnection returning &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;aDriver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;driver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getClass&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+                        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;con&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+                    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reason&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                        &lt;span class=&quot;n&quot;&gt;reason&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+                    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;    skipping: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;aDriver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getClass&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;// if we got here nobody could connect.&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reason&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;getConnection failed: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reason&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reason&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;getConnection: no suitable driver found for &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;No suitable driver found for &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;08001&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;另一种通过&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Driver#connect&lt;/code&gt;获取。&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;nc&quot;&gt;Connection&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;conn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;driver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connectionProps&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;两者的注释有点不同，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getConnection&lt;/code&gt;多抛出了一个异常&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SQLTimeoutException&lt;/code&gt;。通过分析&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getConnection&lt;/code&gt;的源码也可以看出，最好使用Java给我们提供的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DriverManager#getConnection&lt;/code&gt;获取连接。起码人家给我们判断了一下连接是否存在，同时也保证拿到的连接是否为之前driver注册的。&lt;/p&gt;
+
+&lt;p&gt;5.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Connection&lt;/code&gt;连接建立&lt;/p&gt;
+
+&lt;p&gt;嵌入式使用thrift RPC，浏览器端使用ServerSocket。上面提到，第四种JDBC直接使用socket连接，性能最高。&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;HiveConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Properties&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;nc&quot;&gt;IJdbcBrowserClientFactory&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;browserClientFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// 连接URL和所需的属性信息经过处理得出`jdbcUriString`和`sessConfMap`&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Utils&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;parseURL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// 需要zooKeeper&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;ZooKeeperHiveClientException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;jdbcUriString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getJdbcUriString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// JDBC URL: jdbc:hive2://&amp;lt;host&amp;gt;:&amp;lt;port&amp;gt;/dbName;sess_var_list?hive_conf_list#hive_var_list&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// each list: &amp;lt;key1&amp;gt;=&amp;lt;val1&amp;gt;;&amp;lt;key2&amp;gt;=&amp;lt;val2&amp;gt; and so on&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// sess_var_list -&amp;gt; sessConfMap&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// hive_conf_list -&amp;gt; hiveConfMap&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// hive_var_list -&amp;gt; hiveVarMap&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sessConfMap&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getSessionVars&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;setupLoginTimeout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//设置登录超时，由JdbcConnectionParams.SOCKET_TIMEOUT指定&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isKerberosAuthMode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// 根据不同模式设置host用于建立socket&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;host&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Utils&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getCanonicalHostName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getHost&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isBrowserAuthMode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isHttpTransportMode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Browser auth mode is only applicable in http mode&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;host&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getHost&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;port&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getPort&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;isEmbeddedMode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isEmbeddedMode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;initFetchSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;parseInt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sessConfMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getOrDefault&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;JdbcConnectionParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;FETCH_SIZE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;0&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sessConfMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;containsKey&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;JdbcConnectionParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;INIT_FILE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;initFile&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sessConfMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;JdbcConnectionParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;INIT_FILE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;wmPool&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sessConfMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;JdbcConnectionParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;WM_POOL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// 指定应用程序名称 找到一个即可&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;application&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;JdbcConnectionParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;APPLICATION&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;wmApp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sessConfMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;wmApp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// add supported protocols  支持的thrift版本&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;supportedProtocols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;TProtocolVersion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HIVE_CLI_SERVICE_PROTOCOL_V1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;supportedProtocols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;TProtocolVersion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HIVE_CLI_SERVICE_PROTOCOL_V2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;supportedProtocols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;TProtocolVersion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HIVE_CLI_SERVICE_PROTOCOL_V3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;supportedProtocols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;TProtocolVersion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HIVE_CLI_SERVICE_PROTOCOL_V4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;supportedProtocols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;TProtocolVersion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HIVE_CLI_SERVICE_PROTOCOL_V5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;supportedProtocols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;TProtocolVersion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HIVE_CLI_SERVICE_PROTOCOL_V6&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;supportedProtocols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;TProtocolVersion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HIVE_CLI_SERVICE_PROTOCOL_V7&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;supportedProtocols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;TProtocolVersion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HIVE_CLI_SERVICE_PROTOCOL_V8&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;supportedProtocols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;TProtocolVersion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HIVE_CLI_SERVICE_PROTOCOL_V9&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;supportedProtocols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;TProtocolVersion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HIVE_CLI_SERVICE_PROTOCOL_V10&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isBrowserAuthMode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// 浏览器模式 创建client，构建ServerSocket实例，属于第四种JDBC&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;browserClient&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;browserClientFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;HiveJdbcBrowserException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;browserClient&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isEmbeddedMode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// 嵌入式模式 创建client，构建org.apache.hive.service.cli.thrift.EmbeddedThriftBinaryCLIService的实例。属于第三种JDBC&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;EmbeddedCLIServicePortal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getHiveConfs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getHiveConfs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;clear&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// open client session&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isBrowserAuthMode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;IllegalArgumentException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;&quot;Browser mode is not supported in embedded mode&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;openSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;executeInitSql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retryInterval&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000L&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;strRetries&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sessConfMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;JdbcConnectionParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;RETRIES&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;StringUtils&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isNotBlank&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strRetries&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;maxRetries&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;parseInt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strRetries&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;strRetryInterval&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sessConfMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;JdbcConnectionParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;RETRY_INTERVAL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;StringUtils&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isNotBlank&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strRetryInterval&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)){&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;retryInterval&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Long&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;parseLong&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strRetryInterval&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;NumberFormatException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Ignore the exception&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// 重试&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numRetries&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;c1&quot;&gt;// open the client transport&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;openTransport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+          &lt;span class=&quot;c1&quot;&gt;// set up the client&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TCLIService&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Client&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TBinaryProtocol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+          &lt;span class=&quot;c1&quot;&gt;// 开启session并执行初始化SQL&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;openSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;executeInitSql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+          &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;no&quot;&gt;LOG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;warn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Failed to connect to &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getHost&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;:&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getPort&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+          &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;errMsg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+          &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;warnMsg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Could not open client transport with JDBC Uri: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jdbcUriString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;: &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//即使有异常连接也可能已经打开，所以先关闭?&lt;/span&gt;
+          &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// Swallow the exception&lt;/span&gt;
+            &lt;span class=&quot;no&quot;&gt;LOG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Error while closing the connection&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+          &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;ZooKeeperHiveClientHelper&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isZkDynamicDiscoveryMode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sessConfMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;errMsg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Could not open client transport for any of the Server URI's in ZooKeeper: &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// 尝试zookeeper中的下一个可用服务器，如果启用了“重试”，将重试所有服务器&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Utils&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;updateConnParamsFromZooKeeper&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numRetries&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;maxRetries&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+              &lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getRejectedHostZnodePaths&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;clear&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// 获取重试后的jdbcUriString，因为机器已经更新&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;jdbcUriString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getJdbcUriString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isKerberosAuthMode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+              &lt;span class=&quot;n&quot;&gt;host&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Utils&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getCanonicalHostName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getHost&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+              &lt;span class=&quot;n&quot;&gt;host&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getHost&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;port&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;connParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getPort&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+          &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;errMsg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;warnMsg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numRetries&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//记录重试次数&lt;/span&gt;
+          &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+          &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numRetries&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;maxRetries&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;errMsg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getMessage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; 08S01&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+          &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;no&quot;&gt;LOG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;warn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;warnMsg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getMessage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; Retrying &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numRetries&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; of &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;maxRetries&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot; with retry interval &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;retryInterval&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ms&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+              &lt;span class=&quot;nc&quot;&gt;Thread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;sleep&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;retryInterval&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// 每次重试的间隔时间，停顿等待&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;InterruptedException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+              &lt;span class=&quot;c1&quot;&gt;//Ignore&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+          &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// 使用线程安全代理包装client以序列化RPC调用&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newSynchronizedClient&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;最复杂的是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Connection&lt;/code&gt;的建立，之后使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Connection&lt;/code&gt;对象创建&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HiveStatement&lt;/code&gt;对象操作SQL即可。&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HiveStatement&lt;/code&gt;也是Java标准库提供的JDBC接口&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;java.sql.Statement&lt;/code&gt;的实现。
+对于&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EmbeddedMode&lt;/code&gt;模式，如何使用thrift存储session并保持连接，是核心所在。HIVE中，session在服务器使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ThreadLocal&amp;lt;ServerContext&amp;gt;&lt;/code&gt;来存储。client调用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OpenSession&lt;/code&gt; RPC 方法，服务端收到请求后会创建session：&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TOpenSessionResp&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;OpenSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;TOpenSessionReq&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TException&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;no&quot;&gt;LOG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Client protocol version: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getClient_protocol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+    &lt;span class=&quot;nc&quot;&gt;TOpenSessionResp&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TOpenSessionResp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;userName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;userName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getUserName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SessionHandle&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sessionHandle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getSessionHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;userName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+      &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fetchSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hiveConf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getIntVar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;HiveConf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ConfVars&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HIVE_SERVER2_THRIFT_RESULTSET_DEFAULT_FETCH_SIZE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+      &lt;span class=&quot;nc&quot;&gt;Map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;map&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HashMap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;put&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;HiveConf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ConfVars&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HIVE_SERVER2_THRIFT_RESULTSET_DEFAULT_FETCH_SIZE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;varname&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fetchSize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;put&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;HiveConf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ConfVars&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HIVE_DEFAULT_NULLS_LAST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;varname&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+          &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;valueOf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hiveConf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getBoolVar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;ConfVars&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HIVE_DEFAULT_NULLS_LAST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)));&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setSessionHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sessionHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toTSessionHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setConfiguration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setStatus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;OK_STATUS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// 获取当前线程的ServerContext对象，&lt;/span&gt;
+      &lt;span class=&quot;nc&quot;&gt;ThriftCLIServerContext&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;ThriftCLIServerContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;currentServerContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt; 
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setSessionHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sessionHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;no&quot;&gt;LOG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Login attempt is successful for user : &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;userName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// Do not log request as it contains password information&lt;/span&gt;
+      &lt;span class=&quot;no&quot;&gt;LOG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Login attempt failed for user : {}&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;userName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setStatus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;HiveSQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toTStatus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;而关闭session，只需要client调用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CloseSession&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TCloseSessionResp&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;CloseSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;TCloseSessionReq&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TException&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nc&quot;&gt;TCloseSessionResp&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TCloseSessionResp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nc&quot;&gt;SessionHandle&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sessionHandle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SessionHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getSessionHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;cliService&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;closeSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sessionHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setStatus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;OK_STATUS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;nc&quot;&gt;ThriftCLIServerContext&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;ThriftCLIServerContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;currentServerContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;clearSessionHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//删除session&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;no&quot;&gt;LOG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Failed to close the session&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setStatus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;HiveSQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toTStatus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;有了session后续就可以使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HiveStatement&lt;/code&gt;对象执行SQL。每个操作都是直接发送RPC请求，比如&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;execute&lt;/code&gt;方法：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;execute&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;runAsyncOnServer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nc&quot;&gt;TGetOperationStatusResp&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;waitForOperationToComplete&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// The query should be completed by now&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isHasResultSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stmtHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isPresent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stmtHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isHasResultSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;resultSet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HiveQueryResultSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setClient&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setStmtHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stmtHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setMaxRows&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;maxRows&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setFetchSize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fetchSize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setScrollable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isScrollableResultset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// runAsyncOnServer方法是实现异步执行SQL，后面就能再使用stmtHandle获取结果&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 获取结果调用`getResultSet`方法，获取数据前校验connect是否有效&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;runAsyncOnServer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;checkConnection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;execute&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;reInitState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;nc&quot;&gt;TExecuteStatementReq&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;execReq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TExecuteStatementReq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sessHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;cm&quot;&gt;/**
+     * Run asynchronously whenever possible
+     * Currently only a SQLOperation can be run asynchronously,
+     * in a background operation thread
+     * Compilation can run asynchronously or synchronously and execution run asynchronously
+     */&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;execReq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setRunAsync&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;execReq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setConfOverlay&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sessConf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;execReq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setQueryTimeout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;queryTimeout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;no&quot;&gt;LOG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Submitting statement [{}]: {}&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sessHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;nc&quot;&gt;TExecuteStatementResp&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;execResp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ExecuteStatement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;execReq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;nc&quot;&gt;Utils&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;verifySuccessWithInfo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;execResp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getStatus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+      &lt;span class=&quot;nc&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;infoMessages&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;execResp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getStatus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getInfoMessages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;infoMessages&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;infoMessages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;no&quot;&gt;LOG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;stmtHandle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Optional&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;execResp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getOperationHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+      &lt;span class=&quot;no&quot;&gt;LOG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Running with statement handle: {}&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stmtHandle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;SQLException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;isLogBeingGenerated&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;isLogBeingGenerated&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SQLException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Failed to run async statement&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;08S01&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;HIVE service-rpc模块的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TCLIService.thrift&lt;/code&gt;文件定义了JDBC所需的所有方法和生成的多种语言代码，与grpc的protocol buffer类似。
+service模块提供了rpc的实现。&lt;/p&gt;
+
+&lt;h1 id=&quot;引用&quot;&gt;引用&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.liaoxuefeng.com/wiki/1252599548343744/1305152088703009&quot;&gt;JDBC简介&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://zh.wikipedia.org/wiki/Java%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5&quot;&gt;Java数据库连接&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/apache/hive/tree/master/jdbc&quot;&gt;HIVE JDBC&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>梦境迷离</name></author><category term="数据库" /><summary type="html"></summary></entry><entry><title type="html">社招面试记录</title><link href="https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%A4%BE%E6%8B%9B%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95.html" rel="alternate" type="text/html" title="社招面试记录" /><published>2021-04-26T00:00:00+00:00</published><updated>2021-04-26T00:00:00+00:00</updated><id>https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%A4%BE%E6%8B%9B%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95-</id><content type="html" xml:base="https://dreamylost.cn/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95-%E7%A4%BE%E6%8B%9B%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95.html">&lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#观远&quot; id=&quot;markdown-toc-观远&quot;&gt;观远&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#美团&quot; id=&quot;markdown-toc-美团&quot;&gt;美团&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#moka&quot; id=&quot;markdown-toc-moka&quot;&gt;Moka&lt;/a&gt;&lt;/li&gt;
@@ -1964,50 +2538,4 @@ Cluster采用虚拟槽分区，所有的键根据哈希函数映射到0～16383�
   &lt;li&gt;避免产生&lt;a href=&quot;https://zhuanlan.zhihu.com/p/259719544&quot;&gt;big-key&lt;/a&gt;，导致网卡撑爆、慢查询等；&lt;/li&gt;
   &lt;li&gt;重试时间应该大于cluster-node-timeout时间；&lt;/li&gt;
   &lt;li&gt;Redis Cluster不建议使用pipeline和multi-keys操作，减少max redirect产生的场景。&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>梦境迷离</name></author><category term="Redis" /><summary type="html"></summary></entry><entry><title type="html">快速动态切换JDK版本</title><link href="https://dreamylost.cn/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-%E5%BF%AB%E9%80%9F%E5%8A%A8%E6%80%81%E5%88%87%E6%8D%A2JDK%E7%89%88%E6%9C%AC.html" rel="alternate" type="text/html" title="快速动态切换JDK版本" /><published>2020-11-14T00:00:00+00:00</published><updated>2020-11-14T00:00:00+00:00</updated><id>https://dreamylost.cn/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-%E5%BF%AB%E9%80%9F%E5%8A%A8%E6%80%81%E5%88%87%E6%8D%A2JDK%E7%89%88%E6%9C%AC</id><content type="html" xml:base="https://dreamylost.cn/%E9%9A%8F%E7%AC%94/%E9%9A%8F%E7%AC%94-%E5%BF%AB%E9%80%9F%E5%8A%A8%E6%80%81%E5%88%87%E6%8D%A2JDK%E7%89%88%E6%9C%AC.html">&lt;p&gt;如果已经使用pkg方式安装过了jdk（这种方式安装后直接可用，可执行 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;java -version&lt;/code&gt; ），默认会将jdk安装到系统目录，这样java_home就能直接识别出所有已经安装过的jdk，但是如果使用brew等工具，下载的是二进制/压缩包，则需要配置一些环境变量。&lt;/p&gt;
-
-&lt;p&gt;比如，brew安装open jdk11时，安装完后就会提醒是否添加软链到系统目录： &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo ln -sfn /usr/local/opt/openjdk@11/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-11.jdk&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;如果不添加软链则 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/usr/libexec/java_home -v11&lt;/code&gt; 是无效的，会提示找不到jdk11（因为系统的Library目录没有），此时虽然能使用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;java&lt;/code&gt; 命令（ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;java -version&lt;/code&gt; 版本为11），但是并不方便我们动态切换jdk版本，并且会覆盖 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/Library/Java/JavaVirtualMachines&lt;/code&gt; 中的其他jdk。&lt;/p&gt;
-
-&lt;p&gt;如果不使用软链，则需要找到原始安装位置，时间久了可能就会忘记，放到系统默认的管理位置，不容易出问题。 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/usr/libexec/java_home&lt;/code&gt; 展示的是安装目录，而不是 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;whereis java&lt;/code&gt; 找到的java可执行命令的目录（ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/usr/bin/java&lt;/code&gt; ）&lt;/p&gt;
-
-&lt;p&gt;下面是流程：&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;当我们已经使用pkg安装了一个jdk8时，执行 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/usr/libexec/java_home -v1.8&lt;/code&gt; ，会输出 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home&lt;/code&gt; ，这表明pkg的jdk会默认被安装到此目录。&lt;/li&gt;
-  &lt;li&gt;使用brew安装open jdk11，执行 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;brew install openjdk@11&lt;/code&gt; 。&lt;/li&gt;
-  &lt;li&gt;安装成功后，依照提示添加软链， &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo ln -sfn /usr/local/opt/openjdk@11/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-11.jdk&lt;/code&gt; 。&lt;/li&gt;
-  &lt;li&gt;检查是否成功，执行 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/usr/libexec/java_home -v11&lt;/code&gt; ，此时输出 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home&lt;/code&gt; 。&lt;/li&gt;
-  &lt;li&gt;为两个jdk设置环境变量：&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 计算当前版本JDK的安装位置，因为在上面我们已经将2个JDK都放在了 /Library/Java/JavaVirtualMachines/
-export JAVA_8_HOME= `/usr/libexec/java_home -v 1.8`
-export JAVA_11_HOME= `/usr/libexec/java_home -v 11`
-# 设置默认的环境是JDK8
-export JAVA_HOME=$JAVA_8_HOME  
-# 添加两个别名，用来快速更改JDK环境  
-alias JDK8=&quot;export JAVA_HOME=$JAVA_8_HOME&quot;  
-alias JDK11=&quot;export JAVA_HOME=$JAVA_11_HOME&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;测试：&lt;/p&gt;
-
-&lt;p&gt;执行 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JDK8&lt;/code&gt; ，输出：&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;java version &quot;1.8.0_221&quot;
-Java(TM) SE Runtime Environment (build 1.8.0_221-b11)
-Java HotSpot(TM) 64-Bit Server VM (build 25.221-b11, mixed mode)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;执行 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JDK11&lt;/code&gt; ，输出：&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;openjdk version &quot;11.0.7&quot; 2020-04-14
-OpenJDK Runtime Environment (build 11.0.7+10)
-OpenJDK 64-Bit Server VM (build 11.0.7+10, mixed mode)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;如果是IDEA环境，切换JDK后，terminal需要关闭然后再打开。&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name>梦境迷离</name></author><category term="随笔" /><category term="随笔" /><summary type="html">如果已经使用pkg方式安装过了jdk（这种方式安装后直接可用，可执行 java -version ），默认会将jdk安装到系统目录，这样java_home就能直接识别出所有已经安装过的jdk，但是如果使用brew等工具，下载的是二进制/压缩包，则需要配置一些环境变量。</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>梦境迷离</name></author><category term="Redis" /><summary type="html"></summary></entry></feed>

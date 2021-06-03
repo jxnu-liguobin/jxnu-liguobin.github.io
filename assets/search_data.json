@@ -1129,6 +1129,14 @@
     } ,
   
     {
+      "title"    : "JDBC原理&amp;浅析HIVE-JDBC",
+      "category" : "数据库",
+      
+      "url"      : "https://dreamylost.cn/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93-JDBC%E5%8E%9F%E7%90%86&%E6%B5%85%E6%9E%90HIVE-JDBC.html",
+      "keywords" : ""
+    } ,
+  
+    {
       "title"    : "Git相关命令",
       "category" : "其他",
       
