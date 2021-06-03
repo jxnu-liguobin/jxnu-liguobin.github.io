@@ -137,7 +137,7 @@ JDBC是Java DataBase Connectivity的缩写，它是Java程序访问数据库的�
 
 # HIVE JDBC 源码分析
 
-有了上面的预备知识，看HIVE源码就容易理解了。HIVE JDBC使用第三种方式。首先，Java既然提供了标准接口，那么所有JDBC程序自然必须实现，才能保证操作数据库是透明的，先找到这个实现类：`HiveDriver`。
+有了上面的预备知识，看HIVE源码就容易理解了。HIVE JDBC使用第三和第四两种方式。首先，Java既然提供了标准接口，那么所有JDBC程序自然必须实现，才能保证操作数据库是透明的，先找到这个实现类：`HiveDriver`。
 与其他JDBC相同，它实现`java.sql.Driver`接口，重写了抽象方法。
 
 1.第一步就是必须在`HiveDriver`中注册自己的实例对象：
