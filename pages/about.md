@@ -8,7 +8,7 @@ menu: 关于
 permalink: /about/
 ---
 
-梦境亦是美，醒来亦是空。
+梦境亦是美，醒来亦是空。（Scala REPL和编译器Contributor ，官方文档中文审稿人。Github Scala组织首席混子成员。~~~~~~~ 逃 hh）
 
 ## 联系
 
