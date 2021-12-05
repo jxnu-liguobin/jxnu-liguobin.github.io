@@ -200,7 +200,7 @@ message BOpenSession {
 - 为`Service`泛型反射出对象，不再需要传 `service` 参数
 - 仅支持非抽象类且必须含有默认无参构造函数
 
-Scala如何反射一个类类的对象呢？
+Scala如何反射一个类来创建类的对象呢？
 
 我们定义一个`Creator`，通过参数`T:WeakTypeTag`反射。`WeakTypeTag`由编译器创建，使用`T`的`tpe`可以反射`T`。
 `WeakTypeTag`力求尽可能是具体的类型，即如果`TypeTag`可用于引用的类型参数或抽象类型，则它们用于将具体类型嵌入`WeakTypeTag`。
