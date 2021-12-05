@@ -202,12 +202,12 @@ message BOpenSession {
 
 Scala如何反射一个类来创建类的对象呢？
 
-我们定义一个`Creator`，通过参数`T:WeakTypeTag`反射。`WeakTypeTag`由编译器创建，使用`T`的`tpe`可以反射`T`。
+我们定义一个`Creator`，通过参数`T:WeakTypeTag`反射。`WeakTypeTag`由编译器创建，使用`T`的`tpe`属性可以反射`T`。
 `WeakTypeTag`力求尽可能是具体的类型，即如果`TypeTag`可用于引用的类型参数或抽象类型，则它们用于将具体类型嵌入`WeakTypeTag`。
 否则`WeakTypeTag`将包含对抽象类型的引用。当人们期望`T`可能是部分抽象的，但需要特别小心来处理这种情况时，这种行为是有用的。
 但是，如果`T`应该是完全已知的，则应该使用`TypeTag`，它静态地保证了这个属性。`TypeTag`它不包含任何对未解析类型参数或抽象类型的引用。
 
-Scala的抽象语法树除了三个字段外，是不可变的。这三个就是`symbol`，`pos`，`tpe`。对于编译器而已，类型检查不是一步到位的，所以`pos`，`tpe`，`symbol`这种属性，可能在某阶段是没有值的。
+Scala的抽象语法树除了三个字段外，是不可变的。这三个就是`symbol`，`pos`，`tpe`。对于编译器而言，类型检查不是一步到位的，所以`pos`，`tpe`，`symbol`这种属性，可能在某阶段是没有值的。
 而在typechecked后就能获取到实际值。这在编译期反射中很有用。
 
 ```scala
