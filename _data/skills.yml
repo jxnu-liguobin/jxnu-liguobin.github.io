@@ -6,10 +6,11 @@
       - Kotlin
 - name: 后端技术栈
   keywords:
+    - zio
     - gRPC
     - graphQL
     - akka
     - redis
-    - shapeless 
     - scalikejdbc
     - playframework
+    - springboot
