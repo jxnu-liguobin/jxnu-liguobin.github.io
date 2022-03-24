@@ -27,3 +27,13 @@
   url: https://github.com/playcommunity/play-community
   descr: 一个基于 Play Framework 开发的开源社区系统。
   role: Member
+  
+- name: bitlap/zim
+  url: https://github.com/bitlap/zim
+  descr: zim 是一个web端即时通讯系统，使用scala2语言，基于zio、tapir、akka，scallikejdbc等库实现。
+  role: Owner  
+
+- name: bitlap/scala-macro-tools
+  url: https://github.com/bitlap/scala-macro-tools
+  descr: Scala Tools, includes the supported IntelliJ plugin.
+  role: Owner  
