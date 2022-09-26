@@ -2,15 +2,18 @@
   keywords:
       - Scala
       - Java
-      - Rust
-      - Kotlin
 - name: 后端技术栈
   keywords:
     - zio
     - gRPC
-    - graphQL
+    - GraphQL
     - akka
     - redis
     - scalikejdbc
+    - slick
+    - circe
+    - tapir
+    - sttp
+    - shapeless
     - playframework
     - springboot
