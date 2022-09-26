@@ -1,4 +1,162 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="https://dreamylost.cn/feed.xml" rel="self" type="application/atom+xml" /><link href="https://dreamylost.cn/" rel="alternate" type="text/html" /><updated>2022-03-24T10:23:06+00:00</updated><id>https://dreamylost.cn/feed.xml</id><title type="html">梦境迷离</title><subtitle>梦境迷离的个人博客，公众号：ScalaCoder</subtitle><author><name>梦境迷离</name></author><entry><title type="html">Scala中如何基于ZIO构建可组合的命令行程序</title><link href="https://dreamylost.cn/scala/Scala-Scala%E4%B8%AD%E5%A6%82%E4%BD%95%E5%9F%BA%E4%BA%8EZIO%E6%9E%84%E5%BB%BA%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F.html" rel="alternate" type="text/html" title="Scala中如何基于ZIO构建可组合的命令行程序" /><published>2021-12-22T00:00:00+00:00</published><updated>2021-12-22T00:00:00+00:00</updated><id>https://dreamylost.cn/scala/Scala-Scala%E4%B8%AD%E5%A6%82%E4%BD%95%E5%9F%BA%E4%BA%8EZIO%E6%9E%84%E5%BB%BA%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F</id><content type="html" xml:base="https://dreamylost.cn/scala/Scala-Scala%E4%B8%AD%E5%A6%82%E4%BD%95%E5%9F%BA%E4%BA%8EZIO%E6%9E%84%E5%BB%BA%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F.html">&lt;ul id=&quot;markdown-toc&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://dreamylost.cn/feed.xml" rel="self" type="application/atom+xml" /><link href="https://dreamylost.cn/" rel="alternate" type="text/html" /><updated>2022-09-26T03:16:26+00:00</updated><id>https://dreamylost.cn/feed.xml</id><title type="html">梦境迷离</title><subtitle>梦境迷离的个人博客，公众号：ScalaCoder</subtitle><author><name>梦境迷离</name></author><entry><title type="html">Scala编译器的原理-1</title><link href="https://dreamylost.cn/scala/Scala-Scala2%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E5%8E%9F%E7%90%86-1.html" rel="alternate" type="text/html" title="Scala编译器的原理-1" /><published>2022-09-26T00:00:00+00:00</published><updated>2022-09-26T00:00:00+00:00</updated><id>https://dreamylost.cn/scala/Scala-Scala2%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E5%8E%9F%E7%90%86-1</id><content type="html" xml:base="https://dreamylost.cn/scala/Scala-Scala2%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E5%8E%9F%E7%90%86-1.html">&lt;h2 id=&quot;scala2-编译器阶段概要&quot;&gt;Scala2 编译器阶段概要&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;一个阶段是一个大的流程&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;一般来说，id 大的在后面执行，但是还要考虑的并行的，有依赖关系的，依赖靠 runsAfter、runsRightAfter、runsRightAfter 指定。这里的编译阶段可以拓展，甚至可以外部拓展~！&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;可以增加参数&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-Xshow-phases&lt;/code&gt;打印出下面这个表格。&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;id&lt;/th&gt;
+      &lt;th&gt;阶段&lt;/th&gt;
+      &lt;th&gt;描述&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;parser&lt;/td&gt;
+      &lt;td&gt;语法分析，将源码解析为 AST（抽象语法树，下面简称树），进行简单的语法糖解析处理&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;namer&lt;/td&gt;
+      &lt;td&gt;解析名称，将符号附加到已命名的树上&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;packageobjects&lt;/td&gt;
+      &lt;td&gt;加载包对象&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;typer&lt;/td&gt;
+      &lt;td&gt;分配树的类型&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td&gt;superaccessors&lt;/td&gt;
+      &lt;td&gt;在特质和嵌套类中添加 super 访问器&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;extmethods&lt;/td&gt;
+      &lt;td&gt;为内联类添加扩展方法&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt;pickler&lt;/td&gt;
+      &lt;td&gt;将符号表序列化&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;parrefchecksser&lt;/td&gt;
+      &lt;td&gt;引用/覆盖（重写）的检查，翻译嵌套对象&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;patmat&lt;/td&gt;
+      &lt;td&gt;翻译 match 表达式&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;10&lt;/td&gt;
+      &lt;td&gt;uncurry&lt;/td&gt;
+      &lt;td&gt;解码柯里化，将函数值转化为匿名类&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;fields&lt;/td&gt;
+      &lt;td&gt;合成访问器和字段，为惰性 val 字段添加位图&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;12&lt;/td&gt;
+      &lt;td&gt;tailcalls&lt;/td&gt;
+      &lt;td&gt;用跳跃（指 matchEnd）取代尾部调用&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;13&lt;/td&gt;
+      &lt;td&gt;specialize&lt;/td&gt;
+      &lt;td&gt;处理特化（指@specialized）的类和方法&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;14&lt;/td&gt;
+      &lt;td&gt;explicitouter&lt;/td&gt;
+      &lt;td&gt;处理嵌套类和嵌套类的持有类&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;15&lt;/td&gt;
+      &lt;td&gt;erasure&lt;/td&gt;
+      &lt;td&gt;擦除类型，为特质增加接口&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;16&lt;/td&gt;
+      &lt;td&gt;posterasure&lt;/td&gt;
+      &lt;td&gt;清理被擦除的内联类&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;17&lt;/td&gt;
+      &lt;td&gt;lambdalift&lt;/td&gt;
+      &lt;td&gt;将嵌套函数移到顶层&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;18&lt;/td&gt;
+      &lt;td&gt;constructors&lt;/td&gt;
+      &lt;td&gt;将字段定义移到构造函数中&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;19&lt;/td&gt;
+      &lt;td&gt;flatten&lt;/td&gt;
+      &lt;td&gt;消除内部类&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;20&lt;/td&gt;
+      &lt;td&gt;mixin&lt;/td&gt;
+      &lt;td&gt;处理 with（特质）&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;21&lt;/td&gt;
+      &lt;td&gt;cleanup&lt;/td&gt;
+      &lt;td&gt;特定平台的清理，生成反射性调用&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;22&lt;/td&gt;
+      &lt;td&gt;delambdafy&lt;/td&gt;
+      &lt;td&gt;移除 lambdas&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;23&lt;/td&gt;
+      &lt;td&gt;jvm&lt;/td&gt;
+      &lt;td&gt;生成 JVM 字节码&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;24&lt;/td&gt;
+      &lt;td&gt;terminal&lt;/td&gt;
+      &lt;td&gt;编译过程中的最后阶段&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;子阶段&quot;&gt;子阶段&lt;/h2&gt;
+
+&lt;p&gt;上面其实缺少详细的分析阶段，namer、packageobjects、typer 这几个阶段有子流程 Analyzer，或者换句话说，namer、packageobjects、typer 都是 Analyzer 的一部分。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;不考虑 24,23 的话，一个语法的处理可能是需要所有阶段，也可能是只需要某几个阶段。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;scala2-编译器入口&quot;&gt;Scala2 编译器入口&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;编译器的入口同样是一个 main 方法，类：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scala.tools.nsc.Main&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;编译期的全部实现：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scala.tools.nsc.Global&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;scalac 编译源文件时的流程：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;普通文件名的序列&lt;/code&gt; =&amp;gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;源文件的序列&lt;/code&gt; =&amp;gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;编译单元的序列&lt;/code&gt; =&amp;gt; 依次执行上面的编译阶段 =&amp;gt; 输出编译后的字节码文件&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>梦境迷离</name></author><category term="Scala" /><summary type="html">Scala2 编译器阶段概要</summary></entry><entry><title type="html">Scala中如何基于ZIO构建可组合的命令行程序</title><link href="https://dreamylost.cn/scala/Scala-Scala%E4%B8%AD%E5%A6%82%E4%BD%95%E5%9F%BA%E4%BA%8EZIO%E6%9E%84%E5%BB%BA%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F.html" rel="alternate" type="text/html" title="Scala中如何基于ZIO构建可组合的命令行程序" /><published>2021-12-22T00:00:00+00:00</published><updated>2021-12-22T00:00:00+00:00</updated><id>https://dreamylost.cn/scala/Scala-Scala%E4%B8%AD%E5%A6%82%E4%BD%95%E5%9F%BA%E4%BA%8EZIO%E6%9E%84%E5%BB%BA%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F</id><content type="html" xml:base="https://dreamylost.cn/scala/Scala-Scala%E4%B8%AD%E5%A6%82%E4%BD%95%E5%9F%BA%E4%BA%8EZIO%E6%9E%84%E5%BB%BA%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F.html">&lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#设计一个命令行程序&quot; id=&quot;markdown-toc-设计一个命令行程序&quot;&gt;设计一个命令行程序&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#基本程序&quot; id=&quot;markdown-toc-基本程序&quot;&gt;基本程序&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#自下而上构建程序&quot; id=&quot;markdown-toc-自下而上构建程序&quot;&gt;自下而上构建程序&lt;/a&gt;&lt;/li&gt;
@@ -2518,124 +2676,4 @@ service模块提供了rpc的实现。&lt;/p&gt;
   &lt;li&gt;使用Junit编写测试时可以在本地调试，而有些测试并不能调试。&lt;/li&gt;
   &lt;li&gt;多看别人的PR，会有很多好的编码风格和设计思想。对于自己的PR，耐心解决别人的comment，如果不想接受别人的建议则应该给出合理的回答以说服维护者。&lt;/li&gt;
   &lt;li&gt;PR可能仅是一行代码，但是搞懂问题和找到解决方案可能需要花费你一天甚至一周时间，因为通常容易解决的早被解决了。哈哈&lt;/li&gt;
-&lt;/ol&gt;</content><author><name>梦境迷离</name></author><category term="其他" /><category term="Scala" /><summary type="html"></summary></entry><entry><title type="html">Redis设计与实现笔记_2</title><link href="https://dreamylost.cn/redis/Redis-Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E7%AC%94%E8%AE%B0_2.html" rel="alternate" type="text/html" title="Redis设计与实现笔记_2" /><published>2021-02-06T00:00:00+00:00</published><updated>2021-02-06T00:00:00+00:00</updated><id>https://dreamylost.cn/redis/Redis-Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E7%AC%94%E8%AE%B0_2</id><content type="html" xml:base="https://dreamylost.cn/redis/Redis-Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E7%AC%94%E8%AE%B0_2.html">&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#数据库&quot; id=&quot;markdown-toc-数据库&quot;&gt;数据库&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#持久化&quot; id=&quot;markdown-toc-持久化&quot;&gt;持久化&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#rdb&quot; id=&quot;markdown-toc-rdb&quot;&gt;RDB&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#aof&quot; id=&quot;markdown-toc-aof&quot;&gt;AOF&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#事件&quot; id=&quot;markdown-toc-事件&quot;&gt;事件&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#客户端&quot; id=&quot;markdown-toc-客户端&quot;&gt;客户端&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#服务器&quot; id=&quot;markdown-toc-服务器&quot;&gt;服务器&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;数据库&quot;&gt;数据库&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Redis服务器的所有数据都保存在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;redisServer.db&lt;/code&gt;数组中，而数据库的数量则由&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;redisServer.dbnum&lt;/code&gt;属性保存&lt;/li&gt;
-  &lt;li&gt;客户端通过修改目标数据库指针，让它指向&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;redisServer.db&lt;/code&gt;数组中的不同元素来切换不同的数据库&lt;/li&gt;
-  &lt;li&gt;数据库主要由&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dict&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;expires&lt;/code&gt;两个字典构成，其中&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dict&lt;/code&gt;字典负责保存键值对，而&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;expires&lt;/code&gt;字典则负责保存键的过期时间&lt;/li&gt;
-  &lt;li&gt;对数据库的操作都是建立在字典操作之上的&lt;/li&gt;
-  &lt;li&gt;数据库的键总是一个字符串对象，而值则可以是任意一种Redis对象类型，包括字符串对象、哈希表对象、集合对象、列表对象和有序集合对象，分别对应字符串键、哈希表键、集合键、列表键和有序集合键&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;expires&lt;/code&gt;字典的键指向数据库中的某个键，而值则记录了数据库键的过期时间，过期时间是一个以毫秒为单位的UNIX时间戳&lt;/li&gt;
-  &lt;li&gt;Redis使用惰性删除和定期删除两种策略来删除过期的键：惰性删除策略只在碰到过期键时才进行删除操作，定期删除策略则每隔一段时间主动查找并删除过期键&lt;/li&gt;
-  &lt;li&gt;执行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SAVE&lt;/code&gt;命令或&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BGSAVE&lt;/code&gt;命令所产生的新RDB文件不会包含已经过期的键&lt;/li&gt;
-  &lt;li&gt;执行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BGREWRITEAOF&lt;/code&gt;命令所产生的重写AOF文件不会包含已经过期的键&lt;/li&gt;
-  &lt;li&gt;当一个过期键被删除后，服务器会追加一条&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DEL&lt;/code&gt;命令到现有AOF文件的末尾，显示地删除过期键&lt;/li&gt;
-  &lt;li&gt;当主服务器删除一个过期键之后，它会向所有从服务器发送一条&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DEL&lt;/code&gt;命令，显示地删除过期键&lt;/li&gt;
-  &lt;li&gt;从服务器即使发现过期键也不会自作主张地删除它，而是等待主节点发来&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DEL&lt;/code&gt;命令，这种统一、中心化的过期键删除策略可以保证主从服务器数据的一致性&lt;/li&gt;
-  &lt;li&gt;当Redis命令对数据库进行修改之后，服务器会根据配置向客户端发送数据库通知&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;持久化&quot;&gt;持久化&lt;/h2&gt;
-
-&lt;h3 id=&quot;rdb&quot;&gt;RDB&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;RDB文件用于保存和还原Redis服务器所有数据库中的所有键值对数据&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SAVE&lt;/code&gt;命令由服务器直接执行保存操作，所以该命令会阻塞服务器&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BGSAVE&lt;/code&gt;命令由子进程执行保存操作，所以该命令不会阻塞服务器&lt;/li&gt;
-  &lt;li&gt;服务器状态中会保存所有用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SAVE&lt;/code&gt;选项设置的保存条件，当任意一个保存条件被满足时，服务器会自动执行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BGSAVE&lt;/code&gt;命令&lt;/li&gt;
-  &lt;li&gt;RDB文件是一个经过压缩的二进制文件，由多个部分组成&lt;/li&gt;
-  &lt;li&gt;对不同类型的键值对，RDB文件会使用不同的方式来保存它们&lt;/li&gt;
-  &lt;li&gt;服务器载入RDB文件期间，会一直处于阻塞状态，直到载入工作完成为止&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BGSAVE&lt;/code&gt;命令执行期间，服务器会拒绝客户端发送的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BGSAVE&lt;/code&gt;命令（竞争条件），而客服端发送的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BGREWRITEAOF&lt;/code&gt;命令会被延迟到&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BGSAVE&lt;/code&gt;命令执行完毕之后执行（性能考虑）&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BGREWRITEAOF&lt;/code&gt;执行期间，客户端发送的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BGSAVE&lt;/code&gt;会被服务器拒绝（性能考虑）&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;aof&quot;&gt;AOF&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;AOF文件通过保存所有修改数据库的写命令请求来记录服务器的数据库状态&lt;/li&gt;
-  &lt;li&gt;AOF文件中的所有目录都以Redis命令请求协议的格式保存&lt;/li&gt;
-  &lt;li&gt;命令请求会先保存到AOF缓冲区里面，之后再定期写入并同步到AOF文件&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;APPENDFSYNC&lt;/code&gt;选项的不同值对AOF持久化功能的安全性以及Redis服务器的性能有很大的影响&lt;/li&gt;
-  &lt;li&gt;服务器只要载入并重新执行保存在AOF文件中的命令，就可以还原数据库本来的状态&lt;/li&gt;
-  &lt;li&gt;AOF重写可以产生一个新的AOF文件，这个新的AOF文件和原有的AOF文件所保存的数据库状态一样，但体积更小&lt;/li&gt;
-  &lt;li&gt;AOF重写是一个有歧义的名字，该功能是通过读取数据库的键值对来实现的，程序无须对现有AOF文件进行任何读入、分析或写入操作&lt;/li&gt;
-  &lt;li&gt;在执行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BGREWRITEAOF&lt;/code&gt;命令时，Redis服务器会维护一个AOF重写缓冲区，该缓冲区会在子进程创建新AOF文件期间，记录服务器执行的所有写命令。当子进程完成创建新AOF文件的工作之后，服务器会将缓冲区的所有内容追加到新的AOF文件的末尾，使得新旧两个AOF文件所保存的数据库状态一致。最后服务器用新的AOF文件替换旧的AOF文件，以此来完成AOF文件重写操作&lt;/li&gt;
-  &lt;li&gt;在整个AOF后台重写过程中，信号处理函数执行时会对服务器（父）进程造成阻塞，在其他时候，AOF后台重写都不会阻塞服务器（父）进程 ，信号处理函数有两个工作
-    &lt;ul&gt;
-      &lt;li&gt;将AOF重写缓冲区的所有内容写入到新AOF文件中&lt;/li&gt;
-      &lt;li&gt;对新的AOF文件进行改名，并原子地覆盖现有的AOF文件，完成新旧两个AOF文件的替换&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;子进程在执行AOF重写期间，服务器进程需要执行三个工作
-    &lt;ul&gt;
-      &lt;li&gt;执行客户端发送来的命令&lt;/li&gt;
-      &lt;li&gt;将执行后的写命令追加到AOF缓冲区（保证现有AOF文件的处理工作会如常进行）&lt;/li&gt;
-      &lt;li&gt;将执行后的写命令追加到AOF重写缓冲区（保证从创建子进程开始，服务器执行的所有写命令都会被记录到AOF重写缓冲区里面）&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;事件&quot;&gt;事件&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Redis服务器是一个事件驱动程序，服务器处理的事件分为时间事件和文件事件&lt;/li&gt;
-  &lt;li&gt;文件事件处理器是基于Reactor模式实现的网络通信程序&lt;/li&gt;
-  &lt;li&gt;文件事件是对套接字操作的抽象：每次套接字变为acceptable、writeable、readable时，相应的文件事件就会产生&lt;/li&gt;
-  &lt;li&gt;文件事件分为AE_READABLE事件和AE_WRITEABLE事件两类&lt;/li&gt;
-  &lt;li&gt;时间事件分为定时事件和周期性事件：定时事件只在指定的时间达到一次，而周期性事件则每隔一段时间达到一次&lt;/li&gt;
-  &lt;li&gt;服务器在一般情况下只执行&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;serverCron&lt;/code&gt;函数一个时间事件，并且这个事件是周期性事件&lt;/li&gt;
-  &lt;li&gt;文件事件和时间事件之间是合作关系，服务器会轮流处理这两种事件，并且处理事件的过程也不会进行抢占&lt;/li&gt;
-  &lt;li&gt;时间事件的实际处理时间通常会比设定的到达时间晚一些&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;客户端&quot;&gt;客户端&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;服务器状态结构使用clients链表连接起多个客户端状态，新添加的客户端状态会被放到链表的末尾&lt;/li&gt;
-  &lt;li&gt;客户端状态的flags属性使用不同标志来表示客户端的角色，以及客户端当前所处的状态&lt;/li&gt;
-  &lt;li&gt;输入缓冲区记录了客户端发送的命令请求，这个缓冲区的大小不能超过1GB&lt;/li&gt;
-  &lt;li&gt;命令的参数和个数会被记录在客户端的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;argv&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;argc&lt;/code&gt;属性里面，而&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cmd&lt;/code&gt;属性则记录了客户端要执行命令的实现函数&lt;/li&gt;
-  &lt;li&gt;客户端有固定大小缓冲区和可变大小缓冲区两种缓冲区可用，其中固定大小缓冲区的最大大小为16KB，而可变大小缓冲区的最大大小不能超过服务器设置的硬性限制值&lt;/li&gt;
-  &lt;li&gt;输出缓冲区限制值有两种，如果输出缓冲区的大小超过了服务器设置的硬性限制，那么客户端会被立即关闭；除此之外，如果客户端在一定时间内，一直超过服务器设置的软性限制，那么客户端也会被关闭&lt;/li&gt;
-  &lt;li&gt;当一个客户端通过网络连接连上服务器时，服务器会为这个客服端创建相应的客户端状态。网络连接关闭、发送了不符合协议格式的命令请求、成为&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CLIENT KILL&lt;/code&gt;命令的目标、空转时间超时、输出缓冲区的大小超出限制，以上原因都会造成客户端被关闭&lt;/li&gt;
-  &lt;li&gt;处理Lua脚本的伪客户端在服务器初始化时创建，这个客户端会一直存在，直到服务器关闭&lt;/li&gt;
-  &lt;li&gt;载入AOF文件时使用的伪客户端在载入工作开始时动态创建，载入工作完毕之后关闭&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;服务器&quot;&gt;服务器&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;一个命令请求从发送到完成主要包括以下步骤
-    &lt;ol&gt;
-      &lt;li&gt;客户端将命令请求发送给服务器&lt;/li&gt;
-      &lt;li&gt;服务器读取命令请求，并分析出命令参数&lt;/li&gt;
-      &lt;li&gt;命令执行器根据参数查找命令的实现函数，然后执行实现函数并得出命令回复&lt;/li&gt;
-      &lt;li&gt;服务器将命令回复返回给客户端&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;serverCron&lt;/code&gt;函数默认每隔100毫秒执行一次，它的工作主要包括更新服务器状态信息，处理服务器接收的SIGTERM信号，管理客户端资源和数据库状态，检查并执行持久化操作等等&lt;/li&gt;
-  &lt;li&gt;服务器从启动到能够处理客户端的命令请求需要执行以下步骤
-    &lt;ol&gt;
-      &lt;li&gt;初始化服务器状态&lt;/li&gt;
-      &lt;li&gt;载入服务器配置&lt;/li&gt;
-      &lt;li&gt;初始化服务器数据结构&lt;/li&gt;
-      &lt;li&gt;还原数据库状态&lt;/li&gt;
-      &lt;li&gt;执行事件循环&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>梦境迷离</name></author><category term="Redis" /><category term="单机数据库实现" /><summary type="html">数据库 数据库</summary></entry></feed>
+&lt;/ol&gt;</content><author><name>梦境迷离</name></author><category term="其他" /><category term="Scala" /><summary type="html"></summary></entry></feed>
