@@ -2,7 +2,7 @@
 #   Main Configs   #
 # ---------------- #
 baseurl:
-url: https://dreamylost.cn
+url: https://blog.dreamylost.cn
 date_format: "ordinal"
 title: 梦境迷离
 subtitle: "公众号：ScalaCoder"
