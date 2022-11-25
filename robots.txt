@@ -1,1 +1,1 @@
-Sitemap: https://dreamylost.cn/sitemap.xml
+Sitemap: https://blog.dreamylost.cn/sitemap.xml
