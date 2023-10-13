@@ -11,7 +11,7 @@ permalink: /open-source/
 <section class="container">
     <header class="text-center">
         <h1>Open Source Projects</h1>
-        Projects on Github</p>
+        Projects on Github
     </header>
     <div class="repo-list">
         <!-- Check here for github metadata -->
@@ -32,7 +32,7 @@ permalink: /open-source/
                     </div>
                     <div class="card-text">
                         <span class="meta-info" title="Role：{{ repo.role }}">
-                            <span class="octicon octicon-clock"></span>
+                            <span class="octicon person"></span>
                             <p class="card-text">{{ repo.role }}</p>
                         </span>
                     </div>
