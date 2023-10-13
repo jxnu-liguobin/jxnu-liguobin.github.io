@@ -1,6 +1,6 @@
 - name: nebula-contrib/zio-nebula
   url: https://github.com/nebula-contrib/zio-nebula
-  descr: NebulaGraph client for Scala with ZIO integration.
+  descr: NebulaGraph client for Scala with ZIO integration
   role: Owner  
 
 - name: hjfruit/testcontainers-nebula
@@ -10,22 +10,22 @@
   
 - name: bitlap/zim
   url: https://github.com/bitlap/zim
-  descr: 🧑‍💻 Full ZIO 2 Stack: A sample IM that uses zio, zio-redis, zio-actors, zio-schema, zio-streams, zio-crypto, circe, tapir, akka-http,redis4cats.
+  descr: 🧑‍💻 Full ZIO 2 Stack: A sample IM that uses zio、zio-redis、zio-actors、zio-schema、zio-streams、zio-crypto、circe、tapir、akka-http、redis4cats
   role: Owner  
 
 - name: bitlap/smt
   url: https://github.com/bitlap/smt
-  descr: Scala Tools, includes the supported IntelliJ plugin.
+  descr: Scala Tools, includes the supported IntelliJ plugin
   role: Owner  
   
 - name: bitlap/rolls
   url: https://github.com/bitlap/rolls
-  descr: 🚨 Scala3 tools based on standard compiler plugin and metaprogramming.
+  descr: 🚨 Scala3 tools based on standard compiler plugin and metaprogramming
   role: Owner  
   
 - name: bitlap/intellij-sbt-dependency-analyzer
   url: https://github.com/bitlap/intellij-sbt-dependency-analyzer
-  descr: 📈 Sbt Dependency Analyzer for IntelliJ IDEA.
+  descr: 📈 Sbt Dependency Analyzer for IntelliJ IDEA
   role: Owner
   
 - name: zio/zio-redis
@@ -35,17 +35,17 @@
 
 - name: kobylynskyi/graphql-java-codegen
   url: https://github.com/kobylynskyi/graphql-java-codegen
-  descr: Make your GraphQL Java application schema-driven.
+  descr: Make your GraphQL Java application schema-driven
   role: Collaborator
 
 - name: obmarg/cynic
   url: https://github.com/obmarg/cynic
-  descr: A bring your own types GraphQL client library for Rust.
+  descr: A bring your own types GraphQL client library for Rust
   role: Contributor
 
 - name: scala/scala
   url: https://github.com/scala/scala
-  descr: Scala 2 compiler and standard library.
+  descr: Scala 2 compiler and standard library
   role: Contributor
 
 - name: scala/docs.scala-lang
@@ -55,5 +55,5 @@
 
 - name: playcommunity/play-community
   url: https://github.com/playcommunity/play-community
-  descr: 一个基于 Play Framework 开发的开源社区系统。
+  descr: 一个基于 Play Framework 开发的开源社区系统
   role: Member
