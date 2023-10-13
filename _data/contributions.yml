@@ -10,7 +10,7 @@
   
 - name: bitlap/zim
   url: https://github.com/bitlap/zim
-  descr: 🧑‍💻 Full ZIO 2 Stack: A sample IM that uses zio、zio-redis、zio-actors、zio-schema、zio-streams、zio-crypto、circe、tapir、akka-http、redis4cats
+  descr: 🧑‍💻 Full ZIO 2 Stack - A sample IM that uses zio、zio-redis、zio-actors、zio-schema、zio-streams、zio-crypto、circe、tapir、akka-http、redis4cats
   role: Owner  
 
 - name: bitlap/smt
