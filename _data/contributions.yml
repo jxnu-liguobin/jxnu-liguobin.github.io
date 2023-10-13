@@ -1,3 +1,8 @@
+- name: bitlap/bitlap
+  url: https://github.com/bitlap/bitlap
+  descr: 🚀 A table schema-less OLAP Analytics Engine for Big Data
+  role: Owner  
+  
 - name: nebula-contrib/zio-nebula
   url: https://github.com/nebula-contrib/zio-nebula
   descr: NebulaGraph client for Scala with ZIO integration
