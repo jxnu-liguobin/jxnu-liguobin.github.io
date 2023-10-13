@@ -30,8 +30,11 @@ permalink: /open-source/
                     <div class="card-description">
                         <p class="card-text">{{ repo.descr }}</p>
                     </div>
-                    <div class="card-description">
-                        <p class="card-text">{{ role }}</p>
+                    <div class="card-text">
+                        <span class="card-text" title="Role：{{ repo.role }}">
+                            <span class="octicon octicon-person"></span>
+                            <p class="card-text">{{ repo.role }}</p>
+                        </span>
                     </div>
                 </div>
             </div>
