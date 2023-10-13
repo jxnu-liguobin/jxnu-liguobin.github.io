@@ -2,10 +2,20 @@
   url: https://github.com/lightbend-labs/scala-logging
   descr: Convenient and performant logging library for Scala wrapping SLF4J
   role: Maintainer 
+
+- name: scala/scala
+  url: https://github.com/scala/scala
+  descr: Scala 2 compiler and standard library
+  role: Contributor  
   
 - name: bitlap/bitlap
   url: https://github.com/bitlap/bitlap
   descr: 🚀 A table schema-less OLAP Analytics Engine for Big Data
+  role: Owner  
+
+- name: bitlap/intellij-sbt-dependency-analyzer
+  url: https://github.com/bitlap/intellij-sbt-dependency-analyzer
+  descr: 📈 Sbt Dependency Analyzer for IntelliJ IDEA
   role: Owner  
   
 - name: nebula-contrib/zio-nebula
@@ -32,12 +42,7 @@
   url: https://github.com/bitlap/rolls
   descr: 🚨 Scala3 tools based on standard compiler plugin and metaprogramming
   role: Owner  
-  
-- name: bitlap/intellij-sbt-dependency-analyzer
-  url: https://github.com/bitlap/intellij-sbt-dependency-analyzer
-  descr: 📈 Sbt Dependency Analyzer for IntelliJ IDEA
-  role: Owner
-  
+
 - name: zio/zio-redis
   url: https://github.com/zio/zio-redis
   descr: A ZIO-based redis client.
@@ -53,11 +58,6 @@
   descr: A bring your own types GraphQL client library for Rust
   role: Contributor
 
-- name: scala/scala
-  url: https://github.com/scala/scala
-  descr: Scala 2 compiler and standard library
-  role: Contributor
-
 - name: scala/docs.scala-lang
   url: https://github.com/scala/docs.scala-lang
   descr: The Scala Documentation website.
@@ -65,5 +65,10 @@
 
 - name: playcommunity/play-community
   url: https://github.com/playcommunity/play-community
-  descr: 一个基于 Play Framework 开发的开源社区系统
+  descr: An open-source community system developed based on the Play Framework
   role: Member
+
+- name: akka/akka
+  url: https://github.com/akka/akka
+  descr: Build highly concurrent, distributed, and resilient message-driven applications on the JVM
+  role: Contributor   
