@@ -37,3 +37,13 @@
   url: https://github.com/bitlap/smt
   descr: Scala Tools, includes the supported IntelliJ plugin.
   role: Owner  
+  
+- name: bitlap/rolls
+  url: https://github.com/bitlap/rolls
+  descr: 🚨 Scala3 tools based on standard compiler plugin and metaprogramming.
+  role: Owner  
+  
+- name: bitlap/intellij-sbt-dependency-analyzer
+  url: https://github.com/bitlap/intellij-sbt-dependency-analyzer
+  descr: 📈 Sbt Dependency Analyzer for IntelliJ IDEA.
+  role: Owner
