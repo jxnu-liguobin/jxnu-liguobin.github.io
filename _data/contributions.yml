@@ -3,7 +3,7 @@
   descr: NebulaGraph client for Scala with ZIO integration.
   role: Owner  
 
-  - name: hjfruit/testcontainers-nebula
+- name: hjfruit/testcontainers-nebula
   url: https://github.com/hjfruit/testcontainers-nebula
   descr: Testcontainers for NebulaGraph
   role: Owner  
