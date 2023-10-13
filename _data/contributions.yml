@@ -1,3 +1,8 @@
+- name: lightbend-labs/scala-logging
+  url: https://github.com/lightbend-labs/scala-logging
+  descr: Convenient and performant logging library for Scala wrapping SLF4J
+  role: Maintainer 
+  
 - name: bitlap/bitlap
   url: https://github.com/bitlap/bitlap
   descr: 🚀 A table schema-less OLAP Analytics Engine for Big Data
