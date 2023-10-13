@@ -33,7 +33,7 @@ permalink: /open-source/
                     <div class="card-text">
                         <span class="card-text" title="Role：{{ repo.role }}">
                             <span class="octicon octicon-person"></span>
-                            <p class="card-text">{{ repo.role }}</p>
+                            <p class="card-text">&nbsp;{{ repo.role }}</p>
                         </span>
                     </div>
                 </div>
