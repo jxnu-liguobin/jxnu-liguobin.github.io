@@ -10,8 +10,8 @@ permalink: /open-source/
 
 <section class="container">
     <header class="text-center">
-        <h1>Open Source Projects</h1>
-        Projects on Github
+        <h1>The Contribution of Open Source</h1>
+        Including my contributions, creation, and maintenance.
     </header>
     <div class="repo-list">
         <!-- Check here for github metadata -->
