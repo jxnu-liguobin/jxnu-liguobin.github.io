@@ -1164,9 +1164,9 @@
   
     {
       "title"    : "Scala中如何基于ZIO构建可组合的命令行程序",
-      "category" : "Scala",
+      "category" : "ZIO",
       
-      "url"      : "https://blog.dreamylost.cn/scala/Scala-Scala%E4%B8%AD%E5%A6%82%E4%BD%95%E5%9F%BA%E4%BA%8EZIO%E6%9E%84%E5%BB%BA%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F.html",
+      "url"      : "https://blog.dreamylost.cn/zio/Scala-Scala%E4%B8%AD%E5%A6%82%E4%BD%95%E5%9F%BA%E4%BA%8EZIO%E6%9E%84%E5%BB%BA%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F.html",
       "keywords" : ""
     } ,
   
