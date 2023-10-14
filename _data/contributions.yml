@@ -6,7 +6,7 @@
 - name: scala/scala
   url: https://github.com/scala/scala
   descr: Scala 2 compiler and standard library
-  role: Contributor  
+  role: Member  
   
 - name: bitlap/bitlap
   url: https://github.com/bitlap/bitlap
