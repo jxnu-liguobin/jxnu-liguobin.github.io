@@ -6,9 +6,13 @@
   name: 梦境迷离
   url: http://blog.dreamylost.cn
 
-- sitename: CSDN博客
+- sitename: Twitter
   name: 梦境迷离
-  url: https://blog.csdn.net/qq_34446485
+  url: https://twitter.com/dreamylostcn
+
+- sitename: 哔哩哔哩
+  name: 资深Scala摸鱼师
+  url: https://space.bilibili.com/60152799/
 
 - sitename: 知乎
   name: 梦境迷离
