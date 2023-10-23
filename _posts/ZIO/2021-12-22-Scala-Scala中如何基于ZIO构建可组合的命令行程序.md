@@ -1,8 +1,8 @@
 ---
 title: Scala中如何基于ZIO构建可组合的命令行程序
 categories:
-- Scala
-tags: [Scala]
+- ZIO
+tags: [ZIO]
 topmost: true
 ---
 
@@ -15,8 +15,7 @@ topmost: true
 让我们写一个SQL命令行程序。用户将通过文本命令与之交互，根据不同的SQL命令创建不同的程序命令以输出不同的字符，同时我们还希望可以循环输入。
 对于这些问题中的每一个，我们将创建一个独立的模块，该模块依赖于其他模块，如下所示：
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/36794cbb3457411e869c2b6c2d3823c7.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5qKm5aKD6L-356a7,size_13,color_FFFFFF,t_70,g_se,x_16#pic_center)
-
+![zio-module](/assets/images/zio-module.png)
 
 ## 基本程序
 
@@ -245,4 +244,5 @@ object BitlapCLI extends App {
 本文参考 https://scalac.io/blog/write-command-line-application-with-zio
 代码https://github.com/bitlap/bitlap/tree/cli-zio/integration/cli/src/main/scala/org/bitlap/cli （未真实使用，但可以运行了）
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/13f3b59c557f40efa47eff4765379c90.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5qKm5aKD6L-356a7,size_20,color_FFFFFF,t_70,g_se,x_16)
+
+![cmd](/assets/images/cmd.png)

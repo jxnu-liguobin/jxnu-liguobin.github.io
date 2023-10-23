@@ -6,14 +6,19 @@
   name: 梦境迷离
   url: http://blog.dreamylost.cn
 
-- sitename: CSDN博客
+- sitename: 哔哩哔哩
+  name: 资深Scala摸鱼师（Scala学习视频）
+  url: https://space.bilibili.com/60152799/
+  
+- sitename: Scala交流群
+  name: 892402908
+  url: "http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=ufWTpnH_Pbs1ZihF1S9j2xxbuP92otRb&authKey=E2V7iGdfcHo67quIrbYzR0nmTfWYSXtbYktolaytOmX5mnyl5TwNYNFvfsz1r0Od&noverify=0&group_code=892402908"
+
+- sitename: Twitter
   name: 梦境迷离
-  url: https://blog.csdn.net/qq_34446485
+  url: https://twitter.com/dreamylostcn  
 
 - sitename: 知乎
   name: 梦境迷离
   url: https://www.zhihu.com/people/dreamylost
   
-- sitename: 邮箱
-  name: 梦境迷离
-  url: dreamylost@outlook.com  
