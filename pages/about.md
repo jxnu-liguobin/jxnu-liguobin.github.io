@@ -8,11 +8,9 @@ menu: 关于
 permalink: /about/
 ---
 
-1. Scala2 REPL和编译器Contributor
-2. [scala/docs.scala-lang](https://github.com/scala/docs.scala-lang)中文审核人
-3. [lightbend-labs/scala-logging](https://github.com/lightbend-labs/scala-logging) Maintainer
-4. [Scala Cookbook2](https://github.com/bitlap/ScalaCookbook) 译者
-5. [https://github.com/apache/incubator-pekko](https://github.com/apache/incubator-pekko) Committer  ~~~~~~~ 逃 hh
+1. Scala2 Contributor 和 Reviewer
+2. [scala/docs.scala-lang](https://github.com/scala/docs.scala-lang) Reviewer
+3. [Scala Cookbook2](https://github.com/bitlap/ScalaCookbook) 译者
 
 ## 联系
 
