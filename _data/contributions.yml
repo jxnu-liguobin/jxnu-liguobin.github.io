@@ -37,10 +37,15 @@
   url: https://github.com/bitlap/smt
   descr: Scala Tools, includes the supported IntelliJ plugin
   role: Owner  
-  
+
 - name: bitlap/rolls
   url: https://github.com/bitlap/rolls
   descr: 🚨 Scala3 tools based on standard compiler plugin and metaprogramming
+  role: Owner  
+  
+- name: bitlap/validation-scala
+  url: https://github.com/bitlap/validation-scala
+  descr: Jakarta Bean Validation 3.0 for Scala.
   role: Owner  
 
 - name: zio/zio-redis
