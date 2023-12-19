@@ -23,6 +23,11 @@
   descr: NebulaGraph client for Scala with ZIO integration
   role: Owner  
 
+- name: JSQLParser/JSqlParser
+  url: https://github.com/JSQLParser/JSqlParser
+  descr: JSqlParser parses an SQL statement and translate it into a hierarchy of Java classes. The generated hierarchy can be navigated using the Visitor Pattern
+  role: Contributor  
+
 - name: nebula-contrib/testcontainers-nebula
   url: https://github.com/nebula-contrib/testcontainers-nebula
   descr: Testcontainers for NebulaGraph
